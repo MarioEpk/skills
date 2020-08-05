@@ -1,0 +1,6 @@
+node_modules
+proxy.json
+.eslintcache
+build
+yarn-error.log
+dist

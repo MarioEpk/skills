@@ -1,0 +1,9 @@
+.root {
+    filter: none;
+    transition: filter ease-in-out 100ms;
+}
+
+.loading {
+    filter: opacity(50%);
+    pointer-events: none;
+}
