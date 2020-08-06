@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.3.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'org.jetbrains.kotlin.jvm' version '1.4.0-rc'
 }
 
 group = 'com'
@@ -10,18 +11,31 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.modelmapper:modelmapper:2.3.7'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 test {
 	useJUnitPlatform()
+}
+compileKotlin {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
+}
+compileTestKotlin {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
 }
