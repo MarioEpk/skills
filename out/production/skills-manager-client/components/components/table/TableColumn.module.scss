@@ -1,0 +1,9 @@
+.root {
+    overflow: hidden;
+    display: flex;
+}
+
+.right {
+    justify-content: flex-end;
+    text-align: right;
+}
