@@ -5,3 +5,4 @@ proxy.json
 build
 yarn-error.log
 dist
+.env

@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
 import {Button} from "components";
 import {Row} from "app/model/test";
@@ -13,21 +14,21 @@ import {PAGE2} from "app/constants";
 import {getTestData} from "./selectors";
 import {testDataActionGroup} from "./actions";
 
+const responseGoogle = (response) => {
+    console.log(response);
+};
+
 const Container = ({onPage2, testData, fetchTestData, showNotification}) => (
     <>
-        <PageTitle title="page1" />
-        Page 1
-        <br />
-        <Button onClick={onPage2} label="Page 2" />
-        <Button onClick={fetchTestData} label="Get test data" />
-        <Button onClick={() => showNotification("Title", "Text", notification.Types.INFO)} label="Show notification in console" />
-        <ul>
-            {
-                testData.map((data) => (
-                    <li key={data.get("id")}>{data.get("name")}</li>
-                ))
-            }
-        </ul>
+        <PageTitle title="Overview" />
+        <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            isSignedIn
+        />
+        <GoogleLogout clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} />
     </>
 );
 
