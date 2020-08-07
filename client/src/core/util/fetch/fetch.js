@@ -2,10 +2,19 @@ import superagent from 'superagent';
 import {CANCEL} from 'redux-saga';
 import {call} from 'redux-saga/effects';
 
+import auth from 'core/auth';
+
 import fn from "../fn";
 
 import RequestError from "./RequestError";
 import UnauthorizedError from "./UnauthorizedError";
+
+const defautHeaders = {
+    'Content-Type': 'application/json',
+    Authorization: auth.getAuthToken,
+};
+
+const urlWithPrefix = (url) => process.env.REACT_APP_API_URL + url;
 
 export const PRECOGNITION_FAILED = 412;
 
@@ -46,7 +55,8 @@ const wrapExecute = function* (request, resultProcessMethod) {
 
 export const doGet = function* (url, queryParams, resultProcessMethod = fn.identity) {
     const request = superagent
-        .get(url)
+        .get(urlWithPrefix(url))
+        .set(defautHeaders)
         .query(queryParams)
         .accept('json');
     return yield* wrapExecute(request, resultProcessMethod);
@@ -54,7 +64,8 @@ export const doGet = function* (url, queryParams, resultProcessMethod = fn.ident
 
 export const doGetPlain = function (url) {
     return superagent
-        .get(url)
+        .get(urlWithPrefix(url))
+        .set(defautHeaders)
         .then(
             (response) => response.text,
             (error) => {
@@ -65,7 +76,8 @@ export const doGetPlain = function (url) {
 
 export const doPut = function* (url, body, requestProcessMethod = fn.identity, resultProcessMethod = fn.identity, queryParams = {}) {
     const request = superagent
-        .put(url)
+        .put(urlWithPrefix(url))
+        .set(defautHeaders)
         .send(requestProcessMethod(body))
         .query(queryParams)
         .type('json')
@@ -75,7 +87,8 @@ export const doPut = function* (url, body, requestProcessMethod = fn.identity, r
 
 export const doPost = function* (url, body, requestProcessMethod = fn.identity, resultProcessMethod = fn.identity, queryParams = {}) {
     const request = superagent
-        .post(url)
+        .post(urlWithPrefix(url))
+        .set(defautHeaders)
         .send(requestProcessMethod(body))
         .query(queryParams)
         .type('json')
@@ -85,7 +98,8 @@ export const doPost = function* (url, body, requestProcessMethod = fn.identity, 
 
 export const doDelete = function* (url, resultProcessMethod = fn.identity) {
     const request = superagent
-        .delete(url)
+        .delete(urlWithPrefix(url))
+        .set(defautHeaders)
         .accept('json');
     return yield* wrapExecute(request, resultProcessMethod);
 };

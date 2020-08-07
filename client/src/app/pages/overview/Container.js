@@ -9,10 +9,17 @@ import {Row} from "app/model/test";
 import {compose} from "core/form";
 import notification from "core/notification";
 import router from "core/router";
+import auth from "core/auth";
 import {PageTitle} from "app/containers";
 import {PAGE2} from "app/constants";
 import {getTestData} from "./selectors";
 import {testDataActionGroup} from "./actions";
+
+const responseGoogleS = (response) => {
+    console.log(response.getAu);
+    auth.saveToken(response.tokenId);
+    console.log(auth.getAuthToken);
+};
 
 const responseGoogle = (response) => {
     console.log(response);
@@ -24,11 +31,12 @@ const Container = ({onPage2, testData, fetchTestData, showNotification}) => (
         <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
             buttonText="Login"
-            onSuccess={responseGoogle}
+            onSuccess={responseGoogleS}
             onFailure={responseGoogle}
             isSignedIn
         />
         <GoogleLogout clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} />
+        <Button onClick={fetchTestData} label="Get test data" />
     </>
 );
 

@@ -1,13 +1,6 @@
-import {Row} from "app/model/test";
 import {fetch} from "core/util";
 
-const getTestData = () => fetch.timeoutPromise(Row.fromServerList([{
-    id: 1,
-    name: "Prvni",
-}, {
-    id: 2,
-    name: "Druhy",
-}]), 1000);
+const getTestData = () => fetch.doGet("/skills");
 
 const getFormFieldErrorResponse = (fieldKey) => (
     new Promise((_, reject) => {
