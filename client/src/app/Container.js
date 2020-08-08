@@ -7,23 +7,18 @@ import notification from "core/notification";
 import auth from "core/auth";
 import init from "core/init";
 import {MainLayout} from "components";
-
-import {OVERVIEW, PAGE2, PAGE_FORM} from "./constants";
+import {Header} from "app/containers";
 
 const Container = ({initialized, isAuthenticated}) => (
     <>
         {initialized && (
             <MainLayout
                 isAuthenticated={isAuthenticated}
-                header={<div>header</div>}
+                header={<Header />}
             >
-                <router.Link route={OVERVIEW}>PAGE1</router.Link>
-                <router.Link route={PAGE2}>PAGE2</router.Link>
-                <router.Link route={PAGE_FORM} params={{id: 1}}>PAGE_FORM 1</router.Link>
-                <router.Link route={PAGE_FORM} params={{id: 2}}>PAGE_FORM 2</router.Link>
+                <router.Routes />
             </MainLayout>
         )}
-        {initialized && <router.Routes />}
         {initialized && <notification.Container />}
     </>
 );
