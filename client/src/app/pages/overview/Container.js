@@ -1,50 +1,38 @@
 import React from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import IPropTypes from "react-immutable-proptypes";
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
 
 import {Button} from "components";
-import {Row} from "app/model/test";
 import {compose} from "core/form";
-import notification from "core/notification";
-import router from "core/router";
 import auth from "core/auth";
 import {PageTitle} from "app/containers";
-import {PAGE2} from "app/constants";
 import {getTestData} from "./selectors";
 import {testDataActionGroup} from "./actions";
 
-const responseGoogleS = (response) => {
-    console.log(response.getAu);
-    auth.saveToken(response.tokenId);
-    console.log(auth.getAuthToken);
-};
-
-const responseGoogle = (response) => {
-    console.log(response);
-};
-
-const Container = ({onPage2, testData, fetchTestData, showNotification}) => (
+const Container = ({fetchTestData, onLoginSuccess, onLoginFailure, onLogoutSuccess}) => (
     <>
         <PageTitle title="Overview" />
         <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
             buttonText="Login"
-            onSuccess={responseGoogleS}
-            onFailure={responseGoogle}
+            onSuccess={(response) => onLoginSuccess(response.tokenId)}
+            onFailure={onLoginFailure}
             isSignedIn
         />
-        <GoogleLogout clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} />
+        <GoogleLogout
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            onLogoutSuccess={onLogoutSuccess}
+        />
         <Button onClick={fetchTestData} label="Get test data" />
     </>
 );
 
 Container.propTypes = {
-    onPage2: PropTypes.func.isRequired,
-    testData: IPropTypes.listOf(Row).isRequired,
     fetchTestData: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
+    onLoginSuccess: PropTypes.func.isRequired,
+    onLoginFailure: PropTypes.func.isRequired,
+    onLogoutSuccess: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -52,9 +40,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onPage2: () => dispatch(router.navigate(PAGE2)),
     fetchTestData: () => dispatch(testDataActionGroup.request()),
-    showNotification: (...params) => dispatch(notification.show(...params)),
+    onLoginSuccess: (token) => dispatch(auth.authActionGroup.requestSuccess(token)),
+    onLoginFailure: () => dispatch(auth.authActionGroup.requestFailure()),
+    onLogoutSuccess: () => dispatch(auth.logout())
 });
 
 export default compose(

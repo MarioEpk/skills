@@ -1,7 +1,6 @@
 import superagent from 'superagent';
 import {CANCEL} from 'redux-saga';
-import {call} from 'redux-saga/effects';
-
+import {call, select} from 'redux-saga/effects';
 import auth from 'core/auth';
 
 import fn from "../fn";
@@ -9,14 +8,21 @@ import fn from "../fn";
 import RequestError from "./RequestError";
 import UnauthorizedError from "./UnauthorizedError";
 
-const defautHeaders = {
-    'Content-Type': 'application/json',
-    Authorization: auth.getAuthToken,
-};
-
 const urlWithPrefix = (url) => process.env.REACT_APP_API_URL + url;
 
 export const PRECOGNITION_FAILED = 412;
+
+export const getDefaultHeaders = function* () {
+    const defaultHeaders = {
+        'Content-Type': 'application/json',
+    };
+    const token = yield select(auth.getToken);
+    const tokenHeaders = token ? {Authorization: `Bearer ${token}`} : {};
+    return {
+        ...defaultHeaders,
+        ...tokenHeaders,
+    };
+};
 
 const execute = (request) => {
     const promise = request.then(
@@ -54,9 +60,10 @@ const wrapExecute = function* (request, resultProcessMethod) {
 };
 
 export const doGet = function* (url, queryParams, resultProcessMethod = fn.identity) {
+    const defaultHeaders = yield getDefaultHeaders();
     const request = superagent
         .get(urlWithPrefix(url))
-        .set(defautHeaders)
+        .set(defaultHeaders)
         .query(queryParams)
         .accept('json');
     return yield* wrapExecute(request, resultProcessMethod);
@@ -65,7 +72,6 @@ export const doGet = function* (url, queryParams, resultProcessMethod = fn.ident
 export const doGetPlain = function (url) {
     return superagent
         .get(urlWithPrefix(url))
-        .set(defautHeaders)
         .then(
             (response) => response.text,
             (error) => {
@@ -75,9 +81,10 @@ export const doGetPlain = function (url) {
 };
 
 export const doPut = function* (url, body, requestProcessMethod = fn.identity, resultProcessMethod = fn.identity, queryParams = {}) {
+    const defaultHeaders = yield getDefaultHeaders();
     const request = superagent
         .put(urlWithPrefix(url))
-        .set(defautHeaders)
+        .set(defaultHeaders)
         .send(requestProcessMethod(body))
         .query(queryParams)
         .type('json')
@@ -86,9 +93,10 @@ export const doPut = function* (url, body, requestProcessMethod = fn.identity, r
 };
 
 export const doPost = function* (url, body, requestProcessMethod = fn.identity, resultProcessMethod = fn.identity, queryParams = {}) {
+    const defaultHeaders = yield getDefaultHeaders();
     const request = superagent
         .post(urlWithPrefix(url))
-        .set(defautHeaders)
+        .set(defaultHeaders)
         .send(requestProcessMethod(body))
         .query(queryParams)
         .type('json')
@@ -97,9 +105,10 @@ export const doPost = function* (url, body, requestProcessMethod = fn.identity, 
 };
 
 export const doDelete = function* (url, resultProcessMethod = fn.identity) {
+    const defaultHeaders = yield getDefaultHeaders();
     const request = superagent
         .delete(urlWithPrefix(url))
-        .set(defautHeaders)
+        .set(defaultHeaders)
         .accept('json');
     return yield* wrapExecute(request, resultProcessMethod);
 };

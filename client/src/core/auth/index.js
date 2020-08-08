@@ -1,12 +1,14 @@
-import {getToken, saveToken} from './token';
+import {NAME} from './constants';
+import {authActionGroup, logout} from "./actions";
+import {getToken, isAuthenticated} from "./selectors";
+import reducer from "./reducer";
 
-const isAuthenticated = () => !!getToken();
-
-const getAuthToken = isAuthenticated() ? `Bearer ${getToken()}` : undefined;
-
-export default {
+const auth = {
+    NAME,
+    reducer,
+    authActionGroup,
     getToken,
-    saveToken,
+    logout,
     isAuthenticated,
-    getAuthToken,
 };
+export default auth;
