@@ -1,12 +1,13 @@
 import React from "react";
 
-import {boolean, lorem} from "components/story";
+import {boolean} from "components/story";
 
 import Header from "./Header";
-
-const children = <div>{lorem.generateParagraphs(5)}</div>;
+import {Navigation} from "../navigation";
 
 export default [Header, () => ({
-    children,
-    loading: boolean("Loading", false),
+    login: <div>LoginButton</div>,
+    logout: <div>LogoutButton</div>,
+    isAuthenticated: boolean("isAuthenticated", true),
+    navigation: <Navigation links={[<a key={1} href="/">link</a>]} />,
 })];
