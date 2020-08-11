@@ -5,24 +5,32 @@ import {connect} from "react-redux";
 
 import auth from "core/auth";
 import {compose} from "core/form";
+import {Button} from "components";
 
-const Login = ({onLoginSuccess, onLoginFailure}) => (
+const Login = ({onLoginRequest, onLoginFailure}) => (
     <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Login"
-        onSuccess={(response) => onLoginSuccess(response.tokenId)}
+        render={(renderProps) => (
+            <Button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                type={Button.type.LIGHT}
+                label="Přihlásit se"
+            />
+        )}
+        onSuccess={(response) => onLoginRequest(response)}
         onFailure={onLoginFailure}
         isSignedIn
     />
 );
 
 Login.propTypes = {
-    onLoginSuccess: PropTypes.func.isRequired,
+    onLoginRequest: PropTypes.func.isRequired,
     onLoginFailure: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    onLoginSuccess: (token) => dispatch(auth.authActionGroup.requestSuccess(token)),
+    onLoginRequest: (request) => dispatch(auth.authActionGroup.request(request)),
     onLoginFailure: () => dispatch(auth.authActionGroup.requestFailure()),
 });
 

@@ -9,21 +9,28 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Navigation from "./Navigation";
 
-const Header = ({isAuthenticated}) => (
+const Header = ({isAuthenticated, userImageUrl}) => (
     <HeaderComponent
         isAuthenticated={isAuthenticated}
         login={<Login />}
         logout={<Logout />}
         navigation={<Navigation />}
+        userImageUrl={userImageUrl}
     />
 );
 
 Header.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
+    userImageUrl: PropTypes.string,
+};
+
+Header.defaultProps = {
+    userImageUrl: null,
 };
 
 const mapStateToProps = (state) => ({
     isAuthenticated: auth.isAuthenticated(state),
+    userImageUrl: auth.getUserImageUrl(state),
 });
 
 export default compose(

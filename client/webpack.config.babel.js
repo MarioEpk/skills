@@ -214,7 +214,7 @@ const createCssModuleLoader = (dev, isModule = false) => ([
 ]);
 
 const createAssetLoader = () => ({
-    test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+    test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|eot)$/,
     loader: 'file-loader',
     options: {
         name: 'assets/[name]-[hash].[ext]',

@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Button} from "components";
 
 import getStaticUrl from "./getStaticUrl";
 import {navigate} from "./actions";
 
-const Link = ({route, params, query, to, className, children, onClick}) => {
+const Link = ({route, params, query, to, className, children, onClick, type}) => {
     const passedProps = {
         className,
         children,
+        type,
         // Add other needed props
     };
 
@@ -19,7 +21,7 @@ const Link = ({route, params, query, to, className, children, onClick}) => {
     }
     return (
         // eslint-disable-next-line jsx-a11y/anchor-has-content
-        <a
+        <Button
             {...passedProps}
             href={url}
             onClick={(e) => {
@@ -45,6 +47,7 @@ Link.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node.isRequired,
     onClick: PropTypes.func.isRequired,
+    type: PropTypes.oneOf(Object.values(Button.type)),
 };
 
 Link.defaultProps = {
@@ -54,6 +57,7 @@ Link.defaultProps = {
     query: {},
     to: null,
     className: "",
+    type: Button.type.LIGHT,
 };
 
 const mapDispatchToProps = (dispatch) => ({

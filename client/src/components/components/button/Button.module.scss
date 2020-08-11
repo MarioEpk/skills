@@ -1,21 +1,23 @@
-.myButton {
-    background: #44c767 linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
-    border-radius: 28px;
-    border: 1px solid #18ab29;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-size: 17px;
-    padding: 16px 31px;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #2f6627;
-}
+@import "components/variables.scss";
 
-.myButton:hover {
-    background: #5cbf2a linear-gradient(to bottom, #5cbf2a 5%, #44c767 100%);
-}
+.button {
+    &.normalize {
+        font-family: Montserrat, sans-serif !important;
+        text-transform: none !important;
+    }
+    &.light {
+        color: $nav_font_color;
+        &:hover, &:hover {
+            background-color: rgba(252, 192, 0, 0.24);
+        }
+    }
+    &.dark {
+        color: $main_color;
+        &:hover, &:hover {
+            background-color: rgba(252, 192, 0, 0.24);
+        }
+    }
+    &.danger {
 
-.myButton:active {
-    position: relative;
-    top: 1px;
+    }
 }

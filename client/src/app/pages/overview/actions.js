@@ -1,17 +1,9 @@
 import {NAME} from "./constants";
 
-export const testDataActionGroup = {
-    REQUEST: `${NAME}/TESTING_DATA/REQUEST`,
-    REQUEST_FAIL: `${NAME}/TESTING_DATA/FAILURE`,
-    REQUEST_SUCCESS: `${NAME}/TESTING_DATA/SUCCESS`,
-    request: () => ({
-        type: `${NAME}/TESTING_DATA/REQUEST`,
-    }),
-    requestFailure: () => ({
-        type: `${NAME}/TESTING_DATA/FAILURE`,
-    }),
-    requestSuccess: (data) => ({
-        type: `${NAME}/TESTING_DATA/SUCCESS`,
-        payload: data,
-    }),
-};
+export const SET_ROWS = `${NAME}/SET_ROWS`;
+export const CLEAR_DATA = `${NAME}/CLEAR_DATA`;
+
+export const setRows = (rows) => ({
+    type: SET_ROWS,
+    payload: rows,
+});

@@ -1,32 +1,28 @@
 import React from "react";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
 
 import {Button} from "components";
-import {compose} from "core/form";
+import router from "core/router";
+import i18n from "core/i18n";
+import {OVERVIEW} from "app/constants";
 import {PageTitle} from "app/containers";
-import {getTestData} from "./selectors";
-import {testDataActionGroup} from "./actions";
 
-const Container = ({fetchTestData}) => (
-    <>
-        <PageTitle title="Overview" />
-        <Button onClick={fetchTestData} label="Get test data" />
-    </>
-);
+import Table from "./Table";
+import {getRows} from "./selectors";
 
-Container.propTypes = {
-    fetchTestData: PropTypes.func.isRequired,
+const Container = () => {
+    const {t} = i18n.useTranslation();
+    const dispatch = useDispatch();
+    const rows = useSelector(getRows);
+    return (
+        <>
+            <PageTitle title="page2" />
+            {t("page.page2")}
+            <Table rows={rows} />
+            <br />
+            <Button onClick={() => dispatch(router.navigate(OVERVIEW))} label="Page 1" />
+        </>
+    );
 };
 
-const mapStateToProps = (state) => ({
-    testData: getTestData(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    fetchTestData: () => dispatch(testDataActionGroup.request()),
-});
-
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-)(Container);
+export default Container;

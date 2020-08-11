@@ -1,26 +1,17 @@
-import {call, takeLatest, put} from "redux-saga/effects";
+import {call} from "redux-saga/effects";
 
-import router from "core/router";
 import {testDataApi} from "app/serverApi";
-import {testDataActionGroup} from "./actions";
+import router from "core/router";
 
-import auth from 'core/auth';
+import {setRows} from "./actions";
 
 export default router.routerWrapper({
+    * getDataForPage() {
+        const data = yield call(testDataApi.getTestData);
+        return [setRows(data)];
+    },
     * onPageEnter() {
         // eslint-disable-next-line no-console
-        yield call(console.log, "page1 saga");
-        yield takeLatest(testDataActionGroup.REQUEST, getDataForAsyncTest);
+        yield call(console.log, "page2 saga with delayed data load");
     },
 });
-
-function* getDataForAsyncTest() {
-    try {
-        console.log(auth.getAuthToken);
-        const data = yield call(testDataApi.getTestData);
-        yield put(testDataActionGroup.requestSuccess(data));
-    } catch (e) {
-        console.error(e);
-        yield put(testDataActionGroup.requestFailure());
-    }
-}

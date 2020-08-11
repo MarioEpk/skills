@@ -6,7 +6,6 @@ import css from "./Main.module.scss";
 const Main = ({isAuthenticated, header, children}) => (
     <div className={css.main}>
         {header}
-        {isAuthenticated && <div>Welcome</div>}
         {children}
     </div>
 );

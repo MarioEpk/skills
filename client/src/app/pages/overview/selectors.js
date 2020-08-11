@@ -4,4 +4,4 @@ import {NAME} from "./constants";
 
 const getModel = app.createGetModel(NAME);
 
-export const getTestData = (state) => getModel(state).get("testData");
+export const getRows = (state) => getModel(state).get("rows");

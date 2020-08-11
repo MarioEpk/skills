@@ -1,4 +1,4 @@
-import {fetch} from "core/util";
+import fetch from "core/fetch";
 
 const getTestData = () => fetch.doGet("/skills");
 

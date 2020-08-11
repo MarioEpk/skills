@@ -1,16 +1,12 @@
 import {combineReducers} from "redux-immutable";
 import {List} from "immutable";
 
-import {testDataActionGroup} from "./actions";
+import {app} from "core/util";
+import router from "core/router";
+import {CV} from "app/constants";
 
-const testData = (state = List(), action) => {
-    switch (action.type) {
-        case (testDataActionGroup.REQUEST_SUCCESS): return action.payload;
-        case (testDataActionGroup.REQUEST_FAIL): return List();
-        default: return state;
-    }
-};
+import {SET_ROWS} from "./actions";
 
 export default combineReducers({
-    testData,
+    rows: app.createDataReducer(SET_ROWS, List(), router.isThisRouteCleared(CV)),
 });
