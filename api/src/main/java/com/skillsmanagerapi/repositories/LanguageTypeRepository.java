@@ -4,4 +4,4 @@ import com.skillsmanagerapi.models.LanguageType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LanguageTypeRepository extends JpaRepository<LanguageType, Integer> { }
+public interface LanguageTypeRepository extends JpaRepository<LanguageType, Integer> {}
