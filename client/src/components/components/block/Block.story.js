@@ -1,16 +1,7 @@
-import React from "react";
-import {boolean, coloredPlaceholder} from "components/story";
+import Block from "./Block";
 
-import TwoColumns from "./Block";
+const children = ("Test");
 
-const children = (
-    <>
-        {coloredPlaceholder("blue")}
-        {coloredPlaceholder("red")}
-    </>
-);
-
-export default [TwoColumns, () => ({
+export default [Block, () => ({
     children,
-    vertical: boolean("Vertical", false),
 })];

@@ -18,6 +18,11 @@
         }
     }
     &.danger {
-
+        color: $danger;
+        &:hover, &:hover {
+            &:hover, &:hover {
+                background-color: rgba(252, 0, 0, 0.2);
+            }
+        }
     }
 }

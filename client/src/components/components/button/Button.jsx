@@ -33,7 +33,7 @@ Button.type = Object.freeze({
 });
 
 Button.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     label: PropTypes.string,
     children: PropTypes.node,
     href: PropTypes.string,
@@ -45,6 +45,7 @@ Button.defaultProps = {
     children: null,
     label: null,
     type: Button.type.DARK,
+    onClick: undefined,
 };
 
 export default Button;
