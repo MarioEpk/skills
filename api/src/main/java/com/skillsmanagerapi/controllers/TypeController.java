@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping(value = "/public/type")
+@RequestMapping(value = "/type")
 @RestController
 public class TypeController {
 

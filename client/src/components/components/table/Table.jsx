@@ -26,17 +26,22 @@ const Table = ({
     columns,
     data,
     loading,
+    onUpdate,
+    onDelete,
 }) => {
+    const actions = {onUpdate, onDelete};
+    const hasActions = onUpdate || onDelete;
+
     const renderRowWithClassName = (row) => {
         // Here you can add conditional classes
         const className = css.row;
-        return renderRow(columns, getKeyParam(columns), row, className);
+        return renderRow(columns, getKeyParam(columns), row, className, actions);
     };
     return (
         <div className={css.root}>
             <Loading loading={loading}>
                 <table className={css.table}>
-                    <TableHead columns={columns} />
+                    <TableHead columns={columns} hasActions={hasActions} />
                     <tbody>
                         {data.map((row, index) => (renderRowWithClassName(row, index))).toArray()}
                     </tbody>
@@ -50,11 +55,15 @@ Table.propTypes = {
     columns: columnsPropTypes.isRequired,
     data: ImmutablePropTypes.list,
     loading: PropTypes.bool,
+    onUpdate: PropTypes.func,
+    onDelete: PropTypes.func,
 };
 
 Table.defaultProps = {
     data: List(),
     loading: false,
+    onUpdate: undefined,
+    onDelete: undefined,
 };
 
 export default Table;

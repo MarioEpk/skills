@@ -7,22 +7,26 @@
     }
     &.light {
         color: $nav_font_color;
-        &:hover, &:hover {
+        &:hover{
             background-color: rgba(252, 192, 0, 0.24);
         }
     }
     &.dark {
         color: $main_color;
-        &:hover, &:hover {
+        &:hover {
             background-color: rgba(252, 192, 0, 0.24);
         }
     }
     &.danger {
         color: $danger;
-        &:hover, &:hover {
-            &:hover, &:hover {
-                background-color: rgba(252, 0, 0, 0.2);
-            }
+        &:hover {
+            background-color: rgba(252, 0, 0, 0.2);
+        }
+    }
+    &.colored {
+        color: $highlight_color;
+        &:hover {
+            background-color: rgba(252, 192, 0, 0.24);
         }
     }
 }

@@ -1,0 +1,20 @@
+.main {
+    padding: 1rem;
+}
+
+.control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-family: "Gotham Narrow", sans-serif;
+    margin: 0;
+    flex-grow: 6;
+}
+
+.search {
+    flex-grow: 2;
+}

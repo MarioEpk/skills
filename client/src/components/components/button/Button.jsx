@@ -7,11 +7,12 @@ import invariant from "invariant";
 
 import css from "./Button.module.scss";
 
-const Button = ({onClick, label, href, children, type}) => {
+const Button = ({onClick, label, href, children, type, startIcon}) => {
     invariant(label || children, "label or children must be present");
     const buttonClassname = classnames(css.button, css.normalize, {
         [css.dark]: type === Button.type.DARK,
         [css.light]: type === Button.type.LIGHT,
+        [css.colored]: type === Button.type.COLORED,
         [css.danger]: type === Button.type.DANGER,
     });
     return (
@@ -20,6 +21,7 @@ const Button = ({onClick, label, href, children, type}) => {
             onClick={onClick}
             className={buttonClassname}
             href={href}
+            startIcon={startIcon}
         >
             {label || children}
         </ButtonUI>
@@ -30,6 +32,7 @@ Button.type = Object.freeze({
     LIGHT: "light",
     DARK: "dark",
     DANGER: "danger",
+    COLORED: "colored",
 });
 
 Button.propTypes = {
@@ -38,6 +41,7 @@ Button.propTypes = {
     children: PropTypes.node,
     href: PropTypes.string,
     type: PropTypes.oneOf(Object.values(Button.type)),
+    startIcon: PropTypes.node,
 };
 
 Button.defaultProps = {
@@ -46,6 +50,7 @@ Button.defaultProps = {
     label: null,
     type: Button.type.DARK,
     onClick: undefined,
+    startIcon: null,
 };
 
 export default Button;

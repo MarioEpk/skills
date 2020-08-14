@@ -1,7 +1,6 @@
 import {action, text, optionsKnob} from "components/story";
 
 import Button from "./Button";
-// onClick, label, href, children, type
 
 const optionsObj = {
     display: 'inline-radio',
