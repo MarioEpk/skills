@@ -10,4 +10,5 @@ const children = (
 
 export default [Card, () => ({
     children,
+    title: "Bla bla",
 })];

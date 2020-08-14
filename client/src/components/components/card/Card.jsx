@@ -1,5 +1,5 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 // import css from "./Card.module.scss";
 
@@ -10,13 +10,27 @@ import React from "react";
  * Fonts are already imported, you can just use font-family: 'Gotham Narrow'
  * You can use shadow style from Block component
 */
-const Card = () => (
+const Card = ({title, secondTitle, date}) => (
     <div>
-        Card
+        Ahoj
+    
+        <span>{title}</span>
+        <span>{secondTitle}</span>
+        <span>{date}</span>
     </div>
 );
 
 Card.propTypes = {
+    title: PropTypes.string.isRequired,
+    secondTitle: PropTypes.string,
+    date:PropTypes.string,
+    
 };
+
+Card.defaulProps = {
+    secondTitle: "Ahoj",
+    date: null,
+};
+
 
 export default Card;

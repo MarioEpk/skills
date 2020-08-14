@@ -2,6 +2,7 @@ create table cv
 (
     id      integer not null,
     user_id integer,
+    updated_at timestamp not null,
 
     primary key (id),
     foreign key (user_id) references app_user

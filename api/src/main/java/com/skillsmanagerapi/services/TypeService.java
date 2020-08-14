@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TypeService {
 
@@ -30,14 +32,22 @@ public class TypeService {
         this.modelMapper = modelMapper;
     }
 
+    public List<LanguageType> getAllLanguageTypes() {
+        return languageTypeRepository.findAll();
+    }
+
+    // TODO :: throw exception if type isn't exist
+    public LanguageType getLanguageType(int id) {
+        return languageTypeRepository.findById(id);
+    }
+
     public void createLanguageType(LanguageTypeDto languageTypeDto) {
         languageTypeRepository.save(modelMapper.map(languageTypeDto, LanguageType.class));
     }
 
-    public void updateLanguageType(LanguageTypeDto languageTypeDto) throws Exception {
-        LanguageType languageType = languageTypeRepository.findById(languageTypeDto.getId()).orElseThrow(() -> new Exception("Language not found"));
+    public void updateLanguageType(LanguageTypeDto languageTypeDto) {
+        LanguageType languageType = languageTypeRepository.findById(languageTypeDto.getId());
         LanguageTypeDto updatedLanguageTypeDto = modelMapper.map(languageType, LanguageTypeDto.class);
-        updatedLanguageTypeDto.setId(languageTypeDto.getId());
         updatedLanguageTypeDto.setName(languageTypeDto.getName());
         languageTypeRepository.save(modelMapper.map(updatedLanguageTypeDto, LanguageType.class));
     }

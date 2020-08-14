@@ -1,5 +1,8 @@
 package com.skillsmanagerapi.models;
 
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,4 +53,9 @@ public class Cv {
     @ManyToMany
     @JoinColumn(name = "others_id", referencedColumnName = "id")
     private List<Other> others;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = false)
+    private Date updatedAt;
 }
