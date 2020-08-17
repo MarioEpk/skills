@@ -2,7 +2,7 @@ package com.skillsmanagerapi.controllers;
 
 import com.skillsmanagerapi.dto.LanguageTypeDto;
 import com.skillsmanagerapi.models.LanguageType;
-import com.skillsmanagerapi.services.TypeService;
+import com.skillsmanagerapi.services.LanguageTypeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,36 +17,36 @@ import java.util.List;
 @RestController
 public class TypeController {
 
-    private final TypeService typeService;
+    private final LanguageTypeService languageTypeService;
 
     @Autowired
-    public TypeController(TypeService typeService) {
-        this.typeService = typeService;
+    public TypeController(LanguageTypeService languageTypeService) {
+        this.languageTypeService = languageTypeService;
     }
 
     @RequestMapping(value = "/language", method = RequestMethod.GET)
     public List<LanguageType> getAllLanguageTypes() {
-        return typeService.getAllLanguageTypes();
+        return languageTypeService.getAllLanguageTypes();
     }
 
     @RequestMapping(value = "/language/{id}", method = RequestMethod.GET)
     public LanguageType getLanguageType(@PathVariable("id") int id) {
-        return typeService.getLanguageType(id);
+        return languageTypeService.getLanguageType(id);
     }
 
     @RequestMapping(value = "/language", method = RequestMethod.POST)
     public void createLanguageType(@RequestBody LanguageTypeDto languageTypeDto) {
-        typeService.createLanguageType(languageTypeDto);
+        languageTypeService.createLanguageType(languageTypeDto);
     }
 
     @RequestMapping(value = "/language", method = RequestMethod.PUT)
     public void updateLanguageType(@RequestBody LanguageTypeDto languageTypeDto) {
-        typeService.updateLanguageType(languageTypeDto);
+        languageTypeService.updateLanguageType(languageTypeDto);
     }
 
     @RequestMapping(value = "/language/{id}", method = RequestMethod.DELETE)
     public void deleteLanguageType(@PathVariable("id") int id) {
-        typeService.deleteLanguageType(id);
+        languageTypeService.deleteLanguageType(id);
     }
 
 }

@@ -1,12 +1,8 @@
-.main {
-    padding: 1rem;
-}
-
 .control {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    padding: 1rem;
 }
 
 .title {
@@ -17,4 +13,8 @@
 
 .search {
     flex-grow: 2;
+}
+
+.table {
+    padding-bottom: 1rem;
 }

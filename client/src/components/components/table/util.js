@@ -34,4 +34,11 @@ export const columnPropTypes = PropTypes.shape({
     width: PropTypes.number,
 });
 
+export const columnActionsPropTypes = PropTypes.shape({
+    columnName: PropTypes.string,
+    hidden: PropTypes.bool,
+    onEdit: PropTypes.func,
+    onDelete: PropTypes.func,
+});
+
 export const columnsPropTypes = PropTypes.arrayOf(columnPropTypes.isRequired);

@@ -8,6 +8,7 @@ const data = fromJS([{
     part: "1",
     book: "BOOK ONE",
     name: "A Long-expected Party",
+    width: 400,
     immersion: {
         test: "immersion test",
     },
@@ -32,7 +33,7 @@ export default [Data, () => ({
     data,
     loading: boolean("Loading", false),
     onSearch: action("On search"),
-    onUpdate: action("On update"),
+    onEdit: action("On Edit"),
     onDelete: action("On delete"),
     onCreate: action("On create"),
 })];

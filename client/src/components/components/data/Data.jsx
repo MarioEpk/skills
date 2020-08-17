@@ -19,13 +19,19 @@ const Data = ({
     data,
     loading,
     onSearch,
-    onUpdate,
+    onEdit,
     onDelete,
     onCreate,
-}) => (
-    <Block>
-        <Loading loading={loading}>
-            <div className={css.main}>
+}) => {
+    const tableActions = {
+        columnName: "Akce",
+        onEdit,
+        onDelete,
+        align: 'right',
+    };
+    return (
+        <Block>
+            <Loading loading={loading}>
                 <div className={css.control}>
                     <h2 className={css.title}>{title}</h2>
                     {onSearch
@@ -43,16 +49,17 @@ const Data = ({
                         />
                     )}
                 </div>
-                <Table
-                    columns={columns}
-                    data={data}
-                    onUpdate={onUpdate}
-                    onDelete={onDelete}
-                />
-            </div>
-        </Loading>
-    </Block>
-);
+                <div className={css.table}>
+                    <Table
+                        columns={columns}
+                        data={data}
+                        actions={tableActions}
+                    />
+                </div>
+            </Loading>
+        </Block>
+    );
+};
 
 Data.proTypes = {
     title: PropTypes.string.isRequired,
@@ -69,7 +76,7 @@ Data.defaultProps = {
     data: List(),
     loading: false,
     onSearch: undefined,
-    onUpdate: undefined,
+    onEdit: undefined,
     onDelete: undefined,
     onCreate: undefined,
 };

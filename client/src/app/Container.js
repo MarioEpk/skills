@@ -11,14 +11,12 @@ import {Header} from "app/containers";
 
 const Container = ({initialized, isAuthenticated}) => (
     <>
-        {initialized && (
-            <MainLayout
-                isAuthenticated={isAuthenticated}
-                header={<Header />}
-            >
-                <router.Routes />
-            </MainLayout>
-        )}
+        <MainLayout
+            isAuthenticated={isAuthenticated}
+            header={<Header />}
+        >
+            {initialized && <router.Routes />}
+        </MainLayout>
         {initialized && <notification.Container />}
     </>
 );

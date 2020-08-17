@@ -4,6 +4,7 @@ import {translationsApi, pageContextApi} from "app/serverApi";
 import i18n from "core/i18n";
 import init from "core/init";
 import router from "core/router";
+import auth from "core/auth";
 
 export default function* () {
     yield call(router.delayedProgressStart, 0);
@@ -14,6 +15,8 @@ export default function* () {
         // normally it would not happend because javascript is single threaded, but there is some history.replace magic, which
         // can probably somehow interrupt js event loop.
         const channel = yield actionChannel(router.ROUTE_ENTERED);
+        // Wait until auth request is done
+        yield take(auth.authActionGroup.REQUEST_SUCCESS);
         // router.setPageByLocationDirectly will appropriately intialize and enter initial route for app according to URL.
         yield fork(router.setPageByLocationDirectly, window.location);
         // after all the magic is done (action router.ROUTE_ENTERED is dispatched)

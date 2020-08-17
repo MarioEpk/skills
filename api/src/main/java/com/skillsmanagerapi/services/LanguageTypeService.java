@@ -13,22 +13,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
-public class TypeService {
+public class LanguageTypeService {
 
     private final LanguageTypeRepository languageTypeRepository;
-    private final ProjectTypeRepository projectTypeRepository;
-    private final SkillTypeRepository skillTypeRepository;
-    private final TechnologyTypeRepository technologyTypeRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TypeService(LanguageTypeRepository languageTypeRepository, ProjectTypeRepository projectTypeRepository, SkillTypeRepository skillTypeRepository, TechnologyTypeRepository technologyTypeRepository, ModelMapper modelMapper) {
+    public LanguageTypeService(LanguageTypeRepository languageTypeRepository, ProjectTypeRepository projectTypeRepository, SkillTypeRepository skillTypeRepository, TechnologyTypeRepository technologyTypeRepository, ModelMapper modelMapper) {
         this.languageTypeRepository = languageTypeRepository;
-        this.projectTypeRepository = projectTypeRepository;
-        this.skillTypeRepository = skillTypeRepository;
-        this.technologyTypeRepository = technologyTypeRepository;
-
         this.modelMapper = modelMapper;
     }
 
@@ -36,9 +31,8 @@ public class TypeService {
         return languageTypeRepository.findAll();
     }
 
-    // TODO :: throw exception if type isn't exist
     public LanguageType getLanguageType(int id) {
-        return languageTypeRepository.findById(id);
+        return languageTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public void createLanguageType(LanguageTypeDto languageTypeDto) {
@@ -46,7 +40,7 @@ public class TypeService {
     }
 
     public void updateLanguageType(LanguageTypeDto languageTypeDto) {
-        LanguageType languageType = languageTypeRepository.findById(languageTypeDto.getId());
+        LanguageType languageType = getLanguageType(languageTypeDto.getId());
         LanguageTypeDto updatedLanguageTypeDto = modelMapper.map(languageType, LanguageTypeDto.class);
         updatedLanguageTypeDto.setName(languageTypeDto.getName());
         languageTypeRepository.save(modelMapper.map(updatedLanguageTypeDto, LanguageType.class));
@@ -55,4 +49,6 @@ public class TypeService {
     public void deleteLanguageType(int id) {
         languageTypeRepository.deleteById(id);
     }
+
+
 }

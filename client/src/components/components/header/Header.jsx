@@ -6,7 +6,7 @@ import css from './Header.module.scss';
 const Header = ({
     navigation, login, logout, isAuthenticated, userImageUrl,
 }) => (
-    <div className={css.header}>
+    <div className={css.header} style={{backgroundColor: undefined}}>
         <div className={css.navigationSection}>
             <h1>
                 <span>MORO</span>
