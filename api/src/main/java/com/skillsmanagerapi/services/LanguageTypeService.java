@@ -22,13 +22,13 @@ public class LanguageTypeService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public LanguageTypeService(LanguageTypeRepository languageTypeRepository, ProjectTypeRepository projectTypeRepository, SkillTypeRepository skillTypeRepository, TechnologyTypeRepository technologyTypeRepository, ModelMapper modelMapper) {
+    public LanguageTypeService(LanguageTypeRepository languageTypeRepository, ModelMapper modelMapper) {
         this.languageTypeRepository = languageTypeRepository;
         this.modelMapper = modelMapper;
     }
 
     public List<LanguageType> getAllLanguageTypes() {
-        return languageTypeRepository.findAll();
+        return languageTypeRepository.findAllByOrderByIdAsc();
     }
 
     public LanguageType getLanguageType(int id) {

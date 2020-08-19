@@ -5,14 +5,27 @@ import css from "./TwoColumns.module.scss";
 
 const TwoColumns = ({left, right}) => (
     <div className={css.twoColumns}>
-        {left}
-        {right}
+        {left && (
+            <div>
+                {left}
+            </div>
+        )}
+        {right && (
+            <div>
+                {right}
+            </div>
+        )}
     </div>
 );
 
-TwoColumns.proTypes = {
-    left: PropTypes.node.isRequired,
-    right: PropTypes.node.isRequired,
+TwoColumns.propTypes = {
+    left: PropTypes.node,
+    right: PropTypes.node,
+};
+
+TwoColumns.defaultProps = {
+    left: null,
+    right: null,
 };
 
 export default TwoColumns;

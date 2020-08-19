@@ -6,7 +6,6 @@ import {availableTypesArray} from "./constants";
 
 export default combineReducers(availableTypesArray.reduce((reducers, name) => {
     const actions = createTypeActionGroup(name);
-    console.log(actions);
     return {
         ...reducers,
         [name]: (state = List(), action) => {

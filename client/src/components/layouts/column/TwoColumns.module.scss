@@ -1,8 +1,4 @@
-.vertical {
-    display: flex;
-    flex-direction: column;
-}
-
-.horizontal {
-    display: flex;
+.twoColumns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }

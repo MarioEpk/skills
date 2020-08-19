@@ -10,6 +10,7 @@ create table project_type
 (
     id   integer not null,
     name varchar(255),
+    description varchar(255),
 
     primary key (id)
 );

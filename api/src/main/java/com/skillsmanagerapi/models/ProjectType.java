@@ -20,6 +20,9 @@ public class ProjectType {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "name")
     private String name;
 }

@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 open class WebConfig : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
-        registry.addMapping("/**").allowedOrigins("http://skills-manager.com:3000")
+        registry.addMapping("/**")
+                .allowedOrigins("http://skills-manager.com:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
     }
 }

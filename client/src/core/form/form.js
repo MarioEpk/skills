@@ -16,8 +16,8 @@ const InnerForm = ({handleSubmit, reset, submitting, dirty, error, formComponent
         submitting,
         initialized,
         // do not pass more arguments from redux-form here carelessly. For example, form-wide valid prop means whole form
-        // re-renders when some field changes validit. Epecially ones under ConditionalSection
-        // if adding something here, definitely test theese!
+        // re-renders when some field changes validity. Especially ones under ConditionalSection
+        // if adding something here, definitely test these!
     };
     return (
         <FormComponent {...formProps} {...ownProps} />

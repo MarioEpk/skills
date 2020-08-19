@@ -8,7 +8,7 @@ import {ADMINISTRATION} from "../constants";
 const Navigation = () => (
     <NavigationComponent
         links={[
-            <router.Link key="nav1" route={ADMINISTRATION}>Administration</router.Link>,
+            <router.Link key="nav1" route={ADMINISTRATION}>Administrace</router.Link>,
         ]}
     />
 );

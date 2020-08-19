@@ -31,11 +31,12 @@ TableColumn.propTypes = {
         align: PropTypes.oneOf(["left", "right"]),
     }).isRequired,
     header: PropTypes.bool,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
 };
 
 TableColumn.defaultProps = {
     header: false,
+    children: null,
 };
 
 export default TableColumn;

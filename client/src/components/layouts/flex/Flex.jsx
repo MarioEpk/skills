@@ -7,7 +7,7 @@ const Flex = ({vertical, children}) => (<div className={vertical ? css.vertical 
 
 Flex.proTypes = {
     children: PropTypes.node.isRequired,
-    vertical: PropTypes.string.isRequired,
+    vertical: PropTypes.bool.isRequired,
 };
 
 export default Flex;

@@ -32,7 +32,7 @@ export default [Data, () => ({
     columns,
     data,
     loading: boolean("Loading", false),
-    onSearch: action("On search"),
+    searchByDataField: "name",
     onEdit: action("On Edit"),
     onDelete: action("On delete"),
     onCreate: action("On create"),

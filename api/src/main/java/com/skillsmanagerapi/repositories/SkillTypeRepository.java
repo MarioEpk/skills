@@ -4,4 +4,8 @@ import com.skillsmanagerapi.models.SkillType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {}
+import java.util.List;
+
+public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {
+    List<SkillType> findAllByOrderByIdAsc();
+}

@@ -1,0 +1,12 @@
+.main {
+    h1 {
+        font-family: "Gotham Narrow", sans-serif;
+    }
+    &>* {
+        margin: 0 0 1rem 0;
+    }
+    .buttons {
+        float: right;
+        margin: 0;
+    }
+}

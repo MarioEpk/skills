@@ -16,12 +16,12 @@ const renderActions = (actions, row, key) => {
     const actionComponents = [];
     if (actions.onEdit) {
         actionComponents.push(
-            <Button onClick={() => actions.onEdit(row)} label="Editovat" startIcon={<Edit />} />,
+            <Button key={`${key}-edit`} onClick={() => actions.onEdit(row)} label="Editovat" startIcon={<Edit />} />,
         );
     }
     if (actions.onDelete) {
         actionComponents.push(
-            <Button type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Smazat" />,
+            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Smazat" />,
         );
     }
     return (

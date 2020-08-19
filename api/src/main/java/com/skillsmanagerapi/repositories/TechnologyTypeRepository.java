@@ -4,4 +4,8 @@ import com.skillsmanagerapi.models.TechnologyType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TechnologyTypeRepository extends JpaRepository<TechnologyType, Integer> {}
+import java.util.List;
+
+public interface TechnologyTypeRepository extends JpaRepository<TechnologyType, Integer> {
+    List<TechnologyType> findAllByOrderByIdAsc();
+}
