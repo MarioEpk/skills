@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
+import user from "core/user";
 import auth from "core/auth";
 import {compose} from "core/form";
 import {Header as HeaderComponent} from "components";
@@ -30,7 +31,7 @@ Header.defaultProps = {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: auth.isAuthenticated(state),
-    userImageUrl: auth.getUserImageUrl(state),
+    userImageUrl: user.getUserImageUrl(state),
 });
 
 export default compose(

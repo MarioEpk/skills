@@ -1,1 +1,0 @@
-export {UserByGoogle} from "./UserByGoogle";

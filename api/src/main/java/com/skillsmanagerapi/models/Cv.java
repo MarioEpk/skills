@@ -1,12 +1,15 @@
 package com.skillsmanagerapi.models;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +25,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "cv")
 public class Cv {
 
@@ -56,6 +60,11 @@ public class Cv {
 
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Date updatedAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    @Column(name = "created_at")
+    private Date createdAt;
 }

@@ -1,8 +1,7 @@
 import {NAME} from './constants';
-import {authActionGroup, logout} from "./actions";
-import {getToken, getUserImageUrl, isAuthenticated} from "./selectors";
+import {authActionGroup, logout, LOGOUT} from "./actions";
+import {getToken, isAuthenticated} from "./selectors";
 import reducer from "./reducer";
-import saga from "./saga";
 
 const auth = {
     NAME,
@@ -11,7 +10,6 @@ const auth = {
     getToken,
     logout,
     isAuthenticated,
-    saga,
-    getUserImageUrl,
+    LOGOUT,
 };
 export default auth;

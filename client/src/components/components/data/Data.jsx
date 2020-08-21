@@ -47,8 +47,12 @@ const Data = ({
     };
 
     const filterData = (value) => {
-        const result = data.filter((row) => row.get(searchByDataField).toString().toLowerCase().includes(value.toLowerCase()));
-        setFilteredData(result);
+        if (searchByDataField) {
+            const result = data.filter((row) => row.getIn(searchByDataField.split('.'), "").toString().toLowerCase().includes(value.toLowerCase()));
+            setFilteredData(result);
+        } else {
+            setFilteredData(data);
+        }
     };
 
     return (

@@ -11,7 +11,10 @@ create table role
 create table app_user
 (
     id        integer not null,
-    google_id integer not null,
+    first_name varchar(255),
+    last_name varchar(255),
+    google_id varchar(255),
+    google_email varchar(255) unique,
     role_id   integer,
 
     primary key (id),

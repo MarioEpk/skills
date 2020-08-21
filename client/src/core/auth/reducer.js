@@ -1,5 +1,4 @@
 import {combineReducers} from "redux-immutable";
-import {Record} from "immutable";
 
 import {authActionGroup, LOGOUT} from "./actions";
 
@@ -27,20 +26,7 @@ const token = (state = null, {type, authToken}) => {
     }
 };
 
-const userByGoogle = (state = Record({}), {type, user}) => {
-    switch (type) {
-        case authActionGroup.REQUEST_SUCCESS:
-            return user;
-        case authActionGroup.REQUEST_FAIL:
-        case LOGOUT:
-            return Record({});
-        default:
-            return state;
-    }
-};
-
 export default combineReducers({
     isAuthenticated,
     token,
-    userByGoogle,
 });

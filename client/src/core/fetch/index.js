@@ -1,4 +1,5 @@
 import RequestError from "./RequestError";
+import coreApi from "./coreApi";
 import {
     PRECOGNITION_FAILED,
     doGet,
@@ -18,4 +19,5 @@ export default {
     doDelete,
     doGetPlain,
     timeoutPromise,
+    coreApi,
 };
