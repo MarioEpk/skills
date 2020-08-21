@@ -16,6 +16,7 @@ import lombok.Setter;
 @Getter @Setter
 public class CvDto {
     private int id;
+    private String profile;
     private User user;
     private List<Language> languages;
     private List<Skill> skills;

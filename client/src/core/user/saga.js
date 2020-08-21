@@ -1,5 +1,5 @@
 import {takeLatest, put, call} from "redux-saga/effects";
-import {UserByGoogle} from "core/model";
+import {UserByGoogle} from "app/model/user";
 import auth from "core/auth";
 import {cvApi} from "app/serverApi";
 

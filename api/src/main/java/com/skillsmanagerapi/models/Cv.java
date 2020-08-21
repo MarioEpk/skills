@@ -34,6 +34,9 @@ public class Cv {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "profile")
+    private String profile;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

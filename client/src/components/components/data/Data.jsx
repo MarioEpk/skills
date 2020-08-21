@@ -24,6 +24,7 @@ const Data = ({
     onEdit,
     onDelete,
     onCreate,
+    onCustomAction,
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
@@ -37,6 +38,7 @@ const Data = ({
         columnName: "Akce",
         onEdit,
         onDelete: onDelete ? (row) => setDeleteConfirmation(row) : undefined,
+        custom: onCustomAction,
         align: 'right',
     };
 
@@ -105,6 +107,7 @@ Data.propTypes = {
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
     onCreate: PropTypes.func,
+    onCustomAction: PropTypes.func,
 };
 
 Data.defaultProps = {
@@ -114,6 +117,7 @@ Data.defaultProps = {
     onEdit: undefined,
     onDelete: undefined,
     onCreate: undefined,
+    onCustomAction: undefined,
 };
 
 export default Data;

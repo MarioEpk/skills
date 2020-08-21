@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
+import {Edit, GetApp} from "@material-ui/icons";
 
 import modal from "core/modal";
 import {Type} from "app/model/type";
-import {Data, Modal} from "components";
+import {Button, Data, Modal} from "components";
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
@@ -38,9 +39,10 @@ const DataTable = ({
     isFormModalOpen,
     onDelete,
 }) => {
-    const onEdit = (row) => {
-        console.log("edit");
-    };
+    const onCustomAction = (row) => ([
+        <Button key="redirect" href={`/${row.get("id")}`} label="Editovat" startIcon={<Edit />} />,
+        <Button key="export" onClick={() => console.log("export", row)} label="Exportovat" startIcon={<GetApp />} />,
+    ]);
     const onCreate = () => {
         openModal();
     };
@@ -53,7 +55,7 @@ const DataTable = ({
                 data={data}
                 loading={loading}
                 onCreate={onCreate}
-                onEdit={onEdit}
+                onCustomAction={onCustomAction}
                 onDelete={(row) => onDelete(row.get("id"))}
                 searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
             />

@@ -29,14 +29,19 @@ public class CvController {
     }
 
     @RequestMapping(value = "/process", method = RequestMethod.POST)
-    public CvDto processUser(@RequestBody UserByGoogleDto userByGoogleDto) {
+    public CvDto process(@RequestBody UserByGoogleDto userByGoogleDto) {
         UserDto userDto = userService.getUserOrCreateNew(userByGoogleDto);
         return cvService.getCvOrCreateNew(userDto);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<CvDto> getAllLanguageTypes() {
+    public List<CvDto> getAllCvs() {
         return cvService.getAllCvs();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public CvDto getCv(@PathVariable("id") int id) {
+        return cvService.getCv(id);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -46,7 +51,7 @@ public class CvController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteLanguageType(@PathVariable("id") int id) {
+    public void deleteCv(@PathVariable("id") int id) {
         cvService.deleteCv(id);
     }
 
