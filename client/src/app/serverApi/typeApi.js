@@ -1,5 +1,5 @@
 import fetch from "core/fetch";
-import {Type, Project} from "app/model/type";
+import {Type, Project, AllTypes} from "app/model/type";
 
 const fetchLanguageTypes = () => fetch.doGet("/type/language", null, Type.fromServerList);
 const createLanguageType = ({name}) => fetch.doPost("/type/language", {name});
@@ -21,6 +21,8 @@ const createProjectType = ({name, description}) => fetch.doPost("/type/project",
 const updateProjectType = ({id, name, description}) => fetch.doPut("/type/project", {id, name, description});
 const deleteProjectType = ({id}) => fetch.doDelete(`/type/project/${id}`);
 
+const fetchAllTypes = () => fetch.doGet(`/type`, null, AllTypes.fromServer);
+
 export default {
     fetchLanguageTypes,
     createLanguageType,
@@ -41,4 +43,6 @@ export default {
     createProjectType,
     updateProjectType,
     deleteProjectType,
+
+    fetchAllTypes,
 };

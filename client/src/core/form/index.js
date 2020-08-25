@@ -2,6 +2,7 @@ import {NAME} from './constants';
 import reducer from './reducer';
 
 export {destroy} from "redux-form/immutable";
+export {startSubmit} from 'redux-form';
 // core
 export {reset} from './actions';
 export default {NAME, reducer};
@@ -27,6 +28,6 @@ export * from "./validation";
 export * from "./util";
 export * from "./normalization";
 export {default as form} from "./form";
-export {fieldChangeMatcher} from "./actionMatchers";
+export {fieldChangeMatcher, formBlurMatcher} from "./actionMatchers";
 export * from "./components";
 export * from "./layouts";

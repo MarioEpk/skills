@@ -7,6 +7,7 @@ const fetchCvs = () => fetch.doGet("/cv", null, Cv.fromServerList);
 const fetchCv = (id) => fetch.doGet(`/cv/${id}`, null, Cv.fromServer);
 const createCv = (googleEmail, firstName, lastName) => fetch.doPut("/cv", {googleEmail, firstName, lastName});
 const deleteCv = (id) => fetch.doDelete(`/cv/${id}`);
+const fetchMyCvId = () => fetch.doGet("/cv/my-id");
 
 export default {
     fetchCvForUser,
@@ -14,4 +15,5 @@ export default {
     fetchCv,
     createCv,
     deleteCv,
+    fetchMyCvId,
 };

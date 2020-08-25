@@ -9,8 +9,9 @@ export {Block} from "./components/block";
 export {Data} from "./components/data";
 export {Modal} from "./components/modal";
 export {TextField} from "./components/input";
+export {Menu} from "./components/menu";
 
 export {Flex} from "./layouts/flex";
 export {Main as MainLayout} from "./layouts/main";
 export {TwoColumns, WithColumn} from "./layouts/column";
-export {VerticalFormLayout} from "./layouts/form";
+export {VerticalFormLayout, CvFormLayout} from "./layouts/form";

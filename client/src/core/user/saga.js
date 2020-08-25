@@ -1,7 +1,6 @@
 import {takeLatest, put, call} from "redux-saga/effects";
 import {UserByGoogle} from "app/model/user";
 import auth from "core/auth";
-import {cvApi} from "app/serverApi";
 
 export default function* () {
     yield takeLatest(auth.authActionGroup.REQUEST, onLogin);
@@ -14,12 +13,5 @@ function* onLogin({request}) {
     } catch (e) {
         console.error(e);
         yield put(auth.authActionGroup.requestFailure());
-    } finally {
-        yield call(redirectToCv, user);
     }
-}
-
-function* redirectToCv(user) {
-    const cv = yield call(cvApi.fetchCvForUser, user.get("googleId"), user.get("email"), user.get("givenName"), user.get("familyName"));
-    console.log(cv);
 }

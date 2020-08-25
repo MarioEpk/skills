@@ -1,0 +1,15 @@
+.main {
+    h1 {
+        font-family: "Gotham Narrow", sans-serif;
+        margin-top: 0;
+    }
+}
+
+.twoColumnsSection {
+    text-align: center;
+    .leftColumn {
+        & > * {
+            margin: 0 0 1rem 0;
+        }
+    }
+}

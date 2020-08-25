@@ -6,6 +6,7 @@ import com.skillsmanagerapi.repositories.LanguageTypeRepository;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
 import com.skillsmanagerapi.repositories.SkillTypeRepository;
 import com.skillsmanagerapi.repositories.TechnologyTypeRepository;
+import com.skillsmanagerapi.util.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,21 @@ public class LanguageTypeService {
 
     private final LanguageTypeRepository languageTypeRepository;
     private final ModelMapper modelMapper;
+    private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public LanguageTypeService(LanguageTypeRepository languageTypeRepository, ModelMapper modelMapper) {
+    public LanguageTypeService(LanguageTypeRepository languageTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
         this.languageTypeRepository = languageTypeRepository;
         this.modelMapper = modelMapper;
+        this.modelMapperUtil = modelMapperUtil;
     }
 
-    public List<LanguageType> getAllLanguageTypes() {
-        return languageTypeRepository.findAllByOrderByIdAsc();
+    public List<LanguageTypeDto> getAllLanguageTypes() {
+        return modelMapperUtil.mapList(languageTypeRepository.findAllByOrderByIdAsc(), LanguageTypeDto.class);
     }
 
-    public LanguageType getLanguageType(int id) {
-        return languageTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public LanguageTypeDto getLanguageType(int id) {
+        return modelMapper.map(languageTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), LanguageTypeDto.class);
     }
 
     public void createLanguageType(LanguageTypeDto languageTypeDto) {
@@ -40,8 +43,7 @@ public class LanguageTypeService {
     }
 
     public void updateLanguageType(LanguageTypeDto languageTypeDto) {
-        LanguageType languageType = getLanguageType(languageTypeDto.getId());
-        LanguageTypeDto updatedLanguageTypeDto = modelMapper.map(languageType, LanguageTypeDto.class);
+        LanguageTypeDto updatedLanguageTypeDto = getLanguageType(languageTypeDto.getId());
         updatedLanguageTypeDto.setName(languageTypeDto.getName());
         languageTypeRepository.save(modelMapper.map(updatedLanguageTypeDto, LanguageType.class));
     }

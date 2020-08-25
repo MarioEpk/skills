@@ -3,35 +3,35 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, VerticalFormLayout} from "components";
+import {Loading, Button, CvFormLayout} from "components";
 import {Field, InputText, compose, form, FormError, required} from "core/form";
+
+import formImage from 'resources/images/resumeGuyImage.svg';
 
 import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./constants";
 
 const Container = ({handleSubmit, submitting, errors}) => (
     <Loading loading={submitting}>
-        <VerticalFormLayout
+        <CvFormLayout
             title="Můj životopis"
-            buttons={[
-                <Button
-                    key="save"
-                    label="Uložit"
-                    onClick={handleSubmit}
+            leftColumn={[
+                <Field
+                    key={`key-${FIRST_NAME_FIELD}`}
+                    component={InputText}
+                    placeholder="Jméno"
+                    name={FIRST_NAME_FIELD}
+                    validate={[required]}
+                />,
+                <Field
+                    key={`key-${LAST_NAME_FIELD}`}
+                    component={InputText}
+                    placeholder="Příjmení"
+                    name={LAST_NAME_FIELD}
+                    validate={[required]}
                 />,
             ]}
+            image={<img src={formImage} alt="form-image" />}
         >
-            <Field
-                component={InputText}
-                placeholder="Jméno"
-                name={FIRST_NAME_FIELD}
-                validate={[required]}
-            />
-            <Field
-                component={InputText}
-                placeholder="Příjmení"
-                name={LAST_NAME_FIELD}
-                validate={[required]}
-            />
             <Field
                 component={InputText}
                 placeholder="Profil"
@@ -41,7 +41,7 @@ const Container = ({handleSubmit, submitting, errors}) => (
             <FormError errors={errors} />
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
 
-        </VerticalFormLayout>
+        </CvFormLayout>
     </Loading>
 );
 

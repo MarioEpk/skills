@@ -1,5 +1,6 @@
 package com.skillsmanagerapi.controllers;
 
+import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.LanguageTypeDto;
 import com.skillsmanagerapi.dto.ProjectTypeDto;
 import com.skillsmanagerapi.dto.SkillTypeDto;
@@ -12,6 +13,7 @@ import com.skillsmanagerapi.services.LanguageTypeService;
 import com.skillsmanagerapi.services.ProjectTypeService;
 import com.skillsmanagerapi.services.SkillTypeService;
 import com.skillsmanagerapi.services.TechnologyTypeService;
+import com.skillsmanagerapi.services.TypeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,23 +32,31 @@ public class TypeController {
     private final SkillTypeService skillTypeService;
     private final TechnologyTypeService technologyTypeService;
     private final ProjectTypeService projectTypeService;
+    private final TypeService typeService;
 
     @Autowired
-    public TypeController(LanguageTypeService languageTypeService, SkillTypeService skillTypeService, TechnologyTypeService technologyTypeService, ProjectTypeService projectTypeService) {
+    public TypeController(LanguageTypeService languageTypeService, SkillTypeService skillTypeService, TechnologyTypeService technologyTypeService, ProjectTypeService projectTypeService, TypeService typeService) {
         this.languageTypeService = languageTypeService;
         this.skillTypeService = skillTypeService;
         this.technologyTypeService = technologyTypeService;
         this.projectTypeService = projectTypeService;
+        this.typeService = typeService;
+    }
+
+    // All types
+    @RequestMapping(method = RequestMethod.GET)
+    public AllTypesDto getAllTypes() {
+        return typeService.getAllTypes();
     }
 
     // Language Type
     @RequestMapping(value = "/language", method = RequestMethod.GET)
-    public List<LanguageType> getAllLanguageTypes() {
+    public List<LanguageTypeDto> getAllLanguageTypes() {
         return languageTypeService.getAllLanguageTypes();
     }
 
     @RequestMapping(value = "/language/{id}", method = RequestMethod.GET)
-    public LanguageType getLanguageType(@PathVariable("id") int id) {
+    public LanguageTypeDto getLanguageType(@PathVariable("id") int id) {
         return languageTypeService.getLanguageType(id);
     }
 
@@ -68,12 +78,12 @@ public class TypeController {
 
     // Skill type
     @RequestMapping(value = "/skill", method = RequestMethod.GET)
-    public List<SkillType> getAllSkillTypes() {
+    public List<SkillTypeDto> getAllSkillTypes() {
         return skillTypeService.getAllSkillTypes();
     }
 
     @RequestMapping(value = "/skill/{id}", method = RequestMethod.GET)
-    public SkillType getSkillType(@PathVariable("id") int id) {
+    public SkillTypeDto getSkillType(@PathVariable("id") int id) {
         return skillTypeService.getSkillType(id);
     }
 
@@ -95,12 +105,12 @@ public class TypeController {
 
     // technology type
     @RequestMapping(value = "/technology", method = RequestMethod.GET)
-    public List<TechnologyType> getAllTechnologyTypes() {
+    public List<TechnologyTypeDto> getAllTechnologyTypes() {
         return technologyTypeService.getAllTechnologyTypes();
     }
 
     @RequestMapping(value = "/technology/{id}", method = RequestMethod.GET)
-    public TechnologyType getTechnologyType(@PathVariable("id") int id) {
+    public TechnologyTypeDto getTechnologyType(@PathVariable("id") int id) {
         return technologyTypeService.getTechnologyType(id);
     }
 
@@ -122,12 +132,12 @@ public class TypeController {
 
     // project type
     @RequestMapping(value = "/project", method = RequestMethod.GET)
-    public List<ProjectType> getAllProjectTypes() {
+    public List<ProjectTypeDto> getAllProjectTypes() {
         return projectTypeService.getAllProjectTypes();
     }
 
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
-    public ProjectType getProjectType(@PathVariable("id") int id) {
+    public ProjectTypeDto getProjectType(@PathVariable("id") int id) {
         return projectTypeService.getProjectType(id);
     }
 

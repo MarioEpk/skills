@@ -1,14 +1,23 @@
-import {call, fork} from "redux-saga/effects";
+import {call, fork, put, takeEvery} from "redux-saga/effects";
 
-import {formWrapper} from "core/form";
+import {formBlurMatcher, formWrapper, startSubmit} from "core/form";
 import router from "core/router";
+import {CV} from "app/constants";
 
 import form from "./form";
-import {cvApi} from "../../serverApi";
+import {cvApi, typeApi} from "../../serverApi";
+import {cvTypesActionGroup} from "./actions";
 
 export default router.routerWrapper({
+    * getDataForPage() {
+        return [yield call(fetchDataForPage)];
+    },
     * onPageEnter({id}) {
-        yield fork(formSaga, id);
+        if (id) {
+            yield fork(formSaga, id);
+        } else {
+            yield call(redirectToUserCv);
+        }
     },
 });
 
@@ -34,4 +43,32 @@ const formSaga = formWrapper(form.FORM_NAME, {
     success() {
         // transition somewhere? notification?
     },
+    * persistentEffects() {
+        yield takeEvery(formBlurMatcher(form.FORM_NAME), test);
+    },
 });
+
+function* test() {
+    console.log("here")
+}
+
+function* redirectToUserCv() {
+    try {
+        const id = yield call(cvApi.fetchMyCvId);
+        yield put(router.navigate(CV, {id}));
+    } catch (e) {
+        // TODO :: handle error
+        console.error(e);
+    }
+}
+
+function* fetchDataForPage() {
+    try {
+        const payload = yield call(typeApi.fetchAllTypes);
+        return cvTypesActionGroup.fetchSuccess(payload);
+    } catch (e) {
+        // TODO :: handle error
+        console.error(e);
+        return cvTypesActionGroup.fetchFailure();
+    }
+}

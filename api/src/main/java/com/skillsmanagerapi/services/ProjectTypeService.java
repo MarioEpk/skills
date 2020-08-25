@@ -6,6 +6,7 @@ import com.skillsmanagerapi.models.ProjectType;
 import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
 import com.skillsmanagerapi.repositories.TechnologyTypeRepository;
+import com.skillsmanagerapi.util.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,21 @@ public class ProjectTypeService {
 
     private final ProjectTypeRepository projectTypeRepository;
     private final ModelMapper modelMapper;
+    private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public ProjectTypeService(ProjectTypeRepository projectTypeRepository, ModelMapper modelMapper) {
+    public ProjectTypeService(ProjectTypeRepository projectTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
         this.projectTypeRepository = projectTypeRepository;
         this.modelMapper = modelMapper;
+        this.modelMapperUtil = modelMapperUtil;
     }
 
-    public List<ProjectType> getAllProjectTypes() {
-        return projectTypeRepository.findAllByOrderByIdAsc();
+    public List<ProjectTypeDto> getAllProjectTypes() {
+        return modelMapperUtil.mapList(projectTypeRepository.findAllByOrderByIdAsc(), ProjectTypeDto.class);
     }
 
-    public ProjectType getProjectType(int id) {
-        return projectTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public ProjectTypeDto getProjectType(int id) {
+        return modelMapper.map(projectTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), ProjectTypeDto.class);
     }
 
     public void createProjectType(ProjectTypeDto projectTypeDto) {
@@ -40,8 +43,7 @@ public class ProjectTypeService {
     }
 
     public void updateProjectType(ProjectTypeDto projectTypeDto) {
-        ProjectType ProjectType = getProjectType(projectTypeDto.getId());
-        ProjectTypeDto updatedProjectTypeDto = modelMapper.map(ProjectType, ProjectTypeDto.class);
+        ProjectTypeDto updatedProjectTypeDto = getProjectType(projectTypeDto.getId());
         updatedProjectTypeDto.setName(projectTypeDto.getName());
         updatedProjectTypeDto.setDescription(projectTypeDto.getDescription());
         projectTypeRepository.save(modelMapper.map(updatedProjectTypeDto, ProjectType.class));

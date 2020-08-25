@@ -3,7 +3,6 @@ package com.skillsmanagerapi.services;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.models.Cv;
-import com.skillsmanagerapi.models.ProjectType;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.util.ModelMapperUtil;
