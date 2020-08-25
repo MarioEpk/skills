@@ -1,11 +1,8 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.ProjectTypeDto;
-import com.skillsmanagerapi.dto.TechnologyTypeDto;
 import com.skillsmanagerapi.models.ProjectType;
-import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
-import com.skillsmanagerapi.repositories.TechnologyTypeRepository;
 import com.skillsmanagerapi.util.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;

@@ -15,8 +15,8 @@
 
 .item {
     font-family: "Montserrat", sans-serif;
-    padding: .5rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    padding: .5rem 1rem;
     &:hover {
         background-color: rgba(252, 192, 0, 0.24);
         cursor: pointer;
@@ -28,16 +28,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .5rem;
-    border-radius: 4px;
+    padding: 1rem;
     transition: all .2s ease;
     font-size: .8rem;
     h2 {
         margin: 0;
 
-    }
-    &.openTitle {
-        border-radius: 4px 4px 0 0;
     }
     .open{
         transform: rotate(-180deg);

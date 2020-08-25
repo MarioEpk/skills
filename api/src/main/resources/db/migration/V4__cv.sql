@@ -16,7 +16,7 @@ create table cv_languages
     languages_id integer not null,
 
     foreign key (cv_id) references cv,
-    foreign key (languages_id) references language
+    foreign key (languages_id) references language on delete cascade
 );
 
 create table cv_others
@@ -25,7 +25,7 @@ create table cv_others
     others_id integer not null,
 
     foreign key (cv_id) references cv,
-    foreign key (others_id) references other
+    foreign key (others_id) references other on delete cascade
 );
 
 create table cv_projects
@@ -34,7 +34,7 @@ create table cv_projects
     projects_id integer not null,
 
     foreign key (cv_id) references cv,
-    foreign key (projects_id) references project
+    foreign key (projects_id) references project on delete cascade
 );
 
 create table cv_skills
@@ -43,7 +43,7 @@ create table cv_skills
     skills_id integer not null,
 
     foreign key (cv_id) references cv,
-    foreign key (skills_id) references skill
+    foreign key (skills_id) references skill on delete cascade
 );
 
 create table cv_technologies
@@ -52,5 +52,5 @@ create table cv_technologies
     technologies_id integer not null,
 
     foreign key (cv_id) references cv,
-    foreign key (technologies_id) references technology
+    foreign key (technologies_id) references technology on delete cascade
 );

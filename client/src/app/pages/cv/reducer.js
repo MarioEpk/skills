@@ -2,6 +2,7 @@ import {combineReducers} from "redux-immutable";
 
 import {AllTypes} from "app/model/type";
 
+import language from "./language";
 import {cvTypesActionGroup} from "./actions";
 
 const types = (state = new AllTypes(), action) => {
@@ -14,4 +15,5 @@ const types = (state = new AllTypes(), action) => {
 
 export default combineReducers({
     types,
+    [language.NAME]: language.reducer,
 });

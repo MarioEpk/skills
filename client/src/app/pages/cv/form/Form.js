@@ -3,17 +3,17 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, CvFormLayout} from "components";
+import {Loading, CvFormLayout} from "components";
 import {Field, InputText, compose, form, FormError, required} from "core/form";
 
 import formImage from 'resources/images/resumeGuyImage.svg';
 
-import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./constants";
+import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD, ROLE_FIELD} from "./constants";
 
-const Container = ({handleSubmit, submitting, errors}) => (
+const Container = ({submitting, errors}) => (
     <Loading loading={submitting}>
         <CvFormLayout
-            title="Můj životopis"
+            title="Základní informace"
             leftColumn={[
                 <Field
                     key={`key-${FIRST_NAME_FIELD}`}
@@ -29,10 +29,18 @@ const Container = ({handleSubmit, submitting, errors}) => (
                     name={LAST_NAME_FIELD}
                     validate={[required]}
                 />,
+                <Field
+                    key={`key-${ROLE_FIELD}`}
+                    component={InputText}
+                    placeholder="Role"
+                    name={ROLE_FIELD}
+                    validate={[required]}
+                />,
             ]}
-            image={<img src={formImage} alt="form-image" />}
+            image={<img src={formImage} alt="form" />}
         >
             <Field
+                key={`key-${PROFILE_FIELD}`}
                 component={InputText}
                 placeholder="Profil"
                 name={PROFILE_FIELD}
@@ -46,7 +54,6 @@ const Container = ({handleSubmit, submitting, errors}) => (
 );
 
 Container.propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     errors: IPropTypes.listOf(PropTypes.string),
 };

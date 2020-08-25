@@ -1,12 +1,5 @@
 package com.skillsmanagerapi.dto;
 
-import com.skillsmanagerapi.models.Language;
-import com.skillsmanagerapi.models.Other;
-import com.skillsmanagerapi.models.Project;
-import com.skillsmanagerapi.models.Skill;
-import com.skillsmanagerapi.models.Technology;
-import com.skillsmanagerapi.models.User;
-
 import java.util.Date;
 import java.util.List;
 
@@ -17,12 +10,12 @@ import lombok.Setter;
 public class CvDto {
     private int id;
     private String profile;
-    private User user;
-    private List<Language> languages;
-    private List<Skill> skills;
-    private List<Project> projects;
-    private List<Technology> technologies;
-    private List<Other> others;
+    private UserDto user;
+    private List<LanguageDto> languages;
+    private List<SkillDto> skills;
+    private List<ProjectDto> projects;
+    private List<TechnologyDto> technologies;
+    private List<OtherDto> others;
     private Date updatedAt;
     private Date createdAt;
 }

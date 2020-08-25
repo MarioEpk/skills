@@ -15,3 +15,19 @@ export const cvTypesActionGroup = ({
         payload: data,
     }),
 });
+
+export const cvActionGroup = ({
+    FETCH: `${NAME}/FETCH`,
+    FETCH_FAIL: `${NAME}/FETCH/FAILURE`,
+    FETCH_SUCCESS: `${NAME}/FETCH/SUCCESS`,
+    fetch: () => ({
+        type: `${NAME}/FETCH`,
+    }),
+    fetchFailure: () => ({
+        type: `${NAME}/FETCH/FAILURE`,
+    }),
+    fetchSuccess: (data) => ({
+        type: `${NAME}/FETCH/SUCCESS`,
+        payload: data,
+    }),
+});

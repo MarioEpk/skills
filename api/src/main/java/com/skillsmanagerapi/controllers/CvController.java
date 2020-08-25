@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.controllers;
 
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.UserByGoogleDto;
 import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.services.CvService;
@@ -35,7 +36,7 @@ public class CvController {
         return cvService.getCvOrCreateNew(userDto).getId();
     }
 
-    @RequestMapping(value = "/process", method = RequestMethod.POST)
+    @RequestMapping(value = "/my", method = RequestMethod.POST)
     public CvDto process(@RequestBody UserByGoogleDto userByGoogleDto) {
         UserDto userDto = userService.getUserOrCreateNew(userByGoogleDto);
         return cvService.getCvOrCreateNew(userDto);
@@ -51,10 +52,15 @@ public class CvController {
         return cvService.getCv(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.POST)
     public void createCv(@RequestBody UserDto userDto) {
         UserDto currentUser = userService.getUserOrCreateNew(userDto);
         cvService.getCvOrCreateNew(currentUser);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateCv(@RequestBody CvDto cvDto) {
+        cvService.updateCv(cvDto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -62,4 +68,13 @@ public class CvController {
         cvService.deleteCv(id);
     }
 
+    @RequestMapping(value = "/{id}/add-language", method = RequestMethod.POST)
+    public void addLanguageToCv(@RequestBody LanguageDto languageDto, @PathVariable("id") int id) {
+        cvService.addLanguageToCv(id, languageDto);
+    }
+
+    @RequestMapping(value = "/remove-language", method = RequestMethod.POST)
+    public void removeLanguageFromCv(@RequestBody LanguageDto languageDto) {
+        cvService.removeLanguageFromCv(languageDto);
+    }
 }

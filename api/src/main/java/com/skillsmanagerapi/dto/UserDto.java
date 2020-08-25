@@ -14,5 +14,5 @@ public class UserDto {
     @NonNull
     private String googleEmail;
     private String googleId;
-    private Role role;
+    private RoleDto role;
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -41,23 +42,23 @@ public class Cv {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "languages_id", referencedColumnName = "id")
     private List<Language> languages;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "skills_id", referencedColumnName = "id")
     private List<Skill> skills;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "projects_id", referencedColumnName = "id")
     private List<Project> projects;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "technologies_id", referencedColumnName = "id")
     private List<Technology> technologies;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "others_id", referencedColumnName = "id")
     private List<Other> others;
 

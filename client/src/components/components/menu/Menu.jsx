@@ -39,6 +39,7 @@ const Menu = ({title, items, onClick}) => {
                     <div
                         key={item.title}
                         onKeyDown={item.onClick}
+                        onClick={item.onClick}
                         className={css.item}
                     >
                         {item.title}

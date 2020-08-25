@@ -1,36 +1,41 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// import css from "./Card.module.scss";
+import {Delete} from "@material-ui/icons";
+import css from "./Card.module.scss";
+import {IconButton} from "../button";
 
-/**
- * Create Card component for representation of abilities.
- * Use storybook for styling and checking all possible options for Card
- * Component should support title, secondTitle, date, children props
- * Fonts are already imported, you can just use font-family: 'Gotham Narrow'
- * You can use shadow style from Block component
-*/
-const Card = ({title, secondTitle, date}) => (
-    <div>
-        Ahoj
-    
-        <span>{title}</span>
-        <span>{secondTitle}</span>
-        <span>{date}</span>
+const Card = ({title, secondTitle, date, onDelete, children}) => (
+    <div className={css.main}>
+        <div className={css.row}>
+            <h3>{title}</h3>
+            {onDelete && (
+                <IconButton
+                    icon={<Delete className={css.icon} />}
+                    ariaLabel="delete"
+                    onClick={onDelete}
+                />
+            )}
+        </div>
+        {secondTitle && <h4>{secondTitle}</h4>}
+        {date && <span>{date}</span>}
+        {children}
     </div>
 );
 
 Card.propTypes = {
     title: PropTypes.string.isRequired,
     secondTitle: PropTypes.string,
-    date:PropTypes.string,
-    
+    date: PropTypes.string,
+    children: PropTypes.node,
+    onDelete: PropTypes.func,
 };
 
-Card.defaulProps = {
-    secondTitle: "Ahoj",
+Card.defaultProps = {
+    secondTitle: null,
     date: null,
+    children: null,
+    onDelete: undefined,
 };
-
 
 export default Card;

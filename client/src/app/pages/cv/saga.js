@@ -1,12 +1,13 @@
-import {call, fork, put, takeEvery} from "redux-saga/effects";
+import {call, fork, put, takeLatest} from "redux-saga/effects";
 
-import {formBlurMatcher, formWrapper, startSubmit} from "core/form";
+import {formBlurMatcher, formWrapper, submit, reset} from "core/form";
 import router from "core/router";
 import {CV} from "app/constants";
 
 import form from "./form";
 import {cvApi, typeApi} from "../../serverApi";
-import {cvTypesActionGroup} from "./actions";
+import {cvTypesActionGroup, cvActionGroup} from "./actions";
+import language from "./language";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -15,6 +16,7 @@ export default router.routerWrapper({
     * onPageEnter({id}) {
         if (id) {
             yield fork(formSaga, id);
+            yield fork(language.createSaga(fetchCv, id));
         } else {
             yield call(redirectToUserCv);
         }
@@ -24,32 +26,49 @@ export default router.routerWrapper({
 const formSaga = formWrapper(form.FORM_NAME, {
     * initialize(cvId) {
         try {
-            const payload = yield call(cvApi.fetchCv, cvId);
+            const cv = yield call(fetchCv, cvId);
             return {
-                [form.FIRST_NAME_FIELD]: payload.getIn(["user", "firstName"]),
+                [form.FIRST_NAME_FIELD]: cv.getIn(["user", "firstName"]),
+                [form.LAST_NAME_FIELD]: cv.getIn(["user", "lastName"]),
+                [form.PROFILE_FIELD]: cv.get("profile"),
             };
         } catch (e) {
             console.error(e);
         }
         return {};
     },
-    * save(values, targetId) {
-        // eslint-disable-next-line no-console
-        console.log("saving", targetId, values);
-        // yield call(beApi)
-        // field error handling, test purpose only
-        // yield call(testDataApi.getFormFieldErrorResponse, FIRST_FIELD);
+    * save(values, cvId) {
+        yield call(
+            cvApi.updateCv,
+            cvId,
+            values.get(form.FIRST_NAME_FIELD),
+            values.get(form.LAST_NAME_FIELD),
+            values.get(form.PROFILE_FIELD),
+        );
+        yield call(fetchCv, cvId);
     },
     success() {
         // transition somewhere? notification?
     },
     * persistentEffects() {
-        yield takeEvery(formBlurMatcher(form.FORM_NAME), test);
+        yield takeLatest(formBlurMatcher(form.FORM_NAME), submitForm);
     },
 });
 
-function* test() {
-    console.log("here")
+function* fetchCv(id) {
+    try {
+        const cv = yield call(cvApi.fetchCv, id);
+        yield put(cvActionGroup.fetchSuccess(cv));
+        return cv;
+    } catch (e) {
+        yield put(cvActionGroup.fetchFailure());
+        yield put(reset(form.FORM_NAME));
+        throw e;
+    }
+}
+
+export function* submitForm() {
+    yield put(submit(form.FORM_NAME));
 }
 
 function* redirectToUserCv() {

@@ -1,8 +1,7 @@
 import {NAME} from './constants';
 import reducer from './reducer';
 
-export {destroy} from "redux-form/immutable";
-export {startSubmit} from 'redux-form';
+export {destroy, submit} from "redux-form/immutable";
 // core
 export {reset} from './actions';
 export default {NAME, reducer};

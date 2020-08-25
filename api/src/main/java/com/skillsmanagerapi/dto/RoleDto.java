@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class SkillTypeDto {
+public class RoleDto {
     private int id;
     private String name;
 }

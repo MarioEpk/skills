@@ -20,7 +20,7 @@ export const VerticalFieldLayout = ({
             <div>
                 {children}
             </div>
-            <div>{errors.size > 0 && JSON.stringify(errors)}</div>
+            <div>{errors.size > 0 && errors.map((error) => <span key={error}>{error}</span>)}</div>
         </Flex>
     );
 };
