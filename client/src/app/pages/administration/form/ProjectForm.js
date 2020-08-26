@@ -3,8 +3,8 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, VerticalFormLayout} from "components";
-import {Field, InputText, compose, form, FormError, required} from "core/form";
+import {Loading, Button} from "components";
+import {Field, TextInput, VerticalFormLayout, compose, form, FormError, required} from "core/form";
 
 import {createFormName, DESCRIPTION_FIELD, NAME_FIELD} from "./constants";
 import {availableTypes} from "../constants";
@@ -28,13 +28,13 @@ const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => (
             ]}
         >
             <Field
-                component={InputText}
+                component={TextInput}
                 placeholder="Název"
                 name={NAME_FIELD}
                 validate={[required]}
             />
             <Field
-                component={InputText}
+                component={TextInput}
                 placeholder="Popis projektu"
                 name={DESCRIPTION_FIELD}
                 validate={[required]}

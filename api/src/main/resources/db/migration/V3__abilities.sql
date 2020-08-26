@@ -41,6 +41,15 @@ create table project
     foreign key (project_type_id) references project_type
 );
 
+create table project_position_types
+(
+    project_id        integer not null,
+    position_types_id integer not null,
+
+    foreign key (project_id) references project,
+    foreign key (position_types_id) references position_type
+);
+
 create table skill
 (
     id integer not null,

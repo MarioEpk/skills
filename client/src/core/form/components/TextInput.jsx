@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import TextFieldUI from '@material-ui/core/TextField';
 import {fn} from "core/util";
 
-import css from "./TextField.module.scss";
+import css from "./TestInput.module.scss";
+import FormInputHOC from "./FormInputHOC";
 
-const TextField = ({onChange, label, value, tabIndex, disabled, id, type, onBlur}) => (
+const TextInput = ({onChange, label, value, tabIndex, disabled, id, type, onBlur}) => (
     <TextFieldUI
         className={css.input}
         onChange={onChange}
@@ -20,7 +21,7 @@ const TextField = ({onChange, label, value, tabIndex, disabled, id, type, onBlur
     />
 );
 
-TextField.propTypes = {
+TextInput.propTypes = {
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func,
     label: PropTypes.string,
@@ -31,7 +32,7 @@ TextField.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-TextField.defaultProps = {
+TextInput.defaultProps = {
     value: undefined,
     label: undefined,
     onBlur: fn.noop,
@@ -40,4 +41,4 @@ TextField.defaultProps = {
     type: "text",
 };
 
-export default TextField;
+export default FormInputHOC(TextInput);

@@ -9,13 +9,15 @@ const Card = ({title, secondTitle, date, onDelete, children}) => (
     <div className={css.main}>
         <div className={css.row}>
             <h3>{title}</h3>
-            {onDelete && (
-                <IconButton
-                    icon={<Delete className={css.icon} />}
-                    ariaLabel="delete"
-                    onClick={onDelete}
-                />
-            )}
+            <span className={css.controls}>
+                {onDelete && (
+                    <IconButton
+                        icon={<Delete classnamesclassName={css.icon} />}
+                        ariaLabel="delete"
+                        onClick={onDelete}
+                    />
+                )}
+            </span>
         </div>
         {secondTitle && <h4>{secondTitle}</h4>}
         {date && <span>{date}</span>}

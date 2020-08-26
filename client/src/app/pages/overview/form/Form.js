@@ -3,8 +3,8 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, VerticalFormLayout} from "components";
-import {Field, InputText, compose, form, FormError, required} from "core/form";
+import {Loading, Button} from "components";
+import {Field, TextInput, VerticalFormLayout, compose, form, FormError, required} from "core/form";
 
 import {EMAIL_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./constants";
 
@@ -27,19 +27,19 @@ const Container = ({handleSubmit, submitting, errors, onClose}) => (
             ]}
         >
             <Field
-                component={InputText}
+                component={TextInput}
                 placeholder="Jméno"
                 name={FIRST_NAME_FIELD}
                 validate={[required]}
             />
             <Field
-                component={InputText}
+                component={TextInput}
                 placeholder="Příjmení"
                 name={LAST_NAME_FIELD}
                 validate={[required]}
             />
             <Field
-                component={InputText}
+                component={TextInput}
                 placeholder="Firemní email"
                 name={EMAIL_FIELD}
                 validate={[required]}

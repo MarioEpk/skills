@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {List, toJ} from "immutable";
+import {List} from "immutable";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import {search} from "ss-search";
 import PropTypes from "prop-types";
-
 import {AddRounded} from "@material-ui/icons";
+
+import SearchInput from "./SearchInput";
 import {Block} from "../block";
 import {Table} from "../table";
 import {Button} from "../button";
 import {Loading} from "../loading";
 import {columnsPropTypes} from "../table/util";
-import {SearchInput} from "../input";
 
 import css from "./Data.module.scss";
 import {Confirmation} from "../confirmation";

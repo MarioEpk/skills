@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import {TwoColumns} from "components";
+
 import css from "./CvFormLayout.module.scss";
-import {TwoColumns} from "../column";
 
 const CvFormLayout = ({leftColumn, children, image}) => {
     const leftColumnComponent = <div className={css.leftColumn}>{leftColumn}</div>;

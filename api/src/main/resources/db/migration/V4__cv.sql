@@ -54,3 +54,21 @@ create table cv_technologies
     foreign key (cv_id) references cv,
     foreign key (technologies_id) references technology on delete cascade
 );
+
+create table cv_certificates
+(
+    cv_id           integer not null,
+    certificates_id integer not null,
+
+    foreign key (cv_id) references cv,
+    foreign key (certificates_id) references certificate on delete cascade
+);
+
+create table cv_positions
+(
+    cv_id        integer not null,
+    positions_id integer not null,
+
+    foreign key (cv_id) references cv,
+    foreign key (positions_id) references position_type
+);

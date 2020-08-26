@@ -30,3 +30,12 @@ create table technology_type
 
     primary key (id)
 );
+
+create table position_type
+(
+    id   integer not null,
+    name varchar(255),
+
+    primary key (id)
+);
+

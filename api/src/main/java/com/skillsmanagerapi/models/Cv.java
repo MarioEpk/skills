@@ -42,6 +42,10 @@ public class Cv {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ManyToMany
+    @JoinColumn(name = "position_type_id", referencedColumnName = "id")
+    private List<PositionType> positions;
+
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "languages_id", referencedColumnName = "id")
     private List<Language> languages;
@@ -57,6 +61,10 @@ public class Cv {
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "technologies_id", referencedColumnName = "id")
     private List<Technology> technologies;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "certificate_id", referencedColumnName = "id")
+    private List<Certificate> certificates;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "others_id", referencedColumnName = "id")

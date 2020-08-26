@@ -3,8 +3,8 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, CvFormLayout} from "components";
-import {Field, InputText, compose, form, FormError, required} from "core/form";
+import {Loading} from "components";
+import {Field, CvFormLayout, TextInput, compose, form, FormError, required} from "core/form";
 
 import formImage from 'resources/images/resumeGuyImage.svg';
 
@@ -17,34 +17,32 @@ const Container = ({submitting, errors}) => (
             leftColumn={[
                 <Field
                     key={`key-${FIRST_NAME_FIELD}`}
-                    component={InputText}
+                    component={TextInput}
                     placeholder="Jméno"
                     name={FIRST_NAME_FIELD}
                     validate={[required]}
                 />,
                 <Field
                     key={`key-${LAST_NAME_FIELD}`}
-                    component={InputText}
+                    component={TextInput}
                     placeholder="Příjmení"
                     name={LAST_NAME_FIELD}
                     validate={[required]}
                 />,
                 <Field
                     key={`key-${ROLE_FIELD}`}
-                    component={InputText}
+                    component={TextInput}
                     placeholder="Role"
                     name={ROLE_FIELD}
-                    validate={[required]}
                 />,
             ]}
             image={<img src={formImage} alt="form" />}
         >
             <Field
                 key={`key-${PROFILE_FIELD}`}
-                component={InputText}
+                component={TextInput}
                 placeholder="Profil"
                 name={PROFILE_FIELD}
-                validate={[required]}
             />
             <FormError errors={errors} />
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}

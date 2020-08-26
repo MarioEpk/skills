@@ -6,11 +6,11 @@ import router from "core/router";
 import notification from "core/notification";
 import auth from "core/auth";
 import init from "core/init";
-import {MainLayout} from "components";
+import {MainLayout, MuiThemeProvider} from "components";
 import {Header} from "app/containers";
 
 const Container = ({initialized, isAuthenticated}) => (
-    <>
+    <MuiThemeProvider>
         <MainLayout
             isAuthenticated={isAuthenticated}
             header={<Header />}
@@ -18,7 +18,7 @@ const Container = ({initialized, isAuthenticated}) => (
             {initialized && <router.Routes />}
         </MainLayout>
         {initialized && <notification.Container />}
-    </>
+    </MuiThemeProvider>
 );
 
 Container.propTypes = {
