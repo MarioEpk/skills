@@ -3,6 +3,10 @@ import {combineReducers} from "redux-immutable";
 import {AllTypes} from "app/model/type";
 
 import language from "./language";
+import skill from "./skill";
+import technology from "./technology";
+import certificate from "./certificate";
+import other from "./other";
 import {cvTypesActionGroup} from "./actions";
 
 const types = (state = new AllTypes(), action) => {
@@ -16,4 +20,8 @@ const types = (state = new AllTypes(), action) => {
 export default combineReducers({
     types,
     [language.NAME]: language.reducer,
+    [skill.NAME]: skill.reducer,
+    [technology.NAME]: technology.reducer,
+    [certificate.NAME]: certificate.reducer,
+    [other.NAME]: other.reducer,
 });

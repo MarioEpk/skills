@@ -1,18 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {Delete} from "@material-ui/icons";
+import {Delete, Edit} from "@material-ui/icons";
 import css from "./Card.module.scss";
 import {IconButton} from "../button";
 
-const Card = ({title, secondTitle, date, onDelete, children}) => (
+const Card = ({title, secondTitle, date, onDelete, onEdit, children}) => (
     <div className={css.main}>
         <div className={css.row}>
             <h3>{title}</h3>
             <span className={css.controls}>
+                {onEdit && (
+                    <IconButton
+                        icon={<Edit />}
+                        ariaLabel="edit"
+                        onClick={onEdit}
+                    />
+                )}
                 {onDelete && (
                     <IconButton
-                        icon={<Delete classnamesclassName={css.icon} />}
+                        icon={<Delete />}
                         ariaLabel="delete"
                         onClick={onDelete}
                     />
@@ -31,6 +38,7 @@ Card.propTypes = {
     date: PropTypes.string,
     children: PropTypes.node,
     onDelete: PropTypes.func,
+    onEdit: PropTypes.func,
 };
 
 Card.defaultProps = {
@@ -38,6 +46,7 @@ Card.defaultProps = {
     date: null,
     children: null,
     onDelete: undefined,
+    onEdit: undefined,
 };
 
 export default Card;

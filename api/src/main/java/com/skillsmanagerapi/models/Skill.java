@@ -1,5 +1,6 @@
 package com.skillsmanagerapi.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Skill {
     @Column(name = "level")
     private int level;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "skill_type_id", referencedColumnName = "id")
     private SkillType skillType;
 }

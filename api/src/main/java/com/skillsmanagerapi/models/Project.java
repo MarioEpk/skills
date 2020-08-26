@@ -3,6 +3,7 @@ package com.skillsmanagerapi.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,11 +43,11 @@ public class Project {
     @Column(name = "contribution")
     private String contribution;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "position_type_id", referencedColumnName = "id")
     private List<PositionType> positionTypes;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "project_type_id", referencedColumnName = "id")
     private ProjectType projectType;
 }

@@ -1,4 +1,4 @@
-import {call, fork, put, takeLatest} from "redux-saga/effects";
+import {call, fork, put, takeLatest, all} from "redux-saga/effects";
 
 import {formBlurMatcher, formWrapper, submit, reset} from "core/form";
 import router from "core/router";
@@ -8,6 +8,10 @@ import form from "./form";
 import {cvApi, typeApi} from "../../serverApi";
 import {cvTypesActionGroup, cvActionGroup} from "./actions";
 import language from "./language";
+import skill from "./skill";
+import technology from "./technology";
+import certificate from "./certificate";
+import other from "./other";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -15,8 +19,11 @@ export default router.routerWrapper({
     },
     * onPageEnter({id}) {
         if (id) {
+            yield all(
+                [language, skill, technology, certificate, other]
+                    .map(({createSaga}) => fork(createSaga(fetchCv, id))),
+            );
             yield fork(formSaga, id);
-            yield fork(language.createSaga(fetchCv, id));
         } else {
             yield call(redirectToUserCv);
         }

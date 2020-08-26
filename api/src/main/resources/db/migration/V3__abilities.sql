@@ -15,7 +15,7 @@ create table language
     language_type_id integer,
 
     primary key (id),
-    foreign key (language_type_id) references language_type
+    foreign key (language_type_id) references language_type on delete cascade
 );
 
 create table other
@@ -38,7 +38,7 @@ create table project
     project_type_id integer,
 
     primary key (id),
-    foreign key (project_type_id) references project_type
+    foreign key (project_type_id) references project_type on delete cascade
 );
 
 create table project_position_types
@@ -47,7 +47,7 @@ create table project_position_types
     position_types_id integer not null,
 
     foreign key (project_id) references project,
-    foreign key (position_types_id) references position_type
+    foreign key (position_types_id) references position_type on delete cascade
 );
 
 create table skill
@@ -57,7 +57,7 @@ create table skill
     skill_type_id integer,
 
     primary key (id),
-    foreign key (skill_type_id) references skill_type
+    foreign key (skill_type_id) references skill_type on delete cascade
 );
 
 create table technology
@@ -67,5 +67,5 @@ create table technology
     technology_type_id integer,
 
     primary key (id),
-    foreign key (technology_type_id) references technology_type
+    foreign key (technology_type_id) references technology_type on delete cascade
 );

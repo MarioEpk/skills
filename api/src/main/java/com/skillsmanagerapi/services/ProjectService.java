@@ -45,7 +45,6 @@ public class ProjectService {
     public void updateProject(ProjectDto projectDto) {
         ProjectDto updatedProjectDto = this.getProject(projectDto.getId());
         updatedProjectDto.setPositionTypes(projectDto.getPositionTypes());
-        updatedProjectDto.setProjectType(projectDto.getProjectType());
         updatedProjectDto.setFrom(projectDto.getFrom());
         updatedProjectDto.setTo(projectDto.getTo());
         updatedProjectDto.setCompany(projectDto.getCompany());

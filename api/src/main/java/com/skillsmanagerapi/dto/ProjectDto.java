@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter @Setter
 public class ProjectDto {
     private int id;
-    private String companyRole;
     private Date from;
     private Date to;
     private String company;
