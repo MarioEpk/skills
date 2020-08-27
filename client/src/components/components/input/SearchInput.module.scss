@@ -1,0 +1,8 @@
+@import "components/variables.scss";
+
+.input {
+    :global(".MuiFormLabel-root.Mui-focused") {
+        color: $highlight_color;
+    }
+}
+

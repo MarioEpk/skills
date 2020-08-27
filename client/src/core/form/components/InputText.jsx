@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {TextField} from "components";
 
-const InputText = ({input, placeholder, tabIndex, type, disabled, id, pattern}) => (
-    <input
+const InputText = ({input, placeholder, tabIndex, type, disabled, id}) => (
+    <TextField
         value={input.value || ""}
-        placeholder={placeholder}
+        label={placeholder}
         onChange={input.onChange}
-        pattern={pattern}
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         tabIndex={tabIndex}
@@ -27,7 +27,6 @@ InputText.propTypes = {
     tabIndex: PropTypes.number,
     type: PropTypes.string,
     disabled: PropTypes.bool,
-    pattern: PropTypes.string,
     id: PropTypes.string.isRequired,
 };
 
@@ -35,7 +34,6 @@ InputText.defaultProps = {
     placeholder: null,
     tabIndex: null,
     disabled: false,
-    pattern: null,
     type: "text",
 };
 

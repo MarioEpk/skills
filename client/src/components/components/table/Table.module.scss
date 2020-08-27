@@ -1,3 +1,5 @@
+@import "components/variables.scss";
+
 .root {
     position: relative;
 }
@@ -8,4 +10,17 @@
 
 .table {
     overflow-x: auto;
+    width: 100%;
+    border-collapse: collapse;
+    td {
+        color: #424242;
+    }
+    th {
+        color: #1A1A1A;
+    }
+    th, td {
+        border-bottom: 1px solid $border_color;
+        padding: .5rem 1rem;
+        font-family: "Montserrat", sans-serif;
+    };
 }

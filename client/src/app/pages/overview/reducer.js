@@ -1,16 +1,16 @@
 import {combineReducers} from "redux-immutable";
 import {List} from "immutable";
 
-import {testDataActionGroup} from "./actions";
+import {cvActionGroup} from "./actions";
 
-const testData = (state = List(), action) => {
+const data = (state = List(), action) => {
     switch (action.type) {
-        case (testDataActionGroup.REQUEST_SUCCESS): return action.payload;
-        case (testDataActionGroup.REQUEST_FAIL): return List();
+        case (cvActionGroup.FETCH_SUCCESS): return action.payload;
+        case (cvActionGroup.FETCH_FAIL): return List();
         default: return state;
     }
 };
 
 export default combineReducers({
-    testData,
+    data,
 });

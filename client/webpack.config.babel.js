@@ -24,14 +24,14 @@ if (fs.existsSync(proxyFile)) {
 }
 
 const propagateEnvVariables = (env) => (
-    Object.keys(env).reduce((prev, next) => {
+    env ? Object.keys(env).reduce((prev, next) => {
         // Only keys with prefix "REACT_APP_" will be visible from inside application
         if (next.startsWith("REACT_APP_")) {
             // eslint-disable-next-line no-param-reassign
             prev[`process.env.${next}`] = JSON.stringify(env[next]);
         }
         return prev;
-    }, {})
+    }, {}) : {}
 );
 
 const array = (...target) => target.filter(Boolean);
@@ -214,7 +214,7 @@ const createCssModuleLoader = (dev, isModule = false) => ([
 ]);
 
 const createAssetLoader = () => ({
-    test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+    test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|otf|eot)$/,
     loader: 'file-loader',
     options: {
         name: 'assets/[name]-[hash].[ext]',

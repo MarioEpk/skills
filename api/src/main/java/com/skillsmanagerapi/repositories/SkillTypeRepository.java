@@ -1,0 +1,11 @@
+package com.skillsmanagerapi.repositories;
+
+import com.skillsmanagerapi.models.SkillType;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface SkillTypeRepository extends JpaRepository<SkillType, Integer> {
+    List<SkillType> findAllByOrderByIdAsc();
+}

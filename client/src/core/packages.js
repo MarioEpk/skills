@@ -3,5 +3,8 @@ import router from "./router";
 import notification from "./notification";
 import i18n from "./i18n";
 import init from "./init";
+import auth from "./auth";
+import modal from "./modal";
+import user from "./user";
 
-export default [router, i18n, init, form, notification];
+export default [router, i18n, init, form, notification, auth, modal, user];

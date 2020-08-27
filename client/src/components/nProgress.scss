@@ -1,0 +1,5 @@
+@import "./variables.scss";
+
+#nprogress .bar {
+    background: $highlight_color !important;
+}

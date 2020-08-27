@@ -1,5 +1,6 @@
 import React from "react";
 import {fromJS} from 'immutable';
+import {action} from "components/story";
 import {fn} from 'core/util';
 
 import Table from './Table';
@@ -67,7 +68,14 @@ const columns = [{
     dataField: 'immersion.test',
 }];
 
+const actions = {
+    columnName: "Akce",
+    onEdit: action("onEdit"),
+    onDelete: action("onDelete"),
+};
+
 export default [Table, () => ({
     columns,
     data,
+    actions,
 })];

@@ -1,5 +1,7 @@
 import {compose} from 'redux';
 
+const isNil = (value) => (value === undefined || value === null);
+
 export default {
     noop: () => {},
     array: (...value) => value.filter(Boolean),
@@ -9,4 +11,6 @@ export default {
     compose,
     toObject: (result, [key, value]) => ({[key]: value, ...result}),
     sum: (acc, number) => acc + number,
+    isNil,
+    isNilOrEmpty: (value) => isNil(value) || value === '',
 };

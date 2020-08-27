@@ -1,4 +1,4 @@
-export const OVERVIEW = "OVERVIEW";
-export const PAGE2 = "PAGE2";
-export const PAGE_FORM = "PAGE_FORM";
+export const ADMINISTRATION = "Administration";
+export const OVERVIEW = "Overview";
+export const CV = "Cv";
 export const ERROR = "ERROR";
