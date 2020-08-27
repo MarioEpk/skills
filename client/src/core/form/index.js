@@ -28,5 +28,3 @@ export * from "./util";
 export * from "./normalization";
 export {default as form} from "./form";
 export {fieldChangeMatcher, formBlurMatcher} from "./actionMatchers";
-export * from "./components";
-export * from "./layouts";

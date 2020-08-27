@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
 
-import {compose, Slider} from "core/form";
-import {Card, CardLayout} from "components";
+import {compose} from "core/form";
+import {Card, CardLayout, Slider} from "components";
 import {Skill} from "app/model/cv";
 import {getSkills} from "./selectors";
 import {removeSkillFromCv, updateSkill as updateSkillAction} from "./actions";

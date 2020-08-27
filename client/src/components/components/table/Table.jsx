@@ -12,7 +12,9 @@ import {Loading} from "../loading";
 import {Button} from "../button";
 
 const renderActions = (actions, row, key) => {
-    if (!actions) return null;
+    if (!actions) {
+        return null;
+    }
     const actionComponents = [];
     if (actions.custom) {
         actionComponents.push(actions.custom(row));

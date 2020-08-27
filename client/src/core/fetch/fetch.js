@@ -11,6 +11,7 @@ const urlWithPrefix = (url) => process.env.REACT_APP_API_URL + url;
 
 export const PRECOGNITION_FAILED = 412;
 
+// eslint-disable-next-line func-names
 export const getDefaultHeaders = function* () {
     const defaultHeaders = {
         'Content-Type': 'application/json',

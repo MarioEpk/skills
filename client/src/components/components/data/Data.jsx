@@ -6,11 +6,9 @@ import {AddRounded} from "@material-ui/icons";
 
 import SearchInput from "./SearchInput";
 import {Block} from "../block";
-import {Table} from "../table";
+import {Table, columnsPropTypes} from "../table";
 import {Button} from "../button";
 import {Loading} from "../loading";
-import {columnsPropTypes} from "../table/util";
-
 import css from "./Data.module.scss";
 import {Confirmation} from "../confirmation";
 

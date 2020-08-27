@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {TwoColumns} from "components";
+import {TwoColumns} from "../column";
 
 import css from "./CvFormLayout.module.scss";
 

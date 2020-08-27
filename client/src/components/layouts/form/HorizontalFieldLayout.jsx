@@ -3,7 +3,7 @@ import IPropTypes from "react-immutable-proptypes";
 import {List} from "immutable";
 import PropTypes from "prop-types";
 
-import {Flex} from "components";
+import {Flex} from "../flex";
 
 export const HorizontalFieldLayout = ({
     label,

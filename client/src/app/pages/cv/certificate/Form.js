@@ -3,8 +3,8 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Button, Loading} from "components";
-import {Field, TextInput, compose, form, FormError, required, VerticalFormLayout} from "core/form";
+import {Button, Loading, TextInput, FormError, VerticalFormLayout} from "components";
+import {Field, compose, form, required} from "core/form";
 
 import {NAME_FIELD, DESCRIPTION_FIELD, FORM_NAME, DATE_FIELD} from "./constants";
 

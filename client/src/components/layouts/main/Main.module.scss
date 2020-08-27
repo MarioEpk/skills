@@ -1,4 +1,6 @@
+@import "components/variables.scss";
+
 .main {
-    background-color: #E5E5E5;
+    background-color: $bg_color;
     min-height: 100vh;
 }

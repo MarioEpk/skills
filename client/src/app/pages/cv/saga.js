@@ -41,8 +41,8 @@ const formSaga = formWrapper(form.FORM_NAME, {
             };
         } catch (e) {
             console.error(e);
+            return {};
         }
-        return {};
     },
     * save(values, cvId) {
         yield call(

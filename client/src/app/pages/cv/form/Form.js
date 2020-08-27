@@ -3,8 +3,8 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading} from "components";
-import {Field, CvFormLayout, TextInput, compose, form, FormError, required} from "core/form";
+import {Loading, CvFormLayout, TextInput, FormError} from "components";
+import {Field, compose, form, required} from "core/form";
 
 import formImage from 'resources/images/resumeGuyImage.svg';
 

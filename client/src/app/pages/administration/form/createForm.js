@@ -3,8 +3,8 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button} from "components";
-import {Field, TextInput, VerticalFormLayout, compose, form, FormError, required} from "core/form";
+import {Loading, Button, TextInput, VerticalFormLayout, FormError} from "components";
+import {Field, form, required} from "core/form";
 
 import {createFormName, NAME_FIELD} from "./constants";
 
@@ -33,8 +33,6 @@ const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => (
                 validate={[required]}
             />
             <FormError errors={errors} />
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-
         </VerticalFormLayout>
     </Loading>
 );
@@ -52,6 +50,4 @@ Container.defaultProps = {
     editMode: false,
 };
 
-export default (typeName) => (compose(
-    form(createFormName(typeName)),
-)(Container));
+export default (typeName) => form(createFormName(typeName))(Container);
