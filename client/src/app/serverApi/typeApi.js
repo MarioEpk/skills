@@ -5,6 +5,7 @@ const LANGUAGE_URL = "/type/language";
 const SKILL_URL = "/type/skill";
 const TECHNOLOGY_URL = "/type/technology";
 const PROJECT_URL = "/type/project";
+const POSITION_URL = "/type/position";
 
 const fetchLanguageTypes = () => fetch.doGet(LANGUAGE_URL, null, Type.fromServerList);
 const createLanguageType = ({name}) => fetch.doPost(LANGUAGE_URL, {name});
@@ -22,9 +23,14 @@ const updateTechnologyType = ({id, name}) => fetch.doPut(TECHNOLOGY_URL, {id, na
 const deleteTechnologyType = ({id}) => fetch.doDelete(`${TECHNOLOGY_URL}/${id}`);
 
 const fetchProjectTypes = () => fetch.doGet(PROJECT_URL, null, Project.fromServerList);
-const createProjectType = ({name, description}) => fetch.doPost(PROJECT_URL, {name, description});
-const updateProjectType = ({id, name, description}) => fetch.doPut(PROJECT_URL, {id, name, description});
+const createProjectType = ({name, description, technologies}) => fetch.doPost(PROJECT_URL, {name, description, technologies: technologies.map((technology) => ({id: technology}))});
+const updateProjectType = ({id, name, description, technologies}) => fetch.doPut(PROJECT_URL, {id, name, description, technologies: technologies.map((technology) => ({id: technology}))});
 const deleteProjectType = ({id}) => fetch.doDelete(`${PROJECT_URL}/${id}`);
+
+const fetchPositionTypes = () => fetch.doGet(POSITION_URL, null, Type.fromServerList);
+const createPositionType = ({name}) => fetch.doPost(POSITION_URL, {name});
+const updatePositionType = ({id, name}) => fetch.doPut(POSITION_URL, {id, name});
+const deletePositionType = ({id}) => fetch.doDelete(`${POSITION_URL}/${id}`);
 
 const fetchAllTypes = () => fetch.doGet(`/type`, null, AllTypes.fromServer);
 
@@ -48,6 +54,11 @@ export default {
     createProjectType,
     updateProjectType,
     deleteProjectType,
+
+    fetchPositionTypes,
+    createPositionType,
+    updatePositionType,
+    deletePositionType,
 
     fetchAllTypes,
 };

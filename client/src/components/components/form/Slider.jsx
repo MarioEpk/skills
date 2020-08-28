@@ -5,7 +5,7 @@ import {fn} from "core/util";
 
 import css from "./Slider.module.scss";
 
-const Slider = ({label, value, tabIndex, disabled, onChange, step, min, max}) => {
+const Slider = ({label, value, tabIndex, disabled, onChange, step, min, max, valueLabel}) => {
     const [currentValue, setCurrentValue] = useState(value);
 
     useEffect(() => {
@@ -13,19 +13,22 @@ const Slider = ({label, value, tabIndex, disabled, onChange, step, min, max}) =>
     }, [value]);
 
     return (
-        <SliderUI
-            className={css.input}
-            onChangeCommitted={(_, newValue) => onChange(newValue)}
-            onChange={(_, newValue) => setCurrentValue(newValue)}
-            label={label}
-            value={currentValue}
-            tabIndex={tabIndex}
-            disabled={disabled}
-            step={step}
-            min={min}
-            max={max}
-            marks
-        />
+        <span className={css.main}>
+            <SliderUI
+                className={css.input}
+                onChangeCommitted={(_, newValue) => onChange(newValue)}
+                onChange={(_, newValue) => setCurrentValue(newValue)}
+                label={label}
+                value={currentValue}
+                tabIndex={tabIndex}
+                disabled={disabled}
+                step={step}
+                min={min}
+                max={max}
+                marks
+            />
+            {valueLabel && <p className={css.valueLabel}>{valueLabel}</p>}
+        </span>
     );
 };
 

@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.dto;
 
+import com.skillsmanagerapi.enums.AvatarType;
+
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import lombok.Setter;
 public class CvDto {
     private int id;
     private String profile;
+    private AvatarType avatar;
     private UserDto user;
     private List<PositionTypeDto> positions;
     private List<LanguageDto> languages;

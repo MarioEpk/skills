@@ -26,7 +26,7 @@ public class Language {
     @Column(name = "level")
     private int level;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "language_type_id", referencedColumnName = "id")
     private LanguageType languageType;
 }

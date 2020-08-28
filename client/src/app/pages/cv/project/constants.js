@@ -1,12 +1,16 @@
 import {NAME as PARENT_NAME} from "../constants";
 
-export const NAME = `${PARENT_NAME}/other`;
+export const NAME = `${PARENT_NAME}/project`;
 
 export const MODAL_NAME = `${NAME}-modal`;
 
 export const FORM_NAME = `${NAME}-form`;
 
 export const ID_FIELD = "id";
-export const NAME_FIELD = "name";
-export const DATE_FIELD = "date";
-export const DESCRIPTION_FIELD = "description";
+export const FROM_FIELD = "from";
+export const TO_FIELD = "to";
+export const COMPANY_FIELD = "company";
+export const CONTRIBUTION_FIELD = "contribution";
+export const POSITION_TYPES_FIELD = "positions";
+export const PROJECT_TYPE_FIELD = "projectType";
+export const TECHNOLOGY_TYPE_FIELD = "technologies";

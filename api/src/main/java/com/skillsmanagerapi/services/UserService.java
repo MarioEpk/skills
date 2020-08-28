@@ -55,6 +55,14 @@ public class UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
+    public void udpateUser(UserDto userDto) {
+        UserDto updatedUserDto = modelMapper.map(userRepository.findById(userDto.getId()).orElseThrow(EntityNotFoundException::new), UserDto.class);
+        updatedUserDto.setFirstName(userDto.getFirstName());
+        updatedUserDto.setLastName(userDto.getLastName());
+        updatedUserDto.setRole(userDto.getRole());
+        userRepository.save(modelMapper.map(updatedUserDto, User.class));
+    }
+
     private User createUser(UserByGoogleDto userByGoogleDto) {
         User user = new User();
         user.setGoogleId(userByGoogleDto.getGoogleId());

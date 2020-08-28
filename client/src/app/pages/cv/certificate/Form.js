@@ -3,7 +3,7 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Button, Loading, TextInput, FormError, VerticalFormLayout} from "components";
+import {Button, Loading, TextInput, FormError, VerticalFormLayout, DateInput, TextAreaInput} from "components";
 import {Field, compose, form, required} from "core/form";
 
 import {NAME_FIELD, DESCRIPTION_FIELD, FORM_NAME, DATE_FIELD} from "./constants";
@@ -35,14 +35,14 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
             />
             <Field
                 key={`key-${DESCRIPTION_FIELD}`}
-                component={TextInput}
+                component={TextAreaInput}
                 placeholder="Popis"
                 name={DESCRIPTION_FIELD}
                 validate={[required]}
             />
             <Field
                 key={`key-${DATE_FIELD}`}
-                component={TextInput}
+                component={DateInput}
                 placeholder="Datum získání certifikátu"
                 name={DATE_FIELD}
             />

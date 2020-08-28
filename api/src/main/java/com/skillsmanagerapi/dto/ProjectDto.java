@@ -13,6 +13,7 @@ public class ProjectDto {
     private Date to;
     private String company;
     private String contribution;
-    private List<PositionTypeDto> positionTypes;
+    private List<PositionTypeDto> positions;
+    private List<TechnologyTypeDto> technologies;
     private ProjectTypeDto projectType;
 }

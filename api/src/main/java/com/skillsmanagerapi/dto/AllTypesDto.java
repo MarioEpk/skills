@@ -11,4 +11,5 @@ public class AllTypesDto {
     private List<SkillTypeDto> skillTypes;
     private List<ProjectTypeDto> projectTypes;
     private List<TechnologyTypeDto> technologyTypes;
+    private List<PositionTypeDto> positionTypes;
 }

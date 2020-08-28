@@ -6,10 +6,12 @@ import {Technology} from "./Technology";
 import {Certificate} from "./Certificate";
 import {Other} from "./Other";
 import {Project} from "./Project";
+import {Type} from "../type";
 
 export const Cv = model.createModel("Cv", (json) => ({
     id: json.id,
     profile: json.profile,
+    avatar: json.avatar,
     createdAt: json.createdAt,
     updatedAt: json.updatedAt,
     languages: Language.fromServerList(json.languages),
@@ -18,5 +20,6 @@ export const Cv = model.createModel("Cv", (json) => ({
     skills: Skill.fromServerList(json.skills),
     certificates: Certificate.fromServerList(json.certificates),
     technologies: Technology.fromServerList(json.technologies),
+    positions: Type.fromServerList(json.positions),
     user: Map(json.user),
 }));

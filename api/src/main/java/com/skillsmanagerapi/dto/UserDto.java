@@ -1,7 +1,5 @@
 package com.skillsmanagerapi.dto;
 
-import com.skillsmanagerapi.models.Role;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

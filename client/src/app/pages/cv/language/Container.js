@@ -3,29 +3,38 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
 
+import i18n from "core/i18n";
 import {compose} from "core/form";
 import {Card, CardLayout, Slider} from "components";
 import {Language} from "app/model/cv";
 import {getLanguages} from "./selectors";
 import {removeLanguageFromCv, updateLanguage as updateLanguageAction} from "./actions";
 
-const Container = ({languages, removeLanguage, updateLanguage}) => (
-    languages.size > 0
-    && (
-        <CardLayout title="Jazyky">
-            {languages.map((language) => (
-                <Card
-                    key={language.id}
-                    title={language.languageType.name}
-                    onDelete={() => removeLanguage(language.id)}
-                >
-                    <Slider value={language.level} onChange={(value) => updateLanguage(language.id, value)} />
-                </Card>
-            ))}
-        </CardLayout>
-    )
+const Container = ({languages, removeLanguage, updateLanguage}) => {
+    const {t} = i18n.useTranslation();
 
-);
+    return (
+        languages.size > 0
+        && (
+            <CardLayout title="Jazyky">
+                {languages.map((language) => (
+                    <Card
+                        key={language.id}
+                        title={language.languageType.name}
+                        onDelete={() => removeLanguage(language.id)}
+                    >
+                        <Slider
+                            valueLabel={t(`cv.language.${language.level}`)}
+                            value={language.level}
+                            onChange={(value) => updateLanguage(language.id, value)}
+                        />
+                    </Card>
+                ))}
+            </CardLayout>
+        )
+
+    );
+};
 
 const mapStateToProps = (state) => ({
     languages: getLanguages(state),

@@ -40,7 +40,7 @@ const DataTable = ({
     const closeFormModal = () => closeModal(modalFormName(typeName));
     const onEdit = (row) => {
         openFormModal();
-        fillForm(row.get("id"), row.get("name"), row.get("description"));
+        fillForm(row.get("id"), row.get("name"), row.get("description"), row.get("technologies"));
         setEditMode(true);
     };
     const onCreate = () => {
@@ -74,7 +74,7 @@ const DataTable = ({
 DataTable.propTypes = {
     data: IPropTypes.listOf(Type).isRequired,
     columns: columnsPropTypes,
-    form: PropTypes.func.isRequired,
+    form: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
     // Prop for mapStateToProps function
     // eslint-disable-next-line react/no-unused-prop-types
     typeName: PropTypes.oneOf(availableTypesArray).isRequired,
@@ -102,7 +102,7 @@ const mapDispatchToProps = (dispatch, {typeName}) => {
     return ({
         openModal: (modalName) => dispatch(modal.open(modalName)),
         closeModal: (modalName) => dispatch(modal.close(modalName)),
-        fillForm: (id, name, description) => dispatch(actions.fill(id, name, description)),
+        fillForm: (id, name, description, technologies) => dispatch(actions.fill(id, name, description, technologies)),
         onDelete: (id) => dispatch(actions.remove(id)),
     });
 };

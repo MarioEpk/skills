@@ -1,10 +1,14 @@
+@import "components/variables.scss";
 .main {
-    padding: 1rem;
+    padding: .8rem 1.5rem 1.5rem 1.5rem;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
     .row {
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    h3 {
+        font-size: 1.3rem;
     }
     h3, h4 {
         margin: 0;
@@ -21,5 +25,13 @@
         .controls {
             opacity: 1;
         }
+    }
+    .date {
+        font-family: "Gotham Narrow", sans-serif;
+        color: $highlight_color;
+    }
+    p {
+        font-family: "Montserrat", sans-serif;
+        font-size: .8rem;
     }
 }

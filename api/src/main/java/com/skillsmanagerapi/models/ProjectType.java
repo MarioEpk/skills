@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -29,4 +30,9 @@ public class ProjectType {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany
+    @JoinColumn(name = "technology_type_id", referencedColumnName = "id")
+    @OrderBy(value="id")
+    private List<TechnologyType> technologies;
 }

@@ -39,3 +39,11 @@ create table position_type
     primary key (id)
 );
 
+create table project_type_technologies
+(
+    project_type_id integer not null,
+    technologies_id integer not null,
+
+    foreign key (project_type_id) references project_type,
+    foreign key (technologies_id) references technology_type
+);

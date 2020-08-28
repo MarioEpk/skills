@@ -1,0 +1,9 @@
+@import "components/variables.scss";
+
+.main {
+    background-color: $nav_bg_color;
+    color: $nav_font_color;
+    font-family: "Gotham Narrow", sans-serif;
+    padding: .5rem 1rem;
+    border-radius: 4px;
+}

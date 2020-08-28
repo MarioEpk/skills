@@ -6,10 +6,11 @@ import IPropTypes from "react-immutable-proptypes";
 import {compose} from "core/form";
 import modal from "core/modal";
 import {Card, CardLayout, Modal} from "components";
-import {Certificate} from "app/model/cv";
-import {getOthers} from "./selectors";
+import {Project} from "app/model/cv";
+import {Type, Project as ProjectType} from "app/model/type";
+import {getProjects} from "./selectors";
 import {
-    removeOtherFromCv as removeOtherFromCvAction,
+    removeProjectFromCv as removeProjectFromCvAction,
     fillForm as fillFormAction,
     openForm as openFormAction,
     closeForm as closeFormAction,
@@ -18,16 +19,18 @@ import {MODAL_NAME} from "./constants";
 import Form from "./Form";
 
 const Container = ({
-    others,
+    projects,
     isFormOpen,
     openForm,
     closeForm,
     fillForm,
-    removeOtherFromCv,
+    removeProjectFromCv,
+    positions,
+    projectTypes,
 }) => {
-    const onEdit = ({id, name, date, description}) => {
-        fillForm(id, name, date, description);
-        openForm();
+    const onEdit = ({id, from, to, company, contribution, positions: positionTypes, projectType, technologies}) => {
+        fillForm(id, from, to, company, contribution, positionTypes, technologies);
+        openForm(projectType.id);
     };
     return (
         <>
@@ -35,21 +38,20 @@ const Container = ({
                 open={isFormOpen}
                 onClose={closeForm}
             >
-                <Form onClose={closeForm} />
+                <Form onClose={closeForm} positions={positions} projectTypes={projectTypes} />
             </Modal>
-            {others.size > 0
+            {projects.size > 0
             && (
-                <CardLayout title="Ostatní">
-                    {others.map((other) => (
+                <CardLayout title="Project">
+                    {projects.map((project) => (
                         <Card
-                            key={other.id}
-                            title={other.name}
-                            onEdit={() => onEdit(other)}
-                            onDelete={() => removeOtherFromCv(other.id)}
-                        >
-                            {other.date}
-                            {other.description}
-                        </Card>
+                            key={project.id}
+                            title={project.projectType.name}
+                            secondTitle={project.positions.map(({name}) => name).join(", ")}
+                            onEdit={() => onEdit(project)}
+                            onDelete={() => removeProjectFromCv(project.id)}
+                            date={`${project.from} > ${project.to ? project.to : "Stále probíhá"}`}
+                        />
                     ))}
                 </CardLayout>
             )}
@@ -58,7 +60,7 @@ const Container = ({
 };
 
 const mapStateToProps = (state) => ({
-    others: getOthers(state),
+    projects: getProjects(state),
     isFormOpen: modal.isOpen(state, MODAL_NAME),
 });
 
@@ -66,16 +68,18 @@ const mapDispatchToProps = ({
     openForm: openFormAction,
     closeForm: closeFormAction,
     fillForm: fillFormAction,
-    removeOtherFromCv: removeOtherFromCvAction,
+    removeProjectFromCv: removeProjectFromCvAction,
 });
 
 Container.propTypes = {
-    others: IPropTypes.listOf(Certificate).isRequired,
+    projects: IPropTypes.listOf(Project).isRequired,
     isFormOpen: PropTypes.bool.isRequired,
     openForm: PropTypes.func.isRequired,
     closeForm: PropTypes.func.isRequired,
     fillForm: PropTypes.func.isRequired,
-    removeOtherFromCv: PropTypes.func.isRequired,
+    removeProjectFromCv: PropTypes.func.isRequired,
+    positions: IPropTypes.listOf(Type).isRequired,
+    projectTypes: IPropTypes.listOf(ProjectType).isRequired,
 };
 
 export default compose(

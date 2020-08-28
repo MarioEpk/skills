@@ -3,6 +3,7 @@ import {change} from "redux-form";
 import {cvApi} from "app/serverApi";
 import {formWrapper, reset} from "core/form";
 import modal from "core/modal";
+import notification from "core/notification";
 import {closeForm, FILL_FORM, REMOVE_CERTIFICATE_FROM_CV} from "./actions";
 import {DATE_FIELD, FORM_NAME, ID_FIELD, MODAL_NAME, DESCRIPTION_FIELD, NAME_FIELD} from "./constants";
 
@@ -18,6 +19,7 @@ export default (fetchCv, cvId) => formWrapper(FORM_NAME, {
     * success() {
         yield put(closeForm());
         yield call(fetchCv, cvId);
+        yield put(notification.show("Přidáno"));
     },
     * persistentEffects() {
         yield takeEvery(FILL_FORM, fillForm);
@@ -40,4 +42,5 @@ function* resetForm() {
 const removeCertificate = (fetchCv, cvId) => function* remove({payload}) {
     yield call(cvApi.removeCertificateFromCv, payload);
     yield call(fetchCv, cvId);
+    yield put(notification.show("Smazáno"));
 };

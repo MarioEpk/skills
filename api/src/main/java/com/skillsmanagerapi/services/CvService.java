@@ -4,6 +4,7 @@ import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
+import com.skillsmanagerapi.dto.PositionTypeDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
@@ -31,6 +32,7 @@ public class CvService {
     private final TechnologyService technologyService;
     private final CertificateService certificateService;
     private final OtherService otherService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
 
@@ -43,6 +45,7 @@ public class CvService {
             TechnologyService technologyService,
             CertificateService certificateService,
             OtherService otherService,
+            UserService userService,
             ModelMapper modelMapper,
             ModelMapperUtil modelMapperUtil
     ) {
@@ -53,6 +56,7 @@ public class CvService {
         this.technologyService = technologyService;
         this.certificateService = certificateService;
         this.otherService = otherService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
     }
@@ -79,8 +83,10 @@ public class CvService {
         UserDto userDto = updatedCvDto.getUser();
         userDto.setFirstName(cvDto.getUser().getFirstName());
         userDto.setLastName(cvDto.getUser().getLastName());
-        updatedCvDto.setUser(userDto);
+        userService.udpateUser(userDto);
         updatedCvDto.setProfile(cvDto.getProfile());
+        updatedCvDto.setPositions(cvDto.getPositions());
+        updatedCvDto.setAvatar(cvDto.getAvatar());
         cvRepository.save(modelMapper.map(updatedCvDto, Cv.class));
     }
 

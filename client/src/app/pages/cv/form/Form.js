@@ -3,14 +3,14 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, CvFormLayout, TextInput, FormError} from "components";
-import {Field, compose, form, required} from "core/form";
+import {Type} from "app/model/type";
+import {Loading, CvFormLayout, TextInput, FormError, MultiSelect, TextAreaInput} from "components";
+import {Field, compose, form, required, convertTypeToOptions} from "core/form";
 
-import formImage from 'resources/images/resumeGuyImage.svg';
+import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD, POSITION_FIELD} from "./constants";
+import AvatarImage from "./AvatarImage";
 
-import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD, ROLE_FIELD} from "./constants";
-
-const Container = ({submitting, errors}) => (
+const Container = ({submitting, errors, positions}) => (
     <Loading loading={submitting}>
         <CvFormLayout
             title="Základní informace"
@@ -30,23 +30,22 @@ const Container = ({submitting, errors}) => (
                     validate={[required]}
                 />,
                 <Field
-                    key={`key-${ROLE_FIELD}`}
-                    component={TextInput}
-                    placeholder="Role"
-                    name={ROLE_FIELD}
+                    key={`key-${POSITION_FIELD}`}
+                    component={MultiSelect}
+                    placeholder="Pozice"
+                    name={POSITION_FIELD}
+                    options={convertTypeToOptions(positions)}
                 />,
             ]}
-            image={<img src={formImage} alt="form" />}
+            rightColumn={<AvatarImage />}
         >
             <Field
                 key={`key-${PROFILE_FIELD}`}
-                component={TextInput}
+                component={TextAreaInput}
                 placeholder="Profil"
                 name={PROFILE_FIELD}
             />
             <FormError errors={errors} />
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-
         </CvFormLayout>
     </Loading>
 );
@@ -54,6 +53,7 @@ const Container = ({submitting, errors}) => (
 Container.propTypes = {
     submitting: PropTypes.bool.isRequired,
     errors: IPropTypes.listOf(PropTypes.string),
+    positions: IPropTypes.listOf(Type).isRequired,
 };
 
 Container.defaultProps = {

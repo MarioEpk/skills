@@ -3,29 +3,38 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
 
+import i18n from "core/i18n";
 import {compose} from "core/form";
 import {Card, CardLayout, Slider} from "components";
 import {Skill} from "app/model/cv";
 import {getSkills} from "./selectors";
 import {removeSkillFromCv, updateSkill as updateSkillAction} from "./actions";
 
-const Container = ({skills, removeSkill, updateSkill}) => (
-    skills.size > 0
-    && (
-        <CardLayout title="Schopnosti">
-            {skills.map((skill) => (
-                <Card
-                    key={skill.id}
-                    title={skill.skillType.name}
-                    onDelete={() => removeSkill(skill.id)}
-                >
-                    <Slider value={skill.level} onChange={(value) => updateSkill(skill.id, value)} />
-                </Card>
-            ))}
-        </CardLayout>
-    )
+const Container = ({skills, removeSkill, updateSkill}) => {
+    const {t} = i18n.useTranslation();
 
-);
+    return (
+        skills.size > 0
+        && (
+            <CardLayout title="Schopnosti">
+                {skills.map((skill) => (
+                    <Card
+                        key={skill.id}
+                        title={skill.skillType.name}
+                        onDelete={() => removeSkill(skill.id)}
+                    >
+                        <Slider
+                            valueLabel={t(`cv.skill.${skill.level}`)}
+                            value={skill.level}
+                            onChange={(value) => updateSkill(skill.id, value)}
+                        />
+                    </Card>
+                ))}
+            </CardLayout>
+        )
+
+    );
+};
 
 const mapStateToProps = (state) => ({
     skills: getSkills(state),

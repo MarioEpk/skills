@@ -43,6 +43,7 @@ public class ProjectTypeService {
         ProjectTypeDto updatedProjectTypeDto = getProjectType(projectTypeDto.getId());
         updatedProjectTypeDto.setName(projectTypeDto.getName());
         updatedProjectTypeDto.setDescription(projectTypeDto.getDescription());
+        updatedProjectTypeDto.setTechnologies(projectTypeDto.getTechnologies());
         projectTypeRepository.save(modelMapper.map(updatedProjectTypeDto, ProjectType.class));
     }
 

@@ -5,12 +5,13 @@ import {TwoColumns} from "../column";
 
 import css from "./CvFormLayout.module.scss";
 
-const CvFormLayout = ({leftColumn, children, image}) => {
+const CvFormLayout = ({leftColumn, children, rightColumn}) => {
     const leftColumnComponent = <div className={css.leftColumn}>{leftColumn}</div>;
+    const rightColumnComponent = <div className={css.rightColumn}>{rightColumn}</div>;
     return (
         <div>
             <div className={css.twoColumnsSection}>
-                <TwoColumns left={leftColumnComponent} right={image} />
+                <TwoColumns left={leftColumnComponent} right={rightColumnComponent} />
             </div>
             {children}
         </div>
@@ -20,7 +21,7 @@ const CvFormLayout = ({leftColumn, children, image}) => {
 CvFormLayout.propTypes = {
     children: PropTypes.node.isRequired,
     leftColumn: PropTypes.node.isRequired,
-    image: PropTypes.node.isRequired,
+    rightColumn: PropTypes.node.isRequired,
 };
 
 export default CvFormLayout;

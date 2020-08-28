@@ -27,7 +27,14 @@ const Container = () => (
                 key: "3",
                 dataField: "description",
                 columnName: "Popis projektu",
-            }]}
+            },
+            {
+                key: "4",
+                dataField: "technologies",
+                columnName: "Technologie použité na projektu",
+                dataFormat: (data) => data.map((item) => item.get("name")).join(", "),
+            },
+            ]}
         />
         <TwoColumns
             left={(
@@ -45,11 +52,18 @@ const Container = () => (
                 </>
             )}
             right={(
-                <DataTable
-                    title="Schopnosti"
-                    typeName={availableTypes.SKILL}
-                    form={form.createForm(availableTypes.SKILL)}
-                />
+                <>
+                    <DataTable
+                        title="Schopnosti"
+                        typeName={availableTypes.SKILL}
+                        form={form.createForm(availableTypes.SKILL)}
+                    />
+                    <DataTable
+                        title="Pozice"
+                        typeName={availableTypes.POSITION}
+                        form={form.createForm(availableTypes.POSITION)}
+                    />
+                </>
             )}
         />
     </>

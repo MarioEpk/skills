@@ -27,7 +27,7 @@ const Card = ({title, secondTitle, date, onDelete, onEdit, children}) => (
             </span>
         </div>
         {secondTitle && <h4>{secondTitle}</h4>}
-        {date && <span>{date}</span>}
+        {date && <span className={css.date}>{date}</span>}
         {children}
     </div>
 );

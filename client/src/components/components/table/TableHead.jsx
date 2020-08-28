@@ -40,7 +40,7 @@ TableHead.propTypes = {
     actions: columnActionsPropTypes,
 };
 
-TableHead.defualtProps = {
+TableHead.defaultProps = {
     actions: undefined,
 };
 

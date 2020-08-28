@@ -2,7 +2,8 @@ import {call, fork, put, takeLatest, all} from "redux-saga/effects";
 
 import {formBlurMatcher, formWrapper, submit, reset} from "core/form";
 import router from "core/router";
-import {CV} from "app/constants";
+import {CV, ERROR} from "app/constants";
+import notification from "core/notification";
 
 import form from "./form";
 import {cvApi, typeApi} from "../../serverApi";
@@ -12,6 +13,7 @@ import skill from "./skill";
 import technology from "./technology";
 import certificate from "./certificate";
 import other from "./other";
+import project from "./project";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -20,7 +22,7 @@ export default router.routerWrapper({
     * onPageEnter({id}) {
         if (id) {
             yield all(
-                [language, skill, technology, certificate, other]
+                [language, skill, technology, certificate, other, project]
                     .map(({createSaga}) => fork(createSaga(fetchCv, id))),
             );
             yield fork(formSaga, id);
@@ -38,6 +40,8 @@ const formSaga = formWrapper(form.FORM_NAME, {
                 [form.FIRST_NAME_FIELD]: cv.getIn(["user", "firstName"]),
                 [form.LAST_NAME_FIELD]: cv.getIn(["user", "lastName"]),
                 [form.PROFILE_FIELD]: cv.get("profile"),
+                [form.AVATAR_FIELD]: cv.get("avatar"),
+                [form.POSITION_FIELD]: cv.get("positions").map((position) => position.id),
             };
         } catch (e) {
             console.error(e);
@@ -50,12 +54,14 @@ const formSaga = formWrapper(form.FORM_NAME, {
             cvId,
             values.get(form.FIRST_NAME_FIELD),
             values.get(form.LAST_NAME_FIELD),
+            values.get(form.POSITION_FIELD),
             values.get(form.PROFILE_FIELD),
+            values.get(form.AVATAR_FIELD),
         );
         yield call(fetchCv, cvId);
     },
-    success() {
-        // transition somewhere? notification?
+    * success() {
+        yield put(notification.show("Aktualizováno"));
     },
     * persistentEffects() {
         yield takeLatest(formBlurMatcher(form.FORM_NAME), submitForm);
@@ -83,8 +89,7 @@ function* redirectToUserCv() {
         const id = yield call(cvApi.fetchMyCvId);
         yield put(router.navigate(CV, {id}));
     } catch (e) {
-        // TODO :: handle error
-        console.error(e);
+        yield put(router.navigate(ERROR));
     }
 }
 

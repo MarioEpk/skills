@@ -2,14 +2,12 @@ package com.skillsmanagerapi.controllers;
 
 import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.LanguageTypeDto;
+import com.skillsmanagerapi.dto.PositionTypeDto;
 import com.skillsmanagerapi.dto.ProjectTypeDto;
 import com.skillsmanagerapi.dto.SkillTypeDto;
 import com.skillsmanagerapi.dto.TechnologyTypeDto;
-import com.skillsmanagerapi.models.LanguageType;
-import com.skillsmanagerapi.models.ProjectType;
-import com.skillsmanagerapi.models.SkillType;
-import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.services.LanguageTypeService;
+import com.skillsmanagerapi.services.PositionTypeService;
 import com.skillsmanagerapi.services.ProjectTypeService;
 import com.skillsmanagerapi.services.SkillTypeService;
 import com.skillsmanagerapi.services.TechnologyTypeService;
@@ -33,14 +31,16 @@ public class TypeController {
     private final TechnologyTypeService technologyTypeService;
     private final ProjectTypeService projectTypeService;
     private final TypeService typeService;
+    private final PositionTypeService positionTypeService;
 
     @Autowired
-    public TypeController(LanguageTypeService languageTypeService, SkillTypeService skillTypeService, TechnologyTypeService technologyTypeService, ProjectTypeService projectTypeService, TypeService typeService) {
+    public TypeController(LanguageTypeService languageTypeService, SkillTypeService skillTypeService, TechnologyTypeService technologyTypeService, ProjectTypeService projectTypeService, TypeService typeService, PositionTypeService positionTypeService) {
         this.languageTypeService = languageTypeService;
         this.skillTypeService = skillTypeService;
         this.technologyTypeService = technologyTypeService;
         this.projectTypeService = projectTypeService;
         this.typeService = typeService;
+        this.positionTypeService = positionTypeService;
     }
 
     // All types
@@ -154,6 +154,32 @@ public class TypeController {
     @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
     public void deleteProjectType(@PathVariable("id") int id) {
         projectTypeService.deleteProjectType(id);
+    }
+
+    // position type
+    @RequestMapping(value = "/position", method = RequestMethod.GET)
+    public List<PositionTypeDto> getAllPositionTypes() {
+        return positionTypeService.getAllPositionTypes();
+    }
+
+    @RequestMapping(value = "/position/{id}", method = RequestMethod.GET)
+    public PositionTypeDto getPositionType(@PathVariable("id") int id) {
+        return positionTypeService.getPositionType(id);
+    }
+
+    @RequestMapping(value = "/position", method = RequestMethod.POST)
+    public void createPositionType(@RequestBody PositionTypeDto positionTypeDto) {
+        positionTypeService.createPositionType(positionTypeDto);
+    }
+
+    @RequestMapping(value = "/position", method = RequestMethod.PUT)
+    public void updatePositionType(@RequestBody PositionTypeDto positionTypeDto) {
+        positionTypeService.updatePositionType(positionTypeDto);
+    }
+
+    @RequestMapping(value = "/position/{id}", method = RequestMethod.DELETE)
+    public void deletePositionType(@PathVariable("id") int id) {
+        positionTypeService.deletePositionType(id);
     }
 
 }

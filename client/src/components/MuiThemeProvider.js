@@ -3,9 +3,7 @@ import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
     overrides: {
-        // Style sheet name ⚛️
         MuiSlider: {
-            // Name of the rule
             root: {
                 color: "#FCC000",
             },
@@ -29,6 +27,50 @@ const theme = createMuiTheme({
                 '& .MuiInput-underline:after': {
                     borderBottomColor: "#FCC000",
                 },
+            },
+        },
+        MuiFormLabel: {
+            root: {
+                '&.Mui-focused': {
+                    color: "#FCC000",
+                },
+            },
+        },
+        MuiCheckbox: {
+            root: {
+                color: "#FCC000",
+            },
+            colorSecondary: {
+                '&.Mui-checked': {
+                    color: "#FCC000",
+                },
+            },
+        },
+        MuiRadio: {
+            root: {
+                color: "#FCC000",
+            },
+            colorSecondary: {
+                '&.Mui-checked': {
+                    color: "#FCC000",
+                },
+            },
+        },
+        MuiSelect: {
+            selectMenu: {
+                whiteSpace: "unset",
+            },
+            select: {
+                padding: "27px 12px 10px",
+                textAlign: "left",
+                '&:focus': {
+                    backgroundColor: "unset",
+                },
+            },
+        },
+        MuiChip: {
+            root: {
+                margin: ".2rem .2rem .2rem 0",
             },
         },
     },

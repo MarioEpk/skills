@@ -1,21 +1,40 @@
-import {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
 import i18n from "core/i18n";
 import {fn} from "core/util";
+import {NotificationLayout, Notification} from "components";
 
 import {hide} from "./actions";
 import {getShow, getTitle, getText, getType} from "./selectors";
+import {HIDE_TIME} from "./constants";
 
-// Replace this component with real notification component
-const NotificationPlaceholder = ({show, title, text, type}) => {
+const Container = ({show, title, text, type, onClose}) => {
+    let timer = useRef();
     useEffect(() => {
+        clearTimeout(timer);
         if (show) {
-            // eslint-disable-next-line no-console
-            console.log("Notification: ", show, type, title, text);
+            timer = setTimeout(() => {
+                onClose();
+            }, HIDE_TIME);
         }
-    }, [show, title, text, type]);
-    return null;
+        return () => clearTimeout(timer);
+    });
+    return <NotificationLayout>{show && <Notification type={type} title={title} text={text} />}</NotificationLayout>;
+};
+
+Container.propTypes = {
+    show: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    type: PropTypes.oneOf(Object.values(Notification.types)),
+    onClose: PropTypes.func.isRequired,
+};
+
+Container.defaultProps = {
+    text: null,
+    type: Notification.types.INFO,
 };
 
 const mapStateToProps = (state) => ({
@@ -32,7 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mergeProps = ({show, title, text, type}, {onClose}, {t}) => ({
     show,
     onClose,
-    title: t(title),
+    title,
     text: t(text),
     type,
 });
@@ -40,4 +59,4 @@ const mergeProps = ({show, title, text, type}, {onClose}, {t}) => ({
 export default fn.compose(
     i18n.withTranslation(),
     connect(mapStateToProps, mapDispatchToProps, mergeProps),
-)(NotificationPlaceholder);
+)(Container);

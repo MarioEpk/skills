@@ -7,4 +7,5 @@ export const AllTypes = model.createModel("AllTypes", (json) => ({
     projects: Project.fromServerList(json.projectTypes),
     skills: Type.fromServerList(json.skillTypes),
     technologies: Type.fromServerList(json.technologyTypes),
+    positions: Type.fromServerList(json.positionTypes),
 }));

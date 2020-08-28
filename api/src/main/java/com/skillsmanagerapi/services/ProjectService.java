@@ -4,6 +4,7 @@ import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.models.PositionType;
 import com.skillsmanagerapi.models.Project;
 import com.skillsmanagerapi.models.ProjectType;
+import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.ProjectRepository;
 import com.skillsmanagerapi.util.ModelMapperUtil;
 
@@ -33,7 +34,8 @@ public class ProjectService {
 
     public ProjectDto createProject(ProjectDto projectDto) {
         Project project = new Project();
-        project.setPositionTypes(modelMapperUtil.mapList(projectDto.getPositionTypes(), PositionType.class));
+        project.setPositions(modelMapperUtil.mapList(projectDto.getPositions(), PositionType.class));
+        project.setTechnologies(modelMapperUtil.mapList(projectDto.getTechnologies(), TechnologyType.class));
         project.setProjectType(modelMapper.map(projectDto.getProjectType(), ProjectType.class));
         project.setFrom(projectDto.getFrom());
         project.setTo(projectDto.getTo());
@@ -44,7 +46,8 @@ public class ProjectService {
 
     public void updateProject(ProjectDto projectDto) {
         ProjectDto updatedProjectDto = this.getProject(projectDto.getId());
-        updatedProjectDto.setPositionTypes(projectDto.getPositionTypes());
+        updatedProjectDto.setPositions(projectDto.getPositions());
+        updatedProjectDto.setTechnologies(projectDto.getTechnologies());
         updatedProjectDto.setFrom(projectDto.getFrom());
         updatedProjectDto.setTo(projectDto.getTo());
         updatedProjectDto.setCompany(projectDto.getCompany());

@@ -2,6 +2,7 @@ create table cv
 (
     id      integer not null,
     profile varchar(255),
+    avatar varchar(255),
     user_id integer,
     updated_at timestamp,
     created_at timestamp,

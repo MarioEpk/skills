@@ -1,3 +1,17 @@
-common.confirm: Potvrdit
-common.cancel: Zrušit
-page.page2: Strana 2
+cv.technology.1: Začátečník
+cv.technology.2: Průměrný
+cv.technology.3: Pokročilý
+cv.technology.4: Zkušený
+cv.technology.5: Mistr
+
+cv.language.1: Začátečník
+cv.language.2: Průměrný
+cv.language.3: Pokročilý
+cv.language.4: Zkušený
+cv.language.5: Rodilý
+
+cv.skill.1: Začátečník
+cv.skill.2: Průměrný
+cv.skill.3: Pokročilý
+cv.skill.4: Zkušený
+cv.skill.5: Mistr

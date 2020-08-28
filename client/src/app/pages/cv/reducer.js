@@ -7,6 +7,7 @@ import skill from "./skill";
 import technology from "./technology";
 import certificate from "./certificate";
 import other from "./other";
+import project from "./project";
 import {cvTypesActionGroup} from "./actions";
 
 const types = (state = new AllTypes(), action) => {
@@ -24,4 +25,5 @@ export default combineReducers({
     [technology.NAME]: technology.reducer,
     [certificate.NAME]: certificate.reducer,
     [other.NAME]: other.reducer,
+    [project.NAME]: project.reducer,
 });
