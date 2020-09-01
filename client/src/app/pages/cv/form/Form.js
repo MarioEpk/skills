@@ -13,7 +13,6 @@ import AvatarImage from "./AvatarImage";
 const Container = ({submitting, errors, positions}) => (
     <Loading loading={submitting}>
         <CvFormLayout
-            title="Základní informace"
             leftColumn={[
                 <Field
                     key={`key-${FIRST_NAME_FIELD}`}

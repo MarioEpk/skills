@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
 import {PageTitle} from "app/containers";
-import {WithColumn, Menu} from "components";
+import {WithColumn, Menu, Button} from "components";
 import {compose} from "core/form";
 import language, {Language} from "./language";
 import skill, {Skill} from "./skill";
@@ -23,6 +23,7 @@ const Container = ({
         <PageTitle title="Můj životopis" />
         <WithColumn
             title="Můj životopis"
+            titleButton={<Button label="Generovat PDF" onClick={() => console.log("generate")} />}
             column={[
                 <Menu key="menu1" title="Projekty" items={createMenuItems(types.projects, openProjectForm)} />,
                 <Menu key="menu2" title="Schopnosti" items={createMenuItems(types.skills, addSkillToCv)} />,

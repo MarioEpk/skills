@@ -83,7 +83,7 @@ public class CvService {
         UserDto userDto = updatedCvDto.getUser();
         userDto.setFirstName(cvDto.getUser().getFirstName());
         userDto.setLastName(cvDto.getUser().getLastName());
-        userService.udpateUser(userDto);
+        userService.updateUser(userDto);
         updatedCvDto.setProfile(cvDto.getProfile());
         updatedCvDto.setPositions(cvDto.getPositions());
         updatedCvDto.setAvatar(cvDto.getAvatar());

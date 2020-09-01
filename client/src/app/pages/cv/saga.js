@@ -6,7 +6,7 @@ import {CV, ERROR} from "app/constants";
 import notification from "core/notification";
 
 import form from "./form";
-import {cvApi, typeApi} from "../../serverApi";
+import {cvApi} from "../../serverApi";
 import {cvTypesActionGroup, cvActionGroup} from "./actions";
 import language from "./language";
 import skill from "./skill";
@@ -95,7 +95,7 @@ function* redirectToUserCv() {
 
 function* fetchDataForPage() {
     try {
-        const payload = yield call(typeApi.fetchAllTypes);
+        const payload = yield call(cvApi.fetchAllTypes);
         return cvTypesActionGroup.fetchSuccess(payload);
     } catch (e) {
         // TODO :: handle error

@@ -1,5 +1,6 @@
 package com.skillsmanagerapi.controllers;
 
+import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
@@ -9,11 +10,12 @@ import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
 import com.skillsmanagerapi.dto.UserByGoogleDto;
 import com.skillsmanagerapi.dto.UserDto;
-import com.skillsmanagerapi.models.Project;
 import com.skillsmanagerapi.services.CvService;
+import com.skillsmanagerapi.services.TypeService;
 import com.skillsmanagerapi.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,11 +31,13 @@ public class CvController {
 
     private final UserService userService;
     private final CvService cvService;
+    private final TypeService typeService;
 
     @Autowired
-    public CvController(UserService userService, CvService cvService) {
+    public CvController(UserService userService, CvService cvService, TypeService typeService) {
         this.userService = userService;
         this.cvService = cvService;
+        this.typeService = typeService;
     }
 
     @RequestMapping(value = "/my-id", method = RequestMethod.GET)
@@ -48,27 +52,32 @@ public class CvController {
         return cvService.getCvOrCreateNew(userDto);
     }
 
+    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @RequestMapping(method = RequestMethod.GET)
     public List<CvDto> getAllCvs() {
         return cvService.getAllCvs();
     }
 
+    @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public CvDto getCv(@PathVariable("id") int id) {
         return cvService.getCv(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST)
     public void createCv(@RequestBody UserDto userDto) {
         UserDto currentUser = userService.getUserOrCreateNew(userDto);
         cvService.getCvOrCreateNew(currentUser);
     }
 
+    @PreAuthorize("hasAnyAuthority('admin') or @securityService.isOwnerOfCv(#cvDto)")
     @RequestMapping(method = RequestMethod.PUT)
     public void updateCv(@RequestBody CvDto cvDto) {
         cvService.updateCv(cvDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteCv(@PathVariable("id") int id) {
         cvService.deleteCv(id);
@@ -168,5 +177,11 @@ public class CvController {
     @RequestMapping(value = "/other/{id}", method = RequestMethod.DELETE)
     public void removeOtherFromCv(@PathVariable("id") int id) {
         cvService.removeOtherFromCv(id);
+    }
+
+    // All types
+    @RequestMapping(value = "/types", method = RequestMethod.GET)
+    public AllTypesDto getAllTypes() {
+        return typeService.getAllTypes();
     }
 }

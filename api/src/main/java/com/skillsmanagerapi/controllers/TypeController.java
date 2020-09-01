@@ -14,6 +14,7 @@ import com.skillsmanagerapi.services.TechnologyTypeService;
 import com.skillsmanagerapi.services.TypeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@PreAuthorize("hasAuthority('admin')")
 @RequestMapping(value = "/type")
 @RestController
 public class TypeController {

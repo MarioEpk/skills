@@ -55,7 +55,12 @@ public class UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
-    public void udpateUser(UserDto userDto) {
+    public UserDto getUserById(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        return modelMapper.map(user, UserDto.class);
+    }
+
+    public void updateUser(UserDto userDto) {
         UserDto updatedUserDto = modelMapper.map(userRepository.findById(userDto.getId()).orElseThrow(EntityNotFoundException::new), UserDto.class);
         updatedUserDto.setFirstName(userDto.getFirstName());
         updatedUserDto.setLastName(userDto.getLastName());
@@ -81,5 +86,4 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
-
 }
