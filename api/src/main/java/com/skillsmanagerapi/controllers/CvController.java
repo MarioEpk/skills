@@ -8,13 +8,17 @@ import com.skillsmanagerapi.dto.OtherDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
-import com.skillsmanagerapi.dto.UserByGoogleDto;
 import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.services.CvService;
 import com.skillsmanagerapi.services.TypeService;
 import com.skillsmanagerapi.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
 import java.util.List;
 
 @RequestMapping(value = "/cv")
@@ -47,8 +52,8 @@ public class CvController {
     }
 
     @RequestMapping(value = "/my", method = RequestMethod.POST)
-    public CvDto process(@RequestBody UserByGoogleDto userByGoogleDto) {
-        UserDto userDto = userService.getUserOrCreateNew(userByGoogleDto);
+    public CvDto process(@RequestBody UserDto requestedUserDto) {
+        UserDto userDto = userService.getUserOrCreateNew(requestedUserDto);
         return cvService.getCvOrCreateNew(userDto);
     }
 
@@ -71,7 +76,7 @@ public class CvController {
         cvService.getCvOrCreateNew(currentUser);
     }
 
-    @PreAuthorize("hasAnyAuthority('admin') or @securityService.isOwnerOfCv(#cvDto)")
+    @PreAuthorize("hasAuthority('admin') or @securityService.isOwnerOfCv(#cvDto)")
     @RequestMapping(method = RequestMethod.PUT)
     public void updateCv(@RequestBody CvDto cvDto) {
         cvService.updateCv(cvDto);
@@ -81,6 +86,25 @@ public class CvController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteCv(@PathVariable("id") int id) {
         cvService.deleteCv(id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
+    @RequestMapping(value = "/{id}/export", method = RequestMethod.GET, produces = "application/pdf")
+    public ResponseEntity<?> exportCv(@PathVariable("id") int id) throws Exception {
+
+        final byte[] pdf = cvService.exportCvPdf(id);
+
+        //Conversion of bytes to Base64
+        byte[] encodedBytes = Base64.getEncoder().encode(pdf);
+
+        //Setting Headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        headers.setContentDispositionFormData("pdfFileName.pdf", "pdfFileName.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        headers.setContentLength(encodedBytes.length);
+
+        return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);
     }
 
     // Language

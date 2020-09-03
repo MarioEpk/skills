@@ -18,7 +18,7 @@ const getSrcForImage = (avatar) => {
     }
 };
 
-const AvatarImage = ({avatar}) => (
+const AvatarImage = ({avatar, isAdminOrOwner}) => (
     <>
         <Field
             key={`key-${AVATAR_FIELD}`}
@@ -27,6 +27,7 @@ const AvatarImage = ({avatar}) => (
             name={AVATAR_FIELD}
             validate={[required]}
             label="Avatar"
+            disabled={!isAdminOrOwner}
             options={[{
                 value: avatarType.MEN,
                 label: "Muž",
@@ -41,10 +42,12 @@ const AvatarImage = ({avatar}) => (
 
 AvatarImage.propTypes = {
     avatar: PropTypes.oneOf(Object.values(avatarType)),
+    isAdminOrOwner: PropTypes.bool,
 };
 
 AvatarImage.defaultProps = {
     avatar: null,
+    isAdminOrOwner: false,
 };
 
 const mapStateToProps = (state) => ({

@@ -1,4 +1,3 @@
-import {Map} from "immutable";
 import {model} from "core/util";
 import {Language} from "./Language";
 import {Skill} from "./Skill";
@@ -7,6 +6,7 @@ import {Certificate} from "./Certificate";
 import {Other} from "./Other";
 import {Project} from "./Project";
 import {Type} from "../type";
+import {User} from "../user";
 
 export const Cv = model.createModel("Cv", (json) => ({
     id: json.id,
@@ -21,5 +21,5 @@ export const Cv = model.createModel("Cv", (json) => ({
     certificates: Certificate.fromServerList(json.certificates),
     technologies: Technology.fromServerList(json.technologies),
     positions: Type.fromServerList(json.positions),
-    user: Map(json.user),
+    user: User.fromServer(json.user),
 }));

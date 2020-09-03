@@ -5,6 +5,7 @@ import IPropTypes from "react-immutable-proptypes";
 
 import {compose} from "core/form";
 import modal from "core/modal";
+import {accesses} from "core/access";
 import {Card, CardLayout, Modal} from "components";
 import {Certificate} from "app/model/cv";
 import {getOthers} from "./selectors";
@@ -16,6 +17,7 @@ import {
 } from "./actions";
 import {MODAL_NAME} from "./constants";
 import Form from "./Form";
+import {useAccessOrIsOwner} from "../utils";
 
 const Container = ({
     others,
@@ -25,6 +27,8 @@ const Container = ({
     fillForm,
     removeOtherFromCv,
 }) => {
+    const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
+
     const onEdit = ({id, name, date, description}) => {
         fillForm(id, name, date, description);
         openForm();
@@ -44,10 +48,10 @@ const Container = ({
                         <Card
                             key={other.id}
                             title={other.name}
-                            onEdit={() => onEdit(other)}
-                            onDelete={() => removeOtherFromCv(other.id)}
+                            onEdit={adminOrOwnerAccess(() => onEdit(other))}
+                            onDelete={adminOrOwnerAccess(() => removeOtherFromCv(other.id))}
+                            date={other.date}
                         >
-                            {other.date}
                             {other.description}
                         </Card>
                     ))}

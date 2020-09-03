@@ -1,9 +1,15 @@
 import {NAME} from './constants';
 
 export const LOGOUT = `${NAME}/LOGOUT`;
+export const SAVE_TOKEN = `${NAME}/SAVE_TOKEN`;
 
 export const logout = () => ({
     type: LOGOUT,
+});
+
+export const saveToken = (token) => ({
+    type: SAVE_TOKEN,
+    token,
 });
 
 export const authActionGroup = (() => {
@@ -21,9 +27,8 @@ export const authActionGroup = (() => {
         requestFailure: () => ({
             type: AUTH_FAIL,
         }),
-        requestSuccess: (authToken, user) => ({
+        requestSuccess: (user) => ({
             type: AUTH_SUCCESS,
-            authToken,
             user,
         }),
     });

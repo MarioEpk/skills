@@ -1,4 +1,5 @@
 import {NAME} from "../constants";
+
 export const FORM_NAME = `${NAME}-form`;
 
 export const ID_FIELD = "id";

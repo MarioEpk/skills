@@ -1,8 +1,6 @@
-import {combineReducers} from "redux-immutable";
-
 import auth from "core/auth";
 
-const userByGoogle = (state = null, {type, user}) => {
+export default (state = null, {type, user}) => {
     switch (type) {
         case auth.authActionGroup.REQUEST_SUCCESS:
             return user;
@@ -13,7 +11,3 @@ const userByGoogle = (state = null, {type, user}) => {
             return state;
     }
 };
-
-export default combineReducers({
-    userByGoogle,
-});

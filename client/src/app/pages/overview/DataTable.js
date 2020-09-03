@@ -6,6 +6,7 @@ import {Edit, GetApp} from "@material-ui/icons";
 
 import modal from "core/modal";
 import {Type} from "app/model/type";
+import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
 import {cvActionGroup} from "./actions";
@@ -47,6 +48,8 @@ const DataTable = ({
         openModal();
     };
 
+    const adminAccess = access.useAccess([accesses.admin]);
+
     return (
         <>
             <Data
@@ -54,9 +57,9 @@ const DataTable = ({
                 columns={columns}
                 data={data}
                 loading={loading}
-                onCreate={onCreate}
+                onCreate={adminAccess(onCreate)}
                 onCustomAction={onCustomAction}
-                onDelete={(row) => onDelete(row.get("id"))}
+                onDelete={adminAccess((row) => onDelete(row.get("id")))}
                 searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
             />
             <Modal

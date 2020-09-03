@@ -4,7 +4,6 @@ import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
-import com.skillsmanagerapi.dto.PositionTypeDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
@@ -18,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -35,6 +35,7 @@ public class CvService {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final ExportService exportService;
 
     @Autowired
     public CvService(
@@ -47,7 +48,8 @@ public class CvService {
             OtherService otherService,
             UserService userService,
             ModelMapper modelMapper,
-            ModelMapperUtil modelMapperUtil
+            ModelMapperUtil modelMapperUtil,
+            ExportService exportService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
@@ -59,6 +61,7 @@ public class CvService {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.exportService = exportService;
     }
 
     public CvDto getCvOrCreateNew(UserDto userDto) {
@@ -88,6 +91,11 @@ public class CvService {
         updatedCvDto.setPositions(cvDto.getPositions());
         updatedCvDto.setAvatar(cvDto.getAvatar());
         cvRepository.save(modelMapper.map(updatedCvDto, Cv.class));
+    }
+
+    public byte[] exportCvPdf(int id) throws Exception {
+        CvDto cvDto = getCv(id);
+        return exportService.generateCvPdf(cvDto);
     }
 
     private Cv createCv(UserDto userDto) {

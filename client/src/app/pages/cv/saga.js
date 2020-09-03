@@ -4,6 +4,7 @@ import {formBlurMatcher, formWrapper, submit, reset} from "core/form";
 import router from "core/router";
 import {CV, ERROR} from "app/constants";
 import notification from "core/notification";
+import coreExport from "core/export";
 
 import form from "./form";
 import {cvApi} from "../../serverApi";
@@ -26,11 +27,16 @@ export default router.routerWrapper({
                     .map(({createSaga}) => fork(createSaga(fetchCv, id))),
             );
             yield fork(formSaga, id);
+            yield takeLatest(cvActionGroup.EXPORT, createExport(id));
         } else {
             yield call(redirectToUserCv);
         }
     },
 });
+
+const createExport = (id) => function* exportCv() {
+    yield put(coreExport.exportCv(id));
+};
 
 const formSaga = formWrapper(form.FORM_NAME, {
     * initialize(cvId) {
@@ -39,6 +45,7 @@ const formSaga = formWrapper(form.FORM_NAME, {
             return {
                 [form.FIRST_NAME_FIELD]: cv.getIn(["user", "firstName"]),
                 [form.LAST_NAME_FIELD]: cv.getIn(["user", "lastName"]),
+                [form.USER_ID_FIELD]: cv.getIn(["user", "id"]),
                 [form.PROFILE_FIELD]: cv.get("profile"),
                 [form.AVATAR_FIELD]: cv.get("avatar"),
                 [form.POSITION_FIELD]: cv.get("positions").map((position) => position.id),

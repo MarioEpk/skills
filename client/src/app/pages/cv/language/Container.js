@@ -7,11 +7,15 @@ import i18n from "core/i18n";
 import {compose} from "core/form";
 import {Card, CardLayout, Slider} from "components";
 import {Language} from "app/model/cv";
+import {accesses} from "core/access";
 import {getLanguages} from "./selectors";
 import {removeLanguageFromCv, updateLanguage as updateLanguageAction} from "./actions";
+import {useAccessOrIsOwner} from "../utils";
 
 const Container = ({languages, removeLanguage, updateLanguage}) => {
     const {t} = i18n.useTranslation();
+    const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
+    const isAdminOrOwner = adminOrOwnerAccess(true);
 
     return (
         languages.size > 0
@@ -21,12 +25,13 @@ const Container = ({languages, removeLanguage, updateLanguage}) => {
                     <Card
                         key={language.id}
                         title={language.languageType.name}
-                        onDelete={() => removeLanguage(language.id)}
+                        onDelete={adminOrOwnerAccess(() => removeLanguage(language.id))}
                     >
                         <Slider
                             valueLabel={t(`cv.language.${language.level}`)}
                             value={language.level}
                             onChange={(value) => updateLanguage(language.id, value)}
+                            disabled={!isAdminOrOwner}
                         />
                     </Card>
                 ))}

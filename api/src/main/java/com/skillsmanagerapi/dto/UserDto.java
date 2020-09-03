@@ -10,7 +10,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     @NonNull
-    private String googleEmail;
+    private String email;
     private String googleId;
     private RoleDto role;
 }

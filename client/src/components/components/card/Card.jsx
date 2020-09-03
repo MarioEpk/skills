@@ -7,7 +7,7 @@ import {IconButton} from "../button";
 
 const Card = ({title, secondTitle, date, onDelete, onEdit, children}) => (
     <div className={css.main}>
-        <div className={css.row}>
+        <div>
             <h3>{title}</h3>
             <span className={css.controls}>
                 {onEdit && (
@@ -27,8 +27,8 @@ const Card = ({title, secondTitle, date, onDelete, onEdit, children}) => (
             </span>
         </div>
         {secondTitle && <h4>{secondTitle}</h4>}
-        {date && <span className={css.date}>{date}</span>}
-        {children}
+        {date && <div className={css.date}>{date}</div>}
+        {children && <div className={css.children}>{children}</div>}
     </div>
 );
 

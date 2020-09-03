@@ -4,8 +4,8 @@ import {NAME} from './constants';
 
 const getModel = app.createGetModel(NAME);
 
-export const userByGoogle = (state) => getModel(state).get("userByGoogle");
+export const getUser = (state) => getModel(state);
 export const getUserImageUrl = createSelector(
-    userByGoogle,
+    getUser,
     (user) => (user && user.size > 0 ? user.get("imageUrl") : null),
 );

@@ -10,12 +10,13 @@ const addTypeToObject = (type) => (type ? type.map((item) => ({id: item})) : und
 const fetchCvForUser = (googleId, email, firstName, lastName) => fetch.doPost(`${CV_URL}/my`, {googleId, email, firstName, lastName}, fn.identity, Cv.fromServer);
 const fetchCvs = () => fetch.doGet(CV_URL, null, Cv.fromServerList);
 const fetchCv = (id) => fetch.doGet(`${CV_URL}/${id}`, null, Cv.fromServer);
-const createCv = (googleEmail, firstName, lastName) => fetch.doPost(CV_URL, {googleEmail, firstName, lastName});
+const createCv = (email, firstName, lastName) => fetch.doPost(CV_URL, {email, firstName, lastName});
 const updateCv = (
     id, firstName, lastName, positions, profile, avatar,
 ) => fetch.doPut(CV_URL, {id, user: {firstName, lastName}, avatar, profile, positions: positions.map((position) => ({id: position}))});
 const deleteCv = (id) => fetch.doDelete(`${CV_URL}/${id}`);
 const fetchMyCvId = () => fetch.doGet(`${CV_URL}/my-id`);
+const exportCv = (id) => fetch.doGetPlain(`${CV_URL}/${id}/export`);
 
 const addLanguageToCv = (languageTypeId, cvId) => fetch.doPost(`${CV_URL}/${cvId}/language`, {languageType: {id: languageTypeId}});
 const updateLanguage = (languageId, level) => fetch.doPut(`${CV_URL}/language`, {id: languageId, level});
@@ -55,6 +56,7 @@ export default {
     updateCv,
     deleteCv,
     fetchMyCvId,
+    exportCv,
 
     addLanguageToCv,
     updateLanguage,

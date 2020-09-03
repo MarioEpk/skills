@@ -8,6 +8,7 @@ import modal from "core/modal";
 import {Card, CardLayout, Modal} from "components";
 import {Project} from "app/model/cv";
 import {Type, Project as ProjectType} from "app/model/type";
+import {accesses} from "core/access";
 import {getProjects} from "./selectors";
 import {
     removeProjectFromCv as removeProjectFromCvAction,
@@ -17,6 +18,8 @@ import {
 } from "./actions";
 import {MODAL_NAME} from "./constants";
 import Form from "./Form";
+import {getTypePositions, getTypeProjects, getTypeTechnologies} from "../selectors";
+import {useAccessOrIsOwner} from "../utils";
 
 const Container = ({
     projects,
@@ -27,9 +30,12 @@ const Container = ({
     removeProjectFromCv,
     positions,
     projectTypes,
+    technologies,
 }) => {
-    const onEdit = ({id, from, to, company, contribution, positions: positionTypes, projectType, technologies}) => {
-        fillForm(id, from, to, company, contribution, positionTypes, technologies);
+    const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
+
+    const onEdit = ({id, from, to, company, contribution, positions: positionTypes, projectType, technologies: technologyTypes}) => {
+        fillForm(id, from, to, company, contribution, positionTypes, technologyTypes);
         openForm(projectType.id);
     };
     return (
@@ -38,7 +44,7 @@ const Container = ({
                 open={isFormOpen}
                 onClose={closeForm}
             >
-                <Form onClose={closeForm} positions={positions} projectTypes={projectTypes} />
+                <Form onClose={closeForm} positions={positions} projectTypes={projectTypes} technologies={technologies} />
             </Modal>
             {projects.size > 0
             && (
@@ -48,9 +54,9 @@ const Container = ({
                             key={project.id}
                             title={project.projectType.name}
                             secondTitle={project.positions.map(({name}) => name).join(", ")}
-                            onEdit={() => onEdit(project)}
-                            onDelete={() => removeProjectFromCv(project.id)}
-                            date={`${project.from} > ${project.to ? project.to : "Stále probíhá"}`}
+                            onEdit={adminOrOwnerAccess(() => onEdit(project))}
+                            onDelete={adminOrOwnerAccess(() => removeProjectFromCv(project.id))}
+                            date={`${project.from} > ${project.to || "Stále probíhá"}`}
                         />
                     ))}
                 </CardLayout>
@@ -61,7 +67,10 @@ const Container = ({
 
 const mapStateToProps = (state) => ({
     projects: getProjects(state),
+    positions: getTypePositions(state),
+    technologies: getTypeTechnologies(state),
     isFormOpen: modal.isOpen(state, MODAL_NAME),
+    projectTypes: getTypeProjects(state),
 });
 
 const mapDispatchToProps = ({
@@ -79,6 +88,7 @@ Container.propTypes = {
     fillForm: PropTypes.func.isRequired,
     removeProjectFromCv: PropTypes.func.isRequired,
     positions: IPropTypes.listOf(Type).isRequired,
+    technologies: IPropTypes.listOf(Type).isRequired,
     projectTypes: IPropTypes.listOf(ProjectType).isRequired,
 };
 

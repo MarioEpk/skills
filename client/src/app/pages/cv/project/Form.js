@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
-import {Project, Type} from "app/model/type";
+import {Type} from "app/model/type";
 
 import {Button, Loading, TextInput, DateInput, FormError, VerticalFormLayout, MultiSelect, TextAreaInput} from "components";
 import {Field, compose, form, required, convertTypeToOptions, getFormFieldValue} from "core/form";
@@ -12,7 +12,7 @@ import {
     FROM_FIELD, TO_FIELD, COMPANY_FIELD, CONTRIBUTION_FIELD, POSITION_TYPES_FIELD, FORM_NAME, PROJECT_TYPE_FIELD, TECHNOLOGY_TYPE_FIELD
 } from "./constants";
 
-const Container = ({handleSubmit, onClose, submitting, errors, positions, projectType}) => (
+const Container = ({handleSubmit, onClose, submitting, errors, positions, projectType, technologies}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
             title={`Projekt - ${projectType.name}`}
@@ -68,7 +68,7 @@ const Container = ({handleSubmit, onClose, submitting, errors, positions, projec
                 component={MultiSelect}
                 placeholder="Technologie, kterou jste použili na projektu"
                 name={TECHNOLOGY_TYPE_FIELD}
-                options={convertTypeToOptions(projectType.technologies)}
+                options={convertTypeToOptions(technologies)}
             />
             <FormError errors={errors} />
         </VerticalFormLayout>
@@ -82,6 +82,7 @@ Container.propTypes = {
     onClose: PropTypes.func.isRequired,
     positions: IPropTypes.listOf(Type).isRequired,
     projectType: IPropTypes.record.isRequired,
+    technologies: IPropTypes.listOf(Type).isRequired,
 };
 
 Container.defaultProps = {

@@ -1,7 +1,7 @@
 package com.skillsmanagerapi.services;
 
-import com.skillsmanagerapi.dto.UserByGoogleDto;
 import com.skillsmanagerapi.dto.UserDto;
+import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.UserRepository;
 import com.skillsmanagerapi.util.ModelMapperUtil;
@@ -37,13 +37,8 @@ public class UserService {
         return modelMapperUtil.mapList(userRepository.findAllByOrderByIdAsc(), UserDto.class);
     }
 
-    public UserDto getUserOrCreateNew(UserByGoogleDto userByGoogleDto) {
-        User user = userRepository.findByGoogleEmail(userByGoogleDto.getEmail()).orElseGet(() -> createUser(userByGoogleDto));
-        return modelMapper.map(user, UserDto.class);
-    }
-
     public UserDto getUserOrCreateNew(UserDto userDto) {
-        User user = userRepository.findByGoogleEmail(userDto.getGoogleEmail()).orElseGet(() -> createSimpleUser(userDto));
+        User user = userRepository.findByEmail(userDto.getEmail()).orElseGet(() -> createUser(userDto));
         return modelMapper.map(user, UserDto.class);    }
 
     public UserDto getUserFromToken(String token) {
@@ -51,7 +46,7 @@ public class UserService {
         Jwt jwt = jwtDecoder.decode(token.substring(7));
         String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
 
-        User user = userRepository.findByGoogleEmail(email).orElseThrow(EntityNotFoundException::new);
+        User user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -68,21 +63,16 @@ public class UserService {
         userRepository.save(modelMapper.map(updatedUserDto, User.class));
     }
 
-    private User createUser(UserByGoogleDto userByGoogleDto) {
+    private User createUser(UserDto userDto) {
         User user = new User();
-        user.setGoogleId(userByGoogleDto.getGoogleId());
-        user.setGoogleEmail(userByGoogleDto.getEmail());
-        user.setFirstName(userByGoogleDto.getFirstName());
-        user.setLastName(userByGoogleDto.getLastName());
-        userRepository.save(user);
-        return user;
-    }
-
-    private User createSimpleUser(UserDto userDto) {
-        User user = new User();
-        user.setGoogleEmail(userDto.getGoogleEmail());
+        user.setGoogleId(userDto.getGoogleId());
+        user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
+        Role role = new Role();
+        // TODO :: ID 3 is for user privileges - add better role selection
+        role.setId(3);
+        user.setRole(role);
         userRepository.save(user);
         return user;
     }

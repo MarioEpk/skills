@@ -5,6 +5,9 @@ import {createBrowserHistory} from 'history';
 import {match} from "path-to-regexp";
 import {parse, stringify} from "query-string";
 import notification from "core/notification";
+import access from "core/access";
+import user from "core/user";
+import fetch from "core/fetch";
 import {ERROR} from "app/constants";
 
 import {
@@ -80,7 +83,15 @@ function* loadPage({name: newRoute, params = {}, query = {}}, initialLoad = fals
         }
         try {
             const routes = getRegisteredRoutes();
-            const {lazyPackage} = routes.get(newRoute);
+            const {lazyPackage, accesses} = routes.get(newRoute);
+
+            // access control
+            const currentUser = yield select(user.getUser);
+            if (!access.hasAccess(currentUser.role.name, accesses)) {
+                // TODO :: can a call call(loadPage, Error) here ?
+                throw new fetch.UnauthorizedError();
+            }
+
             const addReducer = yield getContext("addReducer"); // from createProvider
 
             const {NAME, saga, reducer, Container} = yield call(lazyPackage);
@@ -116,7 +127,10 @@ function* loadPage({name: newRoute, params = {}, query = {}}, initialLoad = fals
                 console.error(e);
             }
         } catch (e) {
-            if (initialLoad) {
+            if (e instanceof fetch.UnauthorizedError) {
+                yield call(loadPage, {name: ERROR});
+                console.error("unAuthorized");
+            } else if (initialLoad) {
                 // TODO :: redirect on error page
                 yield call(loadPage, {name: ERROR});
                 console.error(e);

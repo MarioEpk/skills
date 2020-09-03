@@ -12,12 +12,17 @@ const urlWithPrefix = (url) => process.env.REACT_APP_API_URL + url;
 export const PRECOGNITION_FAILED = 412;
 
 // eslint-disable-next-line func-names
+export const getTokenHeaders = function* () {
+    const token = yield select(auth.getToken);
+    return token ? {Authorization: `Bearer ${token}`} : {};
+};
+
+// eslint-disable-next-line func-names
 export const getDefaultHeaders = function* () {
     const defaultHeaders = {
         'Content-Type': 'application/json',
     };
-    const token = yield select(auth.getToken);
-    const tokenHeaders = token ? {Authorization: `Bearer ${token}`} : {};
+    const tokenHeaders = yield call(getTokenHeaders);
     return {
         ...defaultHeaders,
         ...tokenHeaders,
@@ -59,19 +64,21 @@ const wrapExecute = function* (request, resultProcessMethod) {
     }
 };
 
-export const doGet = function* (url, queryParams, resultProcessMethod = fn.identity) {
+export const doGet = function* (url, queryParams, resultProcessMethod = fn.identity, accepted = 'json') {
     const defaultHeaders = yield getDefaultHeaders();
     const request = superagent
         .get(urlWithPrefix(url))
         .set(defaultHeaders)
         .query(queryParams)
-        .accept('json');
+        .accept(accepted);
     return yield* wrapExecute(request, resultProcessMethod);
 };
 
-export const doGetPlain = function (url) {
+export const doGetPlain = function* (url) {
+    const tokenHeaders = yield getTokenHeaders();
     return superagent
         .get(urlWithPrefix(url))
+        .set({...tokenHeaders})
         .then(
             (response) => response.text,
             (error) => {
