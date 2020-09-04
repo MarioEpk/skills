@@ -4,17 +4,114 @@
 <head>
     <meta charset="UTF-8">
     <title>CV - [[${user.getLastName()}]]</title>
-    <link href="static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/pdf.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
-<img src="static/images/avatar_ghost.png" alt="avatar" />
-<div th:object="${user}">
-    <p><span th:text="*{firstName}">Jméno</span></p>
-    <p><span th:text="*{lastName}">Příjmení</span></p>
+<div class="row">
+    <div class="column left avatar-wrapper" th:switch="${avatar}">
+        <img th:case="${avatarTypeMen}" src="static/images/avatar_men.png" alt="avatar" class="avatar" />
+        <img th:case="${avatarTypeWoman}" src="static/images/avatar_woman.png" alt="avatar" class="avatar" />
+        <img th:case="*" src="static/images/avatar_ghost.png" alt="avatar" class="avatar" />
+    </div>
+    <div class="column user" th:object="${user}">
+        <p th:text="*{firstName}">First name</p>
+        <p th:text="*{lastName}">Last name</p>
+        <div th:each="position : ${positions}">
+            <span th:text="${position.getName()}">Position</span>
+        </div>
+    </div>
 </div>
 
+<div class="main">
+    <div class="column left">
+        <div class="block technical types" th:unless="${#lists.size(skills) == 0 }">
+            <h3>Technical skills</h3>
+            <div th:each="skill : ${skills}">
+                <p th:text="${skill.getSkillType().getName()}">Skill name</p>
+                <div class="level-bar" th:classappend="'level' + ${skill.getLevel()}">
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+        </div>
+        <div class="block technologies types" th:unless="${#lists.size(technologies) == 0 }">
+            <h3>Key technologies</h3>
+            <div th:each="technology : ${technologies}">
+                <p class="technology-name" th:text="${technology.getTechnologyType().getName()}">Technology name</p>
+                <div class="level-text" th:switch="${technology.getLevel()}">
+                    <p th:case="1">(Lower)</p>
+                    <p th:case="2">(Lower Intermediate)</p>
+                    <p th:case="3">(Intermediate)</p>
+                    <p th:case="4">(Advanced)</p>
+                    <p th:case="5">(Senior)</p>
+                </div>
+            </div>
+        </div>
+        <div class="block languages types" th:unless="${#lists.size(languages) == 0 }">
+            <h3>Languages</h3>
+            <div th:each="language : ${languages}">
+                <p th:text="${language.getLanguageType().getName()}">Language name</p>
+                <div class="level-bar" th:classappend="'level' + ${language.getLevel()}">
+                    <span>&nbsp;</span>
+                </div>
+            </div>
+        </div>
+        <div class="block certificates" th:unless="${#lists.size(certificates) == 0 }">
+            <h3>Certificates</h3>
+            <div th:each="certificate : ${certificates}">
+                <p class="title" th:text="${certificate.getName()}">Certificate name</p>
+                <p th:text="${#dates.format(certificate.getDate(), 'dd/MM/yyyy')}" class="date">Certificate date</p>
+                <p th:text="${certificate.getDescription()}">Certificate description</p>
+            </div>
+        </div>
+        <div class="block others" th:unless="${#lists.size(others) == 0 }">
+            <h3>Others</h3>
+            <div th:each="other : ${others}">
+                <p class="title" th:text="${other.getName()}">Other name</p>
+                <p th:text="${#dates.format(other.getDate(), 'dd/MM/yyyy')}" class="date">Other date</p>
+                <p th:text="${other.getDescription()}">Other description</p>
+            </div>
+        </div>
+    </div>
+    <div class="column right">
+        <div class="block profile">
+            <h3>Profile</h3>
+            <p th:text="${profile}">Profile</p>
+        </div>
+        <div class="block projects">
+            <h3>Projects</h3>
+            <div th:each="project : ${projects}">
+                <h2>
+                    <span th:text="${project.getProjectType().getName()}">Project name</span>
+                    <span class="company">
+                        (<span th:text="${project.getCompany()}">Project company</span>)
+                    </span>
+                </h2>
+                <div class="positions">
+                    <div th:each="position : ${project.getPositions()}">
+                        <p th:text="${position.getName()}">Project position</p>
+                    </div>
+                </div>
+                <div class="date">
+                    <span th:text="${#dates.format(project.getFrom(), 'MM/yyyy')}">Project from</span>
+                    >
+                    <span th:text="${#dates.format(project.getTo(), 'MM/yyyy')}">Project to</span>
+                </div>
+                <div>
+                    <div class="arrow-text">Application background: [[${project.getProjectType().getDescription()}]]</div>
+                    <div class="arrow-text">Developer’s contribution: [[${project.getContribution()}]]</div>
+                    <div class="arrow-text">
+                        Technology stack:
+                        <p th:each="technology : ${project.getTechnologies()}">
+                            <span th:text="${technology.getName()}">Project technology</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

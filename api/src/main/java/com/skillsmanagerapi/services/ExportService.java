@@ -1,31 +1,24 @@
 package com.skillsmanagerapi.services;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import static com.itextpdf.text.pdf.BaseFont.CP1250;
 import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
-import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
-import static com.itextpdf.text.pdf.BaseFont.NOT_EMBEDDED;
 import static org.thymeleaf.templatemode.TemplateMode.HTML;
 import org.thymeleaf.context.Context;
-import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.enums.AvatarType;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class ExportService {
@@ -47,9 +40,7 @@ public class ExportService {
         templateEngine.setTemplateResolver(templateResolver);
 
         // Variables inside context will be used in template
-        Context context = new Context();
-        context.setVariable("profile", cvDto.getProfile());
-        context.setVariable("user", cvDto.getUser());
+        Context context = this.addCvIntoContext(cvDto);
 
         // Flying Saucer needs XHTML - not just normal HTML. To make our life
         // easy, use JTidy to convert the rendered Thymeleaf template to
@@ -58,8 +49,13 @@ public class ExportService {
         String renderedHtmlContent = templateEngine.process("pdf", context);
         String xHtml = convertToXhtml(renderedHtmlContent);
 
+        System.out.println(xHtml);
+
         ITextRenderer renderer = new ITextRenderer();
         renderer.getFontResolver().addFont("static/fonts/Montserrat-Light.ttf", CP1250, EMBEDDED);
+        renderer.getFontResolver().addFont("static/fonts/Montserrat-ExtraBold.ttf", CP1250, EMBEDDED);
+        renderer.getFontResolver().addFont("static/fonts/Montserrat-Medium.ttf", CP1250, EMBEDDED);
+        renderer.getFontResolver().addFont("static/fonts/Montserrat-SemiBold.ttf", CP1250, EMBEDDED);
 
         String baseUrl = FileSystems
                 .getDefault()
@@ -74,9 +70,28 @@ public class ExportService {
         // And finally, we create the PDF:
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             renderer.createPDF(outputStream);
-//            renderer.finishPDF();
             return outputStream.toByteArray();
         }
+    }
+
+    private Context addCvIntoContext(CvDto cvDto) {
+        Context context = new Context();
+
+        context.setVariable("avatarTypeMen", AvatarType.MEN);
+        context.setVariable("avatarTypeWoman", AvatarType.WOMAN);
+
+        context.setVariable("avatar", cvDto.getAvatar());
+        context.setVariable("user", cvDto.getUser());
+        context.setVariable("positions", cvDto.getPositions());
+        context.setVariable("profile", cvDto.getProfile());
+        context.setVariable("projects", cvDto.getProjects());
+        context.setVariable("skills", cvDto.getSkills());
+        context.setVariable("technologies", cvDto.getTechnologies());
+        context.setVariable("languages", cvDto.getLanguages());
+        context.setVariable("certificates", cvDto.getCertificates());
+        context.setVariable("others", cvDto.getOthers());
+
+        return context;
     }
 
 
