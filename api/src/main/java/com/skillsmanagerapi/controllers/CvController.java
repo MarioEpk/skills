@@ -30,6 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Base64;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RequestMapping(value = "/cv")
 @RestController
 public class CvController {

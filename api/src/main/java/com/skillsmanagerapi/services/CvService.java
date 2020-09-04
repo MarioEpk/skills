@@ -21,6 +21,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class CvService {
