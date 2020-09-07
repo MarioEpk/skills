@@ -9,17 +9,9 @@ export default function* () {
 
 function* exportCv({payload}) {
     try {
-        const response = yield cvApi.exportCv(payload);
+        const response = yield cvApi.exportCv(payload.id);
         response.then((encodedPdf) => {
-            const binaryString = window.atob(encodedPdf);
-            const binaryLen = binaryString.length;
-            const bytes = new Uint8Array(binaryLen);
-
-            for (let i = 0; i < binaryLen; i += 1) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-
-            download(bytes, "CV.pdf");
+            download(`data:application/octet-stream;base64,${encodedPdf}`, "CV.pdf");
         });
     } catch (e) {
         console.error(e);

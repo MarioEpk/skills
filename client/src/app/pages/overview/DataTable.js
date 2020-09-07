@@ -6,6 +6,7 @@ import {Edit, GetApp} from "@material-ui/icons";
 
 import modal from "core/modal";
 import {Type} from "app/model/type";
+import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
@@ -39,11 +40,15 @@ const DataTable = ({
     closeModal,
     isFormModalOpen,
     onDelete,
+    onExport,
 }) => {
-    const onCustomAction = (row) => ([
-        <Button key="redirect" href={`/${row.get("id")}`} label="Editovat" startIcon={<Edit />} />,
-        <Button key="export" onClick={() => console.log("export", row)} label="Exportovat" startIcon={<GetApp />} />,
-    ]);
+    const onCustomAction = (row) => {
+        const cvId = row.get("id");
+        return ([
+            <Button key="redirect" href={`/${cvId}`} label="Editovat" startIcon={<Edit />} />,
+            <Button key="export" onClick={() => onExport(cvId)} label="Exportovat" startIcon={<GetApp />} />,
+        ]);
+    };
     const onCreate = () => {
         openModal();
     };
@@ -78,6 +83,7 @@ DataTable.propTypes = {
     closeModal: PropTypes.func.isRequired,
     isFormModalOpen: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onExport: PropTypes.func.isRequired,
     loading: PropTypes.bool,
 };
 
@@ -94,6 +100,7 @@ const mapDispatchToProps = (dispatch) => ({
     openModal: () => dispatch(modal.open(MODAL_FORM_NAME)),
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
+    onExport: (id) => dispatch(coreExport.exportCv(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

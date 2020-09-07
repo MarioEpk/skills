@@ -6,11 +6,11 @@ import css from "./Main.module.scss";
 const Main = ({isAuthenticated, header, children}) => (
     <div className={css.main}>
         {header}
-        {children}
+        {isAuthenticated ? children : <div className={css.noAuthorized}>Pro přístup se přihlašte.</div>}
     </div>
 );
 
-Main.proTypes = {
+Main.propTypes = {
     children: PropTypes.node.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     header: PropTypes.node.isRequired,
