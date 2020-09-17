@@ -25,7 +25,7 @@ const Container = ({submitting, errors, positions}) => {
                     <Field
                         key={`key-${FIRST_NAME_FIELD}`}
                         component={TextInput}
-                        placeholder="Jméno"
+                        placeholder="First name"
                         name={FIRST_NAME_FIELD}
                         validate={[required]}
                         disabled={!isAdminOrOwner}
@@ -33,7 +33,7 @@ const Container = ({submitting, errors, positions}) => {
                     <Field
                         key={`key-${LAST_NAME_FIELD}`}
                         component={TextInput}
-                        placeholder="Příjmení"
+                        placeholder="Last name"
                         name={LAST_NAME_FIELD}
                         validate={[required]}
                         disabled={!isAdminOrOwner}
@@ -41,7 +41,7 @@ const Container = ({submitting, errors, positions}) => {
                     <Field
                         key={`key-${POSITION_FIELD}`}
                         component={MultiSelect}
-                        placeholder="Pozice"
+                        placeholder="Position"
                         name={POSITION_FIELD}
                         options={convertTypeToOptions(positions)}
                         disabled={!isAdminOrOwner}
@@ -52,7 +52,7 @@ const Container = ({submitting, errors, positions}) => {
                 <Field
                     key={`key-${PROFILE_FIELD}`}
                     component={TextAreaInput}
-                    placeholder="Profil"
+                    placeholder="Profile"
                     name={PROFILE_FIELD}
                     disabled={!isAdminOrOwner}
                 />

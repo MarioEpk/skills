@@ -23,17 +23,17 @@ const AvatarImage = ({avatar, isAdminOrOwner}) => (
         <Field
             key={`key-${AVATAR_FIELD}`}
             component={RadioGroupInput}
-            placeholder="Příjmení"
+            placeholder="Avatar"
             name={AVATAR_FIELD}
             validate={[required]}
             label="Avatar"
             disabled={!isAdminOrOwner}
             options={[{
                 value: avatarType.MEN,
-                label: "Muž",
+                label: "Man",
             }, {
                 value: avatarType.WOMAN,
-                label: "Žena",
+                label: "Woman",
             }]}
         />
         <img src={getSrcForImage(avatar)} alt="avatar" />

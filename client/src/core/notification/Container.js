@@ -2,7 +2,6 @@ import React, {useEffect, useRef} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-import i18n from "core/i18n";
 import {fn} from "core/util";
 import {NotificationLayout, Notification} from "components";
 
@@ -48,15 +47,14 @@ const mapDispatchToProps = (dispatch) => ({
     onClose: () => dispatch(hide()),
 });
 
-const mergeProps = ({show, title, text, type}, {onClose}, {t}) => ({
+const mergeProps = ({show, title, text, type}, {onClose}) => ({
     show,
     onClose,
     title,
-    text: t(text),
+    text,
     type,
 });
 
 export default fn.compose(
-    i18n.withTranslation(),
     connect(mapStateToProps, mapDispatchToProps, mergeProps),
 )(Container);

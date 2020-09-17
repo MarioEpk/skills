@@ -19,7 +19,7 @@ const Container = ({technologies, removeTechnology, updateTechnology}) => {
     return (
         technologies.size > 0
         && (
-            <CardLayout title="Technologie">
+            <CardLayout title="Technologies">
                 {technologies.map((technology) => (
                     <Card
                         key={technology.id}

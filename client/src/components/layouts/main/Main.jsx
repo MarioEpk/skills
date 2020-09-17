@@ -6,7 +6,7 @@ import css from "./Main.module.scss";
 const Main = ({isAuthenticated, header, children}) => (
     <div className={css.main}>
         {header}
-        {isAuthenticated ? children : <div className={css.noAuthorized}>Pro přístup se přihlašte.</div>}
+        {isAuthenticated && children}
     </div>
 );
 

@@ -24,8 +24,10 @@ export const authActionGroup = (() => {
             type: AUTH_REQUEST,
             request,
         }),
-        requestFailure: () => ({
+        requestFailure: ({error, details}) => ({
             type: AUTH_FAIL,
+            error,
+            details,
         }),
         requestSuccess: (user) => ({
             type: AUTH_SUCCESS,

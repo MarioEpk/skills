@@ -17,7 +17,7 @@ const Container = ({initialized, isAuthenticated}) => (
         >
             {initialized && <router.Routes />}
         </MainLayout>
-        {initialized && <notification.Container />}
+        <notification.Container />
     </MuiThemeProvider>
 );
 

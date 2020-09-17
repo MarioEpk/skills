@@ -88,7 +88,7 @@ function* loadPage({name: newRoute, params = {}, query = {}}, initialLoad = fals
             // access control
             const currentUser = yield select(user.getUser);
             if (!access.hasAccess(currentUser.role.name, accesses)) {
-                // TODO :: can a call call(loadPage, Error) here ?
+                // TODO :: can I call call(loadPage, Error) here ?
                 throw new fetch.UnauthorizedError();
             }
 

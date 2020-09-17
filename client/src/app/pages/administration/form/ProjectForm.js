@@ -15,37 +15,39 @@ import {getTypeData} from "../selectors";
 const Container = ({handleSubmit, submitting, errors, onClose, editMode, technologies}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title={editMode ? "Aktualizovat" : "Přidat"}
+            title={editMode ? "Update" : "Add"}
             buttons={[
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
                     key="create"
-                    label={editMode ? "Aktualizovat" : "Vytvořit"}
+                    label={editMode ? "Update" : "Create"}
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
                 component={TextInput}
-                placeholder="Název"
+                placeholder="Name"
                 name={NAME_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <Field
                 component={MultiSelect}
-                placeholder="Technologie použité na projektu"
+                placeholder="Used technologies"
                 name={TECHNOLOGIES_FIELD}
                 validate={[required]}
                 options={convertTypeToOptions(technologies)}
             />
             <Field
                 component={TextAreaInput}
-                placeholder="Popis projektu"
+                placeholder="Project description"
                 name={DESCRIPTION_FIELD}
                 validate={[required]}
                 rowsMax={8}

@@ -16,34 +16,35 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
                     key="create"
-                    label="Odeslat"
+                    label="Send"
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
                 key={`key-${NAME_FIELD}`}
                 component={TextInput}
-                placeholder="Název"
+                placeholder="Name"
                 name={NAME_FIELD}
                 validate={[required]}
             />
             <Field
                 key={`key-${DESCRIPTION_FIELD}`}
                 component={TextAreaInput}
-                placeholder="Popis"
+                placeholder="Description"
                 name={DESCRIPTION_FIELD}
                 validate={[required]}
             />
             <Field
                 key={`key-${DATE_FIELD}`}
                 component={DateInput}
-                placeholder="Datum"
+                placeholder="Date"
                 name={DATE_FIELD}
             />
             <FormError errors={errors} />

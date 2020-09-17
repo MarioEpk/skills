@@ -43,7 +43,7 @@ const Container = ({
             </Modal>
             {others.size > 0
             && (
-                <CardLayout title="Ostatní">
+                <CardLayout title="Others">
                     {others.map((other) => (
                         <Card
                             key={other.id}

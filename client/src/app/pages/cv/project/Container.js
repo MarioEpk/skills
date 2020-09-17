@@ -35,8 +35,8 @@ const Container = ({
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
 
     const onEdit = ({id, from, to, company, contribution, positions: positionTypes, projectType, technologies: technologyTypes}) => {
-        fillForm(id, from, to, company, contribution, positionTypes, technologyTypes);
         openForm(projectType.id);
+        fillForm(id, from, to, company, contribution, positionTypes, technologyTypes);
     };
     return (
         <>
@@ -48,7 +48,7 @@ const Container = ({
             </Modal>
             {projects.size > 0
             && (
-                <CardLayout title="Project">
+                <CardLayout title="Projects">
                     {projects.map((project) => (
                         <Card
                             key={project.id}
@@ -56,7 +56,7 @@ const Container = ({
                             secondTitle={project.positions.map(({name}) => name).join(", ")}
                             onEdit={adminOrOwnerAccess(() => onEdit(project))}
                             onDelete={adminOrOwnerAccess(() => removeProjectFromCv(project.id))}
-                            date={`${project.from} > ${project.to || "Stále probíhá"}`}
+                            date={`${project.from} > ${project.to || "Still running"}`}
                         />
                     ))}
                 </CardLayout>

@@ -15,58 +15,60 @@ import {
 const Container = ({handleSubmit, onClose, submitting, errors, positions, projectType, technologies}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title={`Projekt - ${projectType.name}`}
+            title={`Project - ${projectType.name}`}
             buttons={[
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
                     key="create"
-                    label="Odeslat"
+                    label="Send"
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
                 key={`key-${FROM_FIELD}`}
                 component={DateInput}
-                placeholder="Od"
+                placeholder="From"
                 name={FROM_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <Field
                 key={`key-${TO_FIELD}`}
                 component={DateInput}
-                placeholder="Do"
+                placeholder="To"
                 name={TO_FIELD}
             />
             <Field
                 key={`key-${COMPANY_FIELD}`}
                 component={TextInput}
-                placeholder="Firma"
+                placeholder="Company"
                 name={COMPANY_FIELD}
             />
             <Field
                 key={`key-${CONTRIBUTION_FIELD}`}
                 component={TextAreaInput}
-                placeholder="Přispění na projektu"
+                placeholder="Project contribution"
                 name={CONTRIBUTION_FIELD}
                 rowsMax={8}
             />
             <Field
                 key={`key-${POSITION_TYPES_FIELD}`}
                 component={MultiSelect}
-                placeholder="Pozice na projektu"
+                placeholder="Position"
                 name={POSITION_TYPES_FIELD}
                 options={convertTypeToOptions(positions)}
             />
             <Field
                 key={`key-${TECHNOLOGY_TYPE_FIELD}`}
                 component={MultiSelect}
-                placeholder="Technologie, kterou jste použili na projektu"
+                placeholder="Used technologies"
                 name={TECHNOLOGY_TYPE_FIELD}
                 options={convertTypeToOptions(technologies)}
             />

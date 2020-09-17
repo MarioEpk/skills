@@ -7,7 +7,7 @@ import invariant from "invariant";
 
 import css from "./Button.module.scss";
 
-const Button = ({onClick, label, href, children, type, startIcon}) => {
+const Button = ({onClick, label, href, children, type, startIcon, submit}) => {
     invariant(label || children, "label or children must be present");
     const buttonClassname = classnames(css.button, css.normalize, {
         [css.dark]: type === Button.type.DARK,
@@ -22,6 +22,7 @@ const Button = ({onClick, label, href, children, type, startIcon}) => {
             className={buttonClassname}
             href={href}
             startIcon={startIcon}
+            type={submit ? "submit" : undefined}
         >
             {label || children}
         </ButtonUI>
@@ -42,6 +43,7 @@ Button.propTypes = {
     href: PropTypes.string,
     type: PropTypes.oneOf(Object.values(Button.type)),
     startIcon: PropTypes.node,
+    submit: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -51,6 +53,7 @@ Button.defaultProps = {
     type: Button.type.DARK,
     onClick: undefined,
     startIcon: null,
+    submit: false,
 };
 
 export default Button;

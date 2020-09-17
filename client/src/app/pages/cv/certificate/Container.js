@@ -42,7 +42,7 @@ const Container = ({
             </Modal>
             {certificates.size > 0
             && (
-                <CardLayout title="Certifikáty">
+                <CardLayout title="Certificates">
                     {certificates.map((certificate) => (
                         <Card
                             key={certificate.id}

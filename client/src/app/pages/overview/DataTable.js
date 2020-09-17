@@ -22,15 +22,15 @@ const columns = [{
 }, {
     key: "2",
     dataField: "user.firstName",
-    columnName: "Jméno",
+    columnName: "First name",
 }, {
     key: "3",
     dataField: "user.lastName",
-    columnName: "Příjmení",
+    columnName: "Last name",
 }, {
     key: "4",
     dataField: "updatedAt",
-    columnName: "Aktualizováno",
+    columnName: "Updated at",
 }];
 
 const DataTable = ({
@@ -45,8 +45,8 @@ const DataTable = ({
     const onCustomAction = (row) => {
         const cvId = row.get("id");
         return ([
-            <Button key="redirect" href={`/${cvId}`} label="Editovat" startIcon={<Edit />} />,
-            <Button key="export" onClick={() => onExport(cvId)} label="Exportovat" startIcon={<GetApp />} />,
+            <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
+            <Button key="export" onClick={() => onExport(cvId)} label="Export" startIcon={<GetApp />} />,
         ]);
     };
     const onCreate = () => {
@@ -58,7 +58,7 @@ const DataTable = ({
     return (
         <>
             <Data
-                title="Životopisy"
+                title="CVs"
                 columns={columns}
                 data={data}
                 loading={loading}

@@ -5,7 +5,7 @@ import DataTable from "./DataTable";
 
 export default () => (
     <>
-        <PageTitle title="Přehled" />
+        <PageTitle title="Overview" />
         <DataTable />
     </>
 );

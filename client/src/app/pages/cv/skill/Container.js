@@ -20,7 +20,7 @@ const Container = ({skills, removeSkill, updateSkill}) => {
     return (
         skills.size > 0
         && (
-            <CardLayout title="Schopnosti">
+            <CardLayout title="Skills">
                 {skills.map((skill) => (
                     <Card
                         key={skill.id}

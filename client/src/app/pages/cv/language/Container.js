@@ -20,7 +20,7 @@ const Container = ({languages, removeLanguage, updateLanguage}) => {
     return (
         languages.size > 0
         && (
-            <CardLayout title="Jazyky">
+            <CardLayout title="Languages">
                 {languages.map((language) => (
                     <Card
                         key={language.id}

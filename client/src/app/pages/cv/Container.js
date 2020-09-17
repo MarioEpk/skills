@@ -19,24 +19,30 @@ import {getTypes} from "./selectors";
 import {cvActionGroup} from "./actions";
 
 const Container = ({
-    types, addLanguageToCv, addSkillToCv, addTechnologyToCv, openCertificateForm, openOtherForm, openProjectForm, exportCv,
+    types,
+    addLanguageToCv,
+    addSkillToCv,
+    addTechnologyToCv,
+    openCertificateForm,
+    openOtherForm,
+    openProjectForm,
+    exportCv,
 }) => {
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
-
     return (
         <>
-            <PageTitle title={!isAdminOrOwner ? "Životopis" : "Můj životopis"} />
+            <PageTitle title={!isAdminOrOwner ? "CV" : "My CV"} />
             <WithColumn
-                title={!isAdminOrOwner ? "Životopis" : "Můj životopis"}
-                titleButton={<Button label="Generovat PDF" onClick={exportCv} />}
+                title={!isAdminOrOwner ? "CV" : "My CV"}
+                titleButton={<Button label="Generate PDF" onClick={exportCv} />}
                 column={adminOrOwnerAccess([
-                    <Menu key="menu1" title="Projekty" items={createMenuItems(types.projects, openProjectForm)} />,
-                    <Menu key="menu2" title="Schopnosti" items={createMenuItems(types.skills, addSkillToCv)} />,
-                    <Menu key="menu3" title="Jazyky" items={createMenuItems(types.languages, addLanguageToCv)} />,
-                    <Menu key="menu4" title="Technologie" items={createMenuItems(types.technologies, addTechnologyToCv)} />,
-                    <Menu key="menu5" title="Certifikáty" onClick={openCertificateForm} />,
-                    <Menu key="menu6" title="Ostatní" onClick={openOtherForm} />,
+                    <Menu key="menu1" title="Projects" items={createMenuItems(types.projects, openProjectForm)} />,
+                    <Menu key="menu2" title="Skills" items={createMenuItems(types.skills, addSkillToCv)} />,
+                    <Menu key="menu3" title="Languages" items={createMenuItems(types.languages, addLanguageToCv)} />,
+                    <Menu key="menu4" title="Technologies" items={createMenuItems(types.technologies, addTechnologyToCv)} />,
+                    <Menu key="menu5" title="Certificates" onClick={openCertificateForm} />,
+                    <Menu key="menu6" title="Others" onClick={openOtherForm} />,
                 ])}
             >
                 <Form />

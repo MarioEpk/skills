@@ -46,6 +46,7 @@ function* fillForm({payload: {id, from, to, company, contribution, positions, te
 
 function* openForm({payload: projectTypeId}) {
     yield put(change(FORM_NAME, PROJECT_TYPE_FIELD, {id: projectTypeId}));
+    yield put(change(FORM_NAME, COMPANY_FIELD, "Morosystems"));
     yield put(modal.open(MODAL_NAME));
 }
 

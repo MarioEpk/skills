@@ -32,7 +32,7 @@ const Data = ({
 
     const [deleteConfirmation, setDeleteConfirmation] = useState(undefined);
     const tableActions = {
-        columnName: "Akce",
+        columnName: "Actions",
         onEdit,
         onDelete: onDelete ? (row) => setDeleteConfirmation(row) : undefined,
         custom: onCustomAction,
@@ -58,8 +58,8 @@ const Data = ({
         <Block>
             <Loading loading={loading}>
                 <Confirmation
-                    title="Smazat"
-                    text="Opravdu chcete položku smazat?"
+                    title="Delete"
+                    text="Are you sure?"
                     onDelete={() => onDelete(deleteConfirmation)}
                     onClose={() => setDeleteConfirmation(undefined)}
                     open={!!deleteConfirmation}
@@ -69,13 +69,13 @@ const Data = ({
                     {!!searchByDataField
                     && (
                         <span className={css.search}>
-                            <SearchInput label="Hledej" value={searchValue} onChange={onSearch} name={`${title}-search`} />
+                            <SearchInput label="Search" value={searchValue} onChange={onSearch} name={`${title}-search`} />
                         </span>
                     )}
                     {onCreate && (
                         <Button
                             onClick={onCreate}
-                            label="Přidat"
+                            label="Add"
                             startIcon={<AddRounded />}
                             type={Button.type.COLORED}
                         />

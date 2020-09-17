@@ -9,12 +9,12 @@ const CvFormLayout = ({leftColumn, children, rightColumn}) => {
     const leftColumnComponent = <div className={css.leftColumn}>{leftColumn}</div>;
     const rightColumnComponent = <div className={css.rightColumn}>{rightColumn}</div>;
     return (
-        <div>
+        <form>
             <div className={css.twoColumnsSection}>
                 <TwoColumns left={leftColumnComponent} right={rightColumnComponent} />
             </div>
             {children}
-        </div>
+        </form>
     );
 };
 

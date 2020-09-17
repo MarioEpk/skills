@@ -1,10 +1,17 @@
 import {takeLatest, put, call} from "redux-saga/effects";
 import {GoogleUser} from "app/model/user";
 import auth from "core/auth";
+import notification from "core/notification";
 import {cvApi} from "app/serverApi";
 
 export default function* () {
     yield takeLatest(auth.authActionGroup.REQUEST, onLogin);
+    yield takeLatest(auth.authActionGroup.REQUEST_FAIL, onFailed);
+}
+
+function* onFailed({error, details}) {
+    console.log(error, details);
+    yield put(notification.show(error, details, notification.types.FAILED));
 }
 
 function* onLogin({request}) {

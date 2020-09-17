@@ -40,11 +40,11 @@
             <div th:each="technology : ${technologies}">
                 <p class="technology-name" th:text="${technology.getTechnologyType().getName()}">Technology name</p>
                 <div class="level-text" th:switch="${technology.getLevel()}">
-                    <p th:case="1">(Lower)</p>
-                    <p th:case="2">(Lower Intermediate)</p>
-                    <p th:case="3">(Intermediate)</p>
-                    <p th:case="4">(Advanced)</p>
-                    <p th:case="5">(Senior)</p>
+                    <p th:case="1">(Beginner)</p>
+                    <p th:case="2">(Average)</p>
+                    <p th:case="3">(Advanced)</p>
+                    <p th:case="4">(Experienced)</p>
+                    <p th:case="5">(Expert)</p>
                 </div>
             </div>
         </div>
@@ -97,6 +97,7 @@
                     <span th:text="${#dates.format(project.getFrom(), 'MM/yyyy')}">Project from</span>
                     >
                     <span th:text="${#dates.format(project.getTo(), 'MM/yyyy')}">Project to</span>
+                    <span th:unless="${project.getTo()}">Still running</span>
                 </div>
                 <div>
                     <div class="arrow-text">Application background: [[${project.getProjectType().getDescription()}]]</div>

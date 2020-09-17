@@ -26,7 +26,7 @@ const renderActions = (actions, row, key) => {
     }
     if (actions.onDelete) {
         actionComponents.push(
-            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Smazat" />,
+            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Delete" />,
         );
     }
     return (

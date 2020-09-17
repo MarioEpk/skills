@@ -9,12 +9,12 @@ import {ADMINISTRATION, OVERVIEW, MY_CV} from "../constants";
 const Navigation = () => (
     <NavigationComponent
         links={[
-            <router.Link key={`key_${MY_CV}`} route={MY_CV}>Můj životopis</router.Link>,
+            <router.Link key={`key_${MY_CV}`} route={MY_CV}>My CV</router.Link>,
             <Access key={`key_${OVERVIEW}`} accesses={[accesses.business, accesses.admin]}>
-                <router.Link route={OVERVIEW}>Přehled</router.Link>
+                <router.Link route={OVERVIEW}>Overview</router.Link>
             </Access>,
             <Access key={`key_${ADMINISTRATION}`} accesses={[accesses.admin]}>
-                <router.Link route={ADMINISTRATION}>Administrace</router.Link>
+                <router.Link route={ADMINISTRATION}>Administration</router.Link>
             </Access>,
         ]}
     />

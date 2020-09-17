@@ -11,26 +11,28 @@ import {createFormName, NAME_FIELD} from "./constants";
 const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title={editMode ? "Aktualizovat" : "Přidat"}
+            title={editMode ? "Update" : "Add"}
             buttons={[
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
-                    key="create"
-                    label={editMode ? "Aktualizovat" : "Vytvořit"}
+                    key="Create"
+                    label={editMode ? "Update" : "Add"}
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
                 component={TextInput}
-                placeholder="Název"
+                placeholder="Name"
                 name={NAME_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <FormError errors={errors} />
         </VerticalFormLayout>

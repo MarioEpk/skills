@@ -3,7 +3,7 @@ import IPropTypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
 
 export default (Component) => {
-    const Input = ({input, placeholder, tabIndex, type, disabled, id, rowsMax}) => (
+    const Input = ({input, placeholder, tabIndex, type, disabled, id, rowsMax, autoFocus}) => (
         <Component
             value={input.value || ""}
             label={placeholder}
@@ -15,6 +15,7 @@ export default (Component) => {
             type={type}
             id={id}
             rowsMax={rowsMax}
+            autoFocus={autoFocus}
         />
     );
 
@@ -31,6 +32,7 @@ export default (Component) => {
         disabled: PropTypes.bool,
         id: PropTypes.string.isRequired,
         rowsMax: PropTypes.number,
+        autoFocus: PropTypes.bool,
     };
 
     Input.defaultProps = {
@@ -39,6 +41,7 @@ export default (Component) => {
         disabled: false,
         type: "text",
         rowsMax: undefined,
+        autoFocus: false,
     };
 
     return Input;

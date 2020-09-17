@@ -13,4 +13,5 @@ export default {
     sum: (acc, number) => acc + number,
     isNil,
     isNilOrEmpty: (value) => isNil(value) || value === '',
+    isObjectEmpty: (obj) => Object.keys(obj).length === 0,
 };

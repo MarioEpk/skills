@@ -11,36 +11,38 @@ import {EMAIL_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./const
 const Container = ({handleSubmit, submitting, errors, onClose}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title="Přidat životopis pro uživatele"
+            title="Add CV for user"
             buttons={[
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
                     key="create"
-                    label="Vytvořit životopis"
+                    label="Create CV"
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
                 component={TextInput}
-                placeholder="Jméno"
+                placeholder="First name"
                 name={FIRST_NAME_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <Field
                 component={TextInput}
-                placeholder="Příjmení"
+                placeholder="Last name"
                 name={LAST_NAME_FIELD}
                 validate={[required]}
             />
             <Field
                 component={TextInput}
-                placeholder="Firemní email"
+                placeholder="Company email (@morosystems.cz)"
                 name={EMAIL_FIELD}
                 validate={[required]}
             />

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import auth from "core/auth";
-import {compose} from "core/form";
 import {Button} from "components";
 
 const Logout = ({onLogoutSuccess}) => (
@@ -15,7 +14,7 @@ const Logout = ({onLogoutSuccess}) => (
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
                 type={Button.type.LIGHT}
-                label="Odhlásit se"
+                label="Logout"
             />
         )}
         onLogoutSuccess={onLogoutSuccess}
@@ -30,6 +29,4 @@ const mapDispatchToProps = (dispatch) => ({
     onLogoutSuccess: () => dispatch(auth.logout()),
 });
 
-export default compose(
-    connect(null, mapDispatchToProps),
-)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);

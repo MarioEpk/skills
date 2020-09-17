@@ -23,6 +23,7 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                     key="create"
                     label="Odeslat"
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
