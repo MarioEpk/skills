@@ -9,6 +9,7 @@ import lombok.Setter;
 public class ProjectTypeDto {
     private int id;
     private String name;
+    private String exportName;
     private String description;
     private List<TechnologyTypeDto> technologies;
 }

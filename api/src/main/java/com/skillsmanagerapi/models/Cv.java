@@ -2,6 +2,7 @@ package com.skillsmanagerapi.models;
 
 import com.skillsmanagerapi.enums.AvatarType;
 
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +42,7 @@ public class Cv {
     private int id;
 
     @Column(name = "profile")
+    @Type(type="text")
     private String profile;
 
     @Enumerated(EnumType.STRING)

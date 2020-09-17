@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.models;
 
+import org.hibernate.annotations.Type;
+
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class Project {
     private String company;
 
     @Column(name = "contribution")
+    @Type(type="text")
     private String contribution;
 
     @ManyToMany

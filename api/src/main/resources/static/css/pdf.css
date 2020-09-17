@@ -77,6 +77,10 @@ div {
     font-weight: bold;
 }
 
+.user {
+    width: 65%;
+}
+
 .user p {
     font-size: 20pt;
     font-weight: bold;

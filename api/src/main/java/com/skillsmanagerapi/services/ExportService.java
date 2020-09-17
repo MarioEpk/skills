@@ -12,6 +12,10 @@ import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.LanguageDto;
+import com.skillsmanagerapi.dto.ProjectDto;
+import com.skillsmanagerapi.dto.SkillDto;
+import com.skillsmanagerapi.dto.TechnologyDto;
 import com.skillsmanagerapi.enums.AvatarType;
 
 import java.io.ByteArrayInputStream;
@@ -19,6 +23,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ExportService {
@@ -49,8 +58,6 @@ public class ExportService {
         String renderedHtmlContent = templateEngine.process("pdf", context);
         String xHtml = convertToXhtml(renderedHtmlContent);
 
-        System.out.println(xHtml);
-
         ITextRenderer renderer = new ITextRenderer();
         renderer.getFontResolver().addFont("static/fonts/Montserrat-Light.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-ExtraBold.ttf", CP1250, EMBEDDED);
@@ -77,6 +84,11 @@ public class ExportService {
     private Context addCvIntoContext(CvDto cvDto) {
         Context context = new Context();
 
+        List<SkillDto> sortedSkillsDto = cvDto.getSkills().stream().sorted().collect(Collectors.toList());
+        List<TechnologyDto> sortedTechnologiesDto = cvDto.getTechnologies().stream().sorted().collect(Collectors.toList());
+        List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
+        List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
+
         context.setVariable("avatarTypeMen", AvatarType.MEN);
         context.setVariable("avatarTypeWoman", AvatarType.WOMAN);
 
@@ -84,10 +96,10 @@ public class ExportService {
         context.setVariable("user", cvDto.getUser());
         context.setVariable("positions", cvDto.getPositions());
         context.setVariable("profile", cvDto.getProfile());
-        context.setVariable("projects", cvDto.getProjects());
-        context.setVariable("skills", cvDto.getSkills());
-        context.setVariable("technologies", cvDto.getTechnologies());
-        context.setVariable("languages", cvDto.getLanguages());
+        context.setVariable("projects", sortedProjects);
+        context.setVariable("skills", sortedSkillsDto);
+        context.setVariable("technologies", sortedTechnologiesDto);
+        context.setVariable("languages", sortedLanguagesDto);
         context.setVariable("certificates", cvDto.getCertificates());
         context.setVariable("others", cvDto.getOthers());
 

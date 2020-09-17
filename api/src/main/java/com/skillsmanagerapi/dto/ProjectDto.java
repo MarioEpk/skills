@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.dto;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ProjectDto {
+public class ProjectDto implements Comparable<ProjectDto> {
     private int id;
     private Date from;
     private Date to;
@@ -16,4 +18,9 @@ public class ProjectDto {
     private List<PositionTypeDto> positions;
     private List<TechnologyTypeDto> technologies;
     private ProjectTypeDto projectType;
+
+    @Override
+    public int compareTo(@NotNull ProjectDto otherProjectDto) {
+        return otherProjectDto.getFrom().compareTo(this.from);
+    }
 }

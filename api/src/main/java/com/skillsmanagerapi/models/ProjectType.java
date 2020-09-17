@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.models;
 
+import org.hibernate.annotations.Type;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -26,10 +28,14 @@ public class ProjectType {
     private int id;
 
     @Column(name = "description")
+    @Type(type="text")
     private String description;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "export_name")
+    private String exportName;
 
     @ManyToMany
     @JoinColumn(name = "technology_type_id", referencedColumnName = "id")
