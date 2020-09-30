@@ -1,6 +1,6 @@
 import {combineReducers} from "redux-immutable";
 
-import {authActionGroup, LOGOUT} from "./actions";
+import {authActionGroup, LOGOUT, SAVE_TOKEN} from "./actions";
 
 const isAuthenticated = (state = false, {type}) => {
     switch (type) {
@@ -14,9 +14,9 @@ const isAuthenticated = (state = false, {type}) => {
     }
 };
 
-const token = (state = null, {type, authToken}) => {
+const token = (state = null, {type, token: authToken}) => {
     switch (type) {
-        case authActionGroup.REQUEST_SUCCESS:
+        case SAVE_TOKEN:
             return authToken;
         case authActionGroup.REQUEST_FAIL:
         case LOGOUT:

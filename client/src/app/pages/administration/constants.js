@@ -5,6 +5,7 @@ export const availableTypes = {
     SKILL: "SKILL",
     PROJECT: "PROJECT",
     TECHNOLOGY: "TECHNOLOGY",
+    POSITION: "POSITION",
 };
 
 export const availableTypesArray = Object.values(availableTypes);

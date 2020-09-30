@@ -1,4 +1,4 @@
-import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, ID_FIELD, LAST_NAME_FIELD} from "./constants";
+import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, ID_FIELD, LAST_NAME_FIELD, POSITION_FIELD, AVATAR_FIELD, USER_ID_FIELD} from "./constants";
 
 export {default as Form} from "./Form";
 
@@ -8,4 +8,7 @@ export default {
     LAST_NAME_FIELD,
     PROFILE_FIELD,
     ID_FIELD,
+    USER_ID_FIELD,
+    POSITION_FIELD,
+    AVATAR_FIELD,
 };

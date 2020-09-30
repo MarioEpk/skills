@@ -4,7 +4,7 @@ import {Field as ReduxFormField} from 'redux-form/immutable';
 import {List} from "immutable";
 import memoizeOne from 'memoize-one';
 
-import {VerticalFieldLayout} from './layouts';
+import {VerticalFieldLayout} from 'components';
 import FormField from './FormField';
 import {compose} from "./normalization";
 

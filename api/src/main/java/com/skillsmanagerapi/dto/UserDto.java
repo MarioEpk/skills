@@ -1,7 +1,5 @@
 package com.skillsmanagerapi.dto;
 
-import com.skillsmanagerapi.models.Role;
-
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -12,7 +10,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     @NonNull
-    private String googleEmail;
+    private String email;
     private String googleId;
-    private Role role;
+    private RoleDto role;
 }

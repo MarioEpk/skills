@@ -1,5 +1,7 @@
 import React from "react";
 
+import {action} from "components/story";
+
 import Menu from "./Menu";
 
 const children = (
@@ -10,6 +12,11 @@ const children = (
 
 export default [Menu, () => ({
     children,
-    onClick: () => {},
-    // items: [],
+    title: "Storybook title",
+    items: [
+        {
+            title: "storybook",
+            onClick: action("onClick"),
+        },
+    ],
 })];

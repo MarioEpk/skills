@@ -1,6 +1,6 @@
 import {NAME} from './constants';
 import saga from "./saga";
-import {getUserImageUrl} from "./selectors";
+import {getUser, getUserImageUrl} from "./selectors";
 import reducer from "./reducer";
 
 export default {
@@ -8,4 +8,5 @@ export default {
     saga,
     reducer,
     getUserImageUrl,
+    getUser,
 };

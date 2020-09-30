@@ -3,11 +3,9 @@ import React from "react";
 import {PageTitle} from "app/containers";
 import DataTable from "./DataTable";
 
-const Container = () => (
+export default () => (
     <>
-        <PageTitle title="Přehled" />
+        <PageTitle title="Overview" />
         <DataTable />
     </>
 );
-
-export default Container;

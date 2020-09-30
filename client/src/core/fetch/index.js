@@ -1,4 +1,5 @@
 import RequestError from "./RequestError";
+import UnauthorizedError from "./UnauthorizedError";
 import coreApi from "./coreApi";
 import {
     PRECOGNITION_FAILED,
@@ -13,6 +14,7 @@ import {
 export default {
     PRECOGNITION_FAILED,
     RequestError,
+    UnauthorizedError,
     doGet,
     doPost,
     doPut,

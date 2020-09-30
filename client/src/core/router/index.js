@@ -6,7 +6,7 @@ import reducer from "./reducer";
 import {registerRoutes} from "./staticRouteRegister";
 import LinkPlain from "./LinkPlain";
 import Link from "./Link";
-import {getCurrentRoute} from "./selectors";
+import {getCurrentParams, getCurrentRoute} from "./selectors";
 import {isThisRouteCleared, routerWrapper} from "./utils";
 
 /**
@@ -32,5 +32,6 @@ const router = {
     startRouting,
     delayedProgressStart,
     cancelProgressTask,
+    getCurrentParams,
 };
 export default router;

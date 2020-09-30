@@ -24,23 +24,23 @@ const title = (state = "", {type, payload}) => {
     }
 };
 
-const text = (state = "", {type, payload}) => {
+const text = (state = null, {type, payload}) => {
     switch (type) {
         case SHOW:
             return payload.text;
         case HIDE:
-            return "";
+            return null;
         default:
             return state;
     }
 };
 
-const notificationType = (state = "", {type, payload}) => {
+const notificationType = (state = null, {type, payload}) => {
     switch (type) {
         case SHOW:
             return payload.type;
         case HIDE:
-            return "";
+            return null;
         default:
             return state;
     }

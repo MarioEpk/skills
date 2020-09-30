@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import auth from "core/auth";
-import {compose} from "core/form";
 import {Button} from "components";
 
 const Login = ({onLoginRequest, onLoginFailure}) => (
@@ -15,7 +14,7 @@ const Login = ({onLoginRequest, onLoginFailure}) => (
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
                 type={Button.type.LIGHT}
-                label="Přihlásit se"
+                label="Login"
             />
         )}
         onSuccess={(response) => onLoginRequest(response)}
@@ -31,9 +30,7 @@ Login.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     onLoginRequest: (request) => dispatch(auth.authActionGroup.request(request)),
-    onLoginFailure: () => dispatch(auth.authActionGroup.requestFailure()),
+    onLoginFailure: (response) => dispatch(auth.authActionGroup.requestFailure(response)),
 });
 
-export default compose(
-    connect(null, mapDispatchToProps),
-)(Login);
+export default connect(null, mapDispatchToProps)(Login);

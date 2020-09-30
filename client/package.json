@@ -26,6 +26,7 @@
     "@material-ui/icons": "4.9.1",
     "classnames": "2.2.6",
     "dotenv": "8.2.0",
+    "downloadjs": "1.4.7",
     "history": "4.10.1",
     "i18next": "19.5.0",
     "immutable": "3.8.2",

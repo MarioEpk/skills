@@ -3,38 +3,38 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, VerticalFormLayout} from "components";
-import {Field, InputText, compose, form, FormError, required} from "core/form";
+import {Loading, Button, TextInput, VerticalFormLayout, FormError} from "components";
+import {Field, form, required} from "core/form";
 
 import {createFormName, NAME_FIELD} from "./constants";
 
 const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title={editMode ? "Aktualizovat" : "Přidat"}
+            title={editMode ? "Update" : "Add"}
             buttons={[
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
-                    key="create"
-                    label={editMode ? "Aktualizovat" : "Vytvořit"}
+                    key="Create"
+                    label={editMode ? "Update" : "Add"}
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
-                component={InputText}
-                placeholder="Název"
+                component={TextInput}
+                placeholder="Name"
                 name={NAME_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <FormError errors={errors} />
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-
         </VerticalFormLayout>
     </Loading>
 );
@@ -52,6 +52,4 @@ Container.defaultProps = {
     editMode: false,
 };
 
-export default (typeName) => (compose(
-    form(createFormName(typeName)),
-)(Container));
+export default (typeName) => form(createFormName(typeName))(Container);

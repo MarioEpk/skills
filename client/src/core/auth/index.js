@@ -1,5 +1,5 @@
 import {NAME} from './constants';
-import {authActionGroup, logout, LOGOUT} from "./actions";
+import {authActionGroup, logout, LOGOUT, saveToken} from "./actions";
 import {getToken, isAuthenticated} from "./selectors";
 import reducer from "./reducer";
 
@@ -10,6 +10,7 @@ const auth = {
     getToken,
     logout,
     isAuthenticated,
+    saveToken,
     LOGOUT,
 };
 export default auth;

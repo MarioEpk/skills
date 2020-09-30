@@ -1,0 +1,13 @@
+@import "components/variables.scss";
+
+.input, .main {
+    width: 100%;
+}
+
+.valueLabel {
+    text-align: center;
+    width: 100%;
+    font-family: "Montserrat", sans-serif;
+    font-size: .8rem;
+    margin: 0;
+}

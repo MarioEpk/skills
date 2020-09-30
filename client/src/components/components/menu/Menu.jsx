@@ -1,37 +1,62 @@
 import React, {useState} from "react";
+import IPropTypes from "react-immutable-proptypes";
 import invariant from "invariant";
+import classnames from "classnames";
 import PropTypes from "prop-types";
+import {fn} from 'core/util';
 
-// import css from "./Card.module.scss";
+import {KeyboardArrowDown, Add} from '@material-ui/icons';
 
-/**
- * Create Menu component for adding abilities.
- * Use storybook for styling and checking all possible options for Menu
- * Component should support title, type, items with onClick action or only onClick action props
- * If prop items is defined there will be arrow on right side, component will have two state open and close
- * If prop onClick is defined there will be plus on right side
- * Fonts are already imported, use font-family: 'Gotham Narrow' for title and 'Montserrat' for items
- * You can use shadow style from Block component
-*/
-const Menu = ({title, type, items, onClick}) => {
+import css from "./Menu.module.scss";
+
+const Menu = ({title, items, onClick}) => {
     invariant((items || onClick) && !(items && onClick), "You have to define onClick or items, you can't define both");
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const hasNoItems = () => items && items.size === 0 && !onClick;
+
+    const onOpen = () => {
+        if (onClick) {
+            onClick();
+        } else if (!hasNoItems()) {
+            setIsOpen(!isOpen);
+        }
+    };
+
+    const createIcon = () => {
+        if (items && items.size > 0) {
+            return <KeyboardArrowDown className={classnames({[css.open]: isOpen})} />;
+        } else {
+            return onClick ? <Add /> : null;
+        }
+    };
+
     return (
-        <div>
-            Card
+        <div className={classnames(css.main, {[css.mainOpen]: isOpen})}>
+            <div onClick={onOpen} onKeyDown={onOpen} className={classnames(css.title, {[css.disabled]: hasNoItems()})}>
+                <h2>{title}</h2>
+                {createIcon()}
+            </div>
+            {
+                isOpen && items && items.map((item) => (
+                    <div
+                        key={item.title}
+                        onKeyDown={item.onClick}
+                        onClick={item.onClick}
+                        className={css.item}
+                    >
+                        {item.title}
+                    </div>
+                ))
+            }
         </div>
     );
 };
 
 Menu.propTypes = {
     title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        onCLick: PropTypes.func.isRequired,
-    })),
+    items: IPropTypes.list,
     onClick: PropTypes.func,
 };
 

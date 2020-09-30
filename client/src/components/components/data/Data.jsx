@@ -1,17 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {List, toJ} from "immutable";
+import {List} from "immutable";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import {search} from "ss-search";
 import PropTypes from "prop-types";
-
 import {AddRounded} from "@material-ui/icons";
+
+import SearchInput from "./SearchInput";
 import {Block} from "../block";
-import {Table} from "../table";
+import {Table, columnsPropTypes} from "../table";
 import {Button} from "../button";
 import {Loading} from "../loading";
-import {columnsPropTypes} from "../table/util";
-import {SearchInput} from "../input";
-
 import css from "./Data.module.scss";
 import {Confirmation} from "../confirmation";
 
@@ -35,7 +32,7 @@ const Data = ({
 
     const [deleteConfirmation, setDeleteConfirmation] = useState(undefined);
     const tableActions = {
-        columnName: "Akce",
+        columnName: "Actions",
         onEdit,
         onDelete: onDelete ? (row) => setDeleteConfirmation(row) : undefined,
         custom: onCustomAction,
@@ -61,8 +58,8 @@ const Data = ({
         <Block>
             <Loading loading={loading}>
                 <Confirmation
-                    title="Smazat"
-                    text="Opravdu chcete položku smazat?"
+                    title="Delete"
+                    text="Are you sure?"
                     onDelete={() => onDelete(deleteConfirmation)}
                     onClose={() => setDeleteConfirmation(undefined)}
                     open={!!deleteConfirmation}
@@ -72,13 +69,13 @@ const Data = ({
                     {!!searchByDataField
                     && (
                         <span className={css.search}>
-                            <SearchInput label="Hledej" value={searchValue} onChange={onSearch} name={`${title}-search`} />
+                            <SearchInput label="Search" value={searchValue} onChange={onSearch} name={`${title}-search`} />
                         </span>
                     )}
                     {onCreate && (
                         <Button
                             onClick={onCreate}
-                            label="Přidat"
+                            label="Add"
                             startIcon={<AddRounded />}
                             type={Button.type.COLORED}
                         />

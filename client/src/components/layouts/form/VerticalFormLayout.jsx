@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 import css from "./VerticalFormLayout.module.scss";
 
 const VerticalFormLayout = ({title, children, buttons}) => (
-    <div className={css.main}>
+    <form className={css.main}>
         <h1>{title}</h1>
         {children}
         <div className={css.buttons}>{buttons.map((button) => button)}</div>
-    </div>
+    </form>
 );
 
 VerticalFormLayout.propTypes = {

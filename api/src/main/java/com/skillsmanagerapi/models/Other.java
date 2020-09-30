@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.models;
 
+import org.hibernate.annotations.Type;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -34,5 +36,6 @@ public class Other {
     private Date date;
 
     @Column(name = "description")
+    @Type(type="text")
     private String description;
 }

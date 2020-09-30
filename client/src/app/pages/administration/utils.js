@@ -35,6 +35,14 @@ export const getApiForType = (type) => {
                 create: typeApi.createProjectType,
             };
         }
+        case availableTypes.POSITION: {
+            return {
+                fetch: typeApi.fetchPositionTypes,
+                remove: typeApi.deletePositionType,
+                update: typeApi.updatePositionType,
+                create: typeApi.createPositionType,
+            };
+        }
         default: {
             throw new Error(`Type - ${type} was not found`);
         }
