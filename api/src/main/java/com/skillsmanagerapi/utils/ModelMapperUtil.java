@@ -1,4 +1,4 @@
-package com.skillsmanagerapi.util;
+package com.skillsmanagerapi.utils;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.skillsmanagerapi.services;
 import com.skillsmanagerapi.dto.ProjectTypeDto;
 import com.skillsmanagerapi.models.ProjectType;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
-import com.skillsmanagerapi.util.ModelMapperUtil;
+import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

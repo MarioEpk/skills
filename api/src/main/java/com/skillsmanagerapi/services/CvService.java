@@ -11,19 +11,15 @@ import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.models.Cv;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.CvRepository;
-import com.skillsmanagerapi.util.ModelMapperUtil;
+import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class CvService {

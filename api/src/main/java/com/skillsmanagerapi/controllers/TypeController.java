@@ -45,11 +45,13 @@ public class TypeController {
         this.positionTypeService = positionTypeService;
     }
 
+
     // All types
     @RequestMapping(method = RequestMethod.GET)
     public AllTypesDto getAllTypes() {
         return typeService.getAllTypes();
     }
+
 
     // Language Type
     @RequestMapping(value = "/language", method = RequestMethod.GET)
@@ -157,6 +159,7 @@ public class TypeController {
     public void deleteProjectType(@PathVariable("id") int id) {
         projectTypeService.deleteProjectType(id);
     }
+
 
     // position type
     @RequestMapping(value = "/position", method = RequestMethod.GET)

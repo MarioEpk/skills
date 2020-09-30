@@ -4,7 +4,7 @@ import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.UserRepository;
-import com.skillsmanagerapi.util.ModelMapperUtil;
+import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

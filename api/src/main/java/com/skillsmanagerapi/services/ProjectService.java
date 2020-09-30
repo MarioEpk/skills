@@ -6,7 +6,7 @@ import com.skillsmanagerapi.models.Project;
 import com.skillsmanagerapi.models.ProjectType;
 import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.ProjectRepository;
-import com.skillsmanagerapi.util.ModelMapperUtil;
+import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

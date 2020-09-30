@@ -53,7 +53,8 @@ public class ExportService {
 
         // Flying Saucer needs XHTML - not just normal HTML. To make our life
         // easy, use JTidy to convert the rendered Thymeleaf template to
-        // XHTML.Note that this might not work for very complicated HTML. But
+        // XHTML.
+        // Note that this might not work for very complicated HTML. But
         // it's good enough for a simple pdf.
         String renderedHtmlContent = templateEngine.process("pdf", context);
         String xHtml = convertToXhtml(renderedHtmlContent);
