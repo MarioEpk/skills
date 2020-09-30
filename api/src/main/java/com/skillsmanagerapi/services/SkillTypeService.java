@@ -3,6 +3,7 @@ package com.skillsmanagerapi.services;
 import com.skillsmanagerapi.dto.SkillTypeDto;
 import com.skillsmanagerapi.models.SkillType;
 import com.skillsmanagerapi.repositories.SkillTypeRepository;
+import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,21 @@ public class SkillTypeService {
 
     private final SkillTypeRepository skillTypeRepository;
     private final ModelMapper modelMapper;
+    private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public SkillTypeService(SkillTypeRepository skillTypeRepository, ModelMapper modelMapper) {
+    public SkillTypeService(SkillTypeRepository skillTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
         this.skillTypeRepository = skillTypeRepository;
         this.modelMapper = modelMapper;
+        this.modelMapperUtil = modelMapperUtil;
     }
 
-    public List<SkillType> getAllSkillTypes() {
-        return skillTypeRepository.findAllByOrderByIdAsc();
+    public List<SkillTypeDto> getAllSkillTypes() {
+        return modelMapperUtil.mapList(skillTypeRepository.findAllByOrderByIdAsc(), SkillTypeDto.class);
     }
 
-    public SkillType getSkillType(int id) {
-        return skillTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public SkillTypeDto getSkillType(int id) {
+        return modelMapper.map(skillTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), SkillTypeDto.class);
     }
 
     public void createSkillType(SkillTypeDto skillTypeDto) {
@@ -37,8 +40,7 @@ public class SkillTypeService {
     }
 
     public void updateSkillType(SkillTypeDto skillTypeDto) {
-        SkillType skillType = getSkillType(skillTypeDto.getId());
-        SkillTypeDto updatedSkillTypeDto = modelMapper.map(skillType, SkillTypeDto.class);
+        SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
         updatedSkillTypeDto.setName(skillTypeDto.getName());
         skillTypeRepository.save(modelMapper.map(updatedSkillTypeDto, SkillType.class));
     }

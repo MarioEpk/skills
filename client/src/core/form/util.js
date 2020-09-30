@@ -80,3 +80,8 @@ function* saveForm(saga, onSuccess, onError, params, {meta, payload}) {
         }
     }
 }
+
+export const convertTypeToOptions = (type) => (type ? type.map((item) => ({
+    label: item.get("name"),
+    value: item.get("id"),
+})) : []);

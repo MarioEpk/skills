@@ -6,6 +6,8 @@ import {Edit, GetApp} from "@material-ui/icons";
 
 import modal from "core/modal";
 import {Type} from "app/model/type";
+import coreExport from "core/export";
+import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
 import {cvActionGroup} from "./actions";
@@ -20,15 +22,15 @@ const columns = [{
 }, {
     key: "2",
     dataField: "user.firstName",
-    columnName: "Jméno",
+    columnName: "First name",
 }, {
     key: "3",
     dataField: "user.lastName",
-    columnName: "Příjmení",
+    columnName: "Last name",
 }, {
     key: "4",
     dataField: "updatedAt",
-    columnName: "Aktualizováno",
+    columnName: "Updated at",
 }];
 
 const DataTable = ({
@@ -38,25 +40,31 @@ const DataTable = ({
     closeModal,
     isFormModalOpen,
     onDelete,
+    onExport,
 }) => {
-    const onCustomAction = (row) => ([
-        <Button key="redirect" href={`/${row.get("id")}`} label="Editovat" startIcon={<Edit />} />,
-        <Button key="export" onClick={() => console.log("export", row)} label="Exportovat" startIcon={<GetApp />} />,
-    ]);
+    const onCustomAction = (row) => {
+        const cvId = row.get("id");
+        return ([
+            <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
+            <Button key="export" onClick={() => onExport(cvId)} label="Export" startIcon={<GetApp />} />,
+        ]);
+    };
     const onCreate = () => {
         openModal();
     };
 
+    const adminAccess = access.useAccess([accesses.admin]);
+
     return (
         <>
             <Data
-                title="Životopisy"
+                title="CVs"
                 columns={columns}
                 data={data}
                 loading={loading}
-                onCreate={onCreate}
+                onCreate={adminAccess(onCreate)}
                 onCustomAction={onCustomAction}
-                onDelete={(row) => onDelete(row.get("id"))}
+                onDelete={adminAccess((row) => onDelete(row.get("id")))}
                 searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
             />
             <Modal
@@ -75,6 +83,7 @@ DataTable.propTypes = {
     closeModal: PropTypes.func.isRequired,
     isFormModalOpen: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onExport: PropTypes.func.isRequired,
     loading: PropTypes.bool,
 };
 
@@ -91,6 +100,7 @@ const mapDispatchToProps = (dispatch) => ({
     openModal: () => dispatch(modal.open(MODAL_FORM_NAME)),
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
+    onExport: (id) => dispatch(coreExport.exportCv(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

@@ -8,9 +8,9 @@ import form, {ProjectForm} from "./form";
 
 const Container = () => (
     <>
-        <PageTitle title="Administrace" />
+        <PageTitle title="Administration" />
         <DataTable
-            title="Projekty"
+            title="Projects"
             typeName={availableTypes.PROJECT}
             form={ProjectForm}
             columns={[{
@@ -21,35 +21,49 @@ const Container = () => (
             }, {
                 key: "2",
                 dataField: SEARCH_TABLE_FIELD,
-                columnName: "Název",
+                columnName: "Name",
             },
             {
                 key: "3",
                 dataField: "description",
-                columnName: "Popis projektu",
-            }]}
+                columnName: "Project description",
+            },
+            {
+                key: "4",
+                dataField: "technologies",
+                columnName: "Used technologies",
+                dataFormat: (data) => data.map((item) => item.get("name")).join(", "),
+            },
+            ]}
         />
         <TwoColumns
             left={(
                 <>
                     <DataTable
-                        title="Jazyky"
+                        title="Languages"
                         typeName={availableTypes.LANGUAGE}
                         form={form.createForm(availableTypes.LANGUAGE)}
                     />
                     <DataTable
-                        title="Technologie"
+                        title="Technologies"
                         typeName={availableTypes.TECHNOLOGY}
                         form={form.createForm(availableTypes.TECHNOLOGY)}
                     />
                 </>
             )}
             right={(
-                <DataTable
-                    title="Schopnosti"
-                    typeName={availableTypes.SKILL}
-                    form={form.createForm(availableTypes.SKILL)}
-                />
+                <>
+                    <DataTable
+                        title="Skills"
+                        typeName={availableTypes.SKILL}
+                        form={form.createForm(availableTypes.SKILL)}
+                    />
+                    <DataTable
+                        title="Positions"
+                        typeName={availableTypes.POSITION}
+                        form={form.createForm(availableTypes.POSITION)}
+                    />
+                </>
             )}
         />
     </>

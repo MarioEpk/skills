@@ -4,7 +4,8 @@ import {change} from "redux-form";
 import {formWrapper, reset} from "core/form";
 import modal from "core/modal";
 
-import {createFormName, DESCRIPTION_FIELD, ID_FIELD, NAME_FIELD} from "./constants";
+import notification from "core/notification";
+import {createFormName, DESCRIPTION_FIELD, ID_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
 import {createTypeActionGroup} from "../actions";
 import {modalFormName} from "../constants";
 import {getApiForType} from "../utils";
@@ -33,6 +34,7 @@ export default (typeName) => {
                 yield put(action.fetch());
                 yield put(reset(formName));
                 yield put(modal.close(modalFormName(typeName)));
+                yield put(notification.show("Uloženo"));
             },
             * persistentEffects() {
                 yield takeEvery(action.FILL, fillForm(formName));
@@ -45,6 +47,7 @@ const fillForm = (formName) => (
     // eslint-disable-next-line func-names
     function* ({payload}) {
         yield put(change(formName, DESCRIPTION_FIELD, payload.description));
+        yield put(change(formName, TECHNOLOGIES_FIELD, payload.technologies && payload.technologies.map((technology) => technology.get("id"))));
         yield put(change(formName, NAME_FIELD, payload.name));
         yield put(change(formName, ID_FIELD, payload.id));
     }

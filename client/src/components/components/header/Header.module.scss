@@ -1,12 +1,16 @@
 @import "components/variables.scss";
 
 .header {
+    position: sticky;
+    top: 0;
+    width: 100%;
     display: flex;
     background-color: $nav_bg_color;
     justify-content: space-between;
     a, button {
         margin: 5px 10px 5px 0;
     }
+    z-index: 2;
 }
 
 .userSection {

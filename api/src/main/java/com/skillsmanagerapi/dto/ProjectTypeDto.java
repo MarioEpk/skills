@@ -1,13 +1,15 @@
 package com.skillsmanagerapi.dto;
 
+import java.util.List;
+
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter @Setter
 public class ProjectTypeDto {
     private int id;
-    @NonNull
     private String name;
+    private String exportName;
     private String description;
+    private List<TechnologyTypeDto> technologies;
 }

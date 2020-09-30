@@ -1,0 +1,11 @@
+.main {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    & > * {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+}

@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 
 import user from "core/user";
 import auth from "core/auth";
-import {compose} from "core/form";
 import {Header as HeaderComponent} from "components";
 import Login from "./Login";
 import Logout from "./Logout";
@@ -34,6 +33,4 @@ const mapStateToProps = (state) => ({
     userImageUrl: user.getUserImageUrl(state),
 });
 
-export default compose(
-    connect(mapStateToProps),
-)(Header);
+export default connect(mapStateToProps)(Header);

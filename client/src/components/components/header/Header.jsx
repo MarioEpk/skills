@@ -10,7 +10,7 @@ const Header = ({
         <div className={css.navigationSection}>
             <h1>
                 <span>MORO</span>
-                <span>ŽIVOTOPIS</span>
+                <span>CV</span>
             </h1>
             {isAuthenticated && navigation}
         </div>

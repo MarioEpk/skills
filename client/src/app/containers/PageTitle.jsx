@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const PageTitle = ({title}) => (
     <Helmet>
         <title>
-            MoroŽivotopis - {title}
+            MoroCV - {title}
         </title>
     </Helmet>
 );

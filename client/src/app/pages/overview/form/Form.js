@@ -3,44 +3,46 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, VerticalFormLayout} from "components";
-import {Field, InputText, compose, form, FormError, required} from "core/form";
+import {Loading, Button, TextInput, VerticalFormLayout, FormError} from "components";
+import {Field, compose, form, required} from "core/form";
 
 import {EMAIL_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./constants";
 
 const Container = ({handleSubmit, submitting, errors, onClose}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title="Přidat životopis pro uživatele"
+            title="Add CV for user"
             buttons={[
                 <Button
                     key="close"
                     type={Button.type.DANGER}
-                    label="Zavřít"
+                    label="Close"
                     onClick={onClose}
                 />,
                 <Button
                     key="create"
-                    label="Vytvořit životopis"
+                    label="Create CV"
                     onClick={handleSubmit}
+                    submit
                 />,
             ]}
         >
             <Field
-                component={InputText}
-                placeholder="Jméno"
+                component={TextInput}
+                placeholder="First name"
                 name={FIRST_NAME_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <Field
-                component={InputText}
-                placeholder="Příjmení"
+                component={TextInput}
+                placeholder="Last name"
                 name={LAST_NAME_FIELD}
                 validate={[required]}
             />
             <Field
-                component={InputText}
-                placeholder="Firemní email"
+                component={TextInput}
+                placeholder="Company email (@morosystems.cz)"
                 name={EMAIL_FIELD}
                 validate={[required]}
             />

@@ -1,37 +1,112 @@
-import {call, fork} from "redux-saga/effects";
+import {call, fork, put, takeLatest, all} from "redux-saga/effects";
 
-import {formWrapper} from "core/form";
+import {formBlurMatcher, formWrapper, submit, reset} from "core/form";
 import router from "core/router";
+import {CV, ERROR} from "app/constants";
+import notification from "core/notification";
+import coreExport from "core/export";
 
 import form from "./form";
 import {cvApi} from "../../serverApi";
+import {cvTypesActionGroup, cvActionGroup} from "./actions";
+import language from "./language";
+import skill from "./skill";
+import technology from "./technology";
+import certificate from "./certificate";
+import other from "./other";
+import project from "./project";
 
 export default router.routerWrapper({
+    * getDataForPage() {
+        return [yield call(fetchDataForPage)];
+    },
     * onPageEnter({id}) {
-        yield fork(formSaga, id);
+        if (id) {
+            yield all(
+                [language, skill, technology, certificate, other, project]
+                    .map(({createSaga}) => fork(createSaga(fetchCv, id))),
+            );
+            yield fork(formSaga, id);
+            yield takeLatest(cvActionGroup.EXPORT, createExport(id));
+        } else {
+            yield call(redirectToUserCv);
+        }
     },
 });
+
+const createExport = (id) => function* exportCv() {
+    yield put(coreExport.exportCv(id));
+};
 
 const formSaga = formWrapper(form.FORM_NAME, {
     * initialize(cvId) {
         try {
-            const payload = yield call(cvApi.fetchCv, cvId);
+            const cv = yield call(fetchCv, cvId);
             return {
-                [form.FIRST_NAME_FIELD]: payload.getIn(["user", "firstName"]),
+                [form.FIRST_NAME_FIELD]: cv.getIn(["user", "firstName"]),
+                [form.LAST_NAME_FIELD]: cv.getIn(["user", "lastName"]),
+                [form.USER_ID_FIELD]: cv.getIn(["user", "id"]),
+                [form.PROFILE_FIELD]: cv.get("profile"),
+                [form.AVATAR_FIELD]: cv.get("avatar"),
+                [form.POSITION_FIELD]: cv.get("positions").map((position) => position.id),
             };
         } catch (e) {
             console.error(e);
+            return {};
         }
-        return {};
     },
-    * save(values, targetId) {
-        // eslint-disable-next-line no-console
-        console.log("saving", targetId, values);
-        // yield call(beApi)
-        // field error handling, test purpose only
-        // yield call(testDataApi.getFormFieldErrorResponse, FIRST_FIELD);
+    * save(values, cvId) {
+        yield call(
+            cvApi.updateCv,
+            cvId,
+            values.get(form.FIRST_NAME_FIELD),
+            values.get(form.LAST_NAME_FIELD),
+            values.get(form.POSITION_FIELD),
+            values.get(form.PROFILE_FIELD),
+            values.get(form.AVATAR_FIELD),
+        );
+        yield call(fetchCv, cvId);
     },
-    success() {
-        // transition somewhere? notification?
+    * success() {
+        yield put(notification.show("Aktualizováno"));
+    },
+    * persistentEffects() {
+        yield takeLatest(formBlurMatcher(form.FORM_NAME), submitForm);
     },
 });
+
+function* fetchCv(id) {
+    try {
+        const cv = yield call(cvApi.fetchCv, id);
+        yield put(cvActionGroup.fetchSuccess(cv));
+        return cv;
+    } catch (e) {
+        yield put(cvActionGroup.fetchFailure());
+        yield put(reset(form.FORM_NAME));
+        throw e;
+    }
+}
+
+export function* submitForm() {
+    yield put(submit(form.FORM_NAME));
+}
+
+function* redirectToUserCv() {
+    try {
+        const id = yield call(cvApi.fetchMyCvId);
+        yield put(router.navigate(CV, {id}));
+    } catch (e) {
+        yield put(router.navigate(ERROR));
+    }
+}
+
+function* fetchDataForPage() {
+    try {
+        const payload = yield call(cvApi.fetchAllTypes);
+        return cvTypesActionGroup.fetchSuccess(payload);
+    } catch (e) {
+        // TODO :: handle error
+        console.error(e);
+        return cvTypesActionGroup.fetchFailure();
+    }
+}

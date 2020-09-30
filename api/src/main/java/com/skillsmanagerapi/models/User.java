@@ -32,7 +32,7 @@ public class User {
     private String googleId;
 
     @Column(name = "google_email", unique = true)
-    private String googleEmail;
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")

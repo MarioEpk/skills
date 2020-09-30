@@ -12,7 +12,9 @@ import {Loading} from "../loading";
 import {Button} from "../button";
 
 const renderActions = (actions, row, key) => {
-    if (!actions) return null;
+    if (!actions) {
+        return null;
+    }
     const actionComponents = [];
     if (actions.custom) {
         actionComponents.push(actions.custom(row));
@@ -24,7 +26,7 @@ const renderActions = (actions, row, key) => {
     }
     if (actions.onDelete) {
         actionComponents.push(
-            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Smazat" />,
+            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Delete" />,
         );
     }
     return (

@@ -1,4 +1,4 @@
-import {NAME, Types} from "./constants";
+import {NAME, types} from "./constants";
 import reducer from "./reducer";
 import Container from "./Container";
 import {show} from "./actions";
@@ -8,7 +8,7 @@ const notification = {
     reducer,
     show,
     Container,
-    Types,
+    types,
 };
 
 export default notification;
