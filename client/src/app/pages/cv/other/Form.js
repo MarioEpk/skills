@@ -33,6 +33,7 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                 placeholder="Name"
                 name={NAME_FIELD}
                 validate={[required]}
+                autoFocus
             />
             <Field
                 key={`key-${DESCRIPTION_FIELD}`}

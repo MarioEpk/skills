@@ -3,3 +3,7 @@
 #nprogress .bar {
     background: $highlight_color !important;
 }
+
+#nprogress .spinner {
+    display: none !important;
+}
