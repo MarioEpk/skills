@@ -6,4 +6,5 @@ export const Project = model.createModel("Type", (json) => ({
     name: json.name,
     description: json.description,
     technologies: Type.fromServerList(json.technologies),
+    exportName: json.exportName,
 }));

@@ -11,7 +11,7 @@ function* exportCv({payload}) {
     try {
         const response = yield cvApi.exportCv(payload.id);
         response.then((encodedPdf) => {
-            download(`data:application/octet-stream;base64,${encodedPdf}`, "CV.pdf");
+            download(`data:application/octet-stream;base64,${encodedPdf}`, `${payload.lastName}_cv.pdf`);
         });
     } catch (e) {
         console.error(e);

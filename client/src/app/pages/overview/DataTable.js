@@ -44,9 +44,10 @@ const DataTable = ({
 }) => {
     const onCustomAction = (row) => {
         const cvId = row.get("id");
+        const user = row.get("user");
         return ([
             <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
-            <Button key="export" onClick={() => onExport(cvId)} label="Export" startIcon={<GetApp />} />,
+            <Button key="export" onClick={() => onExport(cvId, user.lastName)} label="Export" startIcon={<GetApp />} />,
         ]);
     };
     const onCreate = () => {
@@ -100,7 +101,7 @@ const mapDispatchToProps = (dispatch) => ({
     openModal: () => dispatch(modal.open(MODAL_FORM_NAME)),
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
-    onExport: (id) => dispatch(coreExport.exportCv(id)),
+    onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

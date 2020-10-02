@@ -10,7 +10,6 @@ export default function* () {
 }
 
 function* onFailed({error, details}) {
-    console.log(error, details);
     yield put(notification.show(error, details, notification.types.FAILED));
 }
 

@@ -83,7 +83,7 @@
             <h3>Projects</h3>
             <div th:each="project : ${projects}">
                 <h2>
-                    <span th:text="${project.getProjectType().getName()}">Project name</span>
+                    <span th:text="${project.getProjectType().getExportName()} ? ${project.getProjectType().getExportName()} : ${project.getProjectType().getName()}">Project name</span>
                     <span class="company">
                         (<span th:text="${project.getCompany()}">Project company</span>)
                     </span>

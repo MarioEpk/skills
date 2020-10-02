@@ -12,17 +12,17 @@ export default (fetchCv, cvId) => function* createSaga() {
 const addLanguage = (fetchCv, cvId) => function* add({payload}) {
     yield call(cvApi.addLanguageToCv, payload, cvId);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Přidáno"));
+    yield put(notification.show("Added"));
 };
 
 const updateLanguage = (fetchCv, cvId) => function* update({payload: {id, level}}) {
     yield call(cvApi.updateLanguage, id, level);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Aktualizováno"));
+    yield put(notification.show("Updated"));
 };
 
 const removeLanguage = (fetchCv, cvId) => function* remove({payload}) {
     yield call(cvApi.removeLanguageFromCv, payload);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Smazáno"));
+    yield put(notification.show("Deleted"));
 };

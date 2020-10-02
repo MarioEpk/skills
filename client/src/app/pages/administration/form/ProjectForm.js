@@ -8,7 +8,7 @@ import {Type} from "app/model/type";
 import {Loading, Button, TextInput, VerticalFormLayout, FormError, TextAreaInput, MultiSelect} from "components";
 import {convertTypeToOptions, Field, form, required, compose} from "core/form";
 
-import {createFormName, DESCRIPTION_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
+import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
 import {availableTypes} from "../constants";
 import {getTypeData} from "../selectors";
 
@@ -37,6 +37,11 @@ const Container = ({handleSubmit, submitting, errors, onClose, editMode, technol
                 name={NAME_FIELD}
                 validate={[required]}
                 autoFocus
+            />
+            <Field
+                component={TextInput}
+                placeholder="Export name"
+                name={EXPORT_NAME_FIELD}
             />
             <Field
                 component={MultiSelect}

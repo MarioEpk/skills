@@ -40,7 +40,7 @@ const DataTable = ({
     const closeFormModal = () => closeModal(modalFormName(typeName));
     const onEdit = (row) => {
         openFormModal();
-        fillForm(row.get("id"), row.get("name"), row.get("description"), row.get("technologies"));
+        fillForm(row.get("id"), row.get("name"), row.get("description"), row.get("technologies"), row.get("exportName"));
         setEditMode(true);
     };
     const onCreate = () => {
@@ -102,7 +102,7 @@ const mapDispatchToProps = (dispatch, {typeName}) => {
     return ({
         openModal: (modalName) => dispatch(modal.open(modalName)),
         closeModal: (modalName) => dispatch(modal.close(modalName)),
-        fillForm: (id, name, description, technologies) => dispatch(actions.fill(id, name, description, technologies)),
+        fillForm: (id, name, description, technologies, exportName) => dispatch(actions.fill(id, name, description, technologies, exportName)),
         onDelete: (id) => dispatch(actions.remove(id)),
     });
 };

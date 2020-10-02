@@ -12,17 +12,17 @@ export default (fetchCv, cvId) => function* createSaga() {
 const addSkill = (fetchCv, cvId) => function* add({payload}) {
     yield call(cvApi.addSkillToCv, payload, cvId);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Přidáno"));
+    yield put(notification.show("Added"));
 };
 
 const updateSkill = (fetchCv, cvId) => function* update({payload: {id, level}}) {
     yield call(cvApi.updateSkill, id, level);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Aktualizováno"));
+    yield put(notification.show("Updated"));
 };
 
 const removeSkill = (fetchCv, cvId) => function* remove({payload}) {
     yield call(cvApi.removeSkillFromCv, payload);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Smazáno"));
+    yield put(notification.show("Deleted"));
 };

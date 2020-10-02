@@ -5,7 +5,7 @@ import {formWrapper, reset} from "core/form";
 import modal from "core/modal";
 
 import notification from "core/notification";
-import {createFormName, DESCRIPTION_FIELD, ID_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
+import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, ID_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
 import {createTypeActionGroup} from "../actions";
 import {modalFormName} from "../constants";
 import {getApiForType} from "../utils";
@@ -34,7 +34,10 @@ export default (typeName) => {
                 yield put(action.fetch());
                 yield put(reset(formName));
                 yield put(modal.close(modalFormName(typeName)));
-                yield put(notification.show("Uloženo"));
+                yield put(notification.show("Saved"));
+            },
+            * error() {
+                yield put(notification.show("Problem with saving ...", null, notification.types.FAILED));
             },
             * persistentEffects() {
                 yield takeEvery(action.FILL, fillForm(formName));
@@ -49,6 +52,7 @@ const fillForm = (formName) => (
         yield put(change(formName, DESCRIPTION_FIELD, payload.description));
         yield put(change(formName, TECHNOLOGIES_FIELD, payload.technologies && payload.technologies.map((technology) => technology.get("id"))));
         yield put(change(formName, NAME_FIELD, payload.name));
+        yield put(change(formName, EXPORT_NAME_FIELD, payload.exportName));
         yield put(change(formName, ID_FIELD, payload.id));
     }
 );

@@ -19,7 +19,7 @@ export default (fetchCv, cvId) => formWrapper(FORM_NAME, {
     * success() {
         yield put(closeForm());
         yield call(fetchCv, cvId);
-        yield put(notification.show("Přidáno"));
+        yield put(notification.show("Added"));
     },
     * persistentEffects() {
         yield takeEvery(FILL_FORM, fillForm);
@@ -42,5 +42,5 @@ function* resetForm() {
 const removeCertificate = (fetchCv, cvId) => function* remove({payload}) {
     yield call(cvApi.removeCertificateFromCv, payload);
     yield call(fetchCv, cvId);
-    yield put(notification.show("Smazáno"));
+    yield put(notification.show("Deleted"));
 };

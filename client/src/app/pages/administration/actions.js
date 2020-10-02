@@ -24,13 +24,14 @@ export const createTypeActionGroup = (type) => ({
         type: `${NAME}/${type}/REMOVE`,
         payload: id,
     }),
-    fill: (id, name, description, technologies) => ({
+    fill: (id, name, description, technologies, exportName) => ({
         type: `${NAME}/${type}/FILL`,
         payload: {
             id,
             name,
             description,
             technologies,
+            exportName,
         },
     }),
 });

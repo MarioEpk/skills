@@ -35,7 +35,8 @@ export default router.routerWrapper({
 });
 
 const createExport = (id) => function* exportCv() {
-    yield put(coreExport.exportCv(id));
+    const cv = yield call(fetchCv, id);
+    yield put(coreExport.exportCv(id, cv.getIn(["user", "lastName"])));
 };
 
 const formSaga = formWrapper(form.FORM_NAME, {
@@ -68,7 +69,10 @@ const formSaga = formWrapper(form.FORM_NAME, {
         yield call(fetchCv, cvId);
     },
     * success() {
-        yield put(notification.show("Aktualizováno"));
+        yield put(notification.show("Updated"));
+    },
+    * error() {
+        yield put(notification.show("Problem with updating ...", null, notification.types.FAILED));
     },
     * persistentEffects() {
         yield takeLatest(formBlurMatcher(form.FORM_NAME), submitForm);
@@ -81,6 +85,7 @@ function* fetchCv(id) {
         yield put(cvActionGroup.fetchSuccess(cv));
         return cv;
     } catch (e) {
+        yield put(notification.show("CV error", `There was a problem with fetching data for cv: ${id}`, notification.types.FAILED));
         yield put(cvActionGroup.fetchFailure());
         yield put(reset(form.FORM_NAME));
         throw e;
@@ -105,7 +110,7 @@ function* fetchDataForPage() {
         const payload = yield call(cvApi.fetchAllTypes);
         return cvTypesActionGroup.fetchSuccess(payload);
     } catch (e) {
-        // TODO :: handle error
+        yield put(notification.show("CV error", `There was a problem with fetching types`, notification.types.FAILED));
         console.error(e);
         return cvTypesActionGroup.fetchFailure();
     }
