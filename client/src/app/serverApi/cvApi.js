@@ -12,8 +12,8 @@ const fetchCvs = () => fetch.doGet(CV_URL, null, Cv.fromServerList);
 const fetchCv = (id) => fetch.doGet(`${CV_URL}/${id}`, null, Cv.fromServer);
 const createCv = (email, firstName, lastName) => fetch.doPost(CV_URL, {email, firstName, lastName});
 const updateCv = (
-    id, firstName, lastName, positions, profile, avatar,
-) => fetch.doPut(CV_URL, {id, user: {firstName, lastName}, avatar, profile, positions: positions.map((position) => ({id: position}))});
+    id, userId, firstName, lastName, positions, profile, avatar,
+) => fetch.doPut(CV_URL, {id, user: {id: userId, firstName, lastName}, avatar, profile, positions: positions.map((position) => ({id: position}))});
 const deleteCv = (id) => fetch.doDelete(`${CV_URL}/${id}`);
 const fetchMyCvId = () => fetch.doGet(`${CV_URL}/my-id`);
 const exportCv = (id) => fetch.doGetPlain(`${CV_URL}/${id}/export`);

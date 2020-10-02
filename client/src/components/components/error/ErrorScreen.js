@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import errorImage from 'resources/images/skills-manager-error.png';
 
-import {Flex} from "../../layouts/flex";
+import css from "./ErrorScreen.module.scss";
 
 const ErrorScreen = ({error}) => (
-    <Flex>
-        {error}
-    </Flex>
+    <div className={css.main}>
+        <img src={errorImage} alt={error} />
+    </div>
 );
 
 ErrorScreen.propTypes = {

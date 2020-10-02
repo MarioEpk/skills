@@ -60,6 +60,7 @@ const formSaga = formWrapper(form.FORM_NAME, {
         yield call(
             cvApi.updateCv,
             cvId,
+            values.get(form.USER_ID_FIELD),
             values.get(form.FIRST_NAME_FIELD),
             values.get(form.LAST_NAME_FIELD),
             values.get(form.POSITION_FIELD),

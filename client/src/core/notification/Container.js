@@ -7,16 +7,17 @@ import {NotificationLayout, Notification} from "components";
 
 import {hide} from "./actions";
 import {getShow, getTitle, getText, getType} from "./selectors";
-import {HIDE_TIME} from "./constants";
+import {ERROR_HIDE_TIME, HIDE_TIME} from "./constants";
 
 const Container = ({show, title, text, type, onClose}) => {
     let timer = useRef();
     useEffect(() => {
         clearTimeout(timer);
         if (show) {
+            const hideTime = type === Notification.types.FAILED ? ERROR_HIDE_TIME : HIDE_TIME;
             timer = setTimeout(() => {
                 onClose();
-            }, HIDE_TIME);
+            }, hideTime);
         }
         return () => clearTimeout(timer);
     });
