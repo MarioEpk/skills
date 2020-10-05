@@ -1,5 +1,4 @@
 import React from "react";
-import IPropTypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
 
 export default (Component) => {

@@ -52,7 +52,6 @@ const formSaga = formWrapper(form.FORM_NAME, {
                 [form.POSITION_FIELD]: cv.get("positions").map((position) => position.id),
             };
         } catch (e) {
-            console.error(e);
             return {};
         }
     },
@@ -73,7 +72,7 @@ const formSaga = formWrapper(form.FORM_NAME, {
         yield put(notification.show("Updated"));
     },
     * error() {
-        yield put(notification.show("Problem with updating ...", null, notification.types.FAILED));
+        yield put(notification.show("Problem with updating", null, notification.types.FAILED));
     },
     * persistentEffects() {
         yield takeLatest(formBlurMatcher(form.FORM_NAME), submitForm);

@@ -19,5 +19,6 @@ export {TwoColumns, WithColumn} from "./layouts/column";
 export {CardLayout} from "./layouts/card";
 export {NotificationLayout} from "./layouts/notification";
 export {VerticalFieldLayout, HorizontalFieldLayout, VerticalFormLayout, CvFormLayout} from "./layouts/form";
+export {Unauthorized} from "./layouts/error";
 
 export {default as MuiThemeProvider} from "./MuiThemeProvider";

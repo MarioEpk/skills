@@ -1,5 +1,5 @@
 import {call, all, fork, delay, put} from "redux-saga/effects";
-import {submit, initialize as reduxFormInitialize, destroy} from "redux-form/immutable";
+import {reset, initialize as reduxFormInitialize, destroy} from "redux-form/immutable";
 
 import fetch from 'core/fetch';
 import {fn} from "../util";
@@ -58,7 +58,7 @@ const resetWrapper = (formName) => takeLatestReset(formName, resetForm, formName
 function* resetForm(formName) {
     yield put(reduxFormInitialize(formName, {}));
     yield delay(0); // force end of event loop. Otherwise, submit is called with old form values, before reset
-    yield put(submit(formName));
+    yield put(reset(formName));
 }
 
 function* saveForm(saga, onSuccess, onError, params, {meta, payload}) {

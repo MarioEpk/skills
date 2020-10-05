@@ -30,7 +30,7 @@ function* removeEntityFromType(type, {payload}) {
         yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
-        yield put(notification.show("Problem with deleting ...", null, notification.types.FAILED));
+        yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
         console.error(e);
     }
 }
@@ -47,7 +47,7 @@ function* getDataForType(type) {
         return action.fetchSuccess(payload);
     } catch (e) {
         console.error(e);
-        yield put(notification.show("Problem with data fetching ...", null, notification.types.FAILED));
+        yield put(notification.show("Problem with data fetching", null, notification.types.FAILED));
         return action.fetchFailure();
     }
 }

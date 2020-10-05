@@ -37,7 +37,7 @@ export default (typeName) => {
                 yield put(notification.show("Saved"));
             },
             * error() {
-                yield put(notification.show("Problem with saving ...", null, notification.types.FAILED));
+                yield put(notification.show("Problem with saving", null, notification.types.FAILED));
             },
             * persistentEffects() {
                 yield takeEvery(action.FILL, fillForm(formName));

@@ -28,7 +28,7 @@ const formSaga = formWrapper(form.FORM_NAME, {
         );
     },
     * error() {
-        yield put(notification.show("Problem with creating ...", null, notification.types.FAILED));
+        yield put(notification.show("Problem with creating", null, notification.types.FAILED));
     },
     * success() {
         yield call(refreshData);
@@ -58,7 +58,7 @@ function* deleteData({payload}) {
         yield call(refreshData);
         yield put(notification.show("Deleted"));
     } catch (e) {
-        yield put(notification.show("Problem with deleting ...", null, notification.types.FAILED));
+        yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
         console.error(e);
     }
 }

@@ -34,18 +34,23 @@ public class RoleConverter implements Converter<Jwt, Collection<GrantedAuthority
     @Override
     public Collection<GrantedAuthority> convert(@NotNull Jwt jwt) {
         String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
-        var user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
-        List<Role> roles = new ArrayList<>();
-        if(user.getRole() == null) {
-            var defaultRole = new Role();
-            defaultRole.setName(RoleTypes.user);
-            roles.add(defaultRole);
+        var user = userRepository.findByEmail(email);
+        // new user won't be present in db
+        if (user.isPresent()) {
+            List<Role> roles = new ArrayList<>();
+            if(user.get().getRole() == null) {
+                var defaultRole = new Role();
+                defaultRole.setName(RoleTypes.user);
+                roles.add(defaultRole);
+            } else {
+                roles.add(user.get().getRole());
+            }
+            return roles.stream()
+                    .map(Role::getName)
+                    .map(roleName -> new SimpleGrantedAuthority(roleName.name()))
+                    .collect(Collectors.toList());
         } else {
-            roles.add(user.getRole());
+            return new ArrayList<>();
         }
-        return roles.stream()
-                .map(Role::getName)
-                .map(roleName -> new SimpleGrantedAuthority(roleName.name()))
-                .collect(Collectors.toList());
     }
 }

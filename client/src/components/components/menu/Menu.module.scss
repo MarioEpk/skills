@@ -49,3 +49,20 @@
         }
     }
 }
+
+.inputWrapper {
+    padding: .5rem 1rem;
+
+    & > *{
+        width: 100%;
+    }
+    .input {
+        input {
+            box-sizing: border-box;
+            &:focus {
+                outline: $highlight_color;
+            }
+        }
+    }
+}
+

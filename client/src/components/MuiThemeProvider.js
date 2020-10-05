@@ -24,6 +24,11 @@ const theme = createMuiTheme({
                 '& .MuiFilledInput-underline:after': {
                     borderBottomColor: "#FCC000",
                 },
+                '& .MuiOutlinedInput-root': {
+                    '&.Mui-focused fieldset': {
+                        borderColor: "#FCC000",
+                    },
+                },
                 '& .MuiInput-underline:after': {
                     borderBottomColor: "#FCC000",
                 },

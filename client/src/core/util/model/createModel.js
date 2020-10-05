@@ -18,6 +18,12 @@ export default (name, fromJson) => {
     const prototype = fromJson({});
     const Class = Record(prototype, name);
     Class.fromServer = (json = {}) => new Class(fromJson(json));
-    Class.fromServerList = (json = []) => List(json.map(Class.fromServer));
+    Class.fromServerList = (json = []) => {
+        let jsonArray = json;
+        if (jsonArray === null) {
+            jsonArray = [];
+        }
+        return List(jsonArray.map(Class.fromServer));
+    };
     return Class;
 };

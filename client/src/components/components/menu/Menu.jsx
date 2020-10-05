@@ -3,7 +3,7 @@ import IPropTypes from "react-immutable-proptypes";
 import invariant from "invariant";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import {fn} from 'core/util';
+import TextFieldUI from '@material-ui/core/TextField';
 
 import {KeyboardArrowDown, Add} from '@material-ui/icons';
 
@@ -13,6 +13,7 @@ const Menu = ({title, items, onClick}) => {
     invariant((items || onClick) && !(items && onClick), "You have to define onClick or items, you can't define both");
 
     const [isOpen, setIsOpen] = useState(false);
+    const [searchText, setSearchText] = useState("");
 
     const hasNoItems = () => items && items.size === 0 && !onClick;
 
@@ -32,6 +33,18 @@ const Menu = ({title, items, onClick}) => {
         }
     };
 
+    const onChangeSearch = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const getFilteredData = () => {
+        if (searchText === "") {
+            return items;
+        } else {
+            return items.filter((item) => item.title.toLowerCase().includes(searchText.toLowerCase()));
+        }
+    };
+
     return (
         <div className={classnames(css.main, {[css.mainOpen]: isOpen})}>
             <div onClick={onOpen} onKeyDown={onOpen} className={classnames(css.title, {[css.disabled]: hasNoItems()})}>
@@ -39,16 +52,35 @@ const Menu = ({title, items, onClick}) => {
                 {createIcon()}
             </div>
             {
-                isOpen && items && items.map((item) => (
-                    <div
-                        key={item.title}
-                        onKeyDown={item.onClick}
-                        onClick={item.onClick}
-                        className={css.item}
-                    >
-                        {item.title}
-                    </div>
-                ))
+                isOpen && (
+                    <>
+                        <div
+                            className={css.inputWrapper}
+                        >
+                            <TextFieldUI
+                                className={css.input}
+                                onChange={onChangeSearch}
+                                onBlur={onChangeSearch}
+                                value={searchText}
+                                label="Search"
+                                variant="outlined"
+                                InputLabelProps={{shrink: true}}
+                            />
+                        </div>
+                        {
+                            items && getFilteredData().map((item) => (
+                                <div
+                                    key={item.title}
+                                    onKeyDown={item.onClick}
+                                    onClick={item.onClick}
+                                    className={css.item}
+                                >
+                                    {item.title}
+                                </div>
+                            ))
+                        }
+                    </>
+                )
             }
         </div>
     );

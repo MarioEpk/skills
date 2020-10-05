@@ -1,0 +1,12 @@
+@import "components/variables.scss";
+
+.error {
+    text-align: left;
+    font-size: .8rem;
+    margin-top: 3px;
+    color: $highlight_color;
+}
+
+.label {
+    text-align: left;
+}

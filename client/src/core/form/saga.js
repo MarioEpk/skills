@@ -29,7 +29,7 @@ export const successSubmit = ({resolve}) => resolve();
 const createFormMatcher = (formName, actionType) => ({type, meta}) => type === actionType && meta && meta.form === formName;
 
 export const takeLatestSubmit = (formName, func, ...args) => takeLatest(createFormMatcher(formName, submitActionGroup.SUBMIT), func, ...args);
-export const takeLatestOnSubmitFail = (formName, func, ...args) => takeLatest(createFormMatcher(formName, submitActionGroup.FAILURE), func, ...args);
+export const takeLatestOnSubmitFail = (formName, func, ...args) => takeLatest(createFormMatcher(formName, submitActionGroup.SUBMIT_FAIL), func, ...args);
 export const takeLatestReset = (formName, func, ...args) => takeLatest(createFormMatcher(formName, RESET), func, ...args);
 
 export const transformErrorsForForm = (errors) => errors.reduce((acc, fieldError) => {

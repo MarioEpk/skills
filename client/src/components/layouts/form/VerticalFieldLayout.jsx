@@ -4,6 +4,7 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 
 import {Flex} from "../flex";
+import css from "./VerticalFieldLayout.module.scss";
 
 export const VerticalFieldLayout = ({
     label,
@@ -14,13 +15,13 @@ export const VerticalFieldLayout = ({
 
     return (
         <Flex vertical>
-            <div>
+            <div className={css.label}>
                 {label}
             </div>
             <div>
                 {children}
             </div>
-            <div>{errors.size > 0 && errors.map((error) => <span key={error}>{error}</span>)}</div>
+            <div className={css.error}>{errors.size > 0 && errors.map((error) => <span key={error}>{error}</span>)}</div>
         </Flex>
     );
 };
