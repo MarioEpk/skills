@@ -25,7 +25,6 @@ const AvatarImage = ({avatar, isAdminOrOwner}) => (
             component={RadioGroupInput}
             placeholder="Avatar"
             name={AVATAR_FIELD}
-            validate={[required]}
             label="Avatar"
             disabled={!isAdminOrOwner}
             options={[{
