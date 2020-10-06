@@ -4,11 +4,10 @@ import "regenerator-runtime/runtime";
 import React from "react";
 import {render} from "react-dom";
 
-import "./index.scss";
-
 import router from "./core/router";
 import {getAppReducers, createAppSaga, createProvider, corePackages} from "./core";
 import {saga, Container, routes} from "./app";
+import "./index.scss";
 
 const reducers = getAppReducers(corePackages);
 const mainSaga = createAppSaga(corePackages, saga);

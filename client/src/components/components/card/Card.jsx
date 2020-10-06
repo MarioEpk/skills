@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import {Delete, Edit} from "@material-ui/icons";
-import css from "./Card.module.scss";
+
 import {IconButton} from "../button";
+import css from "./Card.module.scss";
 
 const Card = ({title, secondTitle, date, onDelete, onEdit, children}) => (
     <div className={css.main}>

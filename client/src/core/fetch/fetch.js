@@ -1,6 +1,7 @@
 import superagent from 'superagent';
 import {CANCEL} from 'redux-saga';
 import {call, select} from 'redux-saga/effects';
+
 import auth from 'core/auth';
 import {fn} from "core/util";
 

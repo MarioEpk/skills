@@ -1,4 +1,5 @@
 import {model} from "core/util";
+
 import {Role} from "./Role";
 
 export const User = model.createModel("User", (json) => ({

@@ -5,7 +5,7 @@ import css from "./Flex.module.scss";
 
 const Flex = ({vertical, children}) => (<div className={vertical ? css.vertical : css.horizontal}>{children}</div>);
 
-Flex.proTypes = {
+Flex.propTypes = {
     children: PropTypes.node.isRequired,
     vertical: PropTypes.bool.isRequired,
 };

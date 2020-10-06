@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import SliderUI from '@material-ui/core/Slider';
-import {fn} from "core/util";
 
+import {fn} from "core/util";
 import css from "./Slider.module.scss";
 
 const Slider = ({label, value, tabIndex, disabled, onChange, step, min, max, valueLabel}) => {
@@ -41,6 +41,7 @@ Slider.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     step: PropTypes.number,
+    valueLabel: PropTypes.string,
 };
 
 Slider.defaultProps = {
@@ -52,6 +53,7 @@ Slider.defaultProps = {
     min: 1,
     max: 5,
     step: 1,
+    valueLabel: null,
 };
 
 export default Slider;

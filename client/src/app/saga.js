@@ -23,7 +23,7 @@ export default function* () {
         yield take(channel);
         channel.close(); // just good manners, we wont need this channel anymore
         yield fork(router.startRouting);
-        // we can show aplication component, which has already all data for page needed.
+        // we can show application component, which has already all data for page needed.
         yield put(init.initialize());
     } finally {
         yield call(router.cancelProgressTask);

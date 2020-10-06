@@ -1,8 +1,9 @@
 import React from "react";
+
 import {PageTitle} from "app/containers";
+import {Unauthorized} from "components";
 
 import unauthorized from "resources/images/not-authorized.png";
-import {Unauthorized} from "components";
 
 export default () => (
     <>

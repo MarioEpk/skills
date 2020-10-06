@@ -7,6 +7,7 @@ import {PageTitle} from "app/containers";
 import {accesses} from "core/access";
 import {WithColumn, Menu, Button} from "components";
 import {compose} from "core/form";
+
 import language, {Language} from "./language";
 import skill, {Skill} from "./skill";
 import technology, {Technology} from "./technology";

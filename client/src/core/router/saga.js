@@ -4,6 +4,7 @@ import NProgress from "nprogress";
 import {createBrowserHistory} from 'history';
 import {match} from "path-to-regexp";
 import {parse, stringify} from "query-string";
+
 import notification from "core/notification";
 import access from "core/access";
 import user from "core/user";

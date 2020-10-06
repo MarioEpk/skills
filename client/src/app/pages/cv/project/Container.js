@@ -9,6 +9,7 @@ import {Card, CardLayout, Modal} from "components";
 import {Project} from "app/model/cv";
 import {Type, Project as ProjectType} from "app/model/type";
 import {accesses} from "core/access";
+
 import {getProjects} from "./selectors";
 import {
     removeProjectFromCv as removeProjectFromCvAction,

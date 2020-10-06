@@ -1,4 +1,5 @@
 import {model} from "core/util";
+
 import {Type} from "../type";
 
 export const Language = model.createModel("Language", (json) => ({

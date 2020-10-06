@@ -9,8 +9,9 @@ import {Block} from "../block";
 import {Table, columnsPropTypes} from "../table";
 import {Button} from "../button";
 import {Loading} from "../loading";
-import css from "./Data.module.scss";
 import {Confirmation} from "../confirmation";
+
+import css from "./Data.module.scss";
 
 const Data = ({
     title,

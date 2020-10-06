@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import {RadioGroupInput} from "components";
-import {Field, getFormFieldValue, required} from "core/form";
+import {Field, getFormFieldValue} from "core/form";
 
 import avatarMen from 'resources/images/avatar_man.png';
 import avatarGhost from 'resources/images/avatar_ghost.png';

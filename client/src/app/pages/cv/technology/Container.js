@@ -8,6 +8,7 @@ import {compose} from "core/form";
 import {accesses} from "core/access";
 import {Card, CardLayout, Slider} from "components";
 import {Technology} from "app/model/cv";
+
 import {getTechnologies} from "./selectors";
 import {removeTechnologyFromCv, updateTechnology as updateTechnologyAction} from "./actions";
 import {useAccessOrIsOwner} from "../utils";

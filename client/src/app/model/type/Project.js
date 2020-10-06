@@ -1,4 +1,5 @@
 import {model} from "core/util";
+
 import {Type} from "./Type";
 
 export const Project = model.createModel("Type", (json) => ({

@@ -7,6 +7,7 @@ import {compose} from "core/form";
 import modal from "core/modal";
 import {accesses} from "core/access";
 import {Card, CardLayout, Modal} from "components";
+
 import {Certificate} from "app/model/cv";
 import {getCertificates} from "./selectors";
 import {

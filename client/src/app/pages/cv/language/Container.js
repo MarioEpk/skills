@@ -8,6 +8,7 @@ import {compose} from "core/form";
 import {Card, CardLayout, Slider} from "components";
 import {Language} from "app/model/cv";
 import {accesses} from "core/access";
+
 import {getLanguages} from "./selectors";
 import {removeLanguageFromCv, updateLanguage as updateLanguageAction} from "./actions";
 import {useAccessOrIsOwner} from "../utils";

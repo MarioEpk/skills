@@ -6,6 +6,7 @@ import IPropTypes from "react-immutable-proptypes";
 import modal from "core/modal";
 import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
+
 import {getTypeData} from "./selectors";
 import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELD} from "./constants";
 import {createTypeActionGroup} from "./actions";

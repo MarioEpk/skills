@@ -2,6 +2,7 @@ import React from "react";
 
 import {TwoColumns} from "components";
 import {PageTitle} from "app/containers";
+
 import DataTable from "./DataTable";
 import {availableTypes, SEARCH_TABLE_FIELD} from "./constants";
 import form, {ProjectForm} from "./form";

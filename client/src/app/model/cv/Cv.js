@@ -1,4 +1,5 @@
 import {model} from "core/util";
+
 import {Language} from "./Language";
 import {Skill} from "./Skill";
 import {Technology} from "./Technology";

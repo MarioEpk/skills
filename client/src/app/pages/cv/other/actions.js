@@ -1,4 +1,5 @@
 import modal from "core/modal";
+
 import {MODAL_NAME, NAME} from "./constants";
 
 export const FILL_FORM = `${NAME}/FILL_FORM`;

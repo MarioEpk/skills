@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextFieldUI from '@material-ui/core/TextField';
+
 import {fn} from "core/util";
 
-import css from "./TextInput.module.scss";
 import FormInputHOC from "./FormInputHOC";
+import css from "./TextInput.module.scss";
 
 const DateInput = ({onChange, label, value, tabIndex, disabled, id, onBlur}) => (
     <TextFieldUI

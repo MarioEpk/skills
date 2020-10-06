@@ -1,6 +1,8 @@
 import {call, put, takeLatest} from "redux-saga/effects";
+
 import {cvApi} from "app/serverApi";
 import notification from "core/notification";
+
 import {ADD_TECHNOLOGY_TO_CV, REMOVE_TECHNOLOGY_FROM_CV, UPDATE_TECHNOLOGY} from "./actions";
 
 export default (fetchCv, cvId) => function* createSaga() {

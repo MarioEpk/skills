@@ -23,8 +23,12 @@ const updateTechnologyType = ({id, name}) => fetch.doPut(TECHNOLOGY_URL, {id, na
 const deleteTechnologyType = ({id}) => fetch.doDelete(`${TECHNOLOGY_URL}/${id}`);
 
 const fetchProjectTypes = () => fetch.doGet(PROJECT_URL, null, Project.fromServerList);
-const createProjectType = ({name, description, technologies, exportName}) => fetch.doPost(PROJECT_URL, {name, description, technologies: technologies.map((technology) => ({id: technology})), exportName});
-const updateProjectType = ({id, name, description, technologies, exportName}) => fetch.doPut(PROJECT_URL, {id, name, description, technologies: technologies.map((technology) => ({id: technology})), exportName});
+const createProjectType = ({name, description, technologies, exportName}) => (
+    fetch.doPost(PROJECT_URL, {name, description, technologies: technologies.map((technology) => ({id: technology})), exportName})
+);
+const updateProjectType = ({id, name, description, technologies, exportName}) => (
+    fetch.doPut(PROJECT_URL, {id, name, description, technologies: technologies.map((technology) => ({id: technology})), exportName})
+);
 const deleteProjectType = ({id}) => fetch.doDelete(`${PROJECT_URL}/${id}`);
 
 const fetchPositionTypes = () => fetch.doGet(POSITION_URL, null, Type.fromServerList);

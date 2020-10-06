@@ -1,7 +1,7 @@
 import React from "react";
+import {connect} from "react-redux";
 import {GoogleLogout} from "react-google-login";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
 
 import auth from "core/auth";
 import {Button} from "components";

@@ -1,6 +1,7 @@
 import {call, put, takeLatest} from "redux-saga/effects";
 import {cvApi} from "app/serverApi";
 import notification from "core/notification";
+
 import {ADD_LANGUAGE_TO_CV, REMOVE_LANGUAGE_FROM_CV, UPDATE_LANGUAGE} from "./actions";
 
 export default (fetchCv, cvId) => function* createSaga() {

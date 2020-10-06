@@ -1,7 +1,9 @@
 import {call, put, takeLatest} from "redux-saga/effects";
+
 import {cvApi} from "app/serverApi";
-import {ADD_SKILL_TO_CV, REMOVE_SKILL_FROM_CV, UPDATE_SKILL} from "./actions";
 import notification from "core/notification";
+
+import {ADD_SKILL_TO_CV, REMOVE_SKILL_FROM_CV, UPDATE_SKILL} from "./actions";
 
 export default (fetchCv, cvId) => function* createSaga() {
     yield takeLatest(ADD_SKILL_TO_CV, addSkill(fetchCv, cvId));

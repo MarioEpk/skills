@@ -3,8 +3,9 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import {Provider, batch} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import {combineReducers} from 'redux-immutable';
-import {ErrorScreen} from 'components/components/error';
 import RedBox from "redbox-react";
+
+import {ErrorScreen} from 'components/components/error';
 
 import i18n from "core/i18n";
 

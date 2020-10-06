@@ -3,13 +3,13 @@ import {connect} from "react-redux";
 import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
-import {Type} from "app/model/type";
 
+import {Type} from "app/model/type";
 import {Button, Loading, TextInput, DateInput, FormError, VerticalFormLayout, MultiSelect, TextAreaInput} from "components";
 import {Field, compose, form, required, convertTypeToOptions, getFormFieldValue} from "core/form";
 
 import {
-    FROM_FIELD, TO_FIELD, COMPANY_FIELD, CONTRIBUTION_FIELD, POSITION_TYPES_FIELD, FORM_NAME, PROJECT_TYPE_FIELD, TECHNOLOGY_TYPE_FIELD
+    FROM_FIELD, TO_FIELD, COMPANY_FIELD, CONTRIBUTION_FIELD, POSITION_TYPES_FIELD, FORM_NAME, PROJECT_TYPE_FIELD, TECHNOLOGY_TYPE_FIELD,
 } from "./constants";
 
 const Container = ({handleSubmit, onClose, submitting, errors, positions, projectType, technologies}) => (

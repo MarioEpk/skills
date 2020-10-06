@@ -9,6 +9,7 @@ import {Type} from "app/model/type";
 import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
+
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";

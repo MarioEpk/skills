@@ -1,4 +1,5 @@
 import {model} from "core/util";
+
 import {Type} from "./Type";
 import {Project} from "./Project";
 

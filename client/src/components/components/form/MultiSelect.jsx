@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import {FormControl, InputLabel, Select, Input, MenuItem, Checkbox, ListItemText, Chip} from '@material-ui/core';
 import {fn} from "core/util";
 
-import css from "./MultiSelect.module.scss";
-
 import FormMultiSelectHOC from "./FormMultiSelectHOC";
+import css from "./MultiSelect.module.scss";
 
 const MultiSelect = ({onChange, label, value: valueList, tabIndex, disabled, id, onBlur, options}) => {
     const handleChangeMultiple = (event) => {

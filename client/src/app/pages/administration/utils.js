@@ -1,4 +1,5 @@
 import {typeApi} from "app/serverApi";
+
 import {availableTypes} from "./constants";
 
 export const getApiForType = (type) => {

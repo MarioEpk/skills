@@ -1,5 +1,4 @@
-function UnauthorizedError() {
-}
+function UnauthorizedError() {}
 
 UnauthorizedError.prototype = Object.create(Error.prototype);
 UnauthorizedError.prototype.name = 'UnauthorizedError';

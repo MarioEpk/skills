@@ -1,4 +1,5 @@
 import {model} from "core/util";
+
 import {Type} from "../type";
 
 export const Technology = model.createModel("Technology", (json) => ({

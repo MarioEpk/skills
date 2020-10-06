@@ -1,9 +1,11 @@
 import {call, put, takeEvery, takeLatest, all} from "redux-saga/effects";
 import {change} from "redux-form";
+
 import {cvApi} from "app/serverApi";
 import {formWrapper, reset} from "core/form";
 import modal from "core/modal";
 import notification from "core/notification";
+
 import {closeForm, FILL_FORM, OPEN_FORM, REMOVE_PROJECT_FROM_CV} from "./actions";
 import {
     FORM_NAME, ID_FIELD, MODAL_NAME, FROM_FIELD, TO_FIELD, COMPANY_FIELD, CONTRIBUTION_FIELD, POSITION_TYPES_FIELD, PROJECT_TYPE_FIELD,

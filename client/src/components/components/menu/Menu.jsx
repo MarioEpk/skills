@@ -4,7 +4,6 @@ import invariant from "invariant";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import TextFieldUI from '@material-ui/core/TextField';
-
 import {KeyboardArrowDown, Add} from '@material-ui/icons';
 
 import css from "./Menu.module.scss";

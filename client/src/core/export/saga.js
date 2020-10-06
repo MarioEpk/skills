@@ -1,6 +1,8 @@
 import {takeLatest} from "redux-saga/effects";
-import {cvApi} from "app/serverApi";
 import download from "downloadjs";
+
+import {cvApi} from "app/serverApi";
+
 import {EXPORT_CV} from "./actions";
 
 export default function* () {

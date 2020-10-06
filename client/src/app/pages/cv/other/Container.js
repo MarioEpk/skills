@@ -8,6 +8,7 @@ import modal from "core/modal";
 import {accesses} from "core/access";
 import {Card, CardLayout, Modal} from "components";
 import {Certificate} from "app/model/cv";
+
 import {getOthers} from "./selectors";
 import {
     removeOtherFromCv as removeOtherFromCvAction,

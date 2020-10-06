@@ -2,8 +2,8 @@ import {call, all, fork, delay, put} from "redux-saga/effects";
 import {reset, initialize as reduxFormInitialize, destroy} from "redux-form/immutable";
 
 import fetch from 'core/fetch';
-import {fn} from "../util";
 
+import {fn} from "../util";
 import {
     failSubmitWithException,
     failSubmitWithCustomErrors,

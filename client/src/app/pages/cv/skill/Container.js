@@ -2,12 +2,13 @@ import React from "react";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
-import {accesses} from "core/access";
 
+import {accesses} from "core/access";
 import i18n from "core/i18n";
 import {compose} from "core/form";
 import {Card, CardLayout, Slider} from "components";
 import {Skill} from "app/model/cv";
+
 import {getSkills} from "./selectors";
 import {removeSkillFromCv, updateSkill as updateSkillAction} from "./actions";
 import {useAccessOrIsOwner} from "../utils";

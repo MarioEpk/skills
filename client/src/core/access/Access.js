@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
+
 import user from "core/user";
+
 import {accesses as accessTypes} from "./constants";
 
 const Access = ({accesses, children}) => {

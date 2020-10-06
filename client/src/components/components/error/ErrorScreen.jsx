@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import errorImage from 'resources/images/skills-manager-error.png';
 
 import css from "./ErrorScreen.module.scss";

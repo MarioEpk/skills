@@ -3,8 +3,8 @@ import {change} from "redux-form";
 
 import {formWrapper, reset} from "core/form";
 import modal from "core/modal";
-
 import notification from "core/notification";
+
 import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, ID_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
 import {createTypeActionGroup} from "../actions";
 import {modalFormName} from "../constants";
