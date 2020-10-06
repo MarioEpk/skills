@@ -1,6 +1,6 @@
 import {NAME} from "./constants";
 import reducer from "./reducer";
-import {getTechnologies} from "./selectors";
+import {getTechnologies, getUsedTechnologyTypesId} from "./selectors";
 import {addTechnologyToCv} from "./actions";
 import createSaga from "./createSaga";
 
@@ -12,4 +12,5 @@ export default {
     createSaga,
     getTechnologies,
     addTechnologyToCv,
+    getUsedTechnologyTypesId,
 };

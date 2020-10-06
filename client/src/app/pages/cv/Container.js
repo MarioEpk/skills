@@ -28,7 +28,11 @@ const Container = ({
     openOtherForm,
     openProjectForm,
     exportCv,
+    usedSkillIds,
+    usedLanguageIds,
+    usedTechnologyIds,
 }) => {
+    console.log(usedSkillIds, usedLanguageIds, usedTechnologyIds);
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
     return (
@@ -39,9 +43,9 @@ const Container = ({
                 titleButton={<Button label="Generate PDF" onClick={exportCv} />}
                 column={adminOrOwnerAccess([
                     <Menu key="menu1" title="Projects" items={createMenuItems(types.projects, openProjectForm)} />,
-                    <Menu key="menu2" title="Skills" items={createMenuItems(types.skills, addSkillToCv)} />,
-                    <Menu key="menu3" title="Languages" items={createMenuItems(types.languages, addLanguageToCv)} />,
-                    <Menu key="menu4" title="Technologies" items={createMenuItems(types.technologies, addTechnologyToCv)} />,
+                    <Menu key="menu2" title="Skills" items={createMenuItems(types.skills, addSkillToCv, usedSkillIds)} />,
+                    <Menu key="menu3" title="Languages" items={createMenuItems(types.languages, addLanguageToCv, usedLanguageIds)} />,
+                    <Menu key="menu4" title="Technologies" items={createMenuItems(types.technologies, addTechnologyToCv, usedTechnologyIds)} />,
                     <Menu key="menu5" title="Certificates" onClick={openCertificateForm} />,
                     <Menu key="menu6" title="Others" onClick={openOtherForm} />,
                 ])}
@@ -60,6 +64,9 @@ const Container = ({
 
 const mapStateToProps = (state) => ({
     types: getTypes(state),
+    usedSkillIds: skill.getUsedSkillTypesId(state),
+    usedLanguageIds: language.getUsedLanguageTypesId(state),
+    usedTechnologyIds: technology.getUsedTechnologyTypesId(state),
 });
 
 const mapDispatchToProps = ({
@@ -82,6 +89,9 @@ Container.propTypes = {
     openOtherForm: PropTypes.func.isRequired,
     openProjectForm: PropTypes.func.isRequired,
     exportCv: PropTypes.func.isRequired,
+    usedSkillIds: IPropTypes.list.isRequired,
+    usedLanguageIds: IPropTypes.list.isRequired,
+    usedTechnologyIds: IPropTypes.list.isRequired,
 };
 
 export default compose(

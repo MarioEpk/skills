@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, {useState} from "react";
 import IPropTypes from "react-immutable-proptypes";
 import invariant from "invariant";
@@ -24,6 +25,14 @@ const Menu = ({title, items, onClick}) => {
         }
     };
 
+    const onEnterFunction = (func) => (event) => {
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            func();
+        }
+    };
+
     const createIcon = () => {
         if (items && items.size > 0) {
             return <KeyboardArrowDown className={classnames({[css.open]: isOpen})} />;
@@ -46,7 +55,7 @@ const Menu = ({title, items, onClick}) => {
 
     return (
         <div className={classnames(css.main, {[css.mainOpen]: isOpen})}>
-            <div onClick={onOpen} onKeyDown={onOpen} className={classnames(css.title, {[css.disabled]: hasNoItems()})}>
+            <div tabIndex={0} onClick={onOpen} onKeyDown={onEnterFunction(onOpen)} className={classnames(css.title, {[css.disabled]: hasNoItems()})}>
                 <h2>{title}</h2>
                 {createIcon()}
             </div>
@@ -69,9 +78,10 @@ const Menu = ({title, items, onClick}) => {
                             items && getFilteredData().map((item) => (
                                 <div
                                     key={item.title}
-                                    onKeyDown={item.onClick}
-                                    onClick={item.onClick}
-                                    className={css.item}
+                                    tabIndex={item.disabled ? undefined : 0}
+                                    onKeyDown={item.disabled ? undefined : onEnterFunction(item.onClick)}
+                                    onClick={item.disabled ? undefined : item.onClick}
+                                    className={classnames(css.item, {[css.disabled]: item.disabled})}
                                 >
                                     {item.title}
                                 </div>

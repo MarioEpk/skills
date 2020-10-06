@@ -14,17 +14,22 @@
         margin-bottom: .5rem;
     }
     .controls {
-        transition: opacity .2s ease;
-        opacity: 0;
         display: flex;
         position: absolute;
         top: .8rem;
         right: .5rem;
     }
+    .controls button {
+        transition: opacity .2s ease;
+        opacity: 0;
+    }
     &:hover {
-        .controls {
+        .controls button {
             opacity: 1;
         }
+    }
+    .controls button:focus {
+        opacity: 1;
     }
     .date {
         font-family: "Gotham Narrow", sans-serif;

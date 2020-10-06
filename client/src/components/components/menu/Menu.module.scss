@@ -17,9 +17,17 @@
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     padding: .5rem 1rem;
-    &:hover {
+    &.disabled {
+        opacity: .2;
+        &:hover, &:focus {
+            background-color: white;
+            cursor: not-allowed;
+        }
+    }
+    &:hover, &:focus {
         background-color: rgba(252, 192, 0, 0.24);
         cursor: pointer;
+        outline: none;
     }
 }
 
@@ -38,9 +46,10 @@
     .open{
         transform: rotate(-180deg);
     }
-    &:hover {
+    &:hover, &:focus {
         background-color: rgba(252, 192, 0, 0.24);
         cursor: pointer;
+        outline: none;
     }
     &.disabled {
         &:hover {

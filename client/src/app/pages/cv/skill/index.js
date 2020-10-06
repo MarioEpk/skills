@@ -1,6 +1,6 @@
 import {NAME} from "./constants";
 import reducer from "./reducer";
-import {getSkills} from "./selectors";
+import {getSkills, getUsedSkillTypesId} from "./selectors";
 import {addSkillToCv} from "./actions";
 import createSaga from "./createSaga";
 
@@ -12,4 +12,5 @@ export default {
     createSaga,
     getSkills,
     addSkillToCv,
+    getUsedSkillTypesId,
 };

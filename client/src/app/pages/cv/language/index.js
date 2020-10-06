@@ -1,6 +1,6 @@
 import {NAME} from "./constants";
 import reducer from "./reducer";
-import {getLanguages} from "./selectors";
+import {getLanguages, getUsedLanguageTypesId} from "./selectors";
 import {addLanguageToCv} from "./actions";
 import createSaga from "./createSaga";
 
@@ -12,4 +12,5 @@ export default {
     createSaga,
     getLanguages,
     addLanguageToCv,
+    getUsedLanguageTypesId,
 };
