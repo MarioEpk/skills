@@ -40,7 +40,6 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                 component={TextAreaInput}
                 placeholder="Description"
                 name={DESCRIPTION_FIELD}
-                validate={[required]}
             />
             <Field
                 key={`key-${DATE_FIELD}`}

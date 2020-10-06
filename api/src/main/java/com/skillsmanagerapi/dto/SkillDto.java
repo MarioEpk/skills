@@ -1,8 +1,7 @@
 package com.skillsmanagerapi.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter @Setter
@@ -12,7 +11,7 @@ public class SkillDto implements Comparable<SkillDto> {
     private SkillTypeDto skillType;
 
     @Override
-    public int compareTo(@NotNull SkillDto otherSkillDto) {
+    public int compareTo(@NonNull SkillDto otherSkillDto) {
         return otherSkillDto.getLevel() - this.level;
     }
 }

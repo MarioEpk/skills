@@ -1,12 +1,11 @@
 package com.skillsmanagerapi.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NonNull;
 
 @Getter @Setter
 public class ProjectDto implements Comparable<ProjectDto> {
@@ -20,7 +19,7 @@ public class ProjectDto implements Comparable<ProjectDto> {
     private ProjectTypeDto projectType;
 
     @Override
-    public int compareTo(@NotNull ProjectDto otherProjectDto) {
+    public int compareTo(@NonNull ProjectDto otherProjectDto) {
         return otherProjectDto.getFrom().compareTo(this.from);
     }
 }

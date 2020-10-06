@@ -1,8 +1,7 @@
 package com.skillsmanagerapi.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter @Setter
@@ -12,7 +11,7 @@ public class TechnologyDto implements Comparable<TechnologyDto> {
     private TechnologyTypeDto technologyType;
 
     @Override
-    public int compareTo(@NotNull TechnologyDto otherTechnologyDto) {
+    public int compareTo(@NonNull TechnologyDto otherTechnologyDto) {
         return otherTechnologyDto.getLevel() - this.level;
     }
 }

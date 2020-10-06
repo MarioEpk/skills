@@ -1,8 +1,7 @@
 package com.skillsmanagerapi.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter @Setter
@@ -12,7 +11,7 @@ public class LanguageDto implements Comparable<LanguageDto> {
     private LanguageTypeDto languageType;
 
     @Override
-    public int compareTo(@NotNull LanguageDto otherLanguageDto) {
+    public int compareTo(@NonNull LanguageDto otherLanguageDto) {
         return otherLanguageDto.getLevel() - this.level;
     }
 }

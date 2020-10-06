@@ -4,7 +4,6 @@ import com.skillsmanagerapi.enums.RoleTypes;
 import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.repositories.UserRepository;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
@@ -19,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
+import lombok.NonNull;
 
 @Component
 public class RoleConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
@@ -32,7 +31,7 @@ public class RoleConverter implements Converter<Jwt, Collection<GrantedAuthority
     }
 
     @Override
-    public Collection<GrantedAuthority> convert(@NotNull Jwt jwt) {
+    public Collection<GrantedAuthority> convert(@NonNull Jwt jwt) {
         String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
         var user = userRepository.findByEmail(email);
         // new user won't be present in db
