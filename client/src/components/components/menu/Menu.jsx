@@ -3,9 +3,9 @@ import IPropTypes from "react-immutable-proptypes";
 import invariant from "invariant";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import TextFieldUI from '@material-ui/core/TextField';
 import {KeyboardArrowDown, Add} from '@material-ui/icons';
 
+import {SearchInput} from "../data";
 import css from "./Menu.module.scss";
 
 const Menu = ({title, items, onClick}) => {
@@ -56,14 +56,13 @@ const Menu = ({title, items, onClick}) => {
                         <div
                             className={css.inputWrapper}
                         >
-                            <TextFieldUI
+                            <SearchInput
+                                name="menu-search"
                                 className={css.input}
                                 onChange={onChangeSearch}
                                 onBlur={onChangeSearch}
                                 value={searchText}
                                 label="Search"
-                                variant="outlined"
-                                InputLabelProps={{shrink: true}}
                             />
                         </div>
                         {
