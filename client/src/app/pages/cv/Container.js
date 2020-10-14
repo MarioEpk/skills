@@ -32,7 +32,6 @@ const Container = ({
     usedLanguageIds,
     usedTechnologyIds,
 }) => {
-    console.log(usedSkillIds, usedLanguageIds, usedTechnologyIds);
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
     return (

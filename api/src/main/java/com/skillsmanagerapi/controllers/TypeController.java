@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @PreAuthorize("hasAuthority('admin')")
-@RequestMapping(value = "/type")
+@RequestMapping(value = "/api/type")
 @RestController
 public class TypeController {
 

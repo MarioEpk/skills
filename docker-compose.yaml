@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:12.4
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: skillsmanager
+      POSTGRES_USER: moro
+      POSTGRES_PASSWORD: ~skillz
+  api:
+    image: "morodocker/moro-cv-api-latest"
+  client:
+    image: "morodocker/moro-cv-client-latest"
+    ports:
+      - 3000:80
+
+volumes:
+  db-data:

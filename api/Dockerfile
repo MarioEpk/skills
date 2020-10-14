@@ -1,0 +1,11 @@
+FROM amazoncorretto:11.0.8
+
+MAINTAINER "Jan Bártl <jan.bartl@morosystems.cz">
+
+ARG JAR_FILE
+RUN mkdir /app
+WORKDIR /app
+
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

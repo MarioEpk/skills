@@ -35,7 +35,7 @@ const propagateEnvVariables = (env) => (
 );
 
 const array = (...target) => target.filter(Boolean);
-module.exports.default = ({devserver, devserverRemote}) => {
+module.exports.default = ({devserver}) => {
     // call dotenv and it will return an Object with a parsed key
     const env = dotenv.config().parsed;
 
@@ -150,7 +150,7 @@ module.exports.default = ({devserver, devserverRemote}) => {
         devServer: {
             inline: true,
             port: 3000,
-            proxy: createProxy ? createProxy(devserverRemote) : undefined,
+            proxy: createProxy ? createProxy() : undefined,
             disableHostCheck: true,
             historyApiFallback: true,
         },
