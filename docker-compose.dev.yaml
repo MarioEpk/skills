@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:12.4
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: skillsmanager
+      POSTGRES_USER: moro
+      POSTGRES_PASSWORD: ~skillz
+  api:
+    build:
+      context: ./api
+      args:
+        JAR_FILE: ./build/libs/skills-manager-api-1.0.0-SNAPSHOT.jar
+    ports:
+      - 8080:8080
+  client:
+    build:
+      context: ./client
+    ports:
+      - 3000:80
+
+volumes:
+  db-data:
