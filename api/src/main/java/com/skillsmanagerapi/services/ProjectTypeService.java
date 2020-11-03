@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class ProjectTypeService {
 
@@ -21,7 +23,7 @@ public class ProjectTypeService {
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public ProjectTypeService(ProjectTypeRepository projectTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
+    public ProjectTypeService(@NonNull final ProjectTypeRepository projectTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
         this.projectTypeRepository = projectTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
@@ -31,15 +33,15 @@ public class ProjectTypeService {
         return modelMapperUtil.mapList(projectTypeRepository.findAllByOrderByIdAsc(), ProjectTypeDto.class);
     }
 
-    public ProjectTypeDto getProjectType(int id) {
+    public ProjectTypeDto getProjectType(final int id) {
         return modelMapper.map(projectTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), ProjectTypeDto.class);
     }
 
-    public void createProjectType(ProjectTypeDto projectTypeDto) {
+    public void createProjectType(@NonNull final ProjectTypeDto projectTypeDto) {
         projectTypeRepository.save(modelMapper.map(projectTypeDto, ProjectType.class));
     }
 
-    public void updateProjectType(ProjectTypeDto projectTypeDto) {
+    public void updateProjectType(@NonNull final ProjectTypeDto projectTypeDto) {
         ProjectTypeDto updatedProjectTypeDto = getProjectType(projectTypeDto.getId());
         updatedProjectTypeDto.setName(projectTypeDto.getName());
         updatedProjectTypeDto.setExportName(projectTypeDto.getExportName());
@@ -48,9 +50,8 @@ public class ProjectTypeService {
         projectTypeRepository.save(modelMapper.map(updatedProjectTypeDto, ProjectType.class));
     }
 
-    public void deleteProjectType(int id) {
+    public void deleteProjectType(final int id) {
         projectTypeRepository.deleteById(id);
     }
-
 
 }

@@ -5,6 +5,8 @@ import com.skillsmanagerapi.dto.AllTypesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.NonNull;
+
 @Service
 public class TypeService {
 
@@ -15,7 +17,13 @@ public class TypeService {
     private final PositionTypeService positionTypeService;
 
     @Autowired
-    public TypeService(LanguageTypeService languageTypeService, ProjectTypeService projectTypeService, SkillTypeService skillTypeService, TechnologyTypeService technologyTypeService, PositionTypeService positionTypeService) {
+    public TypeService(
+            @NonNull final LanguageTypeService languageTypeService,
+            @NonNull final ProjectTypeService projectTypeService,
+            @NonNull final SkillTypeService skillTypeService,
+            @NonNull final TechnologyTypeService technologyTypeService,
+            @NonNull final PositionTypeService positionTypeService
+    ) {
         this.languageTypeService = languageTypeService;
         this.projectTypeService = projectTypeService;
         this.skillTypeService = skillTypeService;
@@ -30,6 +38,7 @@ public class TypeService {
         allTypesDto.setSkillTypes(skillTypeService.getAllSkillTypes());
         allTypesDto.setTechnologyTypes(technologyTypeService.getAllTechnologyTypes());
         allTypesDto.setPositionTypes(positionTypeService.getAllPositionTypes());
+
         return allTypesDto;
     }
 

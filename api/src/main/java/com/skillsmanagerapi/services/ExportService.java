@@ -29,12 +29,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import lombok.NonNull;
+
 @Service
 public class ExportService {
 
     private static final String UTF_8 = "UTF-8";
 
-    public byte[] generateCvPdf(CvDto cvDto) throws Exception {
+    public byte[] generateCvPdf(@NonNull final CvDto cvDto) throws Exception {
 
         // We set-up a Thymeleaf rendering engine. All Thymeleaf templates
         // are HTML-based files located under "src/test/resources/templates".
@@ -78,11 +80,12 @@ public class ExportService {
         // And finally, we create the PDF:
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             renderer.createPDF(outputStream);
+
             return outputStream.toByteArray();
         }
     }
 
-    private Context addCvIntoContext(CvDto cvDto) {
+    private Context addCvIntoContext(@NonNull final CvDto cvDto) {
         Context context = new Context();
 
         List<SkillDto> sortedSkillsDto = cvDto.getSkills().stream().sorted().collect(Collectors.toList());
@@ -108,7 +111,7 @@ public class ExportService {
     }
 
 
-    private String convertToXhtml(String html) throws UnsupportedEncodingException {
+    private String convertToXhtml(@NonNull final String html) throws UnsupportedEncodingException {
         Tidy tidy = new Tidy();
         tidy.setInputEncoding(UTF_8);
         tidy.setOutputEncoding(UTF_8);
@@ -116,6 +119,7 @@ public class ExportService {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         tidy.parseDOM(inputStream, outputStream);
+
         return outputStream.toString(UTF_8);
     }
 

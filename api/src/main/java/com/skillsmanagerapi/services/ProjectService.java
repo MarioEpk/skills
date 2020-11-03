@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class ProjectService {
 
@@ -22,17 +24,17 @@ public class ProjectService {
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
+    public ProjectService(@NonNull final ProjectRepository projectRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
         this.projectRepository = projectRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
     }
 
-    public ProjectDto getProject(int id) {
+    public ProjectDto getProject(final int id) {
         return modelMapper.map(projectRepository.findById(id).orElseThrow(EntityNotFoundException::new), ProjectDto.class);
     }
 
-    public ProjectDto createProject(ProjectDto projectDto) {
+    public ProjectDto createProject(@NonNull final ProjectDto projectDto) {
         Project project = new Project();
         project.setPositions(modelMapperUtil.mapList(projectDto.getPositions(), PositionType.class));
         project.setTechnologies(modelMapperUtil.mapList(projectDto.getTechnologies(), TechnologyType.class));
@@ -41,10 +43,11 @@ public class ProjectService {
         project.setTo(projectDto.getTo());
         project.setCompany(projectDto.getCompany());
         project.setContribution(projectDto.getContribution());
+
         return modelMapper.map(projectRepository.save(project), ProjectDto.class);
     }
 
-    public void updateProject(ProjectDto projectDto) {
+    public void updateProject(@NonNull final ProjectDto projectDto) {
         ProjectDto updatedProjectDto = this.getProject(projectDto.getId());
         updatedProjectDto.setPositions(projectDto.getPositions());
         updatedProjectDto.setTechnologies(projectDto.getTechnologies());
@@ -55,7 +58,7 @@ public class ProjectService {
         projectRepository.save(modelMapper.map(updatedProjectDto, Project.class));
     }
 
-    public void deleteProject(int id) {
+    public void deleteProject(final int id) {
         projectRepository.deleteById(id);
     }
 

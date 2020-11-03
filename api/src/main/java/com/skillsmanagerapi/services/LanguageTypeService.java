@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class LanguageTypeService {
 
@@ -21,7 +23,7 @@ public class LanguageTypeService {
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public LanguageTypeService(LanguageTypeRepository languageTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
+    public LanguageTypeService(@NonNull final LanguageTypeRepository languageTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
         this.languageTypeRepository = languageTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
@@ -31,21 +33,21 @@ public class LanguageTypeService {
         return modelMapperUtil.mapList(languageTypeRepository.findAllByOrderByIdAsc(), LanguageTypeDto.class);
     }
 
-    public LanguageTypeDto getLanguageType(int id) {
+    public LanguageTypeDto getLanguageType(final int id) {
         return modelMapper.map(languageTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), LanguageTypeDto.class);
     }
 
-    public void createLanguageType(LanguageTypeDto languageTypeDto) {
+    public void createLanguageType(@NonNull final LanguageTypeDto languageTypeDto) {
         languageTypeRepository.save(modelMapper.map(languageTypeDto, LanguageType.class));
     }
 
-    public void updateLanguageType(LanguageTypeDto languageTypeDto) {
+    public void updateLanguageType(@NonNull final LanguageTypeDto languageTypeDto) {
         LanguageTypeDto updatedLanguageTypeDto = getLanguageType(languageTypeDto.getId());
         updatedLanguageTypeDto.setName(languageTypeDto.getName());
         languageTypeRepository.save(modelMapper.map(updatedLanguageTypeDto, LanguageType.class));
     }
 
-    public void deleteLanguageType(int id) {
+    public void deleteLanguageType(final int id) {
         languageTypeRepository.deleteById(id);
     }
 

@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(roleConverter);
+
         return jwtAuthenticationConverter;
     }
 
@@ -71,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JwtClaimValidator<List<String>> withAudience = new JwtClaimValidator<>("aud", aud -> aud.contains(validAud));
         OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(defaultWithIssuer, withAudience);
         jwtDecoder.setJwtValidator(validator);
+
         return jwtDecoder;
     }
 }

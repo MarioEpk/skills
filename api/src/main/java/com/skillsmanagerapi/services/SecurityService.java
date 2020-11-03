@@ -10,6 +10,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.NonNull;
+
 @Service("securityService")
 public class SecurityService {
 
@@ -17,7 +19,7 @@ public class SecurityService {
     private final CvService cvService;
 
     @Autowired
-    public SecurityService(UserService userService, CvService cvService) {
+    public SecurityService(@NonNull final UserService userService, @NonNull final CvService cvService) {
         this.userService = userService;
         this.cvService = cvService;
     }
@@ -25,10 +27,11 @@ public class SecurityService {
     private UserDto getCurrentRequestUser() {
         // TODO :: find better way for getting current request attributes
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
         return userService.getUserFromToken(request.getHeader("Authorization"));
     }
 
-    public boolean isOwnerOfCv(int cvId) {
+    public boolean isOwnerOfCv(final int cvId) {
         try {
             CvDto cvDto = cvService.getCv(cvId);
             return cvDto.getUser().getId() == this.getCurrentRequestUser().getId();
@@ -37,7 +40,7 @@ public class SecurityService {
         }
     }
 
-    public boolean isOwnerOfCv(CvDto cvDto) {
+    public boolean isOwnerOfCv(@NonNull final CvDto cvDto) {
         try {
             return cvDto.getUser().getId() == this.getCurrentRequestUser().getId();
         } catch (Exception e) {

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class SkillService {
 
@@ -18,29 +20,30 @@ public class SkillService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SkillService(SkillRepository skillRepository, ModelMapper modelMapper) {
+    public SkillService(@NonNull final SkillRepository skillRepository, @NonNull final ModelMapper modelMapper) {
         this.skillRepository = skillRepository;
         this.modelMapper = modelMapper;
     }
 
-    public SkillDto getSkill(int id) {
+    public SkillDto getSkill(final int id) {
         return modelMapper.map(skillRepository.findById(id).orElseThrow(EntityNotFoundException::new), SkillDto.class);
     }
 
-    public SkillDto createSkill(SkillDto skillDto) {
+    public SkillDto createSkill(@NonNull final SkillDto skillDto) {
         Skill skill = new Skill();
         skill.setLevel(1);
         skill.setSkillType(modelMapper.map(skillDto.getSkillType(), SkillType.class));
+
         return modelMapper.map(skillRepository.save(skill), SkillDto.class);
     }
 
-    public void updateSkill(SkillDto skillDto) {
+    public void updateSkill(@NonNull final SkillDto skillDto) {
         SkillDto updatedSkillDto = this.getSkill(skillDto.getId());
         updatedSkillDto.setLevel(skillDto.getLevel());
         skillRepository.save(modelMapper.map(updatedSkillDto, Skill.class));
     }
 
-    public void deleteSkill(int id) {
+    public void deleteSkill(final int id) {
         skillRepository.deleteById(id);
     }
 

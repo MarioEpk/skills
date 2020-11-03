@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class TechnologyTypeService {
 
@@ -21,7 +23,7 @@ public class TechnologyTypeService {
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public TechnologyTypeService(TechnologyTypeRepository technologyTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
+    public TechnologyTypeService(@NonNull final TechnologyTypeRepository technologyTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
         this.technologyTypeRepository = technologyTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
@@ -31,21 +33,21 @@ public class TechnologyTypeService {
         return modelMapperUtil.mapList(technologyTypeRepository.findAllByOrderByIdAsc(), TechnologyTypeDto.class);
     }
 
-    public TechnologyTypeDto getTechnologyType(int id) {
+    public TechnologyTypeDto getTechnologyType(final int id) {
         return modelMapper.map(technologyTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), TechnologyTypeDto.class);
     }
 
-    public void createTechnologyType(TechnologyTypeDto TechnologyTypeDto) {
+    public void createTechnologyType(@NonNull final TechnologyTypeDto TechnologyTypeDto) {
         technologyTypeRepository.save(modelMapper.map(TechnologyTypeDto, TechnologyType.class));
     }
 
-    public void updateTechnologyType(TechnologyTypeDto TechnologyTypeDto) {
+    public void updateTechnologyType(@NonNull final TechnologyTypeDto TechnologyTypeDto) {
         TechnologyTypeDto updatedTechnologyTypeDto = getTechnologyType(TechnologyTypeDto.getId());
         updatedTechnologyTypeDto.setName(TechnologyTypeDto.getName());
         technologyTypeRepository.save(modelMapper.map(updatedTechnologyTypeDto, TechnologyType.class));
     }
 
-    public void deleteTechnologyType(int id) {
+    public void deleteTechnologyType(final int id) {
         technologyTypeRepository.deleteById(id);
     }
 

@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class CvService {
 
@@ -38,17 +40,17 @@ public class CvService {
 
     @Autowired
     public CvService(
-            CvRepository cvRepository,
-            LanguageService languageService,
-            SkillService skillService,
-            ProjectService projectService,
-            TechnologyService technologyService,
-            CertificateService certificateService,
-            OtherService otherService,
-            UserService userService,
-            ModelMapper modelMapper,
-            ModelMapperUtil modelMapperUtil,
-            ExportService exportService
+            @NonNull final CvRepository cvRepository,
+            @NonNull final LanguageService languageService,
+            @NonNull final SkillService skillService,
+            @NonNull final ProjectService projectService,
+            @NonNull final TechnologyService technologyService,
+            @NonNull final CertificateService certificateService,
+            @NonNull final OtherService otherService,
+            @NonNull final UserService userService,
+            @NonNull final ModelMapper modelMapper,
+            @NonNull final ModelMapperUtil modelMapperUtil,
+            @NonNull final ExportService exportService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
@@ -63,16 +65,16 @@ public class CvService {
         this.exportService = exportService;
     }
 
-    public CvDto getCvOrCreateNew(UserDto userDto) {
+    public CvDto getCvOrCreateNew(@NonNull final UserDto userDto) {
         Cv cv = cvRepository.findByUser(modelMapper.map(userDto, User.class)).orElseGet(() -> createCv(userDto));
         return modelMapper.map(cv, CvDto.class);
     }
 
-    public CvDto getCv(int id) {
+    public CvDto getCv(final int id) {
         return modelMapper.map(cvRepository.findById(id).orElseThrow(EntityNotFoundException::new), CvDto.class);
     }
 
-    public void deleteCv(int id) {
+    public void deleteCv(final int id) {
         cvRepository.deleteById(id);
     }
 
@@ -80,7 +82,7 @@ public class CvService {
         return modelMapperUtil.mapList(cvRepository.findAllByOrderByIdAsc(), CvDto.class);
     }
 
-    public void updateCv(CvDto cvDto) {
+    public void updateCv(@NonNull final CvDto cvDto) {
         CvDto updatedCvDto = this.getCv(cvDto.getId());
         UserDto userDto = updatedCvDto.getUser();
         userDto.setFirstName(cvDto.getUser().getFirstName());
@@ -92,20 +94,22 @@ public class CvService {
         cvRepository.save(modelMapper.map(updatedCvDto, Cv.class));
     }
 
-    public byte[] exportCvPdf(int id) throws Exception {
+    public byte[] exportCvPdf(final int id) throws Exception {
         CvDto cvDto = getCv(id);
+
         return exportService.generateCvPdf(cvDto);
     }
 
-    private Cv createCv(UserDto userDto) {
+    private Cv createCv(@NonNull final UserDto userDto) {
         Cv cv = new Cv();
         cv.setUser(modelMapper.map(userDto, User.class));
         cvRepository.save(cv);
+
         return cv;
     }
 
     // Language
-    public void addLanguageToCv(int cvId, LanguageDto languageDto) {
+    public void addLanguageToCv(final int cvId, @NonNull final LanguageDto languageDto) {
         LanguageDto newLanguageDto = languageService.createLanguage(languageDto);
         CvDto cvDto = this.getCv(cvId);
         List<LanguageDto> languageDtoList = cvDto.getLanguages();
@@ -114,16 +118,16 @@ public class CvService {
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
-    public void updateLanguage(LanguageDto languageDto) {
+    public void updateLanguage(@NonNull final LanguageDto languageDto) {
         languageService.updateLanguage(languageDto);
     }
 
-    public void removeLanguageFromCv(int id) {
+    public void removeLanguageFromCv(final int id) {
         languageService.deleteLanguage(id);
     }
 
     // Skill
-    public void addSkillToCv(int cvId, SkillDto skillDto) {
+    public void addSkillToCv(final int cvId, @NonNull final SkillDto skillDto) {
         SkillDto newSkillDto = skillService.createSkill(skillDto);
         CvDto cvDto = this.getCv(cvId);
         List<SkillDto> skillDtoList = cvDto.getSkills();
@@ -132,16 +136,16 @@ public class CvService {
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
-    public void updateSkill(SkillDto skillDto) {
+    public void updateSkill(@NonNull final SkillDto skillDto) {
         skillService.updateSkill(skillDto);
     }
 
-    public void removeSkillFromCv(int id) {
+    public void removeSkillFromCv(final int id) {
         skillService.deleteSkill(id);
     }
 
     // Project
-    public void addProjectToCv(int cvId, ProjectDto projectDto) {
+    public void addProjectToCv(final int cvId, @NonNull final ProjectDto projectDto) {
         ProjectDto newProjectDto = projectService.createProject(projectDto);
         CvDto cvDto = this.getCv(cvId);
         List<ProjectDto> projectDtoList = cvDto.getProjects();
@@ -150,16 +154,16 @@ public class CvService {
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
-    public void updateProject(ProjectDto projectDto) {
+    public void updateProject(@NonNull final ProjectDto projectDto) {
         projectService.updateProject(projectDto);
     }
 
-    public void removeProjectFromCv(int id) {
+    public void removeProjectFromCv(final int id) {
         projectService.deleteProject(id);
     }
 
     // Technology
-    public void addTechnologyToCv(int cvId, TechnologyDto technologyDto) {
+    public void addTechnologyToCv(final int cvId, @NonNull final TechnologyDto technologyDto) {
         TechnologyDto newTechnologyDto = technologyService.createTechnology(technologyDto);
         CvDto cvDto = this.getCv(cvId);
         List<TechnologyDto> technologyDtoList = cvDto.getTechnologies();
@@ -168,16 +172,16 @@ public class CvService {
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
-    public void updateTechnology(TechnologyDto technologyDto) {
+    public void updateTechnology(@NonNull final TechnologyDto technologyDto) {
         technologyService.updateTechnology(technologyDto);
     }
 
-    public void removeTechnologyFromCv(int id) {
+    public void removeTechnologyFromCv(final int id) {
         technologyService.deleteTechnology(id);
     }
 
     // Certificate
-    public void addCertificateToCv(int cvId, CertificateDto certificateDto) {
+    public void addCertificateToCv(final int cvId, @NonNull final CertificateDto certificateDto) {
         CertificateDto newCertificateDto = certificateService.createCertificate(certificateDto);
         CvDto cvDto = this.getCv(cvId);
         List<CertificateDto> certificateDtoList = cvDto.getCertificates();
@@ -186,16 +190,16 @@ public class CvService {
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
-    public void updateCertificate(CertificateDto certificateDto) {
+    public void updateCertificate(@NonNull final CertificateDto certificateDto) {
         certificateService.updateCertificate(certificateDto);
     }
 
-    public void removeCertificateFromCv(int id) {
+    public void removeCertificateFromCv(final int id) {
         certificateService.deleteCertificate(id);
     }
 
     // Other
-    public void addOtherToCv(int cvId, OtherDto otherDto) {
+    public void addOtherToCv(final int cvId, @NonNull final OtherDto otherDto) {
         OtherDto newOtherDto = otherService.createOther(otherDto);
         CvDto cvDto = this.getCv(cvId);
         List<OtherDto> otherDtoList = cvDto.getOthers();
@@ -204,11 +208,11 @@ public class CvService {
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
-    public void updateOther(OtherDto otherDto) {
+    public void updateOther(@NonNull final OtherDto otherDto) {
         otherService.updateOther(otherDto);
     }
 
-    public void removeOtherFromCv(int id) {
+    public void removeOtherFromCv(final int id) {
         otherService.deleteOther(id);
     }
 }

@@ -17,6 +17,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class UserService {
 
@@ -26,7 +28,12 @@ public class UserService {
     private final JwtDecoder jwtDecoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil, JwtDecoder jwtDecoder) {
+    public UserService(
+            @NonNull final UserRepository userRepository,
+            @NonNull final ModelMapper modelMapper,
+            @NonNull final ModelMapperUtil modelMapperUtil,
+            @NonNull final JwtDecoder jwtDecoder
+    ) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
@@ -37,25 +44,25 @@ public class UserService {
         return modelMapperUtil.mapList(userRepository.findAllByOrderByIdAsc(), UserDto.class);
     }
 
-    public UserDto getUserOrCreateNew(UserDto userDto) {
+    public UserDto getUserOrCreateNew(@NonNull final UserDto userDto) {
         User user = userRepository.findByEmail(userDto.getEmail()).orElseGet(() -> createUser(userDto));
         return modelMapper.map(user, UserDto.class);    }
 
-    public UserDto getUserFromToken(String token) {
+    public UserDto getUserFromToken(@NonNull final String token) {
         // Remove Bearer string from start
         Jwt jwt = jwtDecoder.decode(token.substring(7));
         String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
-
         User user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+
         return modelMapper.map(user, UserDto.class);
     }
 
-    public UserDto getUserById(Integer userId) {
+    public UserDto getUserById(@NonNull final Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(user, UserDto.class);
     }
 
-    public void updateUser(UserDto userDto) {
+    public void updateUser(@NonNull final UserDto userDto) {
         UserDto updatedUserDto = modelMapper.map(userRepository.findById(userDto.getId()).orElseThrow(EntityNotFoundException::new), UserDto.class);
         updatedUserDto.setFirstName(userDto.getFirstName());
         updatedUserDto.setLastName(userDto.getLastName());
@@ -63,7 +70,7 @@ public class UserService {
         userRepository.save(modelMapper.map(updatedUserDto, User.class));
     }
 
-    private User createUser(UserDto userDto) {
+    private User createUser(@NonNull final UserDto userDto) {
         User user = new User();
         user.setGoogleId(userDto.getGoogleId());
         user.setEmail(userDto.getEmail());
@@ -74,6 +81,7 @@ public class UserService {
         role.setId(3);
         user.setRole(role);
         userRepository.save(user);
+
         return user;
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class OtherService {
 
@@ -17,24 +19,25 @@ public class OtherService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public OtherService(OtherRepository otherRepository, ModelMapper modelMapper) {
+    public OtherService(@NonNull final OtherRepository otherRepository, @NonNull final ModelMapper modelMapper) {
         this.otherRepository = otherRepository;
         this.modelMapper = modelMapper;
     }
 
-    public OtherDto getOther(int id) {
+    public OtherDto getOther(final int id) {
         return modelMapper.map(otherRepository.findById(id).orElseThrow(EntityNotFoundException::new), OtherDto.class);
     }
 
-    public OtherDto createOther(OtherDto otherDto) {
+    public OtherDto createOther(@NonNull final OtherDto otherDto) {
         Other other = new Other();
         other.setName(otherDto.getName());
         other.setDate(otherDto.getDate());
         other.setDescription(otherDto.getDescription());
+
         return modelMapper.map(otherRepository.save(other), OtherDto.class);
     }
 
-    public void updateOther(OtherDto otherDto) {
+    public void updateOther(@NonNull final OtherDto otherDto) {
         OtherDto updatedOtherDto = this.getOther(otherDto.getId());
         updatedOtherDto.setName(otherDto.getName());
         updatedOtherDto.setDate(otherDto.getDate());
@@ -42,7 +45,7 @@ public class OtherService {
         otherRepository.save(modelMapper.map(updatedOtherDto, Other.class));
     }
 
-    public void deleteOther(int id) {
+    public void deleteOther(final int id) {
         otherRepository.deleteById(id);
     }
 

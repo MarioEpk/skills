@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import lombok.NonNull;
+
 @Service
 public class SkillTypeService {
 
@@ -21,7 +23,7 @@ public class SkillTypeService {
     private final ModelMapperUtil modelMapperUtil;
 
     @Autowired
-    public SkillTypeService(SkillTypeRepository skillTypeRepository, ModelMapper modelMapper, ModelMapperUtil modelMapperUtil) {
+    public SkillTypeService(@NonNull final SkillTypeRepository skillTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
         this.skillTypeRepository = skillTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
@@ -31,21 +33,21 @@ public class SkillTypeService {
         return modelMapperUtil.mapList(skillTypeRepository.findAllByOrderByIdAsc(), SkillTypeDto.class);
     }
 
-    public SkillTypeDto getSkillType(int id) {
+    public SkillTypeDto getSkillType(final int id) {
         return modelMapper.map(skillTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), SkillTypeDto.class);
     }
 
-    public void createSkillType(SkillTypeDto skillTypeDto) {
+    public void createSkillType(@NonNull final SkillTypeDto skillTypeDto) {
         skillTypeRepository.save(modelMapper.map(skillTypeDto, SkillType.class));
     }
 
-    public void updateSkillType(SkillTypeDto skillTypeDto) {
+    public void updateSkillType(@NonNull final SkillTypeDto skillTypeDto) {
         SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
         updatedSkillTypeDto.setName(skillTypeDto.getName());
         skillTypeRepository.save(modelMapper.map(updatedSkillTypeDto, SkillType.class));
     }
 
-    public void deleteSkillType(int id) {
+    public void deleteSkillType(final int id) {
         skillTypeRepository.deleteById(id);
     }
 
