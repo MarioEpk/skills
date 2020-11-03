@@ -8,7 +8,6 @@
     "npm": ">=6"
   },
   "scripts": {
-    "audit": "yarn audit --registry=https://registry.npmjs.org --production",
     "build": "run-s build:pre build:clean build:ui",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --env.devserver",
     "start:remote": "cross-env NODE_ENV=development webpack-dev-server --mode development --env.devserver --env.devserverRemote",
@@ -16,9 +15,6 @@
     "build:clean": "rimraf ./dist",
     "build:pre": "yarn lint && yarn build:clean",
     "build:ui": "cross-env NODE_ENV=production webpack-cli --mode production --env",
-    "test": "yarn test:base --reporter spec",
-    "test:watch": "yarn test:base --reporter min --watch",
-    "test:base": "cross-env NODE_ENV=test mocha --require @babel/register -r esm -r ignore-styles testSetup.js \"src/**/*.spec.js\"",
     "storybook": "start-storybook -p 6006 --ci"
   },
   "dependencies": {

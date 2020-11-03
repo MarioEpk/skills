@@ -16,6 +16,7 @@ services:
       context: ./api
       args:
         JAR_FILE: ./build/libs/skills-manager-api-1.0.0-SNAPSHOT.jar
+        ENVIRONMENT: prod
     ports:
       - 8080:8080
   client:

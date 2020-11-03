@@ -14,7 +14,6 @@ import com.skillsmanagerapi.services.TypeService;
 import com.skillsmanagerapi.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,10 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
 import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping(value = "/api/cv")
 @RestController
