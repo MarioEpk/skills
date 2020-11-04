@@ -18,8 +18,10 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -71,6 +73,7 @@ public class UserService {
     }
 
     private User createUser(@NonNull final UserDto userDto) {
+        log.info("Creating user {}", userDto.getEmail());
         User user = new User();
         user.setGoogleId(userDto.getGoogleId());
         user.setEmail(userDto.getEmail());

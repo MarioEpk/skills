@@ -22,8 +22,10 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class CvService {
 
     private final CvRepository cvRepository;
@@ -101,6 +103,7 @@ public class CvService {
     }
 
     private Cv createCv(@NonNull final UserDto userDto) {
+        log.info("Creating cv for user {}", userDto.getEmail());
         Cv cv = new Cv();
         cv.setUser(modelMapper.map(userDto, User.class));
         cvRepository.save(cv);

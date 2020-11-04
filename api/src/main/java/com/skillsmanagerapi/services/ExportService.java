@@ -30,14 +30,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class ExportService {
 
     private static final String UTF_8 = "UTF-8";
 
     public byte[] generateCvPdf(@NonNull final CvDto cvDto) throws Exception {
 
+        log.info("Generating PDF for user {} has started ...", cvDto.getUser().getEmail());
         // We set-up a Thymeleaf rendering engine. All Thymeleaf templates
         // are HTML-based files located under "src/test/resources/templates".
         // If you want to add templates into file, just change prefix
@@ -52,6 +55,8 @@ public class ExportService {
 
         // Variables inside context will be used in template
         Context context = this.addCvIntoContext(cvDto);
+
+        log.info("Creating xHTML template ...");
 
         // Flying Saucer needs XHTML - not just normal HTML. To make our life
         // easy, use JTidy to convert the rendered Thymeleaf template to
@@ -77,9 +82,12 @@ public class ExportService {
         renderer.setDocumentFromString(xHtml, baseUrl);
         renderer.layout();
 
+        log.info("xHTML template completed, creating PDF ...");
+
         // And finally, we create the PDF:
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             renderer.createPDF(outputStream);
+            log.info("Creating PDF completed");
 
             return outputStream.toByteArray();
         }
