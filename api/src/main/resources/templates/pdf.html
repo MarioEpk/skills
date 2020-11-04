@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>CV - [[${user.getLastName()}]]</title>
-    <link href="static/css/pdf.css" rel="stylesheet" type="text/css" />
+    <link href="classpath:/static/css/pdf.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
 <div class="row">
     <div class="column left avatar-wrapper" th:switch="${avatar}">
-        <img th:case="${avatarTypeMen}" src="static/images/avatar_men.png" alt="avatar" class="avatar" />
-        <img th:case="${avatarTypeWoman}" src="static/images/avatar_woman.png" alt="avatar" class="avatar" />
-        <img th:case="*" src="static/images/avatar_ghost.png" alt="avatar" class="avatar" />
+        <img th:case="${avatarTypeMen}" src="classpath:/static/images/avatar_men.png" alt="avatar" class="avatar" />
+        <img th:case="${avatarTypeWoman}" src="classpath:/static/images/avatar_woman.png" alt="avatar" class="avatar" />
+        <img th:case="*" src="classpath:/static/images/avatar_ghost.png" alt="avatar" class="avatar" />
     </div>
     <div class="column user" th:object="${user}">
         <p>[[*{firstName}]]</p>

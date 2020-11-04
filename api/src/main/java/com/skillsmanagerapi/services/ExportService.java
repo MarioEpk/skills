@@ -41,6 +41,7 @@ public class ExportService {
     public byte[] generateCvPdf(@NonNull final CvDto cvDto) throws Exception {
 
         log.info("Generating PDF for user {} has started ...", cvDto.getUser().getEmail());
+
         // We set-up a Thymeleaf rendering engine. All Thymeleaf templates
         // are HTML-based files located under "src/test/resources/templates".
         // If you want to add templates into file, just change prefix
@@ -56,7 +57,7 @@ public class ExportService {
         // Variables inside context will be used in template
         Context context = this.addCvIntoContext(cvDto);
 
-        log.info("Creating xHTML template ...");
+        log.info("Creating xHTML template");
 
         // Flying Saucer needs XHTML - not just normal HTML. To make our life
         // easy, use JTidy to convert the rendered Thymeleaf template to
@@ -68,21 +69,14 @@ public class ExportService {
 
         ITextRenderer renderer = new ITextRenderer();
         renderer.getFontResolver().addFont("static/fonts/Montserrat-Light.ttf", CP1250, EMBEDDED);
-        renderer.getFontResolver().addFont("static/fonts/Montserrat-ExtraBold.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-Medium.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-SemiBold.ttf", CP1250, EMBEDDED);
+        renderer.getFontResolver().addFont("static/fonts/Montserrat-ExtraBold.ttf", CP1250, EMBEDDED);
 
-        String baseUrl = FileSystems
-                .getDefault()
-                .getPath("api","src", "main", "resources")
-                .toUri()
-                .toURL()
-                .toString();
-
-        renderer.setDocumentFromString(xHtml, baseUrl);
+        renderer.setDocumentFromString(xHtml);
         renderer.layout();
 
-        log.info("xHTML template completed, creating PDF ...");
+        log.info("xHTML template completed, creating PDF");
 
         // And finally, we create the PDF:
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {

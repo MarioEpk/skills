@@ -9,10 +9,15 @@ services:
       - db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: skillsmanager
-      POSTGRES_USER: moro
-      POSTGRES_PASSWORD: ~skillz
+      POSTGRES_USER: docker-moro
+      POSTGRES_PASSWORD: docker~skillz
   api:
     image: "morodocker/moro-cv-api-latest"
+    environment:
+      - SPRING_PROFILE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/skillsmanager
+      - SPRING_DATASOURCE_USERNAME=docker-moro
+      - SPRING_DATASOURCE_PASSWORD=docker~skillz
   client:
     image: "morodocker/moro-cv-client-latest"
     ports:
