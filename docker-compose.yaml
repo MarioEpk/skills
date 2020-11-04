@@ -18,6 +18,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/skillsmanager
       - SPRING_DATASOURCE_USERNAME=docker-moro
       - SPRING_DATASOURCE_PASSWORD=docker~skillz
+    volumes:
+      - log:/log
   client:
     image: "morodocker/moro-cv-client-latest"
     ports:
@@ -25,3 +27,4 @@ services:
 
 volumes:
   db-data:
+  log:
