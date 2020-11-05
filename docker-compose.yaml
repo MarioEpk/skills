@@ -12,7 +12,7 @@ services:
       POSTGRES_USER: docker-moro
       POSTGRES_PASSWORD: docker~skillz
   api:
-    image: "morodocker/moro-cv-api-latest"
+    image: "morodocker/skills-manager-api:1.0.0"
     environment:
       - SPRING_PROFILE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/skillsmanager
@@ -21,7 +21,7 @@ services:
     volumes:
       - log:/log
   client:
-    image: "morodocker/moro-cv-client-latest"
+    image: "morodocker/skills-manager-client:1.0.0"
     ports:
       - 3000:80
 
