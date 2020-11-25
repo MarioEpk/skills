@@ -35,7 +35,7 @@ public class ProjectService {
     }
 
     public ProjectDto createProject(@NonNull final ProjectDto projectDto) {
-        Project project = new Project();
+        final Project project = new Project();
         project.setPositions(modelMapperUtil.mapList(projectDto.getPositions(), PositionType.class));
         project.setTechnologies(modelMapperUtil.mapList(projectDto.getTechnologies(), TechnologyType.class));
         project.setProjectType(modelMapper.map(projectDto.getProjectType(), ProjectType.class));
@@ -48,7 +48,7 @@ public class ProjectService {
     }
 
     public void updateProject(@NonNull final ProjectDto projectDto) {
-        ProjectDto updatedProjectDto = this.getProject(projectDto.getId());
+        final ProjectDto updatedProjectDto = this.getProject(projectDto.getId());
         updatedProjectDto.setPositions(projectDto.getPositions());
         updatedProjectDto.setTechnologies(projectDto.getTechnologies());
         updatedProjectDto.setFrom(projectDto.getFrom());

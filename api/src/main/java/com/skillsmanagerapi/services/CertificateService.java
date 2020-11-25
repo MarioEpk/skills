@@ -29,7 +29,7 @@ public class CertificateService {
     }
 
     public CertificateDto createCertificate(@NonNull final CertificateDto certificateDto) {
-        Certificate certificate = new Certificate();
+        final Certificate certificate = new Certificate();
         certificate.setName(certificateDto.getName());
         certificate.setDate(certificateDto.getDate());
         certificate.setDescription(certificateDto.getDescription());
@@ -38,7 +38,7 @@ public class CertificateService {
     }
 
     public void updateCertificate(@NonNull final CertificateDto certificateDto) {
-        CertificateDto updatedCertificateDto = this.getCertificate(certificateDto.getId());
+        final CertificateDto updatedCertificateDto = this.getCertificate(certificateDto.getId());
         updatedCertificateDto.setName(certificateDto.getName());
         updatedCertificateDto.setDate(certificateDto.getDate());
         updatedCertificateDto.setDescription(certificateDto.getDescription());

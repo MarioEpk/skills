@@ -32,13 +32,13 @@ public class RoleConverter implements Converter<Jwt, Collection<GrantedAuthority
 
     @Override
     public Collection<GrantedAuthority> convert(@NonNull final Jwt jwt) {
-        String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
-        var user = userRepository.findByEmail(email);
+        final String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
+        final var user = userRepository.findByEmail(email);
         // new user won't be present in db
         if (user.isPresent()) {
-            List<Role> roles = new ArrayList<>();
+            final List<Role> roles = new ArrayList<>();
             if(user.get().getRole() == null) {
-                var defaultRole = new Role();
+                final var defaultRole = new Role();
                 defaultRole.setName(RoleTypes.user);
                 roles.add(defaultRole);
             } else {

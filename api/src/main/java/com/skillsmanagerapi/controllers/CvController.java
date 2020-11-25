@@ -46,13 +46,13 @@ public class CvController {
 
     @RequestMapping(value = "/my-id", method = RequestMethod.GET)
     public int getCvForCurrentUser(@RequestHeader("Authorization") String token) {
-        UserDto userDto = userService.getUserFromToken(token);
+        final UserDto userDto = userService.getUserFromToken(token);
         return cvService.getCvOrCreateNew(userDto).getId();
     }
 
     @RequestMapping(value = "/my", method = RequestMethod.POST)
     public CvDto process(@RequestBody UserDto requestedUserDto) {
-        UserDto userDto = userService.getUserOrCreateNew(requestedUserDto);
+        final UserDto userDto = userService.getUserOrCreateNew(requestedUserDto);
         return cvService.getCvOrCreateNew(userDto);
     }
 
@@ -71,7 +71,7 @@ public class CvController {
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST)
     public void createCv(@RequestBody UserDto userDto) {
-        UserDto currentUser = userService.getUserOrCreateNew(userDto);
+        final UserDto currentUser = userService.getUserOrCreateNew(userDto);
         cvService.getCvOrCreateNew(currentUser);
     }
 
@@ -94,10 +94,10 @@ public class CvController {
         final byte[] pdf = cvService.exportCvPdf(id);
 
         //Conversion of bytes to Base64
-        byte[] encodedBytes = Base64.getEncoder().encode(pdf);
+        final byte[] encodedBytes = Base64.getEncoder().encode(pdf);
 
         //Setting Headers
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
         headers.setContentDispositionFormData("pdfFileName.pdf", "pdfFileName.pdf");
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");

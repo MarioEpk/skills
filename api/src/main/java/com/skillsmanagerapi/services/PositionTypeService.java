@@ -42,7 +42,7 @@ public class PositionTypeService {
     }
 
     public void updatePositionType(@NonNull final PositionTypeDto positionTypeDto) {
-        PositionTypeDto updatedPositionTypeDto = getPositionType(positionTypeDto.getId());
+        final PositionTypeDto updatedPositionTypeDto = getPositionType(positionTypeDto.getId());
         updatedPositionTypeDto.setName(positionTypeDto.getName());
         positionTypeRepository.save(modelMapper.map(updatedPositionTypeDto, PositionType.class));
     }

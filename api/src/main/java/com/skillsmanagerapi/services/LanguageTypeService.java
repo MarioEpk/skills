@@ -42,7 +42,7 @@ public class LanguageTypeService {
     }
 
     public void updateLanguageType(@NonNull final LanguageTypeDto languageTypeDto) {
-        LanguageTypeDto updatedLanguageTypeDto = getLanguageType(languageTypeDto.getId());
+        final LanguageTypeDto updatedLanguageTypeDto = getLanguageType(languageTypeDto.getId());
         updatedLanguageTypeDto.setName(languageTypeDto.getName());
         languageTypeRepository.save(modelMapper.map(updatedLanguageTypeDto, LanguageType.class));
     }

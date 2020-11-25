@@ -33,7 +33,7 @@ public class SecurityService {
 
     public boolean isOwnerOfCv(final int cvId) {
         try {
-            CvDto cvDto = cvService.getCv(cvId);
+            final CvDto cvDto = cvService.getCv(cvId);
             return cvDto.getUser().getId() == this.getCurrentRequestUser().getId();
         } catch (Exception e) {
             return false;

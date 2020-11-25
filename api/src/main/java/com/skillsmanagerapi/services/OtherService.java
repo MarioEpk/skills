@@ -29,7 +29,7 @@ public class OtherService {
     }
 
     public OtherDto createOther(@NonNull final OtherDto otherDto) {
-        Other other = new Other();
+        final Other other = new Other();
         other.setName(otherDto.getName());
         other.setDate(otherDto.getDate());
         other.setDescription(otherDto.getDescription());
@@ -38,7 +38,7 @@ public class OtherService {
     }
 
     public void updateOther(@NonNull final OtherDto otherDto) {
-        OtherDto updatedOtherDto = this.getOther(otherDto.getId());
+        final OtherDto updatedOtherDto = this.getOther(otherDto.getId());
         updatedOtherDto.setName(otherDto.getName());
         updatedOtherDto.setDate(otherDto.getDate());
         updatedOtherDto.setDescription(otherDto.getDescription());

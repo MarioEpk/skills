@@ -66,11 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public NimbusJwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
+        final NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
         // https://github.com/google/google-api-javascript-client/issues/512
-        OAuth2TokenValidator<Jwt> defaultWithIssuer = JwtValidators.createDefaultWithIssuer(validIss);
-        JwtClaimValidator<List<String>> withAudience = new JwtClaimValidator<>("aud", aud -> aud.contains(validAud));
-        OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(defaultWithIssuer, withAudience);
+        final OAuth2TokenValidator<Jwt> defaultWithIssuer = JwtValidators.createDefaultWithIssuer(validIss);
+        final JwtClaimValidator<List<String>> withAudience = new JwtClaimValidator<>("aud", aud -> aud.contains(validAud));
+        final OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(defaultWithIssuer, withAudience);
         jwtDecoder.setJwtValidator(validator);
 
         return jwtDecoder;

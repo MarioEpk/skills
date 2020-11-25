@@ -30,7 +30,7 @@ public class SkillService {
     }
 
     public SkillDto createSkill(@NonNull final SkillDto skillDto) {
-        Skill skill = new Skill();
+        final Skill skill = new Skill();
         skill.setLevel(1);
         skill.setSkillType(modelMapper.map(skillDto.getSkillType(), SkillType.class));
 
@@ -38,7 +38,7 @@ public class SkillService {
     }
 
     public void updateSkill(@NonNull final SkillDto skillDto) {
-        SkillDto updatedSkillDto = this.getSkill(skillDto.getId());
+        final SkillDto updatedSkillDto = this.getSkill(skillDto.getId());
         updatedSkillDto.setLevel(skillDto.getLevel());
         skillRepository.save(modelMapper.map(updatedSkillDto, Skill.class));
     }

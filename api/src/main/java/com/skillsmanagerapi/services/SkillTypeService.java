@@ -42,7 +42,7 @@ public class SkillTypeService {
     }
 
     public void updateSkillType(@NonNull final SkillTypeDto skillTypeDto) {
-        SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
+        final SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
         updatedSkillTypeDto.setName(skillTypeDto.getName());
         skillTypeRepository.save(modelMapper.map(updatedSkillTypeDto, SkillType.class));
     }
