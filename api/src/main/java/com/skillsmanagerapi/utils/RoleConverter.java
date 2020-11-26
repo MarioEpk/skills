@@ -1,7 +1,6 @@
-package com.skillsmanagerapi.configs;
+package com.skillsmanagerapi.utils;
 
 import com.skillsmanagerapi.enums.RoleTypes;
-import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,8 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 import lombok.NonNull;
 
@@ -36,21 +33,17 @@ public class RoleConverter implements Converter<Jwt, Collection<GrantedAuthority
         final var user = userRepository.findByEmail(email);
         // new user won't be present in db
         if (user.isPresent()) {
-            final List<Role> roles = new ArrayList<>();
+            String roleName;
             if(user.get().getRole() == null) {
-                final var defaultRole = new Role();
-                defaultRole.setName(RoleTypes.user);
-                roles.add(defaultRole);
+                roleName = RoleTypes.USER.getName();
             } else {
-                roles.add(user.get().getRole());
+                roleName = user.get().getRole().getName();
             }
+            final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(roleName);
 
-            return roles.stream()
-                    .map(Role::getName)
-                    .map(roleName -> new SimpleGrantedAuthority(roleName.name()))
-                    .collect(Collectors.toList());
+            return Collections.singletonList(authority);
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }

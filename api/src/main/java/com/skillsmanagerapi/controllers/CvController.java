@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.controllers;
 
+import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
+
 import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
@@ -19,11 +21,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
@@ -44,51 +49,51 @@ public class CvController {
         this.typeService = typeService;
     }
 
-    @RequestMapping(value = "/my-id", method = RequestMethod.GET)
-    public int getCvForCurrentUser(@RequestHeader("Authorization") String token) {
+    @GetMapping(value = "/my-id")
+    public int getCvIdForCurrentUser(@RequestHeader("Authorization") String token) {
         final UserDto userDto = userService.getUserFromToken(token);
         return cvService.getCvOrCreateNew(userDto).getId();
     }
 
-    @RequestMapping(value = "/my", method = RequestMethod.POST)
-    public CvDto process(@RequestBody UserDto requestedUserDto) {
+    @PostMapping(value = "/my")
+    public CvDto getCvForCurrentUser(@RequestBody UserDto requestedUserDto) {
         final UserDto userDto = userService.getUserOrCreateNew(requestedUserDto);
         return cvService.getCvOrCreateNew(userDto);
     }
 
     @PreAuthorize("hasAnyAuthority('admin', 'business')")
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<CvDto> getAllCvs() {
         return cvService.getAllCvs();
     }
 
     @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public CvDto getCv(@PathVariable("id") int id) {
         return cvService.getCv(id);
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public void createCv(@RequestBody UserDto userDto) {
         final UserDto currentUser = userService.getUserOrCreateNew(userDto);
         cvService.getCvOrCreateNew(currentUser);
     }
 
     @PreAuthorize("hasAuthority('admin') or @securityService.isOwnerOfCv(#cvDto)")
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     public void updateCv(@RequestBody CvDto cvDto) {
         cvService.updateCv(cvDto);
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteCv(@PathVariable("id") int id) {
         cvService.deleteCv(id);
     }
 
     @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
-    @RequestMapping(value = "/{id}/export", method = RequestMethod.GET, produces = "application/pdf")
+    @GetMapping(value = "/{id}/export", produces = APPLICATION_PDF_VALUE)
     public ResponseEntity<?> exportCv(@PathVariable("id") int id) throws Exception {
 
         final byte[] pdf = cvService.exportCvPdf(id);
@@ -98,7 +103,7 @@ public class CvController {
 
         //Setting Headers
         final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        headers.setContentType(MediaType.parseMediaType(APPLICATION_PDF_VALUE));
         headers.setContentDispositionFormData("pdfFileName.pdf", "pdfFileName.pdf");
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         headers.setContentLength(encodedBytes.length);
@@ -107,103 +112,103 @@ public class CvController {
     }
 
     // Language
-    @RequestMapping(value = "/{id}/language", method = RequestMethod.POST)
+    @PostMapping(value = "/{id}/language")
     public void addLanguageToCv(@RequestBody LanguageDto languageDto, @PathVariable("id") int id) {
         cvService.addLanguageToCv(id, languageDto);
     }
 
-    @RequestMapping(value = "/language", method = RequestMethod.PUT)
+    @PutMapping(value = "/language")
     public void updateLanguage(@RequestBody LanguageDto languageDto) {
         cvService.updateLanguage(languageDto);
     }
 
-    @RequestMapping(value = "/language/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/language/{id}")
     public void removeLanguageFromCv(@PathVariable("id") int id) {
         cvService.removeLanguageFromCv(id);
     }
 
     // Skill
-    @RequestMapping(value = "/{id}/skill", method = RequestMethod.POST)
+    @PostMapping(value = "/{id}/skill")
     public void addSkillToCv(@RequestBody SkillDto skillDto, @PathVariable("id") int id) {
         cvService.addSkillToCv(id, skillDto);
     }
 
-    @RequestMapping(value = "/skill", method = RequestMethod.PUT)
+    @PutMapping(value = "/skill")
     public void updateSkill(@RequestBody SkillDto skillDto) {
         cvService.updateSkill(skillDto);
     }
 
-    @RequestMapping(value = "/skill/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/skill/{id}")
     public void removeSkillFromCv(@PathVariable("id") int id) {
         cvService.removeSkillFromCv(id);
     }
 
     // Project
-    @RequestMapping(value = "/{id}/project", method = RequestMethod.POST)
+    @PostMapping(value = "/{id}/project")
     public void addProjectToCv(@RequestBody ProjectDto projectDto, @PathVariable("id") int id) {
         cvService.addProjectToCv(id, projectDto);
     }
 
-    @RequestMapping(value = "/project", method = RequestMethod.PUT)
+    @PutMapping(value = "/project")
     public void updateProject(@RequestBody ProjectDto projectDto) {
         cvService.updateProject(projectDto);
     }
 
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/project/{id}")
     public void removeProjectFromCv(@PathVariable("id") int id) {
         cvService.removeProjectFromCv(id);
     }
 
     // Technology
-    @RequestMapping(value = "/{id}/technology", method = RequestMethod.POST)
+    @PostMapping(value = "/{id}/technology")
     public void addTechnologyToCv(@RequestBody TechnologyDto technologyDto, @PathVariable("id") int id) {
         cvService.addTechnologyToCv(id, technologyDto);
     }
 
-    @RequestMapping(value = "/technology", method = RequestMethod.PUT)
+    @PutMapping(value = "/technology")
     public void updateTechnology(@RequestBody TechnologyDto technologyDto) {
         cvService.updateTechnology(technologyDto);
     }
 
-    @RequestMapping(value = "/technology/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/technology/{id}")
     public void removeTechnologyFromCv(@PathVariable("id") int id) {
         cvService.removeTechnologyFromCv(id);
     }
 
     // Certificate
-    @RequestMapping(value = "/{id}/certificate", method = RequestMethod.POST)
+    @PostMapping(value = "/{id}/certificate")
     public void addCertificateToCv(@RequestBody CertificateDto certificateDto, @PathVariable("id") int id) {
         cvService.addCertificateToCv(id, certificateDto);
     }
 
-    @RequestMapping(value = "/certificate", method = RequestMethod.PUT)
+    @PutMapping(value = "/certificate")
     public void updateCertificate(@RequestBody CertificateDto certificateDto) {
         cvService.updateCertificate(certificateDto);
     }
 
-    @RequestMapping(value = "/certificate/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/certificate/{id}")
     public void removeCertificateFromCv(@PathVariable("id") int id) {
         cvService.removeCertificateFromCv(id);
     }
 
     // Other
-    @RequestMapping(value = "/{id}/other", method = RequestMethod.POST)
+    @PostMapping(value = "/{id}/other")
     public void addOtherToCv(@RequestBody OtherDto otherDto, @PathVariable("id") int id) {
         cvService.addOtherToCv(id, otherDto);
     }
 
-    @RequestMapping(value = "/other", method = RequestMethod.PUT)
+    @PutMapping(value = "/other")
     public void updateOther(@RequestBody OtherDto otherDto) {
         cvService.updateOther(otherDto);
     }
 
-    @RequestMapping(value = "/other/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/other/{id}")
     public void removeOtherFromCv(@PathVariable("id") int id) {
         cvService.removeOtherFromCv(id);
     }
 
     // All types
-    @RequestMapping(value = "/types", method = RequestMethod.GET)
+    @GetMapping(value = "/types")
     public AllTypesDto getAllTypes() {
         return typeService.getAllTypes();
     }

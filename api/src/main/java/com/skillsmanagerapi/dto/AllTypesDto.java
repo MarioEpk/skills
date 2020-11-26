@@ -5,7 +5,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class AllTypesDto {
     private List<LanguageTypeDto> languageTypes;
     private List<SkillTypeDto> skillTypes;

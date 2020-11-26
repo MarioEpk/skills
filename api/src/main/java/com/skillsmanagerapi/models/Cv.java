@@ -30,7 +30,8 @@ import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "cv")
@@ -42,7 +43,7 @@ public class Cv {
     private int id;
 
     @Column(name = "profile")
-    @Type(type="text")
+    @Type(type = "text")
     private String profile;
 
     @Enumerated(EnumType.STRING)
@@ -55,37 +56,37 @@ public class Cv {
 
     @ManyToMany
     @JoinColumn(name = "position_type_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<PositionType> positions;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "languages_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<Language> languages;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "skills_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<Skill> skills;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "projects_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<Project> projects;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "technologies_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<Technology> technologies;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "certificate_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<Certificate> certificates;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "others_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<Other> others;
 
     @Temporal(TemporalType.TIMESTAMP)

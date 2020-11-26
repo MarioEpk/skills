@@ -43,7 +43,7 @@ public class ExportService {
         log.info("Generating PDF for user {} has started ...", cvDto.getUser().getEmail());
 
         // We set-up a Thymeleaf rendering engine. All Thymeleaf templates
-        // are HTML-based files located under "src/test/resources/templates".
+        // are HTML-based files located under "src/resources/templates".
         // If you want to add templates into file, just change prefix
         final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setPrefix("/templates/");
@@ -84,6 +84,10 @@ public class ExportService {
             log.info("Creating PDF completed");
 
             return outputStream.toByteArray();
+        } catch (Exception e) {
+            log.error("there was error with creatingPDF using outputStream. Exception: {}", e.getMessage());
+
+            throw e;
         }
     }
 

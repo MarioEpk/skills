@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.UserDto;
+import com.skillsmanagerapi.enums.RoleTypes;
 import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.UserRepository;
@@ -31,10 +32,10 @@ public class UserService {
 
     @Autowired
     public UserService(
-            @NonNull final UserRepository userRepository,
-            @NonNull final ModelMapper modelMapper,
-            @NonNull final ModelMapperUtil modelMapperUtil,
-            @NonNull final JwtDecoder jwtDecoder
+        @NonNull final UserRepository userRepository,
+        @NonNull final ModelMapper modelMapper,
+        @NonNull final ModelMapperUtil modelMapperUtil,
+        @NonNull final JwtDecoder jwtDecoder
     ) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -59,7 +60,7 @@ public class UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
-    public UserDto getUserById(@NonNull final Integer userId) {
+    public UserDto getUserById(@NonNull final int userId) {
         final User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(user, UserDto.class);
     }
@@ -80,8 +81,7 @@ public class UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         final Role role = new Role();
-        // TODO :: ID 3 is for user privileges - add better role selection
-        role.setId(3);
+        role.setId(RoleTypes.USER.getId());
         user.setRole(role);
         userRepository.save(user);
 

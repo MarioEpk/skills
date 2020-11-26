@@ -15,16 +15,19 @@ import com.skillsmanagerapi.services.TypeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @PreAuthorize("hasAuthority('admin')")
-@RequestMapping(value = "/api/type")
+@RequestMapping(value = "/api/types")
 @RestController
 public class TypeController {
 
@@ -36,7 +39,14 @@ public class TypeController {
     private final PositionTypeService positionTypeService;
 
     @Autowired
-    public TypeController(LanguageTypeService languageTypeService, SkillTypeService skillTypeService, TechnologyTypeService technologyTypeService, ProjectTypeService projectTypeService, TypeService typeService, PositionTypeService positionTypeService) {
+    public TypeController(
+        LanguageTypeService languageTypeService,
+        SkillTypeService skillTypeService,
+        TechnologyTypeService technologyTypeService,
+        ProjectTypeService projectTypeService,
+        TypeService typeService,
+        PositionTypeService positionTypeService
+    ) {
         this.languageTypeService = languageTypeService;
         this.skillTypeService = skillTypeService;
         this.technologyTypeService = technologyTypeService;
@@ -47,142 +57,142 @@ public class TypeController {
 
 
     // All types
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public AllTypesDto getAllTypes() {
         return typeService.getAllTypes();
     }
 
 
     // Language Type
-    @RequestMapping(value = "/language", method = RequestMethod.GET)
+    @GetMapping(value = "/language")
     public List<LanguageTypeDto> getAllLanguageTypes() {
         return languageTypeService.getAllLanguageTypes();
     }
 
-    @RequestMapping(value = "/language/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/language/{id}")
     public LanguageTypeDto getLanguageType(@PathVariable("id") int id) {
         return languageTypeService.getLanguageType(id);
     }
 
-    @RequestMapping(value = "/language", method = RequestMethod.POST)
+    @PostMapping(value = "/language")
     public void createLanguageType(@RequestBody LanguageTypeDto languageTypeDto) {
         languageTypeService.createLanguageType(languageTypeDto);
     }
 
-    @RequestMapping(value = "/language", method = RequestMethod.PUT)
+    @PutMapping(value = "/language")
     public void updateLanguageType(@RequestBody LanguageTypeDto languageTypeDto) {
         languageTypeService.updateLanguageType(languageTypeDto);
     }
 
-    @RequestMapping(value = "/language/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/language/{id}")
     public void deleteLanguageType(@PathVariable("id") int id) {
         languageTypeService.deleteLanguageType(id);
     }
 
 
     // Skill type
-    @RequestMapping(value = "/skill", method = RequestMethod.GET)
+    @GetMapping(value = "/skill")
     public List<SkillTypeDto> getAllSkillTypes() {
         return skillTypeService.getAllSkillTypes();
     }
 
-    @RequestMapping(value = "/skill/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/skill/{id}")
     public SkillTypeDto getSkillType(@PathVariable("id") int id) {
         return skillTypeService.getSkillType(id);
     }
 
-    @RequestMapping(value = "/skill", method = RequestMethod.POST)
+    @PostMapping(value = "/skill")
     public void createSkillType(@RequestBody SkillTypeDto skillTypeDto) {
         skillTypeService.createSkillType(skillTypeDto);
     }
 
-    @RequestMapping(value = "/skill", method = RequestMethod.PUT)
+    @PutMapping(value = "/skill")
     public void updateSkillType(@RequestBody SkillTypeDto skillTypeDto) {
         skillTypeService.updateSkillType(skillTypeDto);
     }
 
-    @RequestMapping(value = "/skill/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/skill/{id}")
     public void deleteSkillType(@PathVariable("id") int id) {
         skillTypeService.deleteSkillType(id);
     }
 
 
     // technology type
-    @RequestMapping(value = "/technology", method = RequestMethod.GET)
+    @GetMapping(value = "/technology")
     public List<TechnologyTypeDto> getAllTechnologyTypes() {
         return technologyTypeService.getAllTechnologyTypes();
     }
 
-    @RequestMapping(value = "/technology/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/technology/{id}")
     public TechnologyTypeDto getTechnologyType(@PathVariable("id") int id) {
         return technologyTypeService.getTechnologyType(id);
     }
 
-    @RequestMapping(value = "/technology", method = RequestMethod.POST)
+    @PostMapping(value = "/technology")
     public void createTechnologyType(@RequestBody TechnologyTypeDto technologyTypeDto) {
         technologyTypeService.createTechnologyType(technologyTypeDto);
     }
 
-    @RequestMapping(value = "/technology", method = RequestMethod.PUT)
+    @PutMapping(value = "/technology")
     public void updateSkillType(@RequestBody TechnologyTypeDto technologyTypeDto) {
         technologyTypeService.updateTechnologyType(technologyTypeDto);
     }
 
-    @RequestMapping(value = "/technology/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/technology/{id}")
     public void deleteTechnologyType(@PathVariable("id") int id) {
         technologyTypeService.deleteTechnologyType(id);
     }
 
 
     // project type
-    @RequestMapping(value = "/project", method = RequestMethod.GET)
+    @GetMapping(value = "/project")
     public List<ProjectTypeDto> getAllProjectTypes() {
         return projectTypeService.getAllProjectTypes();
     }
 
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/project/{id}")
     public ProjectTypeDto getProjectType(@PathVariable("id") int id) {
         return projectTypeService.getProjectType(id);
     }
 
-    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    @PostMapping(value = "/project")
     public void createProjectType(@RequestBody ProjectTypeDto projectTypeDto) {
         projectTypeService.createProjectType(projectTypeDto);
     }
 
-    @RequestMapping(value = "/project", method = RequestMethod.PUT)
+    @PutMapping(value = "/project")
     public void updateProjectType(@RequestBody ProjectTypeDto projectTypeDto) {
         projectTypeService.updateProjectType(projectTypeDto);
     }
 
-    @RequestMapping(value = "/project/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/project/{id}")
     public void deleteProjectType(@PathVariable("id") int id) {
         projectTypeService.deleteProjectType(id);
     }
 
 
     // position type
-    @RequestMapping(value = "/position", method = RequestMethod.GET)
+    @GetMapping(value = "/position")
     public List<PositionTypeDto> getAllPositionTypes() {
         return positionTypeService.getAllPositionTypes();
     }
 
-    @RequestMapping(value = "/position/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/position/{id}")
     public PositionTypeDto getPositionType(@PathVariable("id") int id) {
         return positionTypeService.getPositionType(id);
     }
 
-    @RequestMapping(value = "/position", method = RequestMethod.POST)
+    @PostMapping(value = "/position")
     public void createPositionType(@RequestBody PositionTypeDto positionTypeDto) {
         positionTypeService.createPositionType(positionTypeDto);
     }
 
-    @RequestMapping(value = "/position", method = RequestMethod.PUT)
+    @PutMapping(value = "/position")
     public void updatePositionType(@RequestBody PositionTypeDto positionTypeDto) {
         positionTypeService.updatePositionType(positionTypeDto);
     }
 
-    @RequestMapping(value = "/position/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/position/{id}")
     public void deletePositionType(@PathVariable("id") int id) {
         positionTypeService.deletePositionType(id);
     }

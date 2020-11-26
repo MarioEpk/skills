@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.SkillDto;
+import com.skillsmanagerapi.enums.LevelType;
 import com.skillsmanagerapi.models.Skill;
 import com.skillsmanagerapi.models.SkillType;
 import com.skillsmanagerapi.repositories.SkillRepository;
@@ -31,7 +32,7 @@ public class SkillService {
 
     public SkillDto createSkill(@NonNull final SkillDto skillDto) {
         final Skill skill = new Skill();
-        skill.setLevel(1);
+        skill.setLevel(LevelType.BEGINNER.getValue());
         skill.setSkillType(modelMapper.map(skillDto.getSkillType(), SkillType.class));
 
         return modelMapper.map(skillRepository.save(skill), SkillDto.class);

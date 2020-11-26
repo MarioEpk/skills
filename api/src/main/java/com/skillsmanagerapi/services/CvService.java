@@ -42,17 +42,17 @@ public class CvService {
 
     @Autowired
     public CvService(
-            @NonNull final CvRepository cvRepository,
-            @NonNull final LanguageService languageService,
-            @NonNull final SkillService skillService,
-            @NonNull final ProjectService projectService,
-            @NonNull final TechnologyService technologyService,
-            @NonNull final CertificateService certificateService,
-            @NonNull final OtherService otherService,
-            @NonNull final UserService userService,
-            @NonNull final ModelMapper modelMapper,
-            @NonNull final ModelMapperUtil modelMapperUtil,
-            @NonNull final ExportService exportService
+        @NonNull final CvRepository cvRepository,
+        @NonNull final LanguageService languageService,
+        @NonNull final SkillService skillService,
+        @NonNull final ProjectService projectService,
+        @NonNull final TechnologyService technologyService,
+        @NonNull final CertificateService certificateService,
+        @NonNull final OtherService otherService,
+        @NonNull final UserService userService,
+        @NonNull final ModelMapper modelMapper,
+        @NonNull final ModelMapperUtil modelMapperUtil,
+        @NonNull final ExportService exportService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
