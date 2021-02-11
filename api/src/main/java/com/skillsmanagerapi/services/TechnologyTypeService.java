@@ -30,7 +30,7 @@ public class TechnologyTypeService {
     }
 
     public List<TechnologyTypeDto> getAllTechnologyTypes() {
-        return modelMapperUtil.mapList(technologyTypeRepository.findAllByOrderByIdAsc(), TechnologyTypeDto.class);
+        return modelMapperUtil.mapList(technologyTypeRepository.findAllByOrderByNameAsc(), TechnologyTypeDto.class);
     }
 
     public TechnologyTypeDto getTechnologyType(final int id) {
@@ -42,7 +42,7 @@ public class TechnologyTypeService {
     }
 
     public void updateTechnologyType(@NonNull final TechnologyTypeDto TechnologyTypeDto) {
-        TechnologyTypeDto updatedTechnologyTypeDto = getTechnologyType(TechnologyTypeDto.getId());
+        final TechnologyTypeDto updatedTechnologyTypeDto = getTechnologyType(TechnologyTypeDto.getId());
         updatedTechnologyTypeDto.setName(TechnologyTypeDto.getName());
         technologyTypeRepository.save(modelMapper.map(updatedTechnologyTypeDto, TechnologyType.class));
     }

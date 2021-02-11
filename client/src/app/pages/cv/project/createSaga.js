@@ -1,4 +1,4 @@
-import {call, put, takeEvery, takeLatest, all} from "redux-saga/effects";
+import {call, put, takeEvery, takeLatest, all, select} from "redux-saga/effects";
 import {change} from "redux-form";
 
 import {cvApi} from "app/serverApi";
@@ -11,6 +11,7 @@ import {
     FORM_NAME, ID_FIELD, MODAL_NAME, FROM_FIELD, TO_FIELD, COMPANY_FIELD, CONTRIBUTION_FIELD, POSITION_TYPES_FIELD, PROJECT_TYPE_FIELD,
     TECHNOLOGY_TYPE_FIELD,
 } from "./constants";
+import {getTypeProjects} from "../selectors";
 
 export default (fetchCv, cvId) => formWrapper(FORM_NAME, {
     * save(values) {
@@ -47,8 +48,11 @@ function* fillForm({payload: {id, from, to, company, contribution, positions, te
 }
 
 function* openForm({payload: projectTypeId}) {
+    const projectTypes = yield select(getTypeProjects);
+    const whisperedTechnologies = projectTypes.find((project) => project.id === projectTypeId)?.technologies;
     yield put(change(FORM_NAME, PROJECT_TYPE_FIELD, {id: projectTypeId}));
     yield put(change(FORM_NAME, COMPANY_FIELD, "Morosystems"));
+    yield put(change(FORM_NAME, TECHNOLOGY_TYPE_FIELD, whisperedTechnologies.map((technology) => technology.id)));
     yield put(modal.open(MODAL_NAME));
 }
 

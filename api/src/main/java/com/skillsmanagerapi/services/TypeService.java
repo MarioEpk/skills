@@ -32,7 +32,7 @@ public class TypeService {
     }
 
     public AllTypesDto getAllTypes() {
-        AllTypesDto allTypesDto = new AllTypesDto();
+        final AllTypesDto allTypesDto = new AllTypesDto();
         allTypesDto.setLanguageTypes(languageTypeService.getAllLanguageTypes());
         allTypesDto.setProjectTypes(projectTypeService.getAllProjectTypes());
         allTypesDto.setSkillTypes(skillTypeService.getAllSkillTypes());

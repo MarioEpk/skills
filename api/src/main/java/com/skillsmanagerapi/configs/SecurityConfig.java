@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.configs;
 
+import com.skillsmanagerapi.utils.RoleConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 
 import java.util.List;
 
+import lombok.NonNull;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -34,8 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${security.jwt.validate.aud}")
     private String validAud;
 
+    private final RoleConverter roleConverter;
+
     @Autowired
-    private RoleConverter roleConverter;
+    public SecurityConfig(@NonNull final RoleConverter roleConverter) {
+        this.roleConverter = roleConverter;
+    }
 
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
@@ -48,29 +56,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http
            .authorizeRequests()
-           .anyRequest()
-           .authenticated()
+                .anyRequest()
+                    .authenticated()
            .and()
-           .oauth2ResourceServer()
-           .jwt()
-           .jwtAuthenticationConverter(jwtAuthenticationConverter())
-           .and().and()
-           .sessionManagement()
-           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .oauth2ResourceServer()
+                    .jwt()
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                .and()
            .and()
-           .cors()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
            .and()
-           .csrf()
-           .disable();
+                .cors()
+           .and()
+               .csrf()
+                    .disable();
     }
 
     @Bean
     public NimbusJwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
-        // https://github.com/google/google-api-javascript-client/issues/512
-        OAuth2TokenValidator<Jwt> defaultWithIssuer = JwtValidators.createDefaultWithIssuer(validIss);
-        JwtClaimValidator<List<String>> withAudience = new JwtClaimValidator<>("aud", aud -> aud.contains(validAud));
-        OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(defaultWithIssuer, withAudience);
+        final NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuerUri);
+        final OAuth2TokenValidator<Jwt> defaultWithIssuer = JwtValidators.createDefaultWithIssuer(validIss);
+        final JwtClaimValidator<List<String>> withAudience = new JwtClaimValidator<>("aud", aud -> aud.contains(validAud));
+        final OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(defaultWithIssuer, withAudience);
         jwtDecoder.setJwtValidator(validator);
 
         return jwtDecoder;

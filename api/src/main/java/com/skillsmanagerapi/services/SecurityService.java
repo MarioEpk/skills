@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 import lombok.NonNull;
@@ -25,7 +26,6 @@ public class SecurityService {
     }
 
     private UserDto getCurrentRequestUser() {
-        // TODO :: find better way for getting current request attributes
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
         return userService.getUserFromToken(request.getHeader("Authorization"));
@@ -33,9 +33,9 @@ public class SecurityService {
 
     public boolean isOwnerOfCv(final int cvId) {
         try {
-            CvDto cvDto = cvService.getCv(cvId);
+            final CvDto cvDto = cvService.getCv(cvId);
             return cvDto.getUser().getId() == this.getCurrentRequestUser().getId();
-        } catch (Exception e) {
+        } catch (EntityNotFoundException e) {
             return false;
         }
     }

@@ -43,19 +43,19 @@ public class ExportService {
         log.info("Generating PDF for user {} has started ...", cvDto.getUser().getEmail());
 
         // We set-up a Thymeleaf rendering engine. All Thymeleaf templates
-        // are HTML-based files located under "src/test/resources/templates".
+        // are HTML-based files located under "src/resources/templates".
         // If you want to add templates into file, just change prefix
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setPrefix("/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(HTML);
         templateResolver.setCharacterEncoding(UTF_8);
 
-        TemplateEngine templateEngine = new TemplateEngine();
+        final TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
 
         // Variables inside context will be used in template
-        Context context = this.addCvIntoContext(cvDto);
+        final Context context = this.addCvIntoContext(cvDto);
 
         log.info("Creating xHTML template");
 
@@ -64,10 +64,10 @@ public class ExportService {
         // XHTML.
         // Note that this might not work for very complicated HTML. But
         // it's good enough for a simple pdf.
-        String renderedHtmlContent = templateEngine.process("pdf", context);
-        String xHtml = convertToXhtml(renderedHtmlContent);
+        final String renderedHtmlContent = templateEngine.process("pdf", context);
+        final String xHtml = convertToXhtml(renderedHtmlContent);
 
-        ITextRenderer renderer = new ITextRenderer();
+        final ITextRenderer renderer = new ITextRenderer();
         renderer.getFontResolver().addFont("static/fonts/Montserrat-Light.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-Medium.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-SemiBold.ttf", CP1250, EMBEDDED);
@@ -84,16 +84,20 @@ public class ExportService {
             log.info("Creating PDF completed");
 
             return outputStream.toByteArray();
+        } catch (Exception e) {
+            log.error("there was error with creatingPDF using outputStream. Exception: {}", e.getMessage());
+
+            throw e;
         }
     }
 
     private Context addCvIntoContext(@NonNull final CvDto cvDto) {
-        Context context = new Context();
+        final Context context = new Context();
 
-        List<SkillDto> sortedSkillsDto = cvDto.getSkills().stream().sorted().collect(Collectors.toList());
-        List<TechnologyDto> sortedTechnologiesDto = cvDto.getTechnologies().stream().sorted().collect(Collectors.toList());
-        List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
-        List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
+        final List<SkillDto> sortedSkillsDto = cvDto.getSkills().stream().sorted().collect(Collectors.toList());
+        final List<TechnologyDto> sortedTechnologiesDto = cvDto.getTechnologies().stream().sorted().collect(Collectors.toList());
+        final List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
+        final List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
 
         context.setVariable("avatarTypeMen", AvatarType.MEN);
         context.setVariable("avatarTypeWoman", AvatarType.WOMAN);
@@ -114,12 +118,12 @@ public class ExportService {
 
 
     private String convertToXhtml(@NonNull final String html) throws UnsupportedEncodingException {
-        Tidy tidy = new Tidy();
+        final Tidy tidy = new Tidy();
         tidy.setInputEncoding(UTF_8);
         tidy.setOutputEncoding(UTF_8);
         tidy.setXHTML(true);
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        final ByteArrayInputStream inputStream = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         tidy.parseDOM(inputStream, outputStream);
 
         return outputStream.toString(UTF_8);

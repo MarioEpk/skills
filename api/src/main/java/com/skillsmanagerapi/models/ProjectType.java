@@ -17,7 +17,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "project_type")
 public class ProjectType {
@@ -39,6 +40,6 @@ public class ProjectType {
 
     @ManyToMany
     @JoinColumn(name = "technology_type_id", referencedColumnName = "id")
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private List<TechnologyType> technologies;
 }

@@ -30,7 +30,7 @@ public class SkillTypeService {
     }
 
     public List<SkillTypeDto> getAllSkillTypes() {
-        return modelMapperUtil.mapList(skillTypeRepository.findAllByOrderByIdAsc(), SkillTypeDto.class);
+        return modelMapperUtil.mapList(skillTypeRepository.findAllByOrderByNameAsc(), SkillTypeDto.class);
     }
 
     public SkillTypeDto getSkillType(final int id) {
@@ -42,7 +42,7 @@ public class SkillTypeService {
     }
 
     public void updateSkillType(@NonNull final SkillTypeDto skillTypeDto) {
-        SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
+        final SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
         updatedSkillTypeDto.setName(skillTypeDto.getName());
         skillTypeRepository.save(modelMapper.map(updatedSkillTypeDto, SkillType.class));
     }

@@ -61,7 +61,7 @@
             <h3>Certificates</h3>
             <div th:each="certificate : ${certificates}">
                 <p class="title" th:text="${certificate.getName()}">Certificate name</p>
-                <p th:text="${#dates.format(certificate.getDate(), 'dd/MM/yyyy')}" class="date">Certificate date</p>
+                <p th:text="${#dates.format(certificate.getDate(), 'MM/yyyy')}" class="date">Certificate date</p>
                 <p th:text="${certificate.getDescription()}">Certificate description</p>
             </div>
         </div>
@@ -69,7 +69,7 @@
             <h3>Others</h3>
             <div th:each="other : ${others}">
                 <p class="title" th:text="${other.getName()}">Other name</p>
-                <p th:text="${#dates.format(other.getDate(), 'dd/MM/yyyy')}" class="date">Other date</p>
+                <p th:text="${#dates.format(other.getDate(), 'MM/yyyy')}" class="date">Other date</p>
                 <p th:text="${other.getDescription()}">Other description</p>
             </div>
         </div>
@@ -102,7 +102,7 @@
                 <div>
                     <div class="arrow-text">Application background: [[${project.getProjectType().getDescription()}]]</div>
                     <div class="arrow-text">Developer’s contribution: [[${project.getContribution()}]]</div>
-                    <div class="arrow-text">
+                    <div class="arrow-text project-technologies">
                         Technology stack:
                         <p th:each="technology : ${project.getTechnologies()}">
                             <span th:text="${technology.getName()}">Project technology</span>
@@ -112,6 +112,9 @@
             </div>
         </div>
     </div>
+</div>
+<div id="footer">
+    <img src="classpath:/static/images/logo.png" alt="logo" class="logo" />
 </div>
 </body>
 

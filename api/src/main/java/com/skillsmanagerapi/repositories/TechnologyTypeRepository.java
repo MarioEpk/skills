@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TechnologyTypeRepository extends JpaRepository<TechnologyType, Integer> {
-    List<TechnologyType> findAllByOrderByIdAsc();
+    List<TechnologyType> findAllByOrderByNameAsc();
 }

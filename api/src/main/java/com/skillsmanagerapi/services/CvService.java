@@ -42,17 +42,17 @@ public class CvService {
 
     @Autowired
     public CvService(
-            @NonNull final CvRepository cvRepository,
-            @NonNull final LanguageService languageService,
-            @NonNull final SkillService skillService,
-            @NonNull final ProjectService projectService,
-            @NonNull final TechnologyService technologyService,
-            @NonNull final CertificateService certificateService,
-            @NonNull final OtherService otherService,
-            @NonNull final UserService userService,
-            @NonNull final ModelMapper modelMapper,
-            @NonNull final ModelMapperUtil modelMapperUtil,
-            @NonNull final ExportService exportService
+        @NonNull final CvRepository cvRepository,
+        @NonNull final LanguageService languageService,
+        @NonNull final SkillService skillService,
+        @NonNull final ProjectService projectService,
+        @NonNull final TechnologyService technologyService,
+        @NonNull final CertificateService certificateService,
+        @NonNull final OtherService otherService,
+        @NonNull final UserService userService,
+        @NonNull final ModelMapper modelMapper,
+        @NonNull final ModelMapperUtil modelMapperUtil,
+        @NonNull final ExportService exportService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
@@ -68,7 +68,7 @@ public class CvService {
     }
 
     public CvDto getCvOrCreateNew(@NonNull final UserDto userDto) {
-        Cv cv = cvRepository.findByUser(modelMapper.map(userDto, User.class)).orElseGet(() -> createCv(userDto));
+        final Cv cv = cvRepository.findByUser(modelMapper.map(userDto, User.class)).orElseGet(() -> createCv(userDto));
         return modelMapper.map(cv, CvDto.class);
     }
 
@@ -85,8 +85,8 @@ public class CvService {
     }
 
     public void updateCv(@NonNull final CvDto cvDto) {
-        CvDto updatedCvDto = this.getCv(cvDto.getId());
-        UserDto userDto = updatedCvDto.getUser();
+        final CvDto updatedCvDto = this.getCv(cvDto.getId());
+        final UserDto userDto = updatedCvDto.getUser();
         userDto.setFirstName(cvDto.getUser().getFirstName());
         userDto.setLastName(cvDto.getUser().getLastName());
         userService.updateUser(userDto);
@@ -97,14 +97,14 @@ public class CvService {
     }
 
     public byte[] exportCvPdf(final int id) throws Exception {
-        CvDto cvDto = getCv(id);
+        final CvDto cvDto = getCv(id);
 
         return exportService.generateCvPdf(cvDto);
     }
 
     private Cv createCv(@NonNull final UserDto userDto) {
         log.info("Creating cv for user {}", userDto.getEmail());
-        Cv cv = new Cv();
+        final Cv cv = new Cv();
         cv.setUser(modelMapper.map(userDto, User.class));
         cvRepository.save(cv);
 
@@ -113,9 +113,9 @@ public class CvService {
 
     // Language
     public void addLanguageToCv(final int cvId, @NonNull final LanguageDto languageDto) {
-        LanguageDto newLanguageDto = languageService.createLanguage(languageDto);
-        CvDto cvDto = this.getCv(cvId);
-        List<LanguageDto> languageDtoList = cvDto.getLanguages();
+        final LanguageDto newLanguageDto = languageService.createLanguage(languageDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<LanguageDto> languageDtoList = cvDto.getLanguages();
         languageDtoList.add(newLanguageDto);
         cvDto.setLanguages(languageDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
@@ -131,9 +131,9 @@ public class CvService {
 
     // Skill
     public void addSkillToCv(final int cvId, @NonNull final SkillDto skillDto) {
-        SkillDto newSkillDto = skillService.createSkill(skillDto);
-        CvDto cvDto = this.getCv(cvId);
-        List<SkillDto> skillDtoList = cvDto.getSkills();
+        final SkillDto newSkillDto = skillService.createSkill(skillDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<SkillDto> skillDtoList = cvDto.getSkills();
         skillDtoList.add(newSkillDto);
         cvDto.setSkills(skillDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
@@ -149,9 +149,9 @@ public class CvService {
 
     // Project
     public void addProjectToCv(final int cvId, @NonNull final ProjectDto projectDto) {
-        ProjectDto newProjectDto = projectService.createProject(projectDto);
-        CvDto cvDto = this.getCv(cvId);
-        List<ProjectDto> projectDtoList = cvDto.getProjects();
+        final ProjectDto newProjectDto = projectService.createProject(projectDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<ProjectDto> projectDtoList = cvDto.getProjects();
         projectDtoList.add(newProjectDto);
         cvDto.setProjects(projectDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
@@ -167,9 +167,9 @@ public class CvService {
 
     // Technology
     public void addTechnologyToCv(final int cvId, @NonNull final TechnologyDto technologyDto) {
-        TechnologyDto newTechnologyDto = technologyService.createTechnology(technologyDto);
-        CvDto cvDto = this.getCv(cvId);
-        List<TechnologyDto> technologyDtoList = cvDto.getTechnologies();
+        final TechnologyDto newTechnologyDto = technologyService.createTechnology(technologyDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<TechnologyDto> technologyDtoList = cvDto.getTechnologies();
         technologyDtoList.add(newTechnologyDto);
         cvDto.setTechnologies(technologyDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
@@ -185,9 +185,9 @@ public class CvService {
 
     // Certificate
     public void addCertificateToCv(final int cvId, @NonNull final CertificateDto certificateDto) {
-        CertificateDto newCertificateDto = certificateService.createCertificate(certificateDto);
-        CvDto cvDto = this.getCv(cvId);
-        List<CertificateDto> certificateDtoList = cvDto.getCertificates();
+        final CertificateDto newCertificateDto = certificateService.createCertificate(certificateDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<CertificateDto> certificateDtoList = cvDto.getCertificates();
         certificateDtoList.add(newCertificateDto);
         cvDto.setCertificates(certificateDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
@@ -203,9 +203,9 @@ public class CvService {
 
     // Other
     public void addOtherToCv(final int cvId, @NonNull final OtherDto otherDto) {
-        OtherDto newOtherDto = otherService.createOther(otherDto);
-        CvDto cvDto = this.getCv(cvId);
-        List<OtherDto> otherDtoList = cvDto.getOthers();
+        final OtherDto newOtherDto = otherService.createOther(otherDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<OtherDto> otherDtoList = cvDto.getOthers();
         otherDtoList.add(newOtherDto);
         cvDto.setOthers(otherDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));

@@ -14,7 +14,8 @@ import javax.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Table(name = "certificate")
 public class Certificate {

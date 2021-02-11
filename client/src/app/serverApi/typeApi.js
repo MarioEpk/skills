@@ -1,11 +1,11 @@
 import fetch from "core/fetch";
 import {Type, Project, AllTypes} from "app/model/type";
 
-const LANGUAGE_URL = "/type/language";
-const SKILL_URL = "/type/skill";
-const TECHNOLOGY_URL = "/type/technology";
-const PROJECT_URL = "/type/project";
-const POSITION_URL = "/type/position";
+const LANGUAGE_URL = "/types/language";
+const SKILL_URL = "/types/skill";
+const TECHNOLOGY_URL = "/types/technology";
+const PROJECT_URL = "/types/project";
+const POSITION_URL = "/types/position";
 
 const fetchLanguageTypes = () => fetch.doGet(LANGUAGE_URL, null, Type.fromServerList);
 const createLanguageType = ({name}) => fetch.doPost(LANGUAGE_URL, {name});
@@ -36,7 +36,7 @@ const createPositionType = ({name}) => fetch.doPost(POSITION_URL, {name});
 const updatePositionType = ({id, name}) => fetch.doPut(POSITION_URL, {id, name});
 const deletePositionType = ({id}) => fetch.doDelete(`${POSITION_URL}/${id}`);
 
-const fetchAllTypes = () => fetch.doGet(`/type`, null, AllTypes.fromServer);
+const fetchAllTypes = () => fetch.doGet(`/types`, null, AllTypes.fromServer);
 
 export default {
     fetchLanguageTypes,

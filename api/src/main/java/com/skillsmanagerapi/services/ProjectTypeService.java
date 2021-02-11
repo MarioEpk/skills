@@ -30,7 +30,7 @@ public class ProjectTypeService {
     }
 
     public List<ProjectTypeDto> getAllProjectTypes() {
-        return modelMapperUtil.mapList(projectTypeRepository.findAllByOrderByIdAsc(), ProjectTypeDto.class);
+        return modelMapperUtil.mapList(projectTypeRepository.findAllByOrderByNameAsc(), ProjectTypeDto.class);
     }
 
     public ProjectTypeDto getProjectType(final int id) {
@@ -42,7 +42,7 @@ public class ProjectTypeService {
     }
 
     public void updateProjectType(@NonNull final ProjectTypeDto projectTypeDto) {
-        ProjectTypeDto updatedProjectTypeDto = getProjectType(projectTypeDto.getId());
+        final ProjectTypeDto updatedProjectTypeDto = getProjectType(projectTypeDto.getId());
         updatedProjectTypeDto.setName(projectTypeDto.getName());
         updatedProjectTypeDto.setExportName(projectTypeDto.getExportName());
         updatedProjectTypeDto.setDescription(projectTypeDto.getDescription());

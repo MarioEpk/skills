@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.UserDto;
+import com.skillsmanagerapi.enums.RoleTypes;
 import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.UserRepository;
@@ -31,10 +32,10 @@ public class UserService {
 
     @Autowired
     public UserService(
-            @NonNull final UserRepository userRepository,
-            @NonNull final ModelMapper modelMapper,
-            @NonNull final ModelMapperUtil modelMapperUtil,
-            @NonNull final JwtDecoder jwtDecoder
+        @NonNull final UserRepository userRepository,
+        @NonNull final ModelMapper modelMapper,
+        @NonNull final ModelMapperUtil modelMapperUtil,
+        @NonNull final JwtDecoder jwtDecoder
     ) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -47,25 +48,25 @@ public class UserService {
     }
 
     public UserDto getUserOrCreateNew(@NonNull final UserDto userDto) {
-        User user = userRepository.findByEmail(userDto.getEmail()).orElseGet(() -> createUser(userDto));
+        final User user = userRepository.findByEmail(userDto.getEmail()).orElseGet(() -> createUser(userDto));
         return modelMapper.map(user, UserDto.class);    }
 
     public UserDto getUserFromToken(@NonNull final String token) {
         // Remove Bearer string from start
-        Jwt jwt = jwtDecoder.decode(token.substring(7));
-        String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
-        User user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+        final Jwt jwt = jwtDecoder.decode(token.substring(7));
+        final String email = (String) jwt.getClaims().get(StandardClaimNames.EMAIL);
+        final User user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
 
         return modelMapper.map(user, UserDto.class);
     }
 
-    public UserDto getUserById(@NonNull final Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+    public UserDto getUserById(@NonNull final int userId) {
+        final User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(user, UserDto.class);
     }
 
     public void updateUser(@NonNull final UserDto userDto) {
-        UserDto updatedUserDto = modelMapper.map(userRepository.findById(userDto.getId()).orElseThrow(EntityNotFoundException::new), UserDto.class);
+        final UserDto updatedUserDto = modelMapper.map(userRepository.findById(userDto.getId()).orElseThrow(EntityNotFoundException::new), UserDto.class);
         updatedUserDto.setFirstName(userDto.getFirstName());
         updatedUserDto.setLastName(userDto.getLastName());
         updatedUserDto.setRole(userDto.getRole());
@@ -74,14 +75,13 @@ public class UserService {
 
     private User createUser(@NonNull final UserDto userDto) {
         log.info("Creating user {}", userDto.getEmail());
-        User user = new User();
+        final User user = new User();
         user.setGoogleId(userDto.getGoogleId());
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        Role role = new Role();
-        // TODO :: ID 3 is for user privileges - add better role selection
-        role.setId(3);
+        final Role role = new Role();
+        role.setId(RoleTypes.USER.getId());
         user.setRole(role);
         userRepository.save(user);
 

@@ -1,5 +1,7 @@
 package com.skillsmanagerapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,10 +9,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NonNull;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ProjectDto implements Comparable<ProjectDto> {
     private int id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone="Europe/Prague")
     private Date from;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone="Europe/Prague")
     private Date to;
     private String company;
     private String contribution;

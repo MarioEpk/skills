@@ -18,7 +18,7 @@ const DateInput = ({onChange, label, value, tabIndex, disabled, id, onBlur}) => 
         tabIndex={tabIndex}
         disabled={disabled}
         id={id}
-        type="date"
+        type="month"
         InputLabelProps={{
             shrink: true,
         }}

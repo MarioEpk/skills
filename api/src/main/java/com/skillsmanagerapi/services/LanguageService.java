@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.LanguageDto;
+import com.skillsmanagerapi.enums.LevelType;
 import com.skillsmanagerapi.models.Language;
 import com.skillsmanagerapi.models.LanguageType;
 import com.skillsmanagerapi.repositories.LanguageRepository;
@@ -30,14 +31,14 @@ public class LanguageService {
     }
 
     public LanguageDto createLanguage(@NonNull final LanguageDto languageDto) {
-        Language language = new Language();
-        language.setLevel(1);
+        final Language language = new Language();
+        language.setLevel(LevelType.BEGINNER.getValue());
         language.setLanguageType(modelMapper.map(languageDto.getLanguageType(), LanguageType.class));
         return modelMapper.map(languageRepository.save(language), LanguageDto.class);
     }
 
     public void updateLanguage(@NonNull final LanguageDto languageDto) {
-        LanguageDto updatedLanguageDto = this.getLanguage(languageDto.getId());
+        final LanguageDto updatedLanguageDto = this.getLanguage(languageDto.getId());
         updatedLanguageDto.setLevel(languageDto.getLevel());
         languageRepository.save(modelMapper.map(updatedLanguageDto, Language.class));
     }

@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.TechnologyDto;
+import com.skillsmanagerapi.enums.LevelType;
 import com.skillsmanagerapi.models.Technology;
 import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.TechnologyRepository;
@@ -30,15 +31,15 @@ public class TechnologyService {
     }
 
     public TechnologyDto createTechnology(@NonNull final TechnologyDto technologyDto) {
-        Technology technology = new Technology();
-        technology.setLevel(1);
+        final Technology technology = new Technology();
+        technology.setLevel(LevelType.BEGINNER.getValue());
         technology.setTechnologyType(modelMapper.map(technologyDto.getTechnologyType(), TechnologyType.class));
 
         return modelMapper.map(technologyRepository.save(technology), TechnologyDto.class);
     }
 
     public void updateTechnology(@NonNull final TechnologyDto technologyDto) {
-        TechnologyDto updatedTechnologyDto = this.getTechnology(technologyDto.getId());
+        final TechnologyDto updatedTechnologyDto = this.getTechnology(technologyDto.getId());
         updatedTechnologyDto.setLevel(technologyDto.getLevel());
         technologyRepository.save(modelMapper.map(updatedTechnologyDto, Technology.class));
     }
