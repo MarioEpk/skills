@@ -30,7 +30,7 @@ public class SkillTypeService {
     }
 
     public List<SkillTypeDto> getAllSkillTypes() {
-        return modelMapperUtil.mapList(skillTypeRepository.findAllByOrderByIdAsc(), SkillTypeDto.class);
+        return modelMapperUtil.mapList(skillTypeRepository.findAllByOrderByNameAsc(), SkillTypeDto.class);
     }
 
     public SkillTypeDto getSkillType(final int id) {

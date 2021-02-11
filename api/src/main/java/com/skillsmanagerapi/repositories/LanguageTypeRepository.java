@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LanguageTypeRepository extends JpaRepository<LanguageType, Integer> {
-    List<LanguageType> findAllByOrderByIdAsc();
+    List<LanguageType> findAllByOrderByNameAsc();
 }

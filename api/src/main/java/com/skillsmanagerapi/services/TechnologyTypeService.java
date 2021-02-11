@@ -30,7 +30,7 @@ public class TechnologyTypeService {
     }
 
     public List<TechnologyTypeDto> getAllTechnologyTypes() {
-        return modelMapperUtil.mapList(technologyTypeRepository.findAllByOrderByIdAsc(), TechnologyTypeDto.class);
+        return modelMapperUtil.mapList(technologyTypeRepository.findAllByOrderByNameAsc(), TechnologyTypeDto.class);
     }
 
     public TechnologyTypeDto getTechnologyType(final int id) {

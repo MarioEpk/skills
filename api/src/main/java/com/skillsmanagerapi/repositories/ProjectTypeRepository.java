@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProjectTypeRepository extends JpaRepository<ProjectType, Integer> {
-    List<ProjectType> findAllByOrderByIdAsc();
-
+    List<ProjectType> findAllByOrderByNameAsc();
 }

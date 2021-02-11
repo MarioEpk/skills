@@ -30,7 +30,7 @@ public class ProjectTypeService {
     }
 
     public List<ProjectTypeDto> getAllProjectTypes() {
-        return modelMapperUtil.mapList(projectTypeRepository.findAllByOrderByIdAsc(), ProjectTypeDto.class);
+        return modelMapperUtil.mapList(projectTypeRepository.findAllByOrderByNameAsc(), ProjectTypeDto.class);
     }
 
     public ProjectTypeDto getProjectType(final int id) {

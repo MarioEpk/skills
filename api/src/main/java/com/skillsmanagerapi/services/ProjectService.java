@@ -36,9 +36,9 @@ public class ProjectService {
 
     public ProjectDto createProject(@NonNull final ProjectDto projectDto) {
         final Project project = new Project();
-        project.setPositions(modelMapperUtil.mapList(projectDto.getPositions(), PositionType.class));
-        project.setTechnologies(modelMapperUtil.mapList(projectDto.getTechnologies(), TechnologyType.class));
-        project.setProjectType(modelMapper.map(projectDto.getProjectType(), ProjectType.class));
+        project.setPositions(projectDto.getPositions() != null ? modelMapperUtil.mapList(projectDto.getPositions(), PositionType.class) : null);
+        project.setTechnologies(projectDto.getTechnologies() != null ? modelMapperUtil.mapList(projectDto.getTechnologies(), TechnologyType.class) : null);
+        project.setProjectType(projectDto.getProjectType() != null ? modelMapper.map(projectDto.getProjectType(), ProjectType.class) : null);
         project.setFrom(projectDto.getFrom());
         project.setTo(projectDto.getTo());
         project.setCompany(projectDto.getCompany());

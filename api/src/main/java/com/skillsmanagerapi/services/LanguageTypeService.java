@@ -30,7 +30,7 @@ public class LanguageTypeService {
     }
 
     public List<LanguageTypeDto> getAllLanguageTypes() {
-        return modelMapperUtil.mapList(languageTypeRepository.findAllByOrderByIdAsc(), LanguageTypeDto.class);
+        return modelMapperUtil.mapList(languageTypeRepository.findAllByOrderByNameAsc(), LanguageTypeDto.class);
     }
 
     public LanguageTypeDto getLanguageType(final int id) {

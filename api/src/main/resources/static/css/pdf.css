@@ -3,6 +3,15 @@
     font-weight: 200;
 }
 
+@page {
+    background: url("/static/images/logo.png") no-repeat bottom center;
+    background-size: 200px;
+}
+
+#footer{
+    position: running(footer);
+}
+
 p,
 h1,
 h2,
@@ -188,7 +197,9 @@ div {
     width: 100%;
 }
 
-.technologies > div {
+.technologies > div,
+.certificates > div,
+.others > div {
     margin-bottom: 5px;
 }
 
@@ -199,4 +210,13 @@ div {
 
 .technologies .level-text p {
     font-weight: 200;
+}
+
+.project-technologies p:after {
+    content: ", ";
+    display: inline-block;
+}
+
+.project-technologies p:last-child:after {
+    content: "";
 }

@@ -30,7 +30,7 @@ public class PositionTypeService {
     }
 
     public List<PositionTypeDto> getAllPositionTypes() {
-        return modelMapperUtil.mapList(positionTypeRepository.findAllByOrderByIdAsc(), PositionTypeDto.class);
+        return modelMapperUtil.mapList(positionTypeRepository.findAllByOrderByNameAsc(), PositionTypeDto.class);
     }
 
     public PositionTypeDto getPositionType(final int id) {
