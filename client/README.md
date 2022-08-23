@@ -1,7 +1,7 @@
 # skills-manager-client
 
 ## Build
-Just run `yarn build`. It will create new folder `dist`.
+Just run `yarn install` and `yarn build`. It will create new folder `dist`.
 This folder can be used for docker image build.
 
 ## Env file
