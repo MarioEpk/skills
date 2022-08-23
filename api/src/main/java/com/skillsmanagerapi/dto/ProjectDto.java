@@ -13,9 +13,9 @@ import lombok.NonNull;
 @Setter
 public class ProjectDto implements Comparable<ProjectDto> {
     private int id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone="Europe/Prague")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
     private Date from;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone="Europe/Prague")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
     private Date to;
     private String company;
     private String contribution;

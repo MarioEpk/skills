@@ -12,7 +12,7 @@ import lombok.Setter;
 public class CertificateDto {
     private int id;
     private String name;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone="Europe/Prague")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
     private Date date;
     private String description;
 }
