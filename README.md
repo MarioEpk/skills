@@ -26,4 +26,4 @@ If you don't want to bump version inside bamboo, you need to set false in `bumpV
 
 If you need help, contact: `jan.bartl@morosystems.cz`
 
-*Created by: Morosystems s.r.o.*
+*Created by: MoroSystems s.r.o.*

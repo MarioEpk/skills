@@ -51,7 +51,7 @@ function* openForm({payload: projectTypeId}) {
     const projectTypes = yield select(getTypeProjects);
     const whisperedTechnologies = projectTypes.find((project) => project.id === projectTypeId)?.technologies;
     yield put(change(FORM_NAME, PROJECT_TYPE_FIELD, {id: projectTypeId}));
-    yield put(change(FORM_NAME, COMPANY_FIELD, "Morosystems"));
+    yield put(change(FORM_NAME, COMPANY_FIELD, "MoroSystems"));
     yield put(change(FORM_NAME, TECHNOLOGY_TYPE_FIELD, whisperedTechnologies.map((technology) => technology.id)));
     yield put(modal.open(MODAL_NAME));
 }
