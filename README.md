@@ -23,14 +23,14 @@ Bamboo will only bump patch version. If you want to release new major or minor v
 If you don't want to bump version inside bamboo, you need to set false in `bumpVersion` variable inside Bamboo.
 3. Contact admin and tell them which version they should deploy. You can find version in commit message (Bamboo will create new commit)
 4. Main `docker-compose.yaml` file is already on server so admin will only change version of docker-image inside this file and the re-run docker compose
- 	- `ssh ec2-user@3.126.111.17`
- 	- `sudo su root`
- 	- `docker-compose down`
- 	- edit the docker file and change the api and client version to the latest
- 	- `docker-compose -f docker-compose.yml up -d`
+     - `ssh ec2-user@3.126.111.17`
+     - `sudo su root`
+     - &nbsp; edit the docker file and change the api and client version to the latest (`~/opt/cv.morosystems.cz`)
+     - `docker-compose down`
+     - `docker-compose -f docker-compose.yml up -d`
 
 ### How to connect to Docker database
-- `ssh ec2-user@3.126.111.17`
+- `ssh ec2-user@3.126.111.17`
 - `sudo su root`
 - `docker ps`
 - `docker exec -it cvmorosystemscz_db_1 bash`
