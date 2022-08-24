@@ -148,6 +148,7 @@ div {
 
 .projects > div {
     margin-bottom: 20px;
+    page-break-inside: avoid;
 }
 
 .projects .company,
