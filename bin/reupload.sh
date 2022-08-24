@@ -4,19 +4,19 @@
 #
 #
 
-echo "\n--- Building MoroCV client part ---\n"
+echo "\n--- Building MoroCV client part ---\n";
 #
 cd ../client;
 yarn build;
 
 
-echo "\n--- Building MoroCV api part ---\n"
+echo "\n--- Building MoroCV api part ---\n";
 #
 cd ../api;
-./gradlew build
+./gradlew clean build;
 
 
-echo "\n--- Starting MoroCV app... ---\n"
+echo "\n--- Starting MoroCV app... ---\n";
 #
 cd ..;
 docker-compose -f docker-compose.dev.yaml up --build;
