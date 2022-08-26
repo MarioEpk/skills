@@ -221,3 +221,7 @@ div {
 .project-technologies p:last-child:after {
     content: "";
 }
+
+.languages {
+    page-break-inside: avoid;
+}
