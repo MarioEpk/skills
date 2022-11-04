@@ -1,42 +1,95 @@
 package com.skillsmanagerapi.services;
 
-import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-
-import static com.itextpdf.text.pdf.BaseFont.CP1250;
-import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
-import static org.thymeleaf.templatemode.TemplateMode.HTML;
-import org.thymeleaf.context.Context;
-import org.w3c.tidy.Tidy;
-import org.xhtmlrenderer.pdf.ITextRenderer;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
 import com.skillsmanagerapi.enums.AvatarType;
+import com.skillsmanagerapi.enums.ContextDataKey;
+import io.github.erdos.stencil.API;
+import io.github.erdos.stencil.EvaluatedDocument;
+import io.github.erdos.stencil.PreparedTemplate;
+import io.github.erdos.stencil.TemplateData;
+import io.github.erdos.stencil.standalone.JsonParser;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.w3c.tidy.Tidy;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import static com.itextpdf.text.pdf.BaseFont.CP1250;
+import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
+import static org.thymeleaf.templatemode.TemplateMode.HTML;
 
 @Service
 @Slf4j
 public class ExportService {
-
     private static final String UTF_8 = "UTF-8";
+
+
+
+
+    public byte[] generateCvDoc(final CvDto cvDto) throws Exception {
+
+        log.info("Generating DOCX for user {} has started ...", cvDto.getUser().getEmail());
+
+        //preparing data
+        final URL templateUrl = getClass().getResource("/templates/template_doc.docx");
+        final File template = new File(templateUrl.toURI());
+
+
+        //reuse Context and convert to map (stencil project format)
+        final Context context = addCvIntoContext(cvDto);
+        Map<String, Object> data = context.getVariableNames()
+                .stream()
+                .collect(Collectors.toMap(c -> c, context::getVariable));
+        Gson gson = new Gson();
+        String dataAsJson = gson.toJson(data);
+
+        Map<String, Object> map = new ObjectMapper().convertValue(data, Map.class);
+        System.out.println(map);
+        final TemplateData td = TemplateData.fromMap(map);
+
+//        final Map templateDataMap = (Map) JsonParser.parse(dataAsJson);
+
+        //final TemplateData td = TemplateData.fromMap(data);
+
+
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            log.info("DOCX is being created");
+
+            final PreparedTemplate prepared = API.prepare(template);
+            //final EvaluatedDocument rendered = API.render(prepared, TemplateData.fromMap(templateDataMap));
+            final EvaluatedDocument rendered = API.render(prepared, td);
+            rendered.writeToStream(outputStream);
+            prepared.cleanup();
+            log.info("DOCX created successfully");
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            log.error("There was error with creating DOCX. Exception: {}", e.getMessage());
+            throw e;
+        }
+
+
+    }
+
 
     public byte[] generateCvPdf(@NonNull final CvDto cvDto) throws Exception {
 
@@ -99,19 +152,18 @@ public class ExportService {
         final List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
         final List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
 
-        context.setVariable("avatarTypeMen", AvatarType.MEN);
-        context.setVariable("avatarTypeWoman", AvatarType.WOMAN);
-
-        context.setVariable("avatar", cvDto.getAvatar());
-        context.setVariable("user", cvDto.getUser());
-        context.setVariable("positions", cvDto.getPositions());
-        context.setVariable("profile", cvDto.getProfile());
-        context.setVariable("projects", sortedProjects);
-        context.setVariable("skills", sortedSkillsDto);
-        context.setVariable("technologies", sortedTechnologiesDto);
-        context.setVariable("languages", sortedLanguagesDto);
-        context.setVariable("certificates", cvDto.getCertificates());
-        context.setVariable("others", cvDto.getOthers());
+        context.setVariable(ContextDataKey.AVATAR_TYPE_MAN, AvatarType.MEN);
+        context.setVariable(ContextDataKey.AVATAR_TYPE_WOMEN, AvatarType.WOMAN);
+        context.setVariable(ContextDataKey.AVATAR, cvDto.getAvatar());
+        context.setVariable(ContextDataKey.USER, cvDto.getUser());
+        context.setVariable(ContextDataKey.POSITIONS, cvDto.getPositions());
+        context.setVariable(ContextDataKey.PROFILE, cvDto.getProfile());
+        context.setVariable(ContextDataKey.PROJECTS, sortedProjects);
+        context.setVariable(ContextDataKey.SKILLS, sortedSkillsDto);
+        context.setVariable(ContextDataKey.TECHNOLOGIES, sortedTechnologiesDto);
+        context.setVariable(ContextDataKey.LANGUAGES, sortedLanguagesDto);
+        context.setVariable(ContextDataKey.CERTIFICATES, cvDto.getCertificates());
+        context.setVariable(ContextDataKey.OTHERS, cvDto.getOthers());
 
         return context;
     }
