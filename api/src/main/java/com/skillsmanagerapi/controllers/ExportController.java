@@ -32,7 +32,7 @@ public class ExportController {
     }
 
 
-    //@PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
+    @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
     @GetMapping(value = "/{id}/export", produces = APPLICATION_PDF_VALUE)
     public ResponseEntity<?> exportCvAsPdf(@PathVariable("id") int id) throws Exception {
         final CvDto cvDto = cvService.getCv(id);
@@ -46,7 +46,7 @@ public class ExportController {
                 pdfData);
     }
 
-    //@PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
+    @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
     @GetMapping(value = "/{id}/export/doc")
     public ResponseEntity<?> exportCvAsDoc(@PathVariable("id") int id) throws Exception {
 
