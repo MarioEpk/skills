@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Base64;
-
-import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
-@RequestMapping(value = "/api/cv/export")
+@RequestMapping(value = "/api/cv")
 @RestController
 public class ExportController {
 
@@ -36,38 +33,33 @@ public class ExportController {
 
 
     //@PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
-    @GetMapping(value = "/{id}/pdf", produces = APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/{id}/export", produces = APPLICATION_PDF_VALUE)
     public ResponseEntity<?> exportCvAsPdf(@PathVariable("id") int id) throws Exception {
-
-        //final CvDto cvDto = cvService.getCv(id);
-        final CvDto cvDto = CVTest.createTestCv();
+        final CvDto cvDto = cvService.getCv(id);
         final byte[] pdfData = exportService.generateCvPdf(cvDto);
+
+        //final byte[] encodedBytes = Base64.getEncoder().encode(pdf);  //
 
         return getResponseEntity(
                 cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName() + "_cv.pdf",
                 APPLICATION_PDF_VALUE,
                 pdfData);
-                //Base64.getEncoder().encode(pdfData));
     }
 
     //@PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
-    @GetMapping(value = "/{id}/doc")
+    @GetMapping(value = "/{id}/export/doc")
     public ResponseEntity<?> exportCvAsDoc(@PathVariable("id") int id) throws Exception {
 
-//        final CvDto cvDto = cvService.getCv(id);
-        final CvDto cvDto = CVTest.createTestCv();
+        final CvDto cvDto = cvService.getCv(id);
         final byte[] docxData = exportService.generateCvDoc(cvDto);
 
         return getResponseEntity(
-                //cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastNawme() + "_cv.docx",
-                "test_" + System.currentTimeMillis() + ".docx",
+                cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName() + "_cv.docx",
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 docxData);
     }
 
     private ResponseEntity<?> getResponseEntity(String fileName, String mediaType, byte[] data) {
-        //Conversion of bytes to Base64
-
         //Setting Headers
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(mediaType));

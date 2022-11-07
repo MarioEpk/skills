@@ -1,7 +1,6 @@
 package com.skillsmanagerapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.ProjectDto;
@@ -13,10 +12,8 @@ import io.github.erdos.stencil.API;
 import io.github.erdos.stencil.EvaluatedDocument;
 import io.github.erdos.stencil.PreparedTemplate;
 import io.github.erdos.stencil.TemplateData;
-import io.github.erdos.stencil.standalone.JsonParser;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -27,7 +24,6 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -52,6 +48,10 @@ public class ExportService {
 
         //preparing data
         final URL templateUrl = getClass().getResource("/templates/template_doc.docx");
+        if (templateUrl == null) {
+            log.error("Cannot read template for DOCX");
+            throw new Exception("Cannot read template for DOCX");
+        }
         final File template = new File(templateUrl.toURI());
 
 
@@ -60,17 +60,12 @@ public class ExportService {
         Map<String, Object> data = context.getVariableNames()
                 .stream()
                 .collect(Collectors.toMap(c -> c, context::getVariable));
-        Gson gson = new Gson();
-        String dataAsJson = gson.toJson(data);
+        //add extra values
+        data.put("userLastNameShort", cvDto.getUser().getLastName() == null ?
+                "" : (cvDto.getUser().getLastName().charAt(0) + "."));
 
-        Map<String, Object> map = new ObjectMapper().convertValue(data, Map.class);
-        System.out.println(map);
-        final TemplateData td = TemplateData.fromMap(map);
-
-//        final Map templateDataMap = (Map) JsonParser.parse(dataAsJson);
-
-        //final TemplateData td = TemplateData.fromMap(data);
-
+        //convert context to map
+        final TemplateData td = TemplateData.fromMap(new ObjectMapper().convertValue(data, Map.class));
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             log.info("DOCX is being created");
@@ -169,7 +164,7 @@ public class ExportService {
     }
 
 
-    private String convertToXhtml(@NonNull final String html) throws UnsupportedEncodingException {
+    private String convertToXhtml(@NonNull final String html)  {
         final Tidy tidy = new Tidy();
         tidy.setInputEncoding(UTF_8);
         tidy.setOutputEncoding(UTF_8);
@@ -178,7 +173,7 @@ public class ExportService {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         tidy.parseDOM(inputStream, outputStream);
 
-        return outputStream.toString(UTF_8);
+        return outputStream.toString(StandardCharsets.UTF_8);
     }
 
 

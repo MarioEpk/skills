@@ -92,25 +92,6 @@ public class CvController {
         cvService.deleteCv(id);
     }
 
-//    @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
-//    @GetMapping(value = "/{id}/export", produces = APPLICATION_PDF_VALUE)
-//    public ResponseEntity<?> exportCv(@PathVariable("id") int id) throws Exception {
-//
-//        final byte[] pdf = cvService.exportCvPdf(id);
-//
-//        //Conversion of bytes to Base64
-//        final byte[] encodedBytes = Base64.getEncoder().encode(pdf);
-//
-//        //Setting Headers
-//        final HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.parseMediaType(APPLICATION_PDF_VALUE));
-//        headers.setContentDispositionFormData("pdfFileName.pdf", "pdfFileName.pdf");
-//        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-//        headers.setContentLength(encodedBytes.length);
-//
-//        return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);
-//    }
-
     // Language
     @PostMapping(value = "/{id}/language")
     public void addLanguageToCv(@RequestBody LanguageDto languageDto, @PathVariable("id") int id) {
