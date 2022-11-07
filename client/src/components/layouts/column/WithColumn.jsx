@@ -5,7 +5,7 @@ import classnames from "classnames";
 import css from "./WithColumn.module.scss";
 import {Block} from "../../components/block";
 
-const WithColumn = ({column, children, title, titleButton}) => (
+const WithColumn = ({column, children, title, titleButtons}) => (
     <div className={css.withColumn}>
         {column && (
             <div className={css.column}>
@@ -18,7 +18,9 @@ const WithColumn = ({column, children, title, titleButton}) => (
                     {title && (
                         <div className={css.title}>
                             <h2>{title}</h2>
-                            {titleButton}
+                            <div>
+                                {titleButtons}
+                            </div>
                         </div>
                     )}
                     {children}
@@ -31,13 +33,13 @@ const WithColumn = ({column, children, title, titleButton}) => (
 WithColumn.propTypes = {
     children: PropTypes.node.isRequired,
     column: PropTypes.node,
-    titleButton: PropTypes.node,
+    titleButtons: PropTypes.arrayOf(PropTypes.node),
     title: PropTypes.string,
 };
 
 WithColumn.defaultProps = {
     title: null,
-    titleButton: null,
+    titleButtons: [],
     column: null,
 };
 

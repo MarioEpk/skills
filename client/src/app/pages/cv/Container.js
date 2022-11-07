@@ -3,9 +3,12 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
+
 import {PageTitle} from "app/containers";
 import {accesses} from "core/access";
-import {WithColumn, Menu, Button} from "components";
+import {WithColumn, Menu, IconButton} from "components";
 import {compose} from "core/form";
 
 import language, {Language} from "./language";
@@ -31,6 +34,7 @@ const Container = ({
     usedSkillIds,
     usedLanguageIds,
     usedTechnologyIds,
+    exportCvToDoc,
 }) => {
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
@@ -39,7 +43,10 @@ const Container = ({
             <PageTitle title={!isAdminOrOwner ? "CV" : "My CV"} />
             <WithColumn
                 title={!isAdminOrOwner ? "CV" : "My CV"}
-                titleButton={<Button label="Generate PDF" onClick={exportCv} />}
+                titleButtons={[
+                    <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} onClick={exportCv} />} />,
+                    <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} onClick={exportCvToDoc} />} />,
+                ]}
                 column={adminOrOwnerAccess([
                     <Menu key="menu1" title="Projects" items={createMenuItems(types.projects, openProjectForm)} />,
                     <Menu key="menu2" title="Skills" items={createMenuItems(types.skills, addSkillToCv, usedSkillIds)} />,
@@ -76,6 +83,7 @@ const mapDispatchToProps = ({
     openOtherForm: other.openForm,
     openProjectForm: project.openForm,
     exportCv: cvActionGroup.export,
+    exportCvToDoc: cvActionGroup.exportToDoc,
 });
 
 Container.propTypes = {
@@ -91,6 +99,7 @@ Container.propTypes = {
     usedSkillIds: IPropTypes.list.isRequired,
     usedLanguageIds: IPropTypes.list.isRequired,
     usedTechnologyIds: IPropTypes.list.isRequired,
+    exportCvToDoc: PropTypes.func.isRequired,
 };
 
 export default compose(

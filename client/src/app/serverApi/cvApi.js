@@ -17,6 +17,7 @@ const updateCv = (
 const deleteCv = (id) => fetch.doDelete(`${CV_URL}/${id}`);
 const fetchMyCvId = () => fetch.doGet(`${CV_URL}/my-id`);
 const exportCv = (id) => fetch.doGetPlain(`${CV_URL}/${id}/export`);
+const exportCvToDoc = (id) => fetch.doGetPlain(`${CV_URL}/${id}/export/doc`);
 
 const addLanguageToCv = (languageTypeId, cvId) => fetch.doPost(`${CV_URL}/${cvId}/language`, {languageType: {id: languageTypeId}});
 const updateLanguage = (languageId, level) => fetch.doPut(`${CV_URL}/language`, {id: languageId, level});
@@ -57,6 +58,7 @@ export default {
     deleteCv,
     fetchMyCvId,
     exportCv,
+    exportCvToDoc,
 
     addLanguageToCv,
     updateLanguage,
