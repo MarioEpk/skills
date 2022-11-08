@@ -178,23 +178,30 @@ div {
     background-color: #fcc000;
 }
 
-.level-bar.level1 span {
+.level-bar > span.level-mark {
+    width: 3px;
+    height: 3px;
+    position: absolute;
+    background-color: #fff;
+}
+
+.level-bar.level1 span.level-progress {
     width: 20%;
 }
 
-.level-bar.level2 span {
+.level-bar.level2 span.level-progress {
     width: 40%;
 }
 
-.level-bar.level3 span {
+.level-bar.level3 span.level-progress {
     width: 60%;
 }
 
-.level-bar.level4 span {
+.level-bar.level4 span.level-progress {
     width: 80%;
 }
 
-.level-bar.level5 span {
+.level-bar.level5 span.level-progress {
     width: 100%;
 }
 
