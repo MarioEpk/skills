@@ -65,9 +65,9 @@ public class ExportService {
                 .collect(Collectors.toMap(c -> c, context::getVariable));
 
         //add extra values
-        data.put("userLastNameShort", cvDto.getUser().getLastName() == null ?
+        data.put(ContextDataKey.USER_LAST_NAME_SHORT, cvDto.getUser().getLastName() == null ?
                 "" : (cvDto.getUser().getLastName().charAt(0) + "."));
-        data.put("avatarImage", loadAvatarImage(cvDto.getAvatar()));
+        data.put(ContextDataKey.AVATAR_IMAGE, loadAvatarImage(cvDto.getAvatar()));
 
         //convert context to map
         final TemplateData td = TemplateData.fromMap(new ObjectMapper().convertValue(data, Map.class));

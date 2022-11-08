@@ -13,4 +13,6 @@ public final class ContextDataKey {
     public static final String LANGUAGES = "languages";
     public static final String CERTIFICATES = "certificates";
     public static final String OTHERS = "others";
+    public static final String USER_LAST_NAME_SHORT = "userLastNameShort";
+    public static final String AVATAR_IMAGE = "avatarImage";
 }
