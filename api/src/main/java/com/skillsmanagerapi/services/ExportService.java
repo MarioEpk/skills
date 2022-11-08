@@ -1,6 +1,7 @@
 package com.skillsmanagerapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.xmp.impl.Base64;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.ProjectDto;
@@ -24,6 +25,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -60,9 +63,11 @@ public class ExportService {
         Map<String, Object> data = context.getVariableNames()
                 .stream()
                 .collect(Collectors.toMap(c -> c, context::getVariable));
+
         //add extra values
         data.put("userLastNameShort", cvDto.getUser().getLastName() == null ?
                 "" : (cvDto.getUser().getLastName().charAt(0) + "."));
+        data.put("avatarImage", loadAvatarImage(cvDto.getAvatar()));
 
         //convert context to map
         final TemplateData td = TemplateData.fromMap(new ObjectMapper().convertValue(data, Map.class));
@@ -84,6 +89,7 @@ public class ExportService {
 
 
     }
+
 
 
     public byte[] generateCvPdf(@NonNull final CvDto cvDto) throws Exception {
@@ -176,5 +182,34 @@ public class ExportService {
         return outputStream.toString(StandardCharsets.UTF_8);
     }
 
+
+    private String loadAvatarImage(final AvatarType avatar) {
+        String avatarImageName;
+        switch (avatar) {
+            case MEN:
+                avatarImageName = "/static/images/avatar_men.png";
+                break;
+            case WOMAN:
+                avatarImageName = "/static/images/avatar_woman.png";
+                break;
+            default:
+                avatarImageName = "/static/images/avatar_ghost.png";
+                break;
+        }
+        return getImageAsBase64(avatarImageName);
+    }
+
+    private String getImageAsBase64(@NonNull final String pathToImage) {
+        String data = "";
+        try(InputStream is = getClass().getResourceAsStream(pathToImage)) {
+            if (is != null) {
+                data = "data:image/png;base64," + new String(Base64.encode(is.readAllBytes()));
+            }
+        } catch (IOException e) {
+            log.warn("Cannot read image data");
+        }
+
+        return data;
+    }
 
 }
