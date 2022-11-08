@@ -126,8 +126,9 @@ public class ExportService {
         renderer.getFontResolver().addFont("static/fonts/Montserrat-SemiBold.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-ExtraBold.ttf", CP1250, EMBEDDED);
 
-        //remove NUL characters (renderer doesn't like them)
-        renderer.setDocument(xHtml.replaceAll("\u0000", "").getBytes(StandardCharsets.UTF_8));
+        //sanitize xml characters
+        String xHtmlSanitized = sanitize(xHtml);
+        renderer.setDocument(xHtmlSanitized.getBytes(StandardCharsets.UTF_8));
         renderer.layout();
 
         log.info("xHTML template completed, creating PDF");
@@ -143,6 +144,17 @@ public class ExportService {
 
             throw e;
         }
+    }
+
+    private String sanitize(String xHtml) {
+        //allowed chars in XML 1.0
+        String xml10pattern = "[^"
+                + "\u0009\r\n"
+                + "\u0020-\uD7FF"
+                + "\uE000-\uFFFD"
+                + "\ud800\udc00-\udbff\udfff"
+                + "]";
+        return xHtml.replaceAll(xml10pattern, " "); //replace invalid chars by " "
     }
 
     private Context addCvIntoContext(@NonNull final CvDto cvDto) {
