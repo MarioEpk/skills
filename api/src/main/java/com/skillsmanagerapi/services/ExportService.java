@@ -76,7 +76,6 @@ public class ExportService {
             log.info("DOCX is being created");
 
             final PreparedTemplate prepared = API.prepare(template);
-            //final EvaluatedDocument rendered = API.render(prepared, TemplateData.fromMap(templateDataMap));
             final EvaluatedDocument rendered = API.render(prepared, td);
             rendered.writeToStream(outputStream);
             prepared.cleanup();
@@ -127,7 +126,8 @@ public class ExportService {
         renderer.getFontResolver().addFont("static/fonts/Montserrat-SemiBold.ttf", CP1250, EMBEDDED);
         renderer.getFontResolver().addFont("static/fonts/Montserrat-ExtraBold.ttf", CP1250, EMBEDDED);
 
-        renderer.setDocumentFromString(xHtml);
+        //remove NUL characters (renderer doesn't like them)
+        renderer.setDocument(xHtml.replaceAll("\u0000", "").getBytes(StandardCharsets.UTF_8));
         renderer.layout();
 
         log.info("xHTML template completed, creating PDF");

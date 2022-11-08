@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>CV - [[${user.getLastName()}]]</title>
+    <title>CV - [[${user.getLastName()}]]&nbsp;</title>
     <link href="classpath:/static/css/pdf.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -16,8 +16,8 @@
         <img th:case="*" src="classpath:/static/images/avatar_ghost.png" alt="avatar" class="avatar" />
     </div>
     <div class="column user" th:object="${user}">
-        <p>[[*{firstName}]]</p>
-        <p>[[*{#strings.substring(lastName,0,1)}]].</p>
+        <p>[[*{firstName}]]&nbsp;</p>
+        <p>[[*{#strings.substring(lastName,0,1)}]].&nbsp;</p>
         <div th:each="position : ${positions}">
             <span th:text="${position.getName()}">Position</span>
         </div>
@@ -85,7 +85,7 @@
     <div class="column right">
         <div class="block profile">
             <h3>Profile</h3>
-            <p>[[${profile}]]</p>
+            <p>[[${profile}]]&nbsp;</p>
         </div>
         <div class="block projects">
             <h3>Projects</h3>
@@ -108,8 +108,8 @@
                     <span th:unless="${project.getTo()}">Still running</span>
                 </div>
                 <div>
-                    <div class="arrow-text">Application background: [[${project.getProjectType().getDescription()}]]</div>
-                    <div class="arrow-text">Personal contribution: [[${project.getContribution()}]]</div>
+                    <div class="arrow-text">Application background: [[${project.getProjectType().getDescription()}]]&nbsp;</div>
+                    <div class="arrow-text">Personal contribution: [[${project.getContribution()}]]&nbsp;</div>
                     <div class="arrow-text project-technologies">
                         Technology stack:
                         <p th:each="technology : ${project.getTechnologies()}">
