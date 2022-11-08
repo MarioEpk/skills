@@ -31,7 +31,11 @@
             <div th:each="skill : ${skills}">
                 <p th:text="${skill.getSkillType().getName()}">Skill name</p>
                 <div class="level-bar" th:classappend="'level' + ${skill.getLevel()}">
-                    <span>&nbsp;</span>
+                    <span class="level-progress">&nbsp;</span>
+                    <span class="level-mark" style="left: 20%;">&nbsp;</span>
+                    <span class="level-mark" style="left: 40%;">&nbsp;</span>
+                    <span class="level-mark" style="left: 60%;">&nbsp;</span>
+                    <span class="level-mark" style="left: 80%;">&nbsp;</span>
                 </div>
             </div>
         </div>
@@ -53,7 +57,11 @@
             <div th:each="language : ${languages}">
                 <p th:text="${language.getLanguageType().getName()}">Language name</p>
                 <div class="level-bar" th:classappend="'level' + ${language.getLevel()}">
-                    <span>&nbsp;</span>
+                    <span class="level-progress">&nbsp;</span>
+                    <span class="level-mark" style="left: 20%;">&nbsp;</span>
+                    <span class="level-mark" style="left: 40%;">&nbsp;</span>
+                    <span class="level-mark" style="left: 60%;">&nbsp;</span>
+                    <span class="level-mark" style="left: 80%;">&nbsp;</span>
                 </div>
             </div>
         </div>

@@ -54,7 +54,7 @@ const Container = ({handleSubmit, onClose, submitting, errors, positions, projec
             <Field
                 key={`key-${CONTRIBUTION_FIELD}`}
                 component={TextAreaInput}
-                placeholder="Project contribution"
+                placeholder="Personal contribution"
                 name={CONTRIBUTION_FIELD}
                 rowsMax={8}
             />
