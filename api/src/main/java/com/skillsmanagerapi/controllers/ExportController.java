@@ -38,8 +38,6 @@ public class ExportController {
         final CvDto cvDto = cvService.getCv(id);
         final byte[] pdfData = exportService.generateCvPdf(cvDto);
 
-        //final byte[] encodedBytes = Base64.getEncoder().encode(pdf);  //
-
         return getResponseEntity(
                 cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName() + "_cv.pdf",
                 APPLICATION_PDF_VALUE,
