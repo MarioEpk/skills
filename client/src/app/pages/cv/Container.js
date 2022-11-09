@@ -8,7 +8,7 @@ import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
 
 import {PageTitle} from "app/containers";
 import {accesses} from "core/access";
-import {WithColumn, Menu, IconButton} from "components";
+import {WithColumn, Menu, IconButton, Flex} from "components";
 import {compose} from "core/form";
 
 import language, {Language} from "./language";
@@ -43,10 +43,12 @@ const Container = ({
             <PageTitle title={!isAdminOrOwner ? "CV" : "My CV"} />
             <WithColumn
                 title={!isAdminOrOwner ? "CV" : "My CV"}
-                titleButtons={[
-                    <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} onClick={exportCv} />} />,
-                    <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} onClick={exportCvToDoc} />} />,
-                ]}
+                actions={(
+                    <Flex vertical={false}>
+                        <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel="Generate DOC" />
+                        <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel="Generate PDF" />
+                    </Flex>
+                )}
                 column={adminOrOwnerAccess([
                     <Menu key="menu1" title="Projects" items={createMenuItems(types.projects, openProjectForm)} />,
                     <Menu key="menu2" title="Skills" items={createMenuItems(types.skills, addSkillToCv, usedSkillIds)} />,
