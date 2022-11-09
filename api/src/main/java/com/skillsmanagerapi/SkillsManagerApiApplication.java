@@ -9,5 +9,4 @@ public class SkillsManagerApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SkillsManagerApiApplication.class, args);
 	}
-
 }

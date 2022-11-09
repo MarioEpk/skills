@@ -1,10 +1,9 @@
 package com.skillsmanagerapi.controllers;
 
-import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
-
 import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
 import com.skillsmanagerapi.dto.ProjectDto;
@@ -14,12 +13,7 @@ import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.services.CvService;
 import com.skillsmanagerapi.services.TypeService;
 import com.skillsmanagerapi.services.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Base64;
 import java.util.List;
 
 @RequestMapping(value = "/api/cv")
@@ -106,6 +98,22 @@ public class CvController {
     @DeleteMapping(value = "/language/{id}")
     public void removeLanguageFromCv(@PathVariable("id") int id) {
         cvService.removeLanguageFromCv(id);
+    }
+
+//    Education
+    @PostMapping(value = "/{id}/education")
+    public void addEducationToCv(@RequestBody EducationDto educationDto, @PathVariable("id") int id) {
+        cvService.addEducationToCv(id, educationDto);
+    }
+
+    @PutMapping(value = "/education")
+    public void updateEducation(@RequestBody EducationDto educationDto) {
+        cvService.updateEducation(educationDto);
+    }
+
+    @DeleteMapping(value = "/education/{id}")
+    public void removeEducationFromCv(@PathVariable("id") int id) {
+        cvService.removeEducationFromCv(id);
     }
 
     // Skill
