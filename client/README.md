@@ -4,6 +4,10 @@
 Just run `yarn install` and `yarn build`. It will create new folder `dist`.
 This folder can be used for docker image build.
 
+#linux
+If `yarn start` failed with error `ERR_OSSL_EVP_UNSUPPORTED`,
+execute `export NODE_OPTIONS=--openssl-legacy-provider` before `yarn start`
+
 ## Env file
 Create `.env` based on `.env.example`
 
