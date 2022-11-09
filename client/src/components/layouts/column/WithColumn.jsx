@@ -37,7 +37,7 @@ WithColumn.propTypes = {
 
 WithColumn.defaultProps = {
     title: null,
-    actions: [],
+    actions: null,
     column: null,
 };
 
