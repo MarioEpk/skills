@@ -184,6 +184,10 @@ public class ExportService {
 
     private String convertToXhtml(@NonNull final String html)  {
         final Tidy tidy = new Tidy();
+        //do not wrap (0)
+        //when using some utf chars, jtidy does not recognize elements correctly and breaks line in middle of the element
+        //making xhtml invalid
+        tidy.setWraplen(0);
         tidy.setInputEncoding(UTF_8);
         tidy.setOutputEncoding(UTF_8);
         tidy.setXHTML(true);
