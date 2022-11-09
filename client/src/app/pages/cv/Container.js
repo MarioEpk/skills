@@ -5,6 +5,7 @@ import IPropTypes from "react-immutable-proptypes";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
+import {faLink} from '@fortawesome/free-solid-svg-icons';
 
 import {PageTitle} from "app/containers";
 import {accesses} from "core/access";
@@ -35,6 +36,7 @@ const Container = ({
     usedLanguageIds,
     usedTechnologyIds,
     exportCvToDoc,
+    copyCvUrl,
 }) => {
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
@@ -45,8 +47,9 @@ const Container = ({
                 title={!isAdminOrOwner ? "CV" : "My CV"}
                 actions={(
                     <Flex vertical={false}>
-                        <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel="Generate DOC" />
-                        <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel="Generate PDF" />
+                        <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel="Generate PDF" />
+                        <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel="Generate DOC" />
+                        <IconButton key="icon3" icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel="Copy URL" />
                     </Flex>
                 )}
                 column={adminOrOwnerAccess([
@@ -86,6 +89,7 @@ const mapDispatchToProps = ({
     openProjectForm: project.openForm,
     exportCv: cvActionGroup.export,
     exportCvToDoc: cvActionGroup.exportToDoc,
+    copyCvUrl: cvActionGroup.copyUrl,
 });
 
 Container.propTypes = {
@@ -102,6 +106,7 @@ Container.propTypes = {
     usedLanguageIds: IPropTypes.list.isRequired,
     usedTechnologyIds: IPropTypes.list.isRequired,
     exportCvToDoc: PropTypes.func.isRequired,
+    copyCvUrl: PropTypes.func.isRequired,
 };
 
 export default compose(

@@ -15,6 +15,7 @@ import technology from "./technology";
 import certificate from "./certificate";
 import other from "./other";
 import project from "./project";
+import {copyCurrentUrlToClipboard} from './utils';
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -29,6 +30,7 @@ export default router.routerWrapper({
             yield fork(formSaga, id);
             yield takeLatest(cvActionGroup.EXPORT, createExport(id));
             yield takeLatest(cvActionGroup.EXPORT_TO_DOC, createExportToDoc(id));
+            yield takeLatest(cvActionGroup.COPY_URL, createCopyCvUrl());
         } else {
             yield call(redirectToUserCv);
         }
@@ -43,6 +45,11 @@ const createExport = (id) => function* exportCv() {
 const createExportToDoc = (id) => function* exportCvToDoc() {
     const cv = yield call(fetchCv, id);
     yield put(coreExport.exportCvToDoc(id, cv.getIn(["user", "lastName"])));
+};
+
+const createCopyCvUrl = () => function* copyCvUrl() {
+    yield call(() => copyCurrentUrlToClipboard());
+    yield put(notification.show("Copied"));
 };
 
 const formSaga = formWrapper(form.FORM_NAME, {

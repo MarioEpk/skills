@@ -15,3 +15,8 @@ export const useAccessOrIsOwner = (accesses) => {
     const userId = useSelector((state) => getFormFieldValue(state, FORM_NAME, USER_ID_FIELD));
     return access.useAccess(accesses, userId);
 };
+
+export const copyCurrentUrlToClipboard = () => {
+    const url = window.location.href;
+    return navigator.clipboard.writeText(url);
+};
