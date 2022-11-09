@@ -28,6 +28,7 @@ export default router.routerWrapper({
             );
             yield fork(formSaga, id);
             yield takeLatest(cvActionGroup.EXPORT, createExport(id));
+            yield takeLatest(cvActionGroup.EXPORT_TO_DOC, createExportToDoc(id));
         } else {
             yield call(redirectToUserCv);
         }
@@ -37,6 +38,11 @@ export default router.routerWrapper({
 const createExport = (id) => function* exportCv() {
     const cv = yield call(fetchCv, id);
     yield put(coreExport.exportCv(id, cv.getIn(["user", "lastName"])));
+};
+
+const createExportToDoc = (id) => function* exportCvToDoc() {
+    const cv = yield call(fetchCv, id);
+    yield put(coreExport.exportCvToDoc(id, cv.getIn(["user", "lastName"])));
 };
 
 const formSaga = formWrapper(form.FORM_NAME, {
