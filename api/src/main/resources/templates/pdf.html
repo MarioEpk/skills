@@ -17,7 +17,7 @@
     </div>
     <div class="column user" th:object="${user}">
         <p>[[*{firstName}]]</p>
-        <p>[[*{#strings.substring(lastName,0,1)}]]</p>
+        <p>[[*{#strings.substring(lastName,0,1)}]].</p>
         <div th:each="position : ${positions}">
             <span th:text="${position.getName()}">Position</span>
         </div>
