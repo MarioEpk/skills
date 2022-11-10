@@ -7,6 +7,7 @@ import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.enums.AvatarType;
 import com.skillsmanagerapi.enums.ContextDataKey;
 import io.github.erdos.stencil.API;
@@ -164,6 +165,7 @@ public class ExportService {
         final List<TechnologyDto> sortedTechnologiesDto = cvDto.getTechnologies().stream().sorted().collect(Collectors.toList());
         final List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
         final List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
+        final List<EducationDto> sortedEducationsDto = cvDto.getEducations().stream().sorted().collect(Collectors.toList());
 
         context.setVariable(ContextDataKey.AVATAR_TYPE_MAN, AvatarType.MEN);
         context.setVariable(ContextDataKey.AVATAR_TYPE_WOMEN, AvatarType.WOMAN);
@@ -177,6 +179,7 @@ public class ExportService {
         context.setVariable(ContextDataKey.LANGUAGES, sortedLanguagesDto);
         context.setVariable(ContextDataKey.CERTIFICATES, cvDto.getCertificates());
         context.setVariable(ContextDataKey.OTHERS, cvDto.getOthers());
+        context.setVariable(ContextDataKey.EDUCATIONS, cvDto.getEducations());
 
         return context;
     }
