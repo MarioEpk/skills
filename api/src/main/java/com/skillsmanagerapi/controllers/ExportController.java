@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
+
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
 @RequestMapping(value = "/api/cv")
@@ -63,8 +65,9 @@ public class ExportController {
         headers.setContentType(MediaType.parseMediaType(mediaType));
         headers.setContentDispositionFormData(fileName, fileName);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        headers.setContentLength(data.length);
 
-        return new ResponseEntity<>(data, headers, HttpStatus.OK);
+        final byte[] encodedBytes = Base64.getEncoder().encode(data);
+        headers.setContentLength(encodedBytes.length);
+        return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);
     }
 }

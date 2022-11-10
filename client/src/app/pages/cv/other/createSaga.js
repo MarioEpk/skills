@@ -13,7 +13,7 @@ export default (fetchCv, cvId) => formWrapper(FORM_NAME, {
     * save(values) {
         const valuesJs = values.toJS();
         if (values.get(ID_FIELD)) {
-            yield call(cvApi.updateOther, valuesJs);
+            yield call(cvApi.updateOther, valuesJs, cvId);
         } else {
             yield call(cvApi.addOtherToCv, valuesJs, cvId);
         }
@@ -42,7 +42,7 @@ function* resetForm() {
 }
 
 const removeOther = (fetchCv, cvId) => function* remove({payload}) {
-    yield call(cvApi.removeOtherFromCv, payload);
+    yield call(cvApi.removeOtherFromCv, cvId, payload);
     yield call(fetchCv, cvId);
     yield put(notification.show("Deleted"));
 };

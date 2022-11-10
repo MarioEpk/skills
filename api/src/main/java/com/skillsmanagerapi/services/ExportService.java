@@ -42,9 +42,6 @@ import static org.thymeleaf.templatemode.TemplateMode.HTML;
 public class ExportService {
     private static final String UTF_8 = "UTF-8";
 
-
-
-
     public byte[] generateCvDoc(final CvDto cvDto) throws Exception {
 
         log.info("Generating DOCX for user {} has started ...", cvDto.getUser().getEmail());

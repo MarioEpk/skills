@@ -13,7 +13,7 @@ export default (fetchCv, cvId) => formWrapper(FORM_NAME, {
     * save(values) {
         const valuesJs = values.toJS();
         if (values.get(ID_FIELD)) {
-            yield call(cvApi.updateCertificate, valuesJs);
+            yield call(cvApi.updateCertificate, valuesJs, cvId);
         } else {
             yield call(cvApi.addCertificateToCv, valuesJs, cvId);
         }
@@ -42,7 +42,7 @@ function* resetForm() {
 }
 
 const removeCertificate = (fetchCv, cvId) => function* remove({payload}) {
-    yield call(cvApi.removeCertificateFromCv, payload);
+    yield call(cvApi.removeCertificateFromCv, cvId, payload);
     yield call(fetchCv, cvId);
     yield put(notification.show("Deleted"));
 };

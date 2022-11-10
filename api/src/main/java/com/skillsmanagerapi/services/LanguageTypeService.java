@@ -14,6 +14,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LanguageTypeService {
@@ -37,16 +38,19 @@ public class LanguageTypeService {
         return modelMapper.map(languageTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), LanguageTypeDto.class);
     }
 
+    @Transactional
     public void createLanguageType(@NonNull final LanguageTypeDto languageTypeDto) {
         languageTypeRepository.save(modelMapper.map(languageTypeDto, LanguageType.class));
     }
 
+    @Transactional
     public void updateLanguageType(@NonNull final LanguageTypeDto languageTypeDto) {
         final LanguageTypeDto updatedLanguageTypeDto = getLanguageType(languageTypeDto.getId());
         updatedLanguageTypeDto.setName(languageTypeDto.getName());
         languageTypeRepository.save(modelMapper.map(updatedLanguageTypeDto, LanguageType.class));
     }
 
+    @Transactional
     public void deleteLanguageType(final int id) {
         languageTypeRepository.deleteById(id);
     }

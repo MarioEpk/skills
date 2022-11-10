@@ -14,6 +14,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SkillTypeService {
@@ -37,16 +38,19 @@ public class SkillTypeService {
         return modelMapper.map(skillTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), SkillTypeDto.class);
     }
 
+    @Transactional
     public void createSkillType(@NonNull final SkillTypeDto skillTypeDto) {
         skillTypeRepository.save(modelMapper.map(skillTypeDto, SkillType.class));
     }
 
+    @Transactional
     public void updateSkillType(@NonNull final SkillTypeDto skillTypeDto) {
         final SkillTypeDto updatedSkillTypeDto = getSkillType(skillTypeDto.getId());
         updatedSkillTypeDto.setName(skillTypeDto.getName());
         skillTypeRepository.save(modelMapper.map(updatedSkillTypeDto, SkillType.class));
     }
 
+    @Transactional
     public void deleteSkillType(final int id) {
         skillTypeRepository.deleteById(id);
     }
