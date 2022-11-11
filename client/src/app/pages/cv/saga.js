@@ -48,7 +48,7 @@ const createExportToDoc = (id) => function* exportCvToDoc() {
 };
 
 const createCopyCvUrl = () => function* copyCvUrl() {
-    yield call(() => copyCurrentUrlToClipboard());
+    yield call(copyCurrentUrlToClipboard);
     yield put(notification.show("Copied"));
 };
 
