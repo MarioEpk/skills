@@ -89,6 +89,11 @@ public class Cv {
     @OrderBy(value = "id")
     private List<Other> others;
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "educations_id", referencedColumnName = "id")
+    @OrderBy(value = "id")
+    private List<Education> educations;
+
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     @Column(name = "updated_at")

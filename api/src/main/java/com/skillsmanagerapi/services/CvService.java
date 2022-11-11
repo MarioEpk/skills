@@ -104,11 +104,6 @@ public class CvService {
         cvRepository.save(modelMapper.map(updatedCvDto, Cv.class));
     }
 
-    public byte[] exportCvPdf(final int id) throws Exception {
-        final CvDto cvDto = getCv(id);
-
-        return exportService.generateCvPdf(cvDto);
-    }
 
     private Cv createCv(@NonNull final UserDto userDto) {
         log.info("Creating cv for user {}", userDto.getEmail());
