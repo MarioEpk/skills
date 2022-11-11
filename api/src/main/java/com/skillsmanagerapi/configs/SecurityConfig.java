@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http
            .authorizeRequests()
-                .anyRequest()
+               .regexMatchers("^((?!\\/public\\/cv).)*$")
                     .authenticated()
            .and()
                 .oauth2ResourceServer()

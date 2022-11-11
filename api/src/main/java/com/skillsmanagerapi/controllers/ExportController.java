@@ -3,6 +3,7 @@ package com.skillsmanagerapi.controllers;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.services.CvService;
 import com.skillsmanagerapi.services.ExportService;
+import com.skillsmanagerapi.utils.FileDownloadHttpResponse;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,10 +38,10 @@ public class ExportController {
         final CvDto cvDto = cvService.getCv(id);
         final byte[] pdfData = exportService.generateCvPdf(cvDto);
 
-        return getResponseEntity(
-                cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName() + "_cv.pdf",
-                APPLICATION_PDF_VALUE,
-                pdfData);
+        return FileDownloadHttpResponse.getResponseBase64Encoded(
+                cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName().charAt(0) + "_cv.pdf",
+                pdfData,
+                APPLICATION_PDF_VALUE);
     }
 
     @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
@@ -50,20 +51,11 @@ public class ExportController {
         final CvDto cvDto = cvService.getCv(id);
         final byte[] docxData = exportService.generateCvDoc(cvDto);
 
-        return getResponseEntity(
-                cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName() + "_cv.docx",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                docxData);
+        return FileDownloadHttpResponse.getResponseBase64Encoded(
+                cvDto.getUser().getFirstName() + "_" + cvDto.getUser().getLastName().charAt(0) + "_cv.docx",
+                docxData,
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     }
 
-    private ResponseEntity<?> getResponseEntity(String fileName, String mediaType, byte[] data) {
-        //Setting Headers
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(mediaType));
-        headers.setContentDispositionFormData(fileName, fileName);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        headers.setContentLength(data.length);
 
-        return new ResponseEntity<>(data, headers, HttpStatus.OK);
-    }
 }

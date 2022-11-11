@@ -76,6 +76,10 @@ public class CvService {
         return modelMapper.map(cv, CvDto.class);
     }
 
+    public CvDto getCvByHash(final int cvHash) {
+        return modelMapper.map(cvRepository.findByHash(cvHash).orElseThrow(EntityNotFoundException::new), CvDto.class);
+    }
+
     public CvDto getCv(final int id) {
         return modelMapper.map(cvRepository.findById(id).orElseThrow(EntityNotFoundException::new), CvDto.class);
     }
@@ -241,4 +245,10 @@ public class CvService {
     public void removeOtherFromCv(final int id) {
         otherService.deleteOther(id);
     }
+
+
+    public String generateUserIdentifier(CvDto cv) {
+        return cv.getUser().getFirstName() == null ? "unknown"
+    }
+
 }

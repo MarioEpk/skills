@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface CvRepository extends JpaRepository<Cv, Integer> {
     Optional<Cv> findByUser(User user);
     List<Cv> findAllByOrderByIdAsc();
+    Optional<Cv> findByHash(Stringnt cvHash);
 }
