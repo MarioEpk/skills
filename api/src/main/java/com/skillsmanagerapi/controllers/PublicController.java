@@ -31,7 +31,7 @@ public class PublicController {
         this.exportService = exportService;
     }
 
-    @GetMapping(value = "/{externalUrlCode}", produces = APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/{externalUrlCode}")
     public ResponseEntity<?> exportPublicCvAsPdf(@PathVariable("externalUrlCode") String extUrlCode) throws Exception {
         final CvDto cvDto;
         try {
