@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
@@ -71,6 +72,7 @@ public class CvService {
         return modelMapper.map(cvRepository.findById(id).orElseThrow(EntityNotFoundException::new), CvDto.class);
     }
 
+    @Transactional
     public void deleteCv(@NonNull final int id) {
         cvRepository.deleteById(id);
     }
@@ -79,6 +81,7 @@ public class CvService {
         return modelMapperUtil.mapList(cvRepository.findAllByOrderByIdAsc(), CvDto.class);
     }
 
+    @Transactional
     public void updateCv(@NonNull final CvDto cvDto) {
         final CvDto updatedCvDto = this.getCv(cvDto.getId());
         final UserDto userDto = updatedCvDto.getUser();
@@ -93,6 +96,7 @@ public class CvService {
     }
 
 
+    @Transactional
     private Cv createCv(@NonNull final UserDto userDto) {
         log.info("Creating cv for user {}", userDto.getEmail());
         final Cv cv = new Cv();
@@ -102,6 +106,7 @@ public class CvService {
     }
 
     // Language
+    @Transactional
     public void addLanguageToCv(@NonNull final int cvId, @NonNull final LanguageDto languageDto) {
         final LanguageDto newLanguageDto = languageService.createLanguage(languageDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -112,17 +117,20 @@ public class CvService {
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void updateLanguage(@NonNull final int cvId, @NonNull final LanguageDto languageDto) {
         languageService.updateLanguage(languageDto);
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void removeLanguageFromCv(@NonNull final int cvId, @NonNull  final int id) {
         languageService.deleteLanguage(id);
         relatedCVDataChanged(cvId);
     }
 
     // Skill
+    @Transactional
     public void addSkillToCv(@NonNull final int cvId, @NonNull final SkillDto skillDto) {
         final SkillDto newSkillDto = skillService.createSkill(skillDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -133,17 +141,20 @@ public class CvService {
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void updateSkill(@NonNull final int cvId, @NonNull final SkillDto skillDto) {
         skillService.updateSkill(skillDto);
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void removeSkillFromCv(@NonNull final int cvId, @NonNull final int id) {
         skillService.deleteSkill(id);
         relatedCVDataChanged(cvId);
     }
 
     // Project
+    @Transactional
     public void addProjectToCv(@NonNull final int cvId, @NonNull final ProjectDto projectDto) {
         final ProjectDto newProjectDto = projectService.createProject(projectDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -154,17 +165,20 @@ public class CvService {
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void updateProject(@NonNull final int cvId, @NonNull final ProjectDto projectDto) {
         projectService.updateProject(projectDto);
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void removeProjectFromCv(@NonNull final int cvId, @NonNull final int id) {
         projectService.deleteProject(id);
         relatedCVDataChanged(cvId);
     }
 
     // Technology
+    @Transactional
     public void addTechnologyToCv(@NonNull final int cvId, @NonNull final TechnologyDto technologyDto) {
         final TechnologyDto newTechnologyDto = technologyService.createTechnology(technologyDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -175,17 +189,20 @@ public class CvService {
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void updateTechnology(@NonNull final int cvId, @NonNull final TechnologyDto technologyDto) {
         technologyService.updateTechnology(technologyDto);
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void removeTechnologyFromCv(@NonNull final int cvId, @NonNull final int id) {
         technologyService.deleteTechnology(id);
         relatedCVDataChanged(cvId);
     }
 
     // Certificate
+    @Transactional
     public void addCertificateToCv(@NonNull final int cvId, @NonNull final CertificateDto certificateDto) {
         final CertificateDto newCertificateDto = certificateService.createCertificate(certificateDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -196,17 +213,20 @@ public class CvService {
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void updateCertificate(@NonNull final int cvId, @NonNull final CertificateDto certificateDto) {
         certificateService.updateCertificate(certificateDto);
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void removeCertificateFromCv(@NonNull final int cvId, @NonNull final int id) {
         certificateService.deleteCertificate(id);
         relatedCVDataChanged(cvId);
     }
 
     // Other
+    @Transactional
     public void addOtherToCv(@NonNull final int cvId, @NonNull final OtherDto otherDto) {
         final OtherDto newOtherDto = otherService.createOther(otherDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -217,11 +237,13 @@ public class CvService {
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void updateOther(@NonNull final int cvId, @NonNull final OtherDto otherDto) {
         otherService.updateOther(otherDto);
         relatedCVDataChanged(cvId);
     }
 
+    @Transactional
     public void removeOtherFromCv(@NonNull final int cvId, @NonNull final int id) {
         otherService.deleteOther(id);
         relatedCVDataChanged(cvId);
