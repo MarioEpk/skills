@@ -23,4 +23,6 @@ export const Cv = model.createModel("Cv", (json) => ({
     technologies: Technology.fromServerList(json.technologies),
     positions: Type.fromServerList(json.positions),
     user: User.fromServer(json.user),
+    shared: json.shared,
+    externalCode: json.externalCode,
 }));

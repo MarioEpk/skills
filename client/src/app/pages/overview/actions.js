@@ -5,6 +5,7 @@ export const cvActionGroup = ({
     FETCH_FAIL: `${NAME}/CV/FETCH/FAILURE`,
     FETCH_SUCCESS: `${NAME}/CV/FETCH/SUCCESS`,
     REMOVE: `${NAME}/CV/REMOVE`,
+    SHARE_CV: `${NAME}/CV/SHARE`,
     fetch: () => ({
         type: `${NAME}/CV/FETCH`,
     }),
@@ -18,5 +19,9 @@ export const cvActionGroup = ({
     remove: (id) => ({
         type: `${NAME}/CV/REMOVE`,
         payload: id,
+    }),
+    shareCv: (cvId) => ({
+        type: `${NAME}/CV/SHARE`,
+        payload: cvId,
     }),
 });

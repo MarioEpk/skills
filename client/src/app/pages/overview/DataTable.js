@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
-import {Edit, GetApp} from "@material-ui/icons";
+import {Edit, GetApp, Share, CheckCircleOutline} from "@material-ui/icons";
 
 import modal from "core/modal";
 import {Type} from "app/model/type";
@@ -28,10 +28,24 @@ const columns = [{
     key: "3",
     dataField: "user.lastName",
     columnName: "Last name",
-}, {
+},{
     key: "4",
+    dataField: "shared",
+    columnName: "Shared",
+    dataFormat: (data) => (data ? (<CheckCircleOutline />) : (<></>)),
+}, {
+    key: "5",
+    dataField: "externalCode",
+    columnName: "External URL",
+    dataFormat: (dataField, row) => (row.shared ? `${window.location.origin}/public/cv/${dataField}` : ``),
+}, {
+    key: "6",
     dataField: "updatedAt",
     columnName: "Updated at",
+    dataFormat: (data) => new Intl.DateTimeFormat(
+        'cs-CZ',
+        {year: 'numeric', month: 'numeric', day: '2-digit', hour: 'numeric', minute: 'numeric', second: 'numeric'},
+    ).format(new Date(data)),
 }];
 
 const DataTable = ({
@@ -42,6 +56,7 @@ const DataTable = ({
     isFormModalOpen,
     onDelete,
     onExport,
+    onShare,
 }) => {
     const onCustomAction = (row) => {
         const cvId = row.get("id");
@@ -49,6 +64,7 @@ const DataTable = ({
         return ([
             <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
             <Button key="export" onClick={() => onExport(cvId, user.lastName)} label="Export" startIcon={<GetApp />} />,
+            <Button key="share" onClick={() => onShare(cvId)} label="Share" startIcon={<Share />} />,
         ]);
     };
     const onCreate = () => {
@@ -86,6 +102,7 @@ DataTable.propTypes = {
     isFormModalOpen: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
+    onShare: PropTypes.func.isRequired,
     loading: PropTypes.bool,
 };
 
@@ -103,6 +120,7 @@ const mapDispatchToProps = (dispatch) => ({
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
     onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
+    onShare: (id) => dispatch(cvActionGroup.shareCv(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

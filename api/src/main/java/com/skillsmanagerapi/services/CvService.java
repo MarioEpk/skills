@@ -107,14 +107,14 @@ public class CvService {
         cvRepository.save(modelMapper.map(updatedCvDto, Cv.class));
     }
 
-    public void shareCv(final int cvId, boolean share) {
+    public void toggleShareStatus(final int cvId) {
         final CvDto cvDto = this.getCv(cvId);
-        cvDto.setShared(share);
+        cvDto.setShared(!cvDto.isShared());
         //if external_code is empty and share=true, generate value
-        if (share && StringUtils.isEmpty(cvDto.getExternalCode())) {
+        if (cvDto.isShared() && StringUtils.isEmpty(cvDto.getExternalCode())) {
             cvDto.setExternalCode(generateExternalCode(cvDto));
-            cvRepository.save(modelMapper.map(cvDto, Cv.class));
         }
+        cvRepository.save(modelMapper.map(cvDto, Cv.class));
     }
 
     private Cv createCv(@NonNull final UserDto userDto) {

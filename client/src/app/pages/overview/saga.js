@@ -17,6 +17,7 @@ export default router.routerWrapper({
     * onPageEnter() {
         yield fork(formSaga);
         yield takeLatest(cvActionGroup.REMOVE, deleteData);
+        yield takeLatest(cvActionGroup.SHARE_CV, shareCv);
     },
 });
 
@@ -61,6 +62,17 @@ function* deleteData({payload}) {
         yield put(notification.show("Deleted"));
     } catch (e) {
         yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
+        console.error(e);
+    }
+}
+
+function* shareCv({payload}) {
+    try {
+        yield call(cvApi.shareCv, payload);
+        yield call(refreshData);
+        yield put(notification.show("CV shared"));
+    } catch (e) {
+        yield put(notification.show("Problem with share", null, notification.types.FAILED));
         console.error(e);
     }
 }
