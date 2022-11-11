@@ -33,11 +33,13 @@ const columns = [{
     dataField: "shared",
     columnName: "Shared",
     dataFormat: (data) => (data ? (<CheckCircleOutline />) : (<></>)),
+    width: 75,
 }, {
     key: "5",
     dataField: "externalCode",
     columnName: "External URL",
-    dataFormat: (dataField, row) => (row.shared ? `${window.location.origin}/public/cv/${dataField}` : ``),
+    dataFormat: (dataField, row) => (row.shared ? `/public/cv/${dataField}` : ``),
+    width: 350,
 }, {
     key: "6",
     dataField: "updatedAt",
