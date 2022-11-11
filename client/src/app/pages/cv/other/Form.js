@@ -9,8 +9,51 @@ import i18n from "core/i18n";
 
 import {NAME_FIELD, DESCRIPTION_FIELD, FORM_NAME, DATE_FIELD} from "./constants";
 
-const Container = ({handleSubmit, onClose, submitting, errors}) => {
-    const {t} = i18n.useTranslation();
+const Container = ({handleSubmit, onClose, submitting, errors}) => (
+    <Loading loading={submitting}>
+        <VerticalFormLayout
+            title="Others"
+            buttons={(
+                <>
+                    <Button
+                        key="create"
+                        label="Add"
+                        onClick={handleSubmit}
+                        submit
+                    />
+                    <Button
+                        key="close"
+                        type={Button.type.DANGER}
+                        label="Close"
+                        onClick={onClose}
+                    />
+                </>
+            )}
+        >
+            <Field
+                key={`key-${NAME_FIELD}`}
+                component={TextInput}
+                placeholder="Name"
+                name={NAME_FIELD}
+                validate={[required]}
+                autoFocus
+            />
+            <Field
+                key={`key-${DESCRIPTION_FIELD}`}
+                component={TextAreaInput}
+                placeholder="Description"
+                name={DESCRIPTION_FIELD}
+            />
+            <Field
+                key={`key-${DATE_FIELD}`}
+                component={DateInput}
+                placeholder="Date"
+                name={DATE_FIELD}
+            />
+            <FormError errors={errors} />
+        </VerticalFormLayout>
+    </Loading>
+);
 
     return (
         <Loading loading={submitting}>

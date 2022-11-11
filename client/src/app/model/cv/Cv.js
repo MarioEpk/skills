@@ -8,6 +8,7 @@ import {Other} from "./Other";
 import {Project} from "./Project";
 import {Type} from "../type";
 import {User} from "../user";
+import {Education} from "./Education";
 
 export const Cv = model.createModel("Cv", (json) => ({
     id: json.id,
@@ -23,4 +24,5 @@ export const Cv = model.createModel("Cv", (json) => ({
     technologies: Technology.fromServerList(json.technologies),
     positions: Type.fromServerList(json.positions),
     user: User.fromServer(json.user),
+    educations: Education.fromServerList(json.educations),
 }));

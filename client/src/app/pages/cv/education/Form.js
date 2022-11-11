@@ -3,20 +3,20 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Loading, Button, TextInput, VerticalFormLayout, FormError} from "components";
+import {Button, Loading, FormError, TextInput, VerticalFormLayout, DateInput, TextAreaInput} from "components";
 import {Field, compose, form, required} from "core/form";
 
-import {EMAIL_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./constants";
+import {SCHOOL_FIELD, FORM_NAME, FIELD_FIELD, YEAR_FROM_FIELD, YEAR_TO_FIELD, NOTE_FIELD} from "./constants";
 
-const Container = ({handleSubmit, submitting, errors, onClose}) => (
+const Container = ({handleSubmit, onClose, submitting, errors}) => (
     <Loading loading={submitting}>
         <VerticalFormLayout
-            title="Add CV for user"
+            title="Education"
             buttons={(
                 <>
                     <Button
                         key="create"
-                        label="Create CV"
+                        label="Add"
                         onClick={handleSubmit}
                         submit
                     />
@@ -30,35 +30,48 @@ const Container = ({handleSubmit, submitting, errors, onClose}) => (
             )}
         >
             <Field
+                key={`key-${SCHOOL_FIELD}`}
                 component={TextInput}
-                placeholder="First name"
-                name={FIRST_NAME_FIELD}
+                placeholder="School"
+                name={SCHOOL_FIELD}
                 validate={[required]}
                 autoFocus
             />
             <Field
-                component={TextInput}
-                placeholder="Last name"
-                name={LAST_NAME_FIELD}
+                key={`key-${FIELD_FIELD}`}
+                component={TextAreaInput}
+                placeholder="Field"
+                name={FIELD_FIELD}
+            />
+            <Field
+                key={`key-${YEAR_FROM_FIELD}`}
+                component={DateInput}
+                placeholder="From"
+                name={YEAR_FROM_FIELD}
                 validate={[required]}
             />
             <Field
-                component={TextInput}
-                placeholder="Company email (@morosystems.cz)"
-                name={EMAIL_FIELD}
+                key={`key-${YEAR_TO_FIELD}`}
+                component={DateInput}
+                placeholder="To"
+                name={YEAR_TO_FIELD}
                 validate={[required]}
             />
+            <Field
+                key={`key-${NOTE_FIELD}`}
+                component={TextAreaInput}
+                placeholder="Note"
+                name={NOTE_FIELD}
+            />
             <FormError errors={errors} />
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-
         </VerticalFormLayout>
     </Loading>
 );
 
 Container.propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     errors: IPropTypes.listOf(PropTypes.string),
+    handleSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
 };
 

@@ -15,6 +15,7 @@ import technology from "./technology";
 import certificate from "./certificate";
 import other from "./other";
 import project from "./project";
+import education from "./education";
 import {copyCurrentUrlToClipboard} from './utils';
 
 export default router.routerWrapper({
@@ -24,7 +25,7 @@ export default router.routerWrapper({
     * onPageEnter({id}) {
         if (id) {
             yield all(
-                [language, skill, technology, certificate, other, project]
+                [language, skill, technology, certificate, other, project, education]
                     .map(({createSaga}) => fork(createSaga(fetchCv, id))),
             );
             yield fork(formSaga, id);

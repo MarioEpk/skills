@@ -13,8 +13,72 @@ import {
     FROM_FIELD, TO_FIELD, COMPANY_FIELD, CONTRIBUTION_FIELD, POSITION_TYPES_FIELD, FORM_NAME, PROJECT_TYPE_FIELD, TECHNOLOGY_TYPE_FIELD,
 } from "./constants";
 
-const Container = ({handleSubmit, onClose, submitting, errors, positions, projectType, technologies}) => {
-    const {t} = i18n.useTranslation();
+const Container = ({handleSubmit, onClose, submitting, errors, positions, projectType, technologies}) => (
+    <Loading loading={submitting}>
+        <VerticalFormLayout
+            title={`Project - ${projectType.name}`}
+            buttons={(
+                <>
+                    <Button
+                        key="create"
+                        label="Add"
+                        onClick={handleSubmit}
+                        submit
+                    />
+                    <Button
+                        key="close"
+                        type={Button.type.DANGER}
+                        label="Close"
+                        onClick={onClose}
+                    />
+                </>
+            )}
+        >
+            <Field
+                key={`key-${FROM_FIELD}`}
+                component={DateInput}
+                placeholder="From"
+                name={FROM_FIELD}
+                validate={[required]}
+                autoFocus
+            />
+            <Field
+                key={`key-${TO_FIELD}`}
+                component={DateInput}
+                placeholder="To"
+                name={TO_FIELD}
+            />
+            <Field
+                key={`key-${COMPANY_FIELD}`}
+                component={TextInput}
+                placeholder="Company"
+                name={COMPANY_FIELD}
+            />
+            <Field
+                key={`key-${CONTRIBUTION_FIELD}`}
+                component={TextAreaInput}
+                placeholder="Personal contribution"
+                name={CONTRIBUTION_FIELD}
+                rowsMax={8}
+            />
+            <Field
+                key={`key-${POSITION_TYPES_FIELD}`}
+                component={MultiSelect}
+                placeholder="Position"
+                name={POSITION_TYPES_FIELD}
+                options={convertTypeToOptions(positions)}
+            />
+            <Field
+                key={`key-${TECHNOLOGY_TYPE_FIELD}`}
+                component={MultiSelect}
+                placeholder="Used technologies"
+                name={TECHNOLOGY_TYPE_FIELD}
+                options={convertTypeToOptions(technologies)}
+            />
+            <FormError errors={errors} />
+        </VerticalFormLayout>
+    </Loading>
+);
 
     return (
         <Loading loading={submitting}>

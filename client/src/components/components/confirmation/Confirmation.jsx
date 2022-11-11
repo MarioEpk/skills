@@ -8,8 +8,39 @@ import {Button} from "../button";
 
 import css from "./Confirmation.module.scss";
 
-const Confirmation = ({title, text, onDelete, onClose, open}) => {
-    const {t} = i18n.useTranslation();
+const Confirmation = ({
+    title,
+    text,
+    onDelete,
+    onClose,
+    open,
+}) => (
+    <Modal
+        open={open}
+        onClose={onClose}
+    >
+        <div className={css.main}>
+            <h1>{title}</h1>
+            {text && <p>{text}</p>}
+            <span className={css.buttons}>
+                <Button
+                    key="close"
+                    type={Button.type.DANGER}
+                    label="Close"
+                    onClick={onClose}
+                />
+                <Button
+                    key="create"
+                    label="Confirm"
+                    onClick={(...params) => {
+                        onDelete(...params);
+                        onClose();
+                    }}
+                />
+            </span>
+        </div>
+    </Modal>
+);
 
     return (
         <Modal

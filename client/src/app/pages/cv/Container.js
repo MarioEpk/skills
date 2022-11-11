@@ -19,6 +19,7 @@ import technology, {Technology} from "./technology";
 import certificate, {Certificate} from "./certificate";
 import other, {Other} from "./other";
 import project, {Project} from "./project";
+import education, {Education} from "./education";
 import {Form} from "./form";
 import {createMenuItems, useAccessOrIsOwner} from "./utils";
 import {getTypes} from "./selectors";
@@ -31,6 +32,7 @@ const Container = ({
     addTechnologyToCv,
     openCertificateForm,
     openOtherForm,
+    openEducationForm,
     openProjectForm,
     exportCv,
     usedSkillIds,
@@ -63,6 +65,7 @@ const Container = ({
                     <Menu key="menu4" title={t(`technologies.title`)} items={createMenuItems(types.technologies, addTechnologyToCv, usedTechnologyIds)} />,
                     <Menu key="menu5" title={t(`certificates.title`)} onClick={openCertificateForm} />,
                     <Menu key="menu6" title={t(`others.title`)} onClick={openOtherForm} />,
+                    <Menu key="menu7" title="Education" onClick={openEducationForm} />,
                 ])}
             >
                 <Form />
@@ -72,6 +75,7 @@ const Container = ({
                 <Technology />
                 <Certificate />
                 <Other />
+                <Education />
             </WithColumn>
         </>
     );
@@ -90,6 +94,7 @@ const mapDispatchToProps = ({
     addTechnologyToCv: technology.addTechnologyToCv,
     openCertificateForm: certificate.openForm,
     openOtherForm: other.openForm,
+    openEducationForm: education.openForm,
     openProjectForm: project.openForm,
     exportCv: cvActionGroup.export,
     exportCvToDoc: cvActionGroup.exportToDoc,
@@ -104,6 +109,7 @@ Container.propTypes = {
     addTechnologyToCv: PropTypes.func.isRequired,
     openCertificateForm: PropTypes.func.isRequired,
     openOtherForm: PropTypes.func.isRequired,
+    openEducationForm: PropTypes.func.isRequired,
     openProjectForm: PropTypes.func.isRequired,
     exportCv: PropTypes.func.isRequired,
     usedSkillIds: IPropTypes.list.isRequired,

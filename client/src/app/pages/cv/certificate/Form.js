@@ -9,52 +9,51 @@ import i18n from "core/i18n";
 
 import {NAME_FIELD, DESCRIPTION_FIELD, FORM_NAME, DATE_FIELD} from "./constants";
 
-const Container = ({handleSubmit, onClose, submitting, errors}) => {
-    const {t} = i18n.useTranslation();
-    return (
-        <Loading loading={submitting}>
-            <VerticalFormLayout
-                title={t(`certificate.title`)}
-                buttons={[
+const Container = ({handleSubmit, onClose, submitting, errors}) => (
+    <Loading loading={submitting}>
+        <VerticalFormLayout
+            title="Certificate"
+            buttons={(
+                <>
+                    <Button
+                        key="create"
+                        label="Add"
+                        onClick={handleSubmit}
+                        submit
+                    />
                     <Button
                         key="close"
                         type={Button.type.DANGER}
-                        label={t(`close.button.label`)}
+                        label="Close"
                         onClick={onClose}
-                    />,
-                    <Button
-                        key="create"
-                        label={t(`send.button.label`)}
-                        onClick={handleSubmit}
-                        submit
-                    />,
-                ]}
-            >
-                <Field
-                    key={`key-${NAME_FIELD}`}
-                    component={TextInput}
-                    placeholder={t(`certificate.name.placeholder`)}
-                    name={NAME_FIELD}
-                    validate={[required]}
-                    autoFocus
-                />
-                <Field
-                    key={`key-${DESCRIPTION_FIELD}`}
-                    component={TextAreaInput}
-                    placeholder={t(`certificate.description.placeholder`)}
-                    name={DESCRIPTION_FIELD}
-                />
-                <Field
-                    key={`key-${DATE_FIELD}`}
-                    component={DateInput}
-                    placeholder={t(`certificate.date.placeholder`)}
-                    name={DATE_FIELD}
-                />
-                <FormError errors={errors} />
-            </VerticalFormLayout>
-        </Loading>
-    );
-};
+                    />
+                </>
+            )}
+        >
+            <Field
+                key={`key-${NAME_FIELD}`}
+                component={TextInput}
+                placeholder="Certificate name"
+                name={NAME_FIELD}
+                validate={[required]}
+                autoFocus
+            />
+            <Field
+                key={`key-${DESCRIPTION_FIELD}`}
+                component={TextAreaInput}
+                placeholder="Description"
+                name={DESCRIPTION_FIELD}
+            />
+            <Field
+                key={`key-${DATE_FIELD}`}
+                component={DateInput}
+                placeholder="Date"
+                name={DATE_FIELD}
+            />
+            <FormError errors={errors} />
+        </VerticalFormLayout>
+    </Loading>
+);
 
 Container.propTypes = {
     submitting: PropTypes.bool.isRequired,
