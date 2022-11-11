@@ -38,7 +38,6 @@ public class CvService {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
-    private final ExportService exportService;
     private final EducationService educationService;
 
     @Autowired
@@ -53,9 +52,7 @@ public class CvService {
         @NonNull final UserService userService,
         @NonNull final ModelMapper modelMapper,
         @NonNull final ModelMapperUtil modelMapperUtil,
-        @NonNull final ExportService exportService,
         @NonNull final EducationService educationService
-        @NonNull final ModelMapperUtil modelMapperUtil
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
@@ -67,7 +64,6 @@ public class CvService {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
-        this.exportService = exportService;
         this.educationService = educationService;
     }
 
@@ -103,15 +99,6 @@ public class CvService {
         relatedCVDataChanged(cvDto.getId());
     }
 
-
-    @Transactional
-    private Cv createCv(@NonNull final UserDto userDto) {
-        log.info("Creating cv for user {}", userDto.getEmail());
-        final Cv cv = new Cv();
-        cv.setUser(modelMapper.map(userDto, User.class));
-        cvRepository.save(cv);
-        return cv;
-    }
 
     // Language
     @Transactional
@@ -282,5 +269,14 @@ public class CvService {
         cv.setUpdatedAt(new Date());
         cvRepository.save(cv);
     }
+
+    private Cv createCv(@NonNull final UserDto userDto) {
+        log.info("Creating cv for user {}", userDto.getEmail());
+        final Cv cv = new Cv();
+        cv.setUser(modelMapper.map(userDto, User.class));
+        cvRepository.save(cv);
+        return cv;
+    }
+
 
 }
