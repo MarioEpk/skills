@@ -22,6 +22,7 @@ export const cvActionGroup = ({
     FETCH_SUCCESS: `${NAME}/FETCH/SUCCESS`,
     EXPORT: `${NAME}/EXPORT`,
     EXPORT_TO_DOC: `${NAME}/EXPORT_TO_DOC`,
+    COPY_URL: `${NAME}/COPY_URL`,
     fetch: () => ({
         type: `${NAME}/FETCH`,
     }),
@@ -37,5 +38,8 @@ export const cvActionGroup = ({
     }),
     exportToDoc: () => ({
         type: `${NAME}/EXPORT_TO_DOC`,
+    }),
+    copyUrl: () => ({
+        type: `${NAME}/COPY_URL`,
     }),
 });
