@@ -240,4 +240,12 @@ public class ExportService {
         return data;
     }
 
+
+    public String generateUserIdentifier(CvDto cv) {
+        return String.format("%s_%s",
+                cv.getUser().getFirstName() == null ? "john" : cv.getUser().getFirstName(),
+                cv.getUser().getLastName() == null ? "doe" : cv.getUser().getLastName().charAt(0));
+    }
+
+
 }

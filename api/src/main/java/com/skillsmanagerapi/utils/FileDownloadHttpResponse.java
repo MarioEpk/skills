@@ -15,6 +15,7 @@ public class FileDownloadHttpResponse {
                 Base64.getEncoder().encode(fileData),
                 mediaType);
     }
+
     public static ResponseEntity getResponse(String fileName, byte[] fileData, String mediaType) {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(mediaType));

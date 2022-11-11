@@ -25,4 +25,6 @@ public class CvDto {
     private List<EducationDto> educations;
     private Date updatedAt;
     private Date createdAt;
+    private boolean shared;
+    private String externalCode;
 }

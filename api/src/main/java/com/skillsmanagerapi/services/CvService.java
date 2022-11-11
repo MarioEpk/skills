@@ -13,17 +13,20 @@ import com.skillsmanagerapi.models.Cv;
 import com.skillsmanagerapi.models.User;
 import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
-
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
-
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -76,8 +79,8 @@ public class CvService {
         return modelMapper.map(cv, CvDto.class);
     }
 
-    public CvDto getCvByHash(final int cvHash) {
-        return modelMapper.map(cvRepository.findByHash(cvHash).orElseThrow(EntityNotFoundException::new), CvDto.class);
+    public CvDto getCVByExternalCode(@NonNull final String externalCode) {
+        return modelMapper.map(cvRepository.findByExternalCode(externalCode).orElseThrow(EntityNotFoundException::new), CvDto.class);
     }
 
     public CvDto getCv(final int id) {
@@ -104,6 +107,15 @@ public class CvService {
         cvRepository.save(modelMapper.map(updatedCvDto, Cv.class));
     }
 
+    public void shareCv(final int cvId, boolean share) {
+        final CvDto cvDto = this.getCv(cvId);
+        cvDto.setShared(share);
+        //if external_code is empty and share=true, generate value
+        if (share && StringUtils.isEmpty(cvDto.getExternalCode())) {
+            cvDto.setExternalCode(generateExternalCode(cvDto));
+            cvRepository.save(modelMapper.map(cvDto, Cv.class));
+        }
+    }
 
     private Cv createCv(@NonNull final UserDto userDto) {
         log.info("Creating cv for user {}", userDto.getEmail());
@@ -113,6 +125,8 @@ public class CvService {
 
         return cv;
     }
+
+
 
     // Language
     public void addLanguageToCv(final int cvId, @NonNull final LanguageDto languageDto) {
@@ -241,9 +255,19 @@ public class CvService {
         otherService.deleteOther(id);
     }
 
-
-    public String generateUserIdentifier(CvDto cv) {
-        return cv.getUser().getFirstName() == null ? "unknown"
+    public String generateExternalCode(@NonNull final CvDto cvDto) {
+        final String toHash = cvDto.getUser().getEmail() + UUID.randomUUID();  //email + UUID hash
+        String extCode;
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = messageDigest.digest(toHash.getBytes(StandardCharsets.UTF_8));
+            extCode = String.format("%064x", new BigInteger(1, hash));
+        } catch (NoSuchAlgorithmException e) {
+            log.warn("Cannot generate external code, fallback will be used");
+            extCode = UUID.randomUUID().toString();
+        }
+        return extCode.length() > 16 ? extCode.substring(0, 16) : extCode;
     }
+
 
 }

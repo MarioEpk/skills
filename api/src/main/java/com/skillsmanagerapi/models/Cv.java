@@ -103,4 +103,10 @@ public class Cv {
     @CreatedDate
     @Column(name = "created_at")
     private Date createdAt;
+
+    @Column(name = "shared")
+    private boolean shared;
+
+    @Column(name = "external_code")
+    private String externalCode;
 }

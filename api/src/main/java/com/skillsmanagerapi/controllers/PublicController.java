@@ -31,29 +31,24 @@ public class PublicController {
         this.exportService = exportService;
     }
 
-    @GetMapping(value = "/{publicUrlCode}", produces = APPLICATION_PDF_VALUE)
-    public ResponseEntity<?> exportPublicCvAsPdf(@PathVariable("publicUrlCode") String publicUrlCode) throws Exception {
+    @GetMapping(value = "/{externalUrlCode}", produces = APPLICATION_PDF_VALUE)
+    public ResponseEntity<?> exportPublicCvAsPdf(@PathVariable("externalUrlCode") String extUrlCode) throws Exception {
+        final CvDto cvDto;
         try {
-            final CvDto cvDto = cvService.getCvByPublicUrlCode(publicUrlId);
-            if (!cvDto.isShared()) {
-                return new ResponseEntity<>("CV is not available for public access.", HttpStatus.FORBIDDEN);
-            }
-
-            final byte[] pdfData = exportService.generateCvPdf(cvDto);
-            final String fileName = generateFileName(cvDto);
-            return FileDownloadHttpResponse.getResponse(fileName, pdfData, APPLICATION_PDF_VALUE);
-
+            cvDto = cvService.getCVByExternalCode(extUrlCode);
         } catch (Exception e) {
-            log.warn("Requested CV for invalid user {}", publicUrlCode);
+            log.warn("CV for requested user {} not found", extUrlCode);
             return new ResponseEntity<>("Requested CV not found.", HttpStatus.BAD_REQUEST);
         }
-    }
 
-    private String generateFileName(CvDto cvDto) {
-        return cvDto.getUser().getFirstName().toUpperCase()
-                + "_"
-                + cvDto.getUser().getLastName().substring(0, 1).toUpperCase()
-                + "_cv.pdf";
+        if (!cvDto.isShared()) {
+            return new ResponseEntity<>("CV is not available for public access.", HttpStatus.FORBIDDEN);
+        }
+
+        final byte[] pdfData = exportService.generateCvPdf(cvDto);
+        final String fileName = exportService.generateUserIdentifier(cvDto) + ".pdf";
+        return FileDownloadHttpResponse.getResponse(fileName, pdfData, APPLICATION_PDF_VALUE);
+
     }
 
 }
