@@ -54,8 +54,6 @@ public class TypeController {
         this.typeService = typeService;
         this.positionTypeService = positionTypeService;
     }
-
-
     // All types
     @GetMapping
     public AllTypesDto getAllTypes() {

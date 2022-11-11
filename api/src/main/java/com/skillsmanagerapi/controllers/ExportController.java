@@ -33,7 +33,6 @@ public class ExportController {
         this.exportService = exportService;
     }
 
-
     @PreAuthorize("hasAnyAuthority('admin', 'business') or @securityService.isOwnerOfCv(#id)")
     @GetMapping(value = "/{id}/export", produces = APPLICATION_PDF_VALUE)
     public ResponseEntity<?> exportCvAsPdf(@PathVariable("id") int id) throws Exception {
@@ -60,12 +59,17 @@ public class ExportController {
     }
 
     private ResponseEntity<?> getResponseEntity(String fileName, String mediaType, byte[] data) {
+
         //Setting Headers
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(mediaType));
         headers.setContentDispositionFormData(fileName, fileName);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
+
+        final byte[] encodedBytes = Base64.getEncoder().encode(data);
+        headers.setContentLength(encodedBytes.length);
+        return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);
         final byte[] encodedBytes = Base64.getEncoder().encode(data);
         headers.setContentLength(encodedBytes.length);
         return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);

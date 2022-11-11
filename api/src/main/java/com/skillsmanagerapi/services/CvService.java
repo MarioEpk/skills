@@ -2,6 +2,7 @@ package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
 import com.skillsmanagerapi.dto.ProjectDto;
@@ -37,6 +38,8 @@ public class CvService {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final ExportService exportService;
+    private final EducationService educationService;
 
     @Autowired
     public CvService(
@@ -49,6 +52,9 @@ public class CvService {
         @NonNull final OtherService otherService,
         @NonNull final UserService userService,
         @NonNull final ModelMapper modelMapper,
+        @NonNull final ModelMapperUtil modelMapperUtil,
+        @NonNull final ExportService exportService,
+        @NonNull final EducationService educationService
         @NonNull final ModelMapperUtil modelMapperUtil
     ) {
         this.cvRepository = cvRepository;
@@ -61,6 +67,8 @@ public class CvService {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.exportService = exportService;
+        this.educationService = educationService;
     }
 
     public CvDto getCvOrCreateNew(@NonNull final UserDto userDto) {
@@ -127,6 +135,25 @@ public class CvService {
     public void removeLanguageFromCv(@NonNull final int cvId, @NonNull  final int id) {
         languageService.deleteLanguage(id);
         relatedCVDataChanged(cvId);
+    }
+
+    // Education
+
+    public void addEducationToCv(final int cvId, @NonNull final EducationDto educationDto) {
+        final EducationDto newEducationDto = educationService.createEducation(educationDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<EducationDto> educationDtoList = cvDto.getEducations();
+        educationDtoList.add(newEducationDto);
+        cvDto.setEducations(educationDtoList);
+        cvRepository.save(modelMapper.map(cvDto, Cv.class));
+    }
+
+    public void updateEducation(@NonNull final EducationDto educationDto) {
+        educationService.updateEducation(educationDto);
+    }
+
+    public void removeEducationFromCv(final int id) {
+        educationService.deleteEducation(id);
     }
 
     // Skill

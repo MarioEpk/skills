@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.xmp.impl.Base64;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.LanguageDto;
+import com.skillsmanagerapi.dto.PositionTypeDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.enums.AvatarType;
 import com.skillsmanagerapi.enums.ContextDataKey;
 import io.github.erdos.stencil.API;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -161,21 +164,30 @@ public class ExportService {
         final List<TechnologyDto> sortedTechnologiesDto = cvDto.getTechnologies().stream().sorted().collect(Collectors.toList());
         final List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
         final List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
+        final List<EducationDto> sortedEducationsDto = cvDto.getEducations().stream().sorted().collect(Collectors.toList());
 
         context.setVariable(ContextDataKey.AVATAR_TYPE_MAN, AvatarType.MEN);
         context.setVariable(ContextDataKey.AVATAR_TYPE_WOMEN, AvatarType.WOMAN);
         context.setVariable(ContextDataKey.AVATAR, cvDto.getAvatar());
         context.setVariable(ContextDataKey.USER, cvDto.getUser());
-        context.setVariable(ContextDataKey.POSITIONS, cvDto.getPositions());
+        context.setVariable(ContextDataKey.POSITIONS, safeArray(cvDto.getPositions()));
         context.setVariable(ContextDataKey.PROFILE, cvDto.getProfile());
-        context.setVariable(ContextDataKey.PROJECTS, sortedProjects);
-        context.setVariable(ContextDataKey.SKILLS, sortedSkillsDto);
-        context.setVariable(ContextDataKey.TECHNOLOGIES, sortedTechnologiesDto);
-        context.setVariable(ContextDataKey.LANGUAGES, sortedLanguagesDto);
-        context.setVariable(ContextDataKey.CERTIFICATES, cvDto.getCertificates());
-        context.setVariable(ContextDataKey.OTHERS, cvDto.getOthers());
+        context.setVariable(ContextDataKey.PROJECTS, safeArray(sortedProjects));
+        context.setVariable(ContextDataKey.SKILLS, safeArray(sortedSkillsDto));
+        context.setVariable(ContextDataKey.TECHNOLOGIES, safeArray(sortedTechnologiesDto));
+        context.setVariable(ContextDataKey.LANGUAGES, safeArray(sortedLanguagesDto));
+        context.setVariable(ContextDataKey.CERTIFICATES, safeArray(cvDto.getCertificates()));
+        context.setVariable(ContextDataKey.OTHERS, safeArray(cvDto.getOthers()));
+        context.setVariable(ContextDataKey.EDUCATIONS, safeArray(sortedEducationsDto));
 
         return context;
+    }
+
+     private <T> List<T> safeArray(List<T> list) {
+        if (list == null) {
+            return new ArrayList<T>();
+        }
+        return list;
     }
 
 

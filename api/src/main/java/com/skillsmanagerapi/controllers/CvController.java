@@ -3,6 +3,7 @@ package com.skillsmanagerapi.controllers;
 import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
 import com.skillsmanagerapi.dto.ProjectDto;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RequestMapping(value = "/api/cv")
@@ -98,6 +98,22 @@ public class CvController {
     @DeleteMapping(value = "/{cvId}/language/{id}")
     public void removeLanguageFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
         cvService.removeLanguageFromCv(cvId, id);
+    }
+
+//    Education
+    @PostMapping(value = "/{id}/education")
+    public void addEducationToCv(@RequestBody EducationDto educationDto, @PathVariable("id") int id) {
+        cvService.addEducationToCv(id, educationDto);
+    }
+
+    @PutMapping(value = "/education")
+    public void updateEducation(@RequestBody EducationDto educationDto) {
+        cvService.updateEducation(educationDto);
+    }
+
+    @DeleteMapping(value = "/education/{id}")
+    public void removeEducationFromCv(@PathVariable("id") int id) {
+        cvService.removeEducationFromCv(id);
     }
 
     // Skill
