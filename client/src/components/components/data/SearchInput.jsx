@@ -6,7 +6,7 @@ import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 
 import css from './SearchInput.module.scss';
 
-const SearchInput = ({onChange, name, label, value}) => (
+const SearchInput = ({onChange, name, label, value, placeholder}) => (
     <TextField
         className={css.input}
         name={name}
@@ -28,10 +28,12 @@ SearchInput.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     value: PropTypes.string,
+    placeholder: PropTypes.string,
 };
 
 SearchInput.defaultProps = {
     value: undefined,
+    placeholder: undefined,
 };
 
 export default SearchInput;

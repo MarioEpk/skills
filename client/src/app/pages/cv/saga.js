@@ -40,12 +40,12 @@ export default router.routerWrapper({
 
 const createExport = (id) => function* exportCv() {
     const cv = yield call(fetchCv, id);
-    yield put(coreExport.exportCv(id, cv.getIn(["user", "lastName"])));
+    yield put(coreExport.exportCv(id, cv.getIn(["user", "firstName"]), cv.getIn(["user", "lastName"])));
 };
 
 const createExportToDoc = (id) => function* exportCvToDoc() {
     const cv = yield call(fetchCv, id);
-    yield put(coreExport.exportCvToDoc(id, cv.getIn(["user", "lastName"])));
+    yield put(coreExport.exportCvToDoc(id, cv.getIn(["user", "firstName"]), cv.getIn(["user", "lastName"])));
 };
 
 const createCopyCvUrl = () => function* copyCvUrl() {

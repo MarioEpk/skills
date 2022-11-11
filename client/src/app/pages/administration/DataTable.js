@@ -60,7 +60,7 @@ const DataTable = ({
                 onCreate={onCreate}
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"))}
-                searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
+                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
             />
             <Modal
                 open={isFormModalOpen}
