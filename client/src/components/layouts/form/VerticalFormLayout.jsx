@@ -7,14 +7,14 @@ const VerticalFormLayout = ({title, children, buttons}) => (
     <form className={css.main}>
         <h1>{title}</h1>
         {children}
-        <div className={css.buttons}>{buttons.map((button) => button)}</div>
+        <div className={css.buttons}>{buttons}</div>
     </form>
 );
 
 VerticalFormLayout.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
-    buttons: PropTypes.arrayOf(PropTypes.node).isRequired,
+    buttons: PropTypes.node.isRequired,
 };
 
 export default VerticalFormLayout;

@@ -1,7 +1,11 @@
 @import "components/variables.scss";
 
+.searchInput {
+    width: 230px;
+}
+
 .input {
-    :global(".MuiFormLabel-root.Mui-focused") {
+    :global(.MuiFormLabel-root.Mui-focused) {
         color: $highlight_color;
     }
 }

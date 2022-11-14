@@ -11,7 +11,7 @@ import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
 
-import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
+import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
@@ -63,14 +63,15 @@ const DataTable = ({
     return (
         <>
             <Data
-                title="CVs"
+                title={t("overview.title")}
                 columns={columns}
                 data={data}
                 loading={loading}
                 onCreate={adminAccess(onCreate)}
                 onCustomAction={onCustomAction}
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
-                searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
+                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
+                searchPlaceholder={t("overview.search.placeholder")}
             />
             <Modal
                 open={isFormModalOpen}

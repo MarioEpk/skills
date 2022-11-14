@@ -8,7 +8,13 @@ import {Button} from "../button";
 
 import css from "./Confirmation.module.scss";
 
-const Confirmation = ({title, text, onDelete, onClose, open}) => {
+const Confirmation = ({
+    title,
+    text,
+    onDelete,
+    onClose,
+    open,
+}) => {
     const {t} = i18n.useTranslation();
 
     return (
@@ -21,18 +27,16 @@ const Confirmation = ({title, text, onDelete, onClose, open}) => {
                 {text && <p>{text}</p>}
                 <span className={css.buttons}>
                     <Button
-                        key="close"
-                        type={Button.type.DANGER}
-                        label={t(`close.button.label`)}
-                        onClick={onClose}
-                    />
-                    <Button
-                        key="create"
-                        label={t(`confirm.button.label`)}
+                        type={Button.type.COLORED}
+                        label={t("confirm.button.label")}
                         onClick={(...params) => {
                             onDelete(...params);
                             onClose();
                         }}
+                    />
+                    <Button
+                        label={t("close.button.label")}
+                        onClick={onClose}
                     />
                 </span>
             </div>

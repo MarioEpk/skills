@@ -3,16 +3,16 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
 
-import i18n from "core/i18n";
 import {compose} from "core/form";
 import modal from "core/modal";
 import {accesses} from "core/access";
+import i18n from "core/i18n";
 import {Card, CardLayout, Modal} from "components";
+import {Education} from "app/model/cv";
 
-import {Certificate} from "app/model/cv";
-import {getCertificates} from "./selectors";
+import {getEducations} from "./selectors";
 import {
-    removeCertificateFromCv as removeCertificateFromCvAction,
+    removeEducationFromCv as removeEducationFromCvAction,
     fillForm as fillFormAction,
     openForm as openFormAction,
     closeForm as closeFormAction,
@@ -22,20 +22,20 @@ import Form from "./Form";
 import {useAccessOrIsOwner} from "../utils";
 
 const Container = ({
-    certificates,
+    educations,
     isFormOpen,
     openForm,
     closeForm,
     fillForm,
-    removeCertificateFromCv,
+    removeEducationFromCv,
 }) => {
     const {t} = i18n.useTranslation();
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
-    const onEdit = ({id, name, date, description}) => {
-        fillForm(id, name, date, description);
+
+    const onEdit = ({id, school, field, yearFrom, yearTo, note}) => {
+        fillForm(id, school, field, yearFrom, yearTo, note);
         openForm();
     };
-
     return (
         <>
             <Modal
@@ -44,18 +44,19 @@ const Container = ({
             >
                 <Form onClose={closeForm} />
             </Modal>
-            {certificates.size > 0
+            {educations.size > 0
             && (
-                <CardLayout title={t(`certificates.title`)}>
-                    {certificates.map((certificate) => (
+                <CardLayout title={t("educations.title")}>
+                    {educations.map((education) => (
                         <Card
-                            key={certificate.id}
-                            title={certificate.name}
-                            onEdit={adminOrOwnerAccess(() => onEdit(certificate))}
-                            onDelete={adminOrOwnerAccess(() => removeCertificateFromCv(certificate.id))}
-                            date={certificate.date}
+                            key={education.id}
+                            title={education.school}
+                            secondTitle={education.field}
+                            onEdit={adminOrOwnerAccess(() => onEdit(education))}
+                            onDelete={adminOrOwnerAccess(() => removeEducationFromCv(education.id))}
+                            date={`${education.yearFrom} > ${education.yearTo}`}
                         >
-                            {certificate.description}
+                            {education.note}
                         </Card>
                     ))}
                 </CardLayout>
@@ -65,7 +66,7 @@ const Container = ({
 };
 
 const mapStateToProps = (state) => ({
-    certificates: getCertificates(state),
+    educations: getEducations(state),
     isFormOpen: modal.isOpen(state, MODAL_NAME),
 });
 
@@ -73,16 +74,16 @@ const mapDispatchToProps = ({
     openForm: openFormAction,
     closeForm: closeFormAction,
     fillForm: fillFormAction,
-    removeCertificateFromCv: removeCertificateFromCvAction,
+    removeEducationFromCv: removeEducationFromCvAction,
 });
 
 Container.propTypes = {
-    certificates: IPropTypes.listOf(Certificate).isRequired,
+    educations: IPropTypes.listOf(Education).isRequired,
     isFormOpen: PropTypes.bool.isRequired,
     openForm: PropTypes.func.isRequired,
     closeForm: PropTypes.func.isRequired,
     fillForm: PropTypes.func.isRequired,
-    removeCertificateFromCv: PropTypes.func.isRequired,
+    removeEducationFromCv: PropTypes.func.isRequired,
 };
 
 export default compose(

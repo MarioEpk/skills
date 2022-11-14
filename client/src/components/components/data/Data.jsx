@@ -3,6 +3,7 @@ import {List} from "immutable";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
 import {AddRounded} from "@material-ui/icons";
+import removeAccents from "remove-accents";
 import i18n from "core/i18n";
 import SearchInput from "./SearchInput";
 import {Block} from "../block";
@@ -18,11 +19,12 @@ const Data = ({
     columns,
     data,
     loading,
-    searchByDataField,
+    searchByDataFields,
     onEdit,
     onDelete,
     onCreate,
     onCustomAction,
+    searchPlaceholder,
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
@@ -48,8 +50,12 @@ const Data = ({
     };
 
     const filterData = (value) => {
-        if (searchByDataField) {
-            const result = data.filter((row) => row.getIn(searchByDataField.split('.'), "").toString().toLowerCase().includes(value.toLowerCase()));
+        if (searchByDataFields) {
+            const result = data.filter((row) => (
+                searchByDataFields.some((searchField) => (
+                    removeAccents(row.getIn(searchField.split('.'), "").toLowerCase()).includes(removeAccents(value.toLowerCase()))
+                ))
+            ));
             setFilteredData(result);
         } else {
             setFilteredData(data);
@@ -68,12 +74,18 @@ const Data = ({
                 />
                 <div className={css.control}>
                     <h2 className={css.title}>{title}</h2>
-                    {!!searchByDataField
-                    && (
-                        <span className={css.search}>
-                            <SearchInput label={t(`search.label`)} value={searchValue} onChange={onSearch} name={`${title}-search`} />
-                        </span>
-                    )}
+                    {!!searchByDataFields
+                        && (
+                            <span className={css.search}>
+                                <SearchInput
+                                    placeholder={searchPlaceholder}
+                                    label="Search"
+                                    value={searchValue}
+                                    onChange={onSearch}
+                                    name={`${title}-search`}
+                                />
+                            </span>
+                        )}
                     {onCreate && (
                         <Button
                             onClick={onCreate}
@@ -102,21 +114,23 @@ Data.propTypes = {
     columns: columnsPropTypes.isRequired,
     data: ImmutablePropTypes.list,
     loading: PropTypes.bool,
-    searchByDataField: PropTypes.string,
+    searchByDataFields: PropTypes.arrayOf(PropTypes.string),
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
     onCreate: PropTypes.func,
     onCustomAction: PropTypes.func,
+    searchPlaceholder: PropTypes.string,
 };
 
 Data.defaultProps = {
     data: List(),
     loading: false,
-    searchByDataField: undefined,
+    searchByDataFields: undefined,
     onEdit: undefined,
     onDelete: undefined,
     onCreate: undefined,
     onCustomAction: undefined,
+    searchPlaceholder: "",
 };
 
 export default Data;

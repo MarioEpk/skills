@@ -11,43 +11,41 @@ import {NAME_FIELD, DESCRIPTION_FIELD, FORM_NAME, DATE_FIELD} from "./constants"
 
 const Container = ({handleSubmit, onClose, submitting, errors}) => {
     const {t} = i18n.useTranslation();
+
     return (
         <Loading loading={submitting}>
             <VerticalFormLayout
                 title={t(`certificate.title`)}
-                buttons={[
-                    <Button
-                        key="close"
-                        type={Button.type.DANGER}
-                        label={t(`close.button.label`)}
-                        onClick={onClose}
-                    />,
-                    <Button
-                        key="create"
-                        label={t(`send.button.label`)}
-                        onClick={handleSubmit}
-                        submit
-                    />,
-                ]}
+                buttons={(
+                    <>
+                        <Button
+                            label={t("add.button.label")}
+                            type={Button.type.COLORED}
+                            onClick={handleSubmit}
+                            submit
+                        />
+                        <Button
+                            label={t("close.button.label")}
+                            onClick={onClose}
+                        />
+                    </>
+                )}
             >
                 <Field
-                    key={`key-${NAME_FIELD}`}
                     component={TextInput}
-                    placeholder={t(`certificate.name.placeholder`)}
+                    placeholder={t("certificate.name.placeholder")}
                     name={NAME_FIELD}
                     validate={[required]}
                     autoFocus
                 />
                 <Field
-                    key={`key-${DESCRIPTION_FIELD}`}
                     component={TextAreaInput}
-                    placeholder={t(`certificate.description.placeholder`)}
+                    placeholder={t("certificate.description.placeholder")}
                     name={DESCRIPTION_FIELD}
                 />
                 <Field
-                    key={`key-${DATE_FIELD}`}
                     component={DateInput}
-                    placeholder={t(`certificate.date.placeholder`)}
+                    placeholder={t("certificate.date.placeholder")}
                     name={DATE_FIELD}
                 />
                 <FormError errors={errors} />

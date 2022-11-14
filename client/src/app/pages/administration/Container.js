@@ -5,7 +5,7 @@ import {PageTitle} from "app/containers";
 import i18n from "core/i18n";
 
 import DataTable from "./DataTable";
-import {availableTypes, SEARCH_TABLE_FIELD} from "./constants";
+import {availableTypes} from "./constants";
 import form, {ProjectForm} from "./form";
 
 const Container = () => {
@@ -13,9 +13,9 @@ const Container = () => {
 
     return (
         <>
-            <PageTitle title={t(`administration.title`)} />
+            <PageTitle title={t("administration.title")} />
             <DataTable
-                title={t(`projects.title`)}
+                title={t("projects.title")}
                 typeName={availableTypes.PROJECT}
                 form={ProjectForm}
                 columns={[{
@@ -25,32 +25,29 @@ const Container = () => {
                     columnName: "ID",
                 }, {
                     key: "2",
-                    dataField: SEARCH_TABLE_FIELD,
+                    dataField: "name",
                     columnName: "name",
-                },
-                {
+                }, {
                     key: "3",
                     dataField: "description",
                     columnName: "project.description",
-                },
-                {
+                }, {
                     key: "4",
                     dataField: "technologies",
                     columnName: "used.technologies",
                     dataFormat: (data) => data.map((item) => item.get("name")).join(", "),
-                },
-                ]}
+                }]}
             />
             <TwoColumns
                 left={(
                     <>
                         <DataTable
-                            title={t(`languages.title`)}
+                            title={t("languages.title")}
                             typeName={availableTypes.LANGUAGE}
                             form={form.createForm(availableTypes.LANGUAGE)}
                         />
                         <DataTable
-                            title={t(`technologies.title`)}
+                            title={t("technologies.title")}
                             typeName={availableTypes.TECHNOLOGY}
                             form={form.createForm(availableTypes.TECHNOLOGY)}
                         />
@@ -59,12 +56,12 @@ const Container = () => {
                 right={(
                     <>
                         <DataTable
-                            title={t(`skills.title`)}
+                            title={t("skills.title")}
                             typeName={availableTypes.SKILL}
                             form={form.createForm(availableTypes.SKILL)}
                         />
                         <DataTable
-                            title={t(`positions.title`)}
+                            title={t("positions.title")}
                             typeName={availableTypes.POSITION}
                             form={form.createForm(availableTypes.POSITION)}
                         />

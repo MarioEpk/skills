@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import {RadioGroupInput} from "components";
 import {Field, getFormFieldValue} from "core/form";
+import i18n from "core/i18n";
 
 import avatarMen from 'resources/images/avatar_man.png';
 import avatarGhost from 'resources/images/avatar_ghost.png';
@@ -18,26 +19,29 @@ const getSrcForImage = (avatar) => {
     }
 };
 
-const AvatarImage = ({avatar, isAdminOrOwner}) => (
-    <>
-        <Field
-            key={`key-${AVATAR_FIELD}`}
-            component={RadioGroupInput}
-            placeholder="Avatar"
-            name={AVATAR_FIELD}
-            label="Avatar"
-            disabled={!isAdminOrOwner}
-            options={[{
-                value: avatarType.MEN,
-                label: "Man",
-            }, {
-                value: avatarType.WOMAN,
-                label: "Woman",
-            }]}
-        />
-        <img src={getSrcForImage(avatar)} alt="avatar" />
-    </>
-);
+const AvatarImage = ({avatar, isAdminOrOwner}) => {
+    const {t} = i18n.useTranslation();
+
+    return (
+        <>
+            <Field
+                component={RadioGroupInput}
+                placeholder={t("cv.avatar.placeholder")}
+                name={AVATAR_FIELD}
+                label={t("cv.avatar.label")}
+                disabled={!isAdminOrOwner}
+                options={[{
+                    value: avatarType.MEN,
+                    label: t("cv.avatar.options.man"),
+                }, {
+                    value: avatarType.WOMAN,
+                    label: t("cv.avatar.options.woman"),
+                }]}
+            />
+            <img src={getSrcForImage(avatar)} alt="avatar" />
+        </>
+    );
+};
 
 AvatarImage.propTypes = {
     avatar: PropTypes.oneOf(Object.values(avatarType)),

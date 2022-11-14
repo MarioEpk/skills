@@ -15,24 +15,25 @@ import {getTypeData} from "../selectors";
 
 const Container = ({handleSubmit, submitting, errors, onClose, editMode, technologies}) => {
     const {t} = i18n.useTranslation();
+
     return (
         <Loading loading={submitting}>
             <VerticalFormLayout
-                title={editMode ? t(`update.button.label`) : t(`add.button.label`)}
-                buttons={[
-                    <Button
-                        key="close"
-                        type={Button.type.DANGER}
-                        label={t(`close.button.label`)}
-                        onClick={onClose}
-                    />,
-                    <Button
-                        key="create"
-                        label={editMode ? t(`update.button.label`) : t(`add.button.label`)}
-                        onClick={handleSubmit}
-                        submit
-                    />,
-                ]}
+                title={editMode ? t(`update.button.label`) : t(`create.button.label`)}
+                buttons={(
+                    <>
+                        <Button
+                            type={Button.type.COLORED}
+                            label={editMode ? t(`update.button.label`) : t(`create.button.label`)}
+                            onClick={handleSubmit}
+                            submit
+                        />
+                        <Button
+                            label="Close"
+                            onClick={onClose}
+                        />
+                    </>
+                )}
             >
                 <Field
                     component={TextInput}

@@ -11,28 +11,29 @@ import {createFormName, NAME_FIELD} from "./constants";
 
 const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => {
     const {t} = i18n.useTranslation();
+
     return (
         <Loading loading={submitting}>
             <VerticalFormLayout
-                title={editMode ? t(`update.button.label`) : t(`add.button.label`)}
-                buttons={[
-                    <Button
-                        key="close"
-                        type={Button.type.DANGER}
-                        label={t(`close.button.label`)}
-                        onClick={onClose}
-                    />,
-                    <Button
-                        key="Create"
-                        label={editMode ? t(`update.button.label`) : t(`add.button.label`)}
-                        onClick={handleSubmit}
-                        submit
-                    />,
-                ]}
+                title={editMode ? t("update.button.label") : t("create.button.label")}
+                buttons={(
+                    <>
+                        <Button
+                            type={Button.type.COLORED}
+                            label={editMode ? t("edit.button.label") : t("create.button.label")}
+                            onClick={handleSubmit}
+                            submit
+                        />
+                        <Button
+                            label={t("close.button.label")}
+                            onClick={onClose}
+                        />
+                    </>
+                )}
             >
                 <Field
                     component={TextInput}
-                    placeholder={t(`name`)}
+                    placeholder={t("name")}
                     name={NAME_FIELD}
                     validate={[required]}
                     autoFocus

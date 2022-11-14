@@ -9,6 +9,7 @@ import i18n from "core/i18n";
 
 const Logout = ({onLogoutSuccess}) => {
     const {t} = i18n.useTranslation();
+
     return (
         <GoogleLogout
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
