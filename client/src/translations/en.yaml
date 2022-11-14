@@ -1,17 +1,99 @@
-cv.technology.1: Beginner
-cv.technology.2: Average
-cv.technology.3: Advanced
-cv.technology.4: Experienced
-cv.technology.5: Expert
+#buttons translations
+close.button.label: Close
+send.button.label: Send
+edit.button.label: Edit
+delete.button.label: Delete
+add.button.label: Add
+update.button.label: Update
+confirm.button.label: Confirm
+search.label: Search
+export.button.label: Export
+confirmation.text: Are you sure?
 
-cv.language.1: Beginner
-cv.language.2: Average
-cv.language.3: Advanced
-cv.language.4: Experienced
-cv.language.5: Native
+#navigation
+navigation.login.label: Login
+navigation.logout.label: Logout
+navigation.cv.label: CV
+navigation.overview.label: Overview
+navigation.administration.label: Administration
 
-cv.skill.1: Beginner
-cv.skill.2: Average
-cv.skill.3: Advanced
-cv.skill.4: Experienced
-cv.skill.5: Expert
+#titles
+administration.title: Administration
+projects.title: Projects
+skills.title: Skills
+languages.title: Languages
+technologies.title: Technologies
+certificates.title: Certificates
+others.title: Others
+positions.title: Positions
+overview.title: Overview
+
+#cv
+cv.title: CV
+cv.my.title: My CV
+cv.generate.pdf.label: Generate PDF
+cv.generate.doc.label: Generate DOC
+cv.copy.link.label: Copy URL
+
+cv.firstname.placeholder: First name
+cv.lastname.placeholder: Last name
+cv.position.placeholder: Position
+cv.profile.placeholder: Profile
+
+#technology
+technology.label.1: Beginner
+technology.label.2: Average
+technology.label.3: Advanced
+technology.label.4: Experienced
+technology.label.5: Expert
+
+
+#language
+language.label.1: Beginner
+language.label.2: Average
+language.label.3: Advanced
+language.label.4: Experienced
+language.label.5: Native
+
+
+#skill
+skill.label.1: Beginner
+skill.label.2: Average
+skill.label.3: Advanced
+skill.label.4: Experienced
+skill.label.5: Expert
+
+
+#certificate form
+certificate.title: Certificate
+certificate.name.placeholder: Certificate name
+certificate.description.placeholder: Certificate description
+certificate.date.placeholder: Certificate issue date
+
+#other form
+other.title: Other
+other.name.placeholder: Name
+other.description.placeholder: Description
+other.date.placeholder: Issue date
+
+#project form
+project.title: Projects
+project.from.placeholder: From
+project.to.placeholder: To
+project.company.placeholder: Company
+project.contribution.placeholder: Personal contribution
+project.position.placeholder: Position
+project.technologies.placeholder: Used technologies
+
+#overview
+ID: ID
+first.name: First name
+last.name: Last name
+updated.at: Updated at
+
+#administration
+name: Name
+export.name: Export name
+project.name: Project name
+project.description: Project description
+used.technologies: Used technologies

@@ -7,6 +7,7 @@ import {Type} from "app/model/type";
 import {Loading, CvFormLayout, TextInput, FormError, MultiSelect, TextAreaInput} from "components";
 import {Field, compose, form, required, convertTypeToOptions} from "core/form";
 import {accesses} from "core/access";
+import i18n from "core/i18n";
 
 import {connect} from "react-redux";
 import {PROFILE_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD, POSITION_FIELD} from "./constants";
@@ -17,6 +18,7 @@ import {getTypePositions} from "../selectors";
 const Container = ({submitting, errors, positions}) => {
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
+    const {t} = i18n.useTranslation();
 
     return (
         <Loading loading={submitting}>
@@ -25,7 +27,7 @@ const Container = ({submitting, errors, positions}) => {
                     <Field
                         key={`key-${FIRST_NAME_FIELD}`}
                         component={TextInput}
-                        placeholder="First name"
+                        placeholder={t(`cv.firstname.placeholder`)}
                         name={FIRST_NAME_FIELD}
                         validate={[required]}
                         disabled={!isAdminOrOwner}
@@ -33,7 +35,7 @@ const Container = ({submitting, errors, positions}) => {
                     <Field
                         key={`key-${LAST_NAME_FIELD}`}
                         component={TextInput}
-                        placeholder="Last name"
+                        placeholder={t(`cv.lastname.placeholder`)}
                         name={LAST_NAME_FIELD}
                         validate={[required]}
                         disabled={!isAdminOrOwner}
@@ -41,7 +43,7 @@ const Container = ({submitting, errors, positions}) => {
                     <Field
                         key={`key-${POSITION_FIELD}`}
                         component={MultiSelect}
-                        placeholder="Position"
+                        placeholder={t(`cv.position.placeholder`)}
                         name={POSITION_FIELD}
                         options={convertTypeToOptions(positions)}
                         disabled={!isAdminOrOwner}
@@ -52,7 +54,7 @@ const Container = ({submitting, errors, positions}) => {
                 <Field
                     key={`key-${PROFILE_FIELD}`}
                     component={TextAreaInput}
-                    placeholder="Profile"
+                    placeholder={t(`cv.profile.placeholder`)}
                     name={PROFILE_FIELD}
                     disabled={!isAdminOrOwner}
                 />

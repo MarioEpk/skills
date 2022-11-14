@@ -11,6 +11,7 @@ import {PageTitle} from "app/containers";
 import {accesses} from "core/access";
 import {WithColumn, Menu, IconButton, Flex} from "components";
 import {compose} from "core/form";
+import i18n from "core/i18n";
 
 import language, {Language} from "./language";
 import skill, {Skill} from "./skill";
@@ -40,25 +41,28 @@ const Container = ({
 }) => {
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
+    const {t} = i18n.useTranslation();
+    const title = isAdminOrOwner ? t('cv.my.title') : t('cv.title');
+
     return (
         <>
-            <PageTitle title={!isAdminOrOwner ? "CV" : "My CV"} />
+            <PageTitle title={title} />
             <WithColumn
-                title={!isAdminOrOwner ? "CV" : "My CV"}
+                title={title}
                 actions={(
                     <Flex vertical={false}>
-                        <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel="Generate PDF" />
-                        <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel="Generate DOC" />
-                        <IconButton key="icon3" icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel="Copy URL" />
+                        <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel={t(`cv.generate.pdf.label`)} />
+                        <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel={t(`cv.generate.doc.label`)} />
+                        <IconButton key="icon3" icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel={t(`cv.copy.link.label`)} />
                     </Flex>
                 )}
                 column={adminOrOwnerAccess([
-                    <Menu key="menu1" title="Projects" items={createMenuItems(types.projects, openProjectForm)} />,
-                    <Menu key="menu2" title="Skills" items={createMenuItems(types.skills, addSkillToCv, usedSkillIds)} />,
-                    <Menu key="menu3" title="Languages" items={createMenuItems(types.languages, addLanguageToCv, usedLanguageIds)} />,
-                    <Menu key="menu4" title="Technologies" items={createMenuItems(types.technologies, addTechnologyToCv, usedTechnologyIds)} />,
-                    <Menu key="menu5" title="Certificates" onClick={openCertificateForm} />,
-                    <Menu key="menu6" title="Others" onClick={openOtherForm} />,
+                    <Menu key="menu1" title={t(`projects.title`)} items={createMenuItems(types.projects, openProjectForm)} />,
+                    <Menu key="menu2" title={t(`skills.title`)} items={createMenuItems(types.skills, addSkillToCv, usedSkillIds)} />,
+                    <Menu key="menu3" title={t(`languages.title`)} items={createMenuItems(types.languages, addLanguageToCv, usedLanguageIds)} />,
+                    <Menu key="menu4" title={t(`technologies.title`)} items={createMenuItems(types.technologies, addTechnologyToCv, usedTechnologyIds)} />,
+                    <Menu key="menu5" title={t(`certificates.title`)} onClick={openCertificateForm} />,
+                    <Menu key="menu6" title={t(`others.title`)} onClick={openOtherForm} />,
                 ])}
             >
                 <Form />

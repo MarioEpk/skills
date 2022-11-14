@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
 
+import i18n from "core/i18n";
 import {compose} from "core/form";
 import modal from "core/modal";
 import {accesses} from "core/access";
@@ -33,6 +34,8 @@ const Container = ({
         fillForm(id, name, date, description);
         openForm();
     };
+    const {t} = i18n.useTranslation();
+
     return (
         <>
             <Modal
@@ -43,7 +46,7 @@ const Container = ({
             </Modal>
             {certificates.size > 0
             && (
-                <CardLayout title="Certificates">
+                <CardLayout title={t(`certificates.title`)}>
                     {certificates.map((certificate) => (
                         <Card
                             key={certificate.id}

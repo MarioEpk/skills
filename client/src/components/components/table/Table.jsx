@@ -4,6 +4,7 @@ import {List} from 'immutable';
 import ImmutablePropTypes from "react-immutable-proptypes";
 import {Edit, Delete} from '@material-ui/icons';
 
+import i18n from "core/i18n";
 import TableColumn from './TableColumn';
 import TableHead from './TableHead';
 import {getColumnData, getKeyParam, columnsPropTypes, columnActionsPropTypes} from './util';
@@ -12,6 +13,8 @@ import {Loading} from "../loading";
 import {Button} from "../button";
 
 const renderActions = (actions, row, key) => {
+    const {t} = i18n.useTranslation();
+
     if (!actions) {
         return null;
     }
@@ -21,12 +24,12 @@ const renderActions = (actions, row, key) => {
     }
     if (actions.onEdit) {
         actionComponents.push(
-            <Button key={`${key}-edit`} onClick={() => actions.onEdit(row)} label="Editovat" startIcon={<Edit />} />,
+            <Button key={`${key}-edit`} onClick={() => actions.onEdit(row)} label={t(`edit.button.label`)} startIcon={<Edit />} />,
         );
     }
     if (actions.onDelete) {
         actionComponents.push(
-            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label="Delete" />,
+            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label={t(`delete.button.label`)} />,
         );
     }
     return (

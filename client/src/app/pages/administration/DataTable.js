@@ -19,7 +19,7 @@ const defaultColumns = [{
 }, {
     key: "2",
     dataField: SEARCH_TABLE_FIELD,
-    columnName: "Name",
+    columnName: "name",
 }];
 
 const DataTable = ({

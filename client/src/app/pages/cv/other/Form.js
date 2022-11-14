@@ -5,52 +5,57 @@ import IPropTypes from "react-immutable-proptypes";
 
 import {Button, Loading, FormError, TextInput, VerticalFormLayout, DateInput, TextAreaInput} from "components";
 import {Field, compose, form, required} from "core/form";
+import i18n from "core/i18n";
 
 import {NAME_FIELD, DESCRIPTION_FIELD, FORM_NAME, DATE_FIELD} from "./constants";
 
-const Container = ({handleSubmit, onClose, submitting, errors}) => (
-    <Loading loading={submitting}>
-        <VerticalFormLayout
-            title="Ostatní"
-            buttons={[
-                <Button
-                    key="close"
-                    type={Button.type.DANGER}
-                    label="Close"
-                    onClick={onClose}
-                />,
-                <Button
-                    key="create"
-                    label="Send"
-                    onClick={handleSubmit}
-                    submit
-                />,
-            ]}
-        >
-            <Field
-                key={`key-${NAME_FIELD}`}
-                component={TextInput}
-                placeholder="Name"
-                name={NAME_FIELD}
-                validate={[required]}
-                autoFocus
-            />
-            <Field
-                key={`key-${DESCRIPTION_FIELD}`}
-                component={TextAreaInput}
-                placeholder="Description"
-                name={DESCRIPTION_FIELD}
-            />
-            <Field
-                key={`key-${DATE_FIELD}`}
-                component={DateInput}
-                placeholder="Date"
-                name={DATE_FIELD}
-            />
-            <FormError errors={errors} />
-        </VerticalFormLayout>
-    </Loading>
-);
+const Container = ({handleSubmit, onClose, submitting, errors}) => {
+    const {t} = i18n.useTranslation();
+
+    return (
+        <Loading loading={submitting}>
+            <VerticalFormLayout
+                title={t(`other.title`)}
+                buttons={[
+                    <Button
+                        key="close"
+                        type={Button.type.DANGER}
+                        label={t(`close.button.label`)}
+                        onClick={onClose}
+                    />,
+                    <Button
+                        key="create"
+                        label={t(`send.button.label`)}
+                        onClick={handleSubmit}
+                        submit
+                    />,
+                ]}
+            >
+                <Field
+                    key={`key-${NAME_FIELD}`}
+                    component={TextInput}
+                    placeholder={t(`other.name.placeholder`)}
+                    name={NAME_FIELD}
+                    validate={[required]}
+                    autoFocus
+                />
+                <Field
+                    key={`key-${DESCRIPTION_FIELD}`}
+                    component={TextAreaInput}
+                    placeholder={t(`other.description.placeholder`)}
+                    name={DESCRIPTION_FIELD}
+                />
+                <Field
+                    key={`key-${DATE_FIELD}`}
+                    component={DateInput}
+                    placeholder={t(`other.date.placeholder`)}
+                    name={DATE_FIELD}
+                />
+                <FormError errors={errors} />
+            </VerticalFormLayout>
+        </Loading>
+    );
+};
 
 Container.propTypes = {
     submitting: PropTypes.bool.isRequired,
