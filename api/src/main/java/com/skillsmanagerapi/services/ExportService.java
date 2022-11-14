@@ -3,12 +3,11 @@ package com.skillsmanagerapi.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.xmp.impl.Base64;
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
-import com.skillsmanagerapi.dto.PositionTypeDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
-import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.enums.AvatarType;
 import com.skillsmanagerapi.enums.ContextDataKey;
 import io.github.erdos.stencil.API;
@@ -29,7 +28,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -186,7 +184,7 @@ public class ExportService {
 
      private <T> List<T> safeArray(List<T> list) {
         if (list == null) {
-            return new ArrayList<T>();
+            return new ArrayList<>();
         }
         return list;
     }
