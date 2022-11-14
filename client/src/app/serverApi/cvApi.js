@@ -87,6 +87,5 @@ export default {
     removeProjectFromCv,
 
     fetchAllTypes,
-
-    shareCv
+    shareCv,
 };

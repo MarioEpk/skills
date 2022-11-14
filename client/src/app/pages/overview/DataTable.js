@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
-import {Edit, GetApp, Share, CheckCircleOutline} from "@material-ui/icons";
+import {Edit, GetApp, CheckCircleOutline, Send, CancelScheduleSend} from "@material-ui/icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLink} from "@fortawesome/free-solid-svg-icons";
 
 import modal from "core/modal";
 import {Type} from "app/model/type";
@@ -14,6 +16,11 @@ import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
+
+const dateFormatter = (date) => Intl.DateTimeFormat(
+    'cs-CZ',
+    {year: 'numeric', month: 'numeric', day: '2-digit', hour: 'numeric', minute: 'numeric', second: 'numeric'},
+).format(new Date(date));
 
 const columns = [{
     key: "1",
@@ -28,26 +35,17 @@ const columns = [{
     key: "3",
     dataField: "user.lastName",
     columnName: "Last name",
-},{
+}, {
     key: "4",
     dataField: "shared",
     columnName: "Shared",
-    dataFormat: (data) => (data ? (<CheckCircleOutline />) : (<></>)),
+    dataFormat: (data) => (data ? (<CheckCircleOutline />) : null),
     width: 75,
 }, {
     key: "5",
-    dataField: "externalCode",
-    columnName: "External URL",
-    dataFormat: (dataField, row) => (row.shared ? `/public/cv/${dataField}` : ``),
-    width: 350,
-}, {
-    key: "6",
     dataField: "updatedAt",
     columnName: "Updated at",
-    dataFormat: (data) => new Intl.DateTimeFormat(
-        'cs-CZ',
-        {year: 'numeric', month: 'numeric', day: '2-digit', hour: 'numeric', minute: 'numeric', second: 'numeric'},
-    ).format(new Date(data)),
+    dataFormat: (data) => dateFormatter(data),
 }];
 
 const DataTable = ({
@@ -59,14 +57,18 @@ const DataTable = ({
     onDelete,
     onExport,
     onShare,
+    onCopyPublicUrl,
 }) => {
     const onCustomAction = (row) => {
         const cvId = row.get("id");
         const user = row.get("user");
+        const shared = row.get('shared');
+        const extCode = row.get('externalCode');
         return ([
             <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
             <Button key="export" onClick={() => onExport(cvId, user.lastName)} label="Export" startIcon={<GetApp />} />,
-            <Button key="share" onClick={() => onShare(cvId)} label="Share" startIcon={<Share />} />,
+            <Button key="share" onClick={() => onShare(cvId)} label={shared ? "Unshare" : "Share  "} startIcon={shared ? <CancelScheduleSend /> : <Send />} />,
+            <Button key="copyPublicUrl" onClick={() => onCopyPublicUrl(extCode)} label="Copy URL" startIcon={<FontAwesomeIcon icon={faLink} />} />,
         ]);
     };
     const onCreate = () => {
@@ -105,6 +107,7 @@ DataTable.propTypes = {
     onDelete: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
     onShare: PropTypes.func.isRequired,
+    onCopyPublicUrl: PropTypes.func.isRequired,
     loading: PropTypes.bool,
 };
 
@@ -123,6 +126,7 @@ const mapDispatchToProps = (dispatch) => ({
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
     onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
     onShare: (id) => dispatch(cvActionGroup.shareCv(id)),
+    onCopyPublicUrl: (extCode) => dispatch(cvActionGroup.copyPublicUrl(extCode)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

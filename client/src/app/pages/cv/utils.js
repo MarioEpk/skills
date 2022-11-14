@@ -20,3 +20,8 @@ export const copyCurrentUrlToClipboard = () => {
     const url = window.location.href;
     return navigator.clipboard.writeText(url);
 };
+
+export const copyCVPublicUrlToClipboard = (externalCode) => {
+    const url = `cv.morosystems.cz/public/cv/${externalCode}`;
+    return navigator.clipboard.writeText(url);
+};
