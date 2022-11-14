@@ -25,6 +25,7 @@ const Data = ({
     onCreate,
     onCustomAction,
     searchPlaceholder,
+    onRowClick,
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
@@ -101,6 +102,7 @@ const Data = ({
                             columns={columns}
                             data={filteredData}
                             actions={tableActions}
+                            onRowClick={onRowClick}
                         />
                     </div>
                 )}
@@ -120,6 +122,7 @@ Data.propTypes = {
     onCreate: PropTypes.func,
     onCustomAction: PropTypes.func,
     searchPlaceholder: PropTypes.string,
+    onRowClick: PropTypes.func,
 };
 
 Data.defaultProps = {
@@ -131,6 +134,7 @@ Data.defaultProps = {
     onCreate: undefined,
     onCustomAction: undefined,
     searchPlaceholder: "",
+    onRowClick: undefined,
 };
 
 export default Data;

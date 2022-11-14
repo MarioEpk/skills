@@ -43,8 +43,12 @@ const renderActions = (actions, row, key) => {
     );
 };
 
-const renderRow = (columns, keyParam, row, className, actions) => (
-    <tr className={className} key={row.get(keyParam)}>
+const renderRow = (columns, keyParam, row, className, actions, onRowClick) => (
+    <tr
+        className={className}
+        key={row.get(keyParam)}
+        onClick={onRowClick(row)}
+    >
         {columns.map((column) => (
             <TableColumn
                 key={column.key || column.dataField}
@@ -62,11 +66,12 @@ const Table = ({
     data,
     loading,
     actions,
+    onRowClick,
 }) => {
     const renderRowWithClassName = (row) => {
         // Here you can add conditional classes
         const className = css.row;
-        return renderRow(columns, getKeyParam(columns), row, className, actions);
+        return renderRow(columns, getKeyParam(columns), row, className, actions, onRowClick);
     };
     return (
         <div className={css.root}>
@@ -87,12 +92,14 @@ Table.propTypes = {
     actions: columnActionsPropTypes,
     data: ImmutablePropTypes.list,
     loading: PropTypes.bool,
+    onRowClick: PropTypes.func,
 };
 
 Table.defaultProps = {
     data: List(),
     actions: undefined,
     loading: false,
+    onRowClick: () => {},
 };
 
 export default Table;

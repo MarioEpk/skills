@@ -24,3 +24,9 @@
         font-family: "Montserrat", sans-serif;
     };
 }
+
+.row {
+    &:hover{
+        background-color: rgba(252, 192, 0, 0.24);
+    }
+}
