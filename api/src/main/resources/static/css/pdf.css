@@ -207,6 +207,7 @@ div {
 
 .technologies > div,
 .certificates > div,
+.educations > div,
 .others > div {
     margin-bottom: 5px;
 }
