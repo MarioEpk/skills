@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OtherService {
@@ -28,6 +29,7 @@ public class OtherService {
         return modelMapper.map(otherRepository.findById(id).orElseThrow(EntityNotFoundException::new), OtherDto.class);
     }
 
+    @Transactional
     public OtherDto createOther(@NonNull final OtherDto otherDto) {
         final Other other = new Other();
         other.setName(otherDto.getName());
@@ -37,6 +39,7 @@ public class OtherService {
         return modelMapper.map(otherRepository.save(other), OtherDto.class);
     }
 
+    @Transactional
     public void updateOther(@NonNull final OtherDto otherDto) {
         final OtherDto updatedOtherDto = this.getOther(otherDto.getId());
         updatedOtherDto.setName(otherDto.getName());
@@ -45,6 +48,7 @@ public class OtherService {
         otherRepository.save(modelMapper.map(updatedOtherDto, Other.class));
     }
 
+    @Transactional
     public void deleteOther(final int id) {
         otherRepository.deleteById(id);
     }

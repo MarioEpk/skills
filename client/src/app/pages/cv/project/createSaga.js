@@ -17,7 +17,7 @@ export default (fetchCv, cvId) => formWrapper(FORM_NAME, {
     * save(values) {
         const valuesJs = values.toJS();
         if (values.get(ID_FIELD)) {
-            yield call(cvApi.updateProject, valuesJs);
+            yield call(cvApi.updateProject, valuesJs, cvId);
         } else {
             yield call(cvApi.addProjectToCv, valuesJs, cvId);
         }
@@ -61,7 +61,7 @@ function* resetForm() {
 }
 
 const removeProject = (fetchCv, cvId) => function* remove({payload}) {
-    yield call(cvApi.removeProjectFromCv, payload);
+    yield call(cvApi.removeProjectFromCv, cvId, payload);
     yield call(fetchCv, cvId);
     yield put(notification.show("Deleted"));
 };

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LanguageService {
@@ -30,6 +31,7 @@ public class LanguageService {
         return modelMapper.map(languageRepository.findById(id).orElseThrow(EntityNotFoundException::new), LanguageDto.class);
     }
 
+    @Transactional
     public LanguageDto createLanguage(@NonNull final LanguageDto languageDto) {
         final Language language = new Language();
         language.setLevel(LevelType.BEGINNER.getValue());
@@ -37,12 +39,14 @@ public class LanguageService {
         return modelMapper.map(languageRepository.save(language), LanguageDto.class);
     }
 
+    @Transactional
     public void updateLanguage(@NonNull final LanguageDto languageDto) {
         final LanguageDto updatedLanguageDto = this.getLanguage(languageDto.getId());
         updatedLanguageDto.setLevel(languageDto.getLevel());
         languageRepository.save(modelMapper.map(updatedLanguageDto, Language.class));
     }
 
+    @Transactional
     public void deleteLanguage(final int id) {
         languageRepository.deleteById(id);
     }

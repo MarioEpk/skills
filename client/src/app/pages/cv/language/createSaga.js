@@ -17,13 +17,13 @@ const addLanguage = (fetchCv, cvId) => function* add({payload}) {
 };
 
 const updateLanguage = (fetchCv, cvId) => function* update({payload: {id, level}}) {
-    yield call(cvApi.updateLanguage, id, level);
+    yield call(cvApi.updateLanguage, cvId, id, level);
     yield call(fetchCv, cvId);
     yield put(notification.show("Updated"));
 };
 
 const removeLanguage = (fetchCv, cvId) => function* remove({payload}) {
-    yield call(cvApi.removeLanguageFromCv, payload);
+    yield call(cvApi.removeLanguageFromCv, cvId, payload);
     yield call(fetchCv, cvId);
     yield put(notification.show("Deleted"));
 };

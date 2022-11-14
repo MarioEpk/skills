@@ -20,31 +20,31 @@ const exportCv = (id) => fetch.doGetPlain(`${CV_URL}/${id}/export`);
 const exportCvToDoc = (id) => fetch.doGetPlain(`${CV_URL}/${id}/export/doc`);
 
 const addLanguageToCv = (languageTypeId, cvId) => fetch.doPost(`${CV_URL}/${cvId}/language`, {languageType: {id: languageTypeId}});
-const updateLanguage = (languageId, level) => fetch.doPut(`${CV_URL}/language`, {id: languageId, level});
-const removeLanguageFromCv = (languageId) => fetch.doDelete(`${CV_URL}/language/${languageId}`);
+const updateLanguage = (cvId, languageId, level) => fetch.doPut(`${CV_URL}/${cvId}/language`, {id: languageId, level});
+const removeLanguageFromCv = (cvId, languageId) => fetch.doDelete(`${CV_URL}/${cvId}/language/${languageId}`);
 
 const addSkillToCv = (skillTypeId, cvId) => fetch.doPost(`${CV_URL}/${cvId}/skill`, {skillType: {id: skillTypeId}});
-const updateSkill = (skillId, level) => fetch.doPut(`${CV_URL}/skill`, {id: skillId, level});
-const removeSkillFromCv = (skillId) => fetch.doDelete(`${CV_URL}/skill/${skillId}`);
+const updateSkill = (cvId, skillId, level) => fetch.doPut(`${CV_URL}/${cvId}/skill`, {id: skillId, level});
+const removeSkillFromCv = (cvId, skillId) => fetch.doDelete(`${CV_URL}/${cvId}/skill/${skillId}`);
 
 const addTechnologyToCv = (technologyTypeId, cvId) => fetch.doPost(`${CV_URL}/${cvId}/technology`, {technologyType: {id: technologyTypeId}});
-const updateTechnology = (technologyId, level) => fetch.doPut(`${CV_URL}/technology`, {id: technologyId, level});
-const removeTechnologyFromCv = (technologyId) => fetch.doDelete(`${CV_URL}/technology/${technologyId}`);
+const updateTechnology = (cvId, technologyId, level) => fetch.doPut(`${CV_URL}/${cvId}/technology`, {id: technologyId, level});
+const removeTechnologyFromCv = (cvId, technologyId) => fetch.doDelete(`${CV_URL}/${cvId}/technology/${technologyId}`);
 
 const addCertificateToCv = ({name, description, date}, cvId) => fetch.doPost(`${CV_URL}/${cvId}/certificate`, {name, date, description});
-const updateCertificate = ({id, name, description, date}) => fetch.doPut(`${CV_URL}/certificate`, {id, name, date, description});
-const removeCertificateFromCv = (certificateId) => fetch.doDelete(`${CV_URL}/certificate/${certificateId}`);
+const updateCertificate = ({id, name, description, date}, cvId) => fetch.doPut(`${CV_URL}/${cvId}/certificate`, {id, name, date, description});
+const removeCertificateFromCv = (cvId, certificateId) => fetch.doDelete(`${CV_URL}/${cvId}/certificate/${certificateId}`);
 
 const addOtherToCv = ({name, description, date}, cvId) => fetch.doPost(`${CV_URL}/${cvId}/other`, {name, date, description});
-const updateOther = ({id, name, description, date}) => fetch.doPut(`${CV_URL}/other`, {id, name, date, description});
-const removeOtherFromCv = (otherId) => fetch.doDelete(`${CV_URL}/other/${otherId}`);
+const updateOther = ({id, name, description, date}, cvId) => fetch.doPut(`${CV_URL}/${cvId}/other`, {id, name, date, description});
+const removeOtherFromCv = (cvId, otherId) => fetch.doDelete(`${CV_URL}/${cvId}/other/${otherId}`);
 
 const addProjectToCv = (
     {from, to, company, contribution, positions, projectType, technologies}, cvId,
 ) => fetch.doPost(`${CV_URL}/${cvId}/project`, {from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
 const updateProject = (
-    {id, from, to, company, contribution, positions, projectType, technologies},
-) => fetch.doPut(`${CV_URL}/project`, {id, from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
+    {id, from, to, company, contribution, positions, projectType, technologies},cvId
+) => fetch.doPut(`${CV_URL}/${cvId}/project`, {id, from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
 const removeProjectFromCv = (projectId) => fetch.doDelete(`${CV_URL}/project/${projectId}`);
 
 const fetchAllTypes = () => fetch.doGet(`${CV_URL}/types`, null, AllTypes.fromServer);

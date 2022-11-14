@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SkillService {
@@ -30,6 +31,7 @@ public class SkillService {
         return modelMapper.map(skillRepository.findById(id).orElseThrow(EntityNotFoundException::new), SkillDto.class);
     }
 
+    @Transactional
     public SkillDto createSkill(@NonNull final SkillDto skillDto) {
         final Skill skill = new Skill();
         skill.setLevel(LevelType.BEGINNER.getValue());
@@ -38,12 +40,14 @@ public class SkillService {
         return modelMapper.map(skillRepository.save(skill), SkillDto.class);
     }
 
+    @Transactional
     public void updateSkill(@NonNull final SkillDto skillDto) {
         final SkillDto updatedSkillDto = this.getSkill(skillDto.getId());
         updatedSkillDto.setLevel(skillDto.getLevel());
         skillRepository.save(modelMapper.map(updatedSkillDto, Skill.class));
     }
 
+    @Transactional
     public void deleteSkill(final int id) {
         skillRepository.deleteById(id);
     }
