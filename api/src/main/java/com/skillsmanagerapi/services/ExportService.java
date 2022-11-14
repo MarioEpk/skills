@@ -29,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -171,7 +172,7 @@ public class ExportService {
         context.setVariable(ContextDataKey.AVATAR, cvDto.getAvatar());
         context.setVariable(ContextDataKey.USER, cvDto.getUser());
         context.setVariable(ContextDataKey.POSITIONS, safeArray(cvDto.getPositions()));
-        context.setVariable(ContextDataKey.PROFILE, cvDto.getProfile());
+        context.setVariable(ContextDataKey.PROFILE, safeValue(cvDto.getProfile(), ""));
         context.setVariable(ContextDataKey.PROJECTS, safeArray(sortedProjects));
         context.setVariable(ContextDataKey.SKILLS, safeArray(sortedSkillsDto));
         context.setVariable(ContextDataKey.TECHNOLOGIES, safeArray(sortedTechnologiesDto));
@@ -189,6 +190,11 @@ public class ExportService {
         }
         return list;
     }
+
+    private <T> T safeValue(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
 
 
     private String convertToXhtml(@NonNull final String html)  {
