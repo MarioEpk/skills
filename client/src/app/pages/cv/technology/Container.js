@@ -20,7 +20,7 @@ const Container = ({technologies, removeTechnology, updateTechnology}) => {
     return (
         technologies.size > 0
         && (
-            <CardLayout title="Technologies">
+            <CardLayout title={t(`technologies.title`)}>
                 {technologies.map((technology) => (
                     <Card
                         key={technology.id}
@@ -28,7 +28,7 @@ const Container = ({technologies, removeTechnology, updateTechnology}) => {
                         onDelete={adminOrOwnerAccess(() => removeTechnology(technology.id))}
                     >
                         <Slider
-                            valueLabel={t(`cv.technology.${technology.level}`)}
+                            valueLabel={t(`technology.label.${technology.level}`)}
                             value={technology.level}
                             onChange={(value) => updateTechnology(technology.id, value)}
                             disabled={!isAdminOrOwner}

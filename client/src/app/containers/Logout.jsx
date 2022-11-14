@@ -5,21 +5,25 @@ import PropTypes from "prop-types";
 
 import auth from "core/auth";
 import {Button} from "components";
+import i18n from "core/i18n";
 
-const Logout = ({onLogoutSuccess}) => (
-    <GoogleLogout
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        render={(renderProps) => (
-            <Button
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                type={Button.type.LIGHT}
-                label="Logout"
-            />
-        )}
-        onLogoutSuccess={onLogoutSuccess}
-    />
-);
+const Logout = ({onLogoutSuccess}) => {
+    const {t} = i18n.useTranslation();
+    return (
+        <GoogleLogout
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            render={(renderProps) => (
+                <Button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    type={Button.type.LIGHT}
+                    label={t(`navigation.logout.label`)}
+                />
+            )}
+            onLogoutSuccess={onLogoutSuccess}
+        />
+    );
+};
 
 Logout.propTypes = {
     onLogoutSuccess: PropTypes.func.isRequired,

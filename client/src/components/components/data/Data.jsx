@@ -3,7 +3,7 @@ import {List} from "immutable";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
 import {AddRounded} from "@material-ui/icons";
-
+import i18n from "core/i18n";
 import SearchInput from "./SearchInput";
 import {Block} from "../block";
 import {Table, columnsPropTypes} from "../table";
@@ -26,6 +26,7 @@ const Data = ({
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
+    const {t} = i18n.useTranslation();
 
     useEffect(() => {
         filterData(searchValue);
@@ -59,8 +60,8 @@ const Data = ({
         <Block>
             <Loading loading={loading}>
                 <Confirmation
-                    title="Delete"
-                    text="Are you sure?"
+                    title={t(`delete.button.label`)}
+                    text={t(`confirmation.text`)}
                     onDelete={() => onDelete(deleteConfirmation)}
                     onClose={() => setDeleteConfirmation(undefined)}
                     open={!!deleteConfirmation}
@@ -70,13 +71,13 @@ const Data = ({
                     {!!searchByDataField
                     && (
                         <span className={css.search}>
-                            <SearchInput label="Search" value={searchValue} onChange={onSearch} name={`${title}-search`} />
+                            <SearchInput label={t(`search.label`)} value={searchValue} onChange={onSearch} name={`${title}-search`} />
                         </span>
                     )}
                     {onCreate && (
                         <Button
                             onClick={onCreate}
-                            label="Add"
+                            label={t(`add.button.label`)}
                             startIcon={<AddRounded />}
                             type={Button.type.COLORED}
                         />
