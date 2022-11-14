@@ -17,12 +17,12 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                     <Button
                         key="create"
                         label="Add"
+                        type={Button.type.COLORED}
                         onClick={handleSubmit}
                         submit
                     />
                     <Button
                         key="close"
-                        type={Button.type.DANGER}
                         label="Close"
                         onClick={onClose}
                     />
@@ -30,7 +30,6 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
             )}
         >
             <Field
-                key={`key-${SCHOOL_FIELD}`}
                 component={TextInput}
                 placeholder="School"
                 name={SCHOOL_FIELD}
@@ -38,28 +37,24 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                 autoFocus
             />
             <Field
-                key={`key-${FIELD_FIELD}`}
                 component={TextAreaInput}
                 placeholder="Field"
                 name={FIELD_FIELD}
             />
             <Field
-                key={`key-${YEAR_FROM_FIELD}`}
                 component={DateInput}
                 placeholder="From"
                 name={YEAR_FROM_FIELD}
                 validate={[required]}
             />
             <Field
-                key={`key-${YEAR_TO_FIELD}`}
                 component={DateInput}
                 placeholder="To"
                 name={YEAR_TO_FIELD}
                 validate={[required]}
             />
             <Field
-                key={`key-${NOTE_FIELD}`}
-                component={TextAreaInput}
+F                component={TextAreaInput}
                 placeholder="Note"
                 name={NOTE_FIELD}
             />

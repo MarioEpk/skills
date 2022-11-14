@@ -24,6 +24,7 @@ const Data = ({
     onDelete,
     onCreate,
     onCustomAction,
+    searchPlaceholder,
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
@@ -74,11 +75,17 @@ const Data = ({
                 <div className={css.control}>
                     <h2 className={css.title}>{title}</h2>
                     {!!searchByDataFields
-                    && (
-                        <span className={css.search}>
-                            <SearchInput label={t(`search.label`)} value={searchValue} onChange={onSearch} name={`${title}-search`} />
-                        </span>
-                    )}
+                        && (
+                            <span className={css.search}>
+                                <SearchInput
+                                    placeholder={searchPlaceholder}
+                                    label="Search"
+                                    value={searchValue}
+                                    onChange={onSearch}
+                                    name={`${title}-search`}
+                                />
+                            </span>
+                        )}
                     {onCreate && (
                         <Button
                             onClick={onCreate}
@@ -112,6 +119,7 @@ Data.propTypes = {
     onDelete: PropTypes.func,
     onCreate: PropTypes.func,
     onCustomAction: PropTypes.func,
+    searchPlaceholder: PropTypes.string,
 };
 
 Data.defaultProps = {
@@ -122,6 +130,7 @@ Data.defaultProps = {
     onDelete: undefined,
     onCreate: undefined,
     onCustomAction: undefined,
+    searchPlaceholder: "",
 };
 
 export default Data;

@@ -17,12 +17,12 @@ const Container = ({handleSubmit, submitting, errors, onClose}) => (
                     <Button
                         key="create"
                         label="Create CV"
+                        type={Button.type.COLORED}
                         onClick={handleSubmit}
                         submit
                     />
                     <Button
                         key="close"
-                        type={Button.type.DANGER}
                         label="Close"
                         onClick={onClose}
                     />

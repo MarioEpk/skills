@@ -22,12 +22,12 @@ const Container = ({handleSubmit, onClose, submitting, errors, positions, projec
                     <Button
                         key="create"
                         label="Add"
+                        type={Button.type.COLORED}
                         onClick={handleSubmit}
                         submit
                     />
                     <Button
                         key="close"
-                        type={Button.type.DANGER}
                         label="Close"
                         onClick={onClose}
                     />
@@ -35,7 +35,6 @@ const Container = ({handleSubmit, onClose, submitting, errors, positions, projec
             )}
         >
             <Field
-                key={`key-${FROM_FIELD}`}
                 component={DateInput}
                 placeholder="From"
                 name={FROM_FIELD}
@@ -43,33 +42,28 @@ const Container = ({handleSubmit, onClose, submitting, errors, positions, projec
                 autoFocus
             />
             <Field
-                key={`key-${TO_FIELD}`}
                 component={DateInput}
                 placeholder="To"
                 name={TO_FIELD}
             />
             <Field
-                key={`key-${COMPANY_FIELD}`}
                 component={TextInput}
                 placeholder="Company"
                 name={COMPANY_FIELD}
             />
             <Field
-                key={`key-${CONTRIBUTION_FIELD}`}
                 component={TextAreaInput}
                 placeholder="Personal contribution"
                 name={CONTRIBUTION_FIELD}
                 rowsMax={8}
             />
             <Field
-                key={`key-${POSITION_TYPES_FIELD}`}
                 component={MultiSelect}
                 placeholder="Position"
                 name={POSITION_TYPES_FIELD}
                 options={convertTypeToOptions(positions)}
             />
             <Field
-                key={`key-${TECHNOLOGY_TYPE_FIELD}`}
                 component={MultiSelect}
                 placeholder="Used technologies"
                 name={TECHNOLOGY_TYPE_FIELD}

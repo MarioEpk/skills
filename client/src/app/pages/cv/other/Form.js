@@ -18,12 +18,12 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                     <Button
                         key="create"
                         label="Add"
+                        type={Button.type.COLORED}
                         onClick={handleSubmit}
                         submit
                     />
                     <Button
                         key="close"
-                        type={Button.type.DANGER}
                         label="Close"
                         onClick={onClose}
                     />
@@ -31,7 +31,6 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
             )}
         >
             <Field
-                key={`key-${NAME_FIELD}`}
                 component={TextInput}
                 placeholder="Name"
                 name={NAME_FIELD}
@@ -39,13 +38,11 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => (
                 autoFocus
             />
             <Field
-                key={`key-${DESCRIPTION_FIELD}`}
                 component={TextAreaInput}
                 placeholder="Description"
                 name={DESCRIPTION_FIELD}
             />
             <Field
-                key={`key-${DATE_FIELD}`}
                 component={DateInput}
                 placeholder="Date"
                 name={DATE_FIELD}

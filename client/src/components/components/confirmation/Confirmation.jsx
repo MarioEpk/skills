@@ -24,18 +24,18 @@ const Confirmation = ({
             {text && <p>{text}</p>}
             <span className={css.buttons}>
                 <Button
-                    key="close"
-                    type={Button.type.DANGER}
-                    label="Close"
-                    onClick={onClose}
-                />
-                <Button
                     key="create"
+                    type={Button.type.COLORED}
                     label="Confirm"
                     onClick={(...params) => {
                         onDelete(...params);
                         onClose();
                     }}
+                />
+                <Button
+                    key="close"
+                    label="Close"
+                    onClick={onClose}
                 />
             </span>
         </div>

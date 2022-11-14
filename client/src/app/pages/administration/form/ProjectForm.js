@@ -21,13 +21,13 @@ const Container = ({handleSubmit, submitting, errors, onClose, editMode, technol
                 <>
                     <Button
                         key="create"
+                        type={Button.type.COLORED}
                         label={editMode ? "Update" : "Create"}
                         onClick={handleSubmit}
                         submit
                     />
                     <Button
                         key="close"
-                        type={Button.type.DANGER}
                         label="Close"
                         onClick={onClose}
                     />

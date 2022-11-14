@@ -11,7 +11,7 @@ import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
 
-import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
+import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
@@ -70,7 +70,8 @@ const DataTable = ({
                 onCreate={adminAccess(onCreate)}
                 onCustomAction={onCustomAction}
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
-                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
+                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
+                searchPlaceholder="by first name or last name"
             />
             <Modal
                 open={isFormModalOpen}

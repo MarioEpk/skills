@@ -8,7 +8,7 @@ import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
 
 import {getTypeData} from "./selectors";
-import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELD} from "./constants";
+import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELDS} from "./constants";
 import {createTypeActionGroup} from "./actions";
 
 const defaultColumns = [{
@@ -18,7 +18,7 @@ const defaultColumns = [{
     columnName: "ID",
 }, {
     key: "2",
-    dataField: SEARCH_TABLE_FIELD,
+    dataField: "name",
     columnName: "name",
 }];
 
@@ -60,7 +60,8 @@ const DataTable = ({
                 onCreate={onCreate}
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"))}
-                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
+                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
+                searchPlaceholder="by name"
             />
             <Modal
                 open={isFormModalOpen}
