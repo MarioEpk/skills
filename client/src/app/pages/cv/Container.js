@@ -53,9 +53,9 @@ const Container = ({
                 title={title}
                 actions={(
                     <Flex vertical={false}>
-                        <IconButton key="icon1" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel={t(`cv.generate.pdf.label`)} />
-                        <IconButton key="icon2" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel={t(`cv.generate.doc.label`)} />
-                        <IconButton key="icon3" icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel={t(`cv.copy.link.label`)} />
+                        <IconButton icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel={t(`cv.generate.pdf.label`)} />
+                        <IconButton icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel={t(`cv.generate.doc.label`)} />
+                        <IconButton icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel={t(`cv.copy.link.label`)} />
                     </Flex>
                 )}
                 column={adminOrOwnerAccess([

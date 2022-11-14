@@ -14,33 +14,8 @@ const Confirmation = ({
     onDelete,
     onClose,
     open,
-}) => (
-    <Modal
-        open={open}
-        onClose={onClose}
-    >
-        <div className={css.main}>
-            <h1>{title}</h1>
-            {text && <p>{text}</p>}
-            <span className={css.buttons}>
-                <Button
-                    key="create"
-                    type={Button.type.COLORED}
-                    label="Confirm"
-                    onClick={(...params) => {
-                        onDelete(...params);
-                        onClose();
-                    }}
-                />
-                <Button
-                    key="close"
-                    label="Close"
-                    onClick={onClose}
-                />
-            </span>
-        </div>
-    </Modal>
-);
+}) => {
+    const {t} = i18n.useTranslation();
 
     return (
         <Modal
@@ -52,18 +27,16 @@ const Confirmation = ({
                 {text && <p>{text}</p>}
                 <span className={css.buttons}>
                     <Button
-                        key="close"
-                        type={Button.type.DANGER}
-                        label={t(`close.button.label`)}
-                        onClick={onClose}
-                    />
-                    <Button
-                        key="create"
-                        label={t(`confirm.button.label`)}
+                        type={Button.type.COLORED}
+                        label={t("confirm.button.label")}
                         onClick={(...params) => {
                             onDelete(...params);
                             onClose();
                         }}
+                    />
+                    <Button
+                        label={t("close.button.label")}
+                        onClick={onClose}
                     />
                 </span>
             </div>

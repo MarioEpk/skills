@@ -8,6 +8,7 @@ import css from "./TableHead.module.scss";
 
 const TableHead = ({columns, actions}) => {
     const {t} = i18n.useTranslation();
+
     return (
         <thead className={css.root}>
             <tr>

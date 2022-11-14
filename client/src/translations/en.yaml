@@ -1,6 +1,6 @@
 #buttons translations
 close.button.label: Close
-send.button.label: Send
+create.button.label: Create
 edit.button.label: Edit
 delete.button.label: Delete
 add.button.label: Add
@@ -13,7 +13,7 @@ confirmation.text: Are you sure?
 #navigation
 navigation.login.label: Login
 navigation.logout.label: Logout
-navigation.cv.label: CV
+navigation.cv.label: My CV
 navigation.overview.label: Overview
 navigation.administration.label: Administration
 
@@ -26,7 +26,8 @@ technologies.title: Technologies
 certificates.title: Certificates
 others.title: Others
 positions.title: Positions
-overview.title: Overview
+overview.title: CVs
+educations.title: Education
 
 #cv
 cv.title: CV
@@ -34,11 +35,15 @@ cv.my.title: My CV
 cv.generate.pdf.label: Generate PDF
 cv.generate.doc.label: Generate DOC
 cv.copy.link.label: Copy URL
+cv.avatar.label: Avatar
+cv.avatar.options.man: Man
+cv.avatar.options.woman: Woman
 
 cv.firstname.placeholder: First name
 cv.lastname.placeholder: Last name
 cv.position.placeholder: Position
 cv.profile.placeholder: Profile
+cv.avatar.placeholder: Avatar
 
 #technology
 technology.label.1: Beginner
@@ -66,9 +71,9 @@ skill.label.5: Expert
 
 #certificate form
 certificate.title: Certificate
-certificate.name.placeholder: Certificate name
-certificate.description.placeholder: Certificate description
-certificate.date.placeholder: Certificate issue date
+certificate.name.placeholder: Name
+certificate.description.placeholder: Description
+certificate.date.placeholder: Issue date
 
 #other form
 other.title: Other
@@ -76,16 +81,29 @@ other.name.placeholder: Name
 other.description.placeholder: Description
 other.date.placeholder: Issue date
 
+#education form
+education.title: Education
+education.school.placeholder: School
+education.field.placeholder: Field
+education.yearFrom.placeholder: From
+education.yearTo.placeholder: To
+education.note.placeholder: Note
+
 #project form
-project.title: Projects
+project.title: Project - {{name}}
 project.from.placeholder: From
 project.to.placeholder: To
 project.company.placeholder: Company
 project.contribution.placeholder: Personal contribution
-project.position.placeholder: Position
-project.technologies.placeholder: Used technologies
+project.positionTypes.placeholder: Position
+project.technologyTypes.placeholder: Used technologies
 
 #overview
+overview.search.placeholder: by first name or last name
+overview.formTitle: Add CV for user
+overview.firstName.placeholder: First name
+overview.lastName.placeholder: Last name
+overview.email.placeholder: Company email (@morosystems.cz)
 ID: ID
 first.name: First name
 last.name: Last name
@@ -97,3 +115,4 @@ export.name: Export name
 project.name: Project name
 project.description: Project description
 used.technologies: Used technologies
+search.placeholder: by name

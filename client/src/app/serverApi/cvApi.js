@@ -47,7 +47,7 @@ const addProjectToCv = (
     {from, to, company, contribution, positions, projectType, technologies}, cvId,
 ) => fetch.doPost(`${CV_URL}/${cvId}/project`, {from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
 const updateProject = (
-    {id, from, to, company, contribution, positions, projectType, technologies},cvId
+    {id, from, to, company, contribution, positions, projectType, technologies}, cvId,
 ) => fetch.doPut(`${CV_URL}/${cvId}/project`, {id, from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
 const removeProjectFromCv = (projectId) => fetch.doDelete(`${CV_URL}/project/${projectId}`);
 

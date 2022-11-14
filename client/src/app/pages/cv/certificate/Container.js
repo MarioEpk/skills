@@ -29,12 +29,12 @@ const Container = ({
     fillForm,
     removeCertificateFromCv,
 }) => {
+    const {t} = i18n.useTranslation();
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const onEdit = ({id, name, date, description}) => {
         fillForm(id, name, date, description);
         openForm();
     };
-    const {t} = i18n.useTranslation();
 
     return (
         <>

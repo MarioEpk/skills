@@ -6,6 +6,7 @@ import IPropTypes from "react-immutable-proptypes";
 import {compose} from "core/form";
 import modal from "core/modal";
 import {accesses} from "core/access";
+import i18n from "core/i18n";
 import {Card, CardLayout, Modal} from "components";
 import {Education} from "app/model/cv";
 
@@ -28,6 +29,7 @@ const Container = ({
     fillForm,
     removeEducationFromCv,
 }) => {
+    const {t} = i18n.useTranslation();
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
 
     const onEdit = ({id, school, field, yearFrom, yearTo, note}) => {
@@ -44,7 +46,7 @@ const Container = ({
             </Modal>
             {educations.size > 0
             && (
-                <CardLayout title="Education">
+                <CardLayout title={t("educations.title")}>
                     {educations.map((education) => (
                         <Card
                             key={education.id}

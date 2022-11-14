@@ -13,57 +13,59 @@ import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, NAME_FIELD, TECHNO
 import {availableTypes} from "../constants";
 import {getTypeData} from "../selectors";
 
-const Container = ({handleSubmit, submitting, errors, onClose, editMode, technologies}) => (
-    <Loading loading={submitting}>
-        <VerticalFormLayout
-            title={editMode ? "Update" : "Add"}
-            buttons={(
-                <>
-                    <Button
-                        key="create"
-                        type={Button.type.COLORED}
-                        label={editMode ? "Update" : "Create"}
-                        onClick={handleSubmit}
-                        submit
-                    />
-                    <Button
-                        key="close"
-                        label="Close"
-                        onClick={onClose}
-                    />
-                </>
-            )}
-        >
-            <Field
-                component={TextInput}
-                placeholder="Name"
-                name={NAME_FIELD}
-                validate={[required]}
-                autoFocus
-            />
-            <Field
-                component={TextInput}
-                placeholder="Export name"
-                name={EXPORT_NAME_FIELD}
-            />
-            <Field
-                component={MultiSelect}
-                placeholder="Used technologies"
-                name={TECHNOLOGIES_FIELD}
-                validate={[required]}
-                options={convertTypeToOptions(technologies)}
-            />
-            <Field
-                component={TextAreaInput}
-                placeholder="Project description"
-                name={DESCRIPTION_FIELD}
-                validate={[required]}
-                rowsMax={8}
-            />
-            <FormError errors={errors} />
-        </VerticalFormLayout>
-    </Loading>
-);
+const Container = ({handleSubmit, submitting, errors, onClose, editMode, technologies}) => {
+    const {t} = i18n.useTranslation();
+
+    return (
+        <Loading loading={submitting}>
+            <VerticalFormLayout
+                title={editMode ? t(`update.button.label`) : t(`create.button.label`)}
+                buttons={(
+                    <>
+                        <Button
+                            type={Button.type.COLORED}
+                            label={editMode ? t(`update.button.label`) : t(`create.button.label`)}
+                            onClick={handleSubmit}
+                            submit
+                        />
+                        <Button
+                            label="Close"
+                            onClick={onClose}
+                        />
+                    </>
+                )}
+            >
+                <Field
+                    component={TextInput}
+                    placeholder={t(`name`)}
+                    name={NAME_FIELD}
+                    validate={[required]}
+                    autoFocus
+                />
+                <Field
+                    component={TextInput}
+                    placeholder={t(`export.name`)}
+                    name={EXPORT_NAME_FIELD}
+                />
+                <Field
+                    component={MultiSelect}
+                    placeholder={t(`used.technologies`)}
+                    name={TECHNOLOGIES_FIELD}
+                    validate={[required]}
+                    options={convertTypeToOptions(technologies)}
+                />
+                <Field
+                    component={TextAreaInput}
+                    placeholder={t(`project.description`)}
+                    name={DESCRIPTION_FIELD}
+                    validate={[required]}
+                    rowsMax={8}
+                />
+                <FormError errors={errors} />
+            </VerticalFormLayout>
+        </Loading>
+    );
+};
 
 Container.propTypes = {
     handleSubmit: PropTypes.func.isRequired,

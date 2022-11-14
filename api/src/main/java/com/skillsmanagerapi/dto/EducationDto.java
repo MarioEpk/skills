@@ -17,7 +17,6 @@ public class EducationDto implements Comparable<EducationDto> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ")
     private Date yearFrom;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ")
-
     private Date yearTo;
     private String note;
 

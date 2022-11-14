@@ -63,7 +63,7 @@ const DataTable = ({
     return (
         <>
             <Data
-                title="CVs"
+                title={t("overview.title")}
                 columns={columns}
                 data={data}
                 loading={loading}
@@ -71,7 +71,7 @@ const DataTable = ({
                 onCustomAction={onCustomAction}
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
                 searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
-                searchPlaceholder="by first name or last name"
+                searchPlaceholder={t("overview.search.placeholder")}
             />
             <Modal
                 open={isFormModalOpen}

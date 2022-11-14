@@ -17,6 +17,7 @@ const Container = ({technologies, removeTechnology, updateTechnology}) => {
     const {t} = i18n.useTranslation();
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
+
     return (
         technologies.size > 0
         && (

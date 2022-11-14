@@ -9,38 +9,40 @@ import i18n from "core/i18n";
 
 import {createFormName, NAME_FIELD} from "./constants";
 
-const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => (
-    <Loading loading={submitting}>
-        <VerticalFormLayout
-            title={editMode ? "Update" : "Add"}
-            buttons={(
-                <>
-                    <Button
-                        key="Create"
-                        type={Button.type.COLORED}
-                        label={editMode ? "Update" : "Add"}
-                        onClick={handleSubmit}
-                        submit
-                    />
-                    <Button
-                        key="close"
-                        label="Close"
-                        onClick={onClose}
-                    />
-                </>
-            )}
-        >
-            <Field
-                component={TextInput}
-                placeholder="Name"
-                name={NAME_FIELD}
-                validate={[required]}
-                autoFocus
-            />
-            <FormError errors={errors} />
-        </VerticalFormLayout>
-    </Loading>
-);
+const Container = ({handleSubmit, submitting, errors, onClose, editMode}) => {
+    const {t} = i18n.useTranslation();
+
+    return (
+        <Loading loading={submitting}>
+            <VerticalFormLayout
+                title={editMode ? t("update.button.label") : t("create.button.label")}
+                buttons={(
+                    <>
+                        <Button
+                            type={Button.type.COLORED}
+                            label={editMode ? t("edit.button.label") : t("create.button.label")}
+                            onClick={handleSubmit}
+                            submit
+                        />
+                        <Button
+                            label={t("close.button.label")}
+                            onClick={onClose}
+                        />
+                    </>
+                )}
+            >
+                <Field
+                    component={TextInput}
+                    placeholder={t("name")}
+                    name={NAME_FIELD}
+                    validate={[required]}
+                    autoFocus
+                />
+                <FormError errors={errors} />
+            </VerticalFormLayout>
+        </Loading>
+    );
+};
 
 Container.propTypes = {
     handleSubmit: PropTypes.func.isRequired,

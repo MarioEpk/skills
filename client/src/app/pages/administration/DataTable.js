@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
 
 import modal from "core/modal";
+import i18n from "core/i18n";
 import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
 
@@ -35,6 +36,7 @@ const DataTable = ({
     columns,
     form: Form,
 }) => {
+    const {t} = i18n.useTranslation();
     const [editMode, setEditMode] = useState(false);
 
     const openFormModal = () => openModal(modalFormName(typeName));
@@ -61,7 +63,7 @@ const DataTable = ({
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"))}
                 searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
-                searchPlaceholder="by name"
+                searchPlaceholder={t("search.placeholder")}
             />
             <Modal
                 open={isFormModalOpen}
