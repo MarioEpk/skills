@@ -67,7 +67,7 @@ const DataTable = ({
         return ([
             <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
             <Button key="export" onClick={() => onExport(cvId, user.lastName)} label="Export" startIcon={<GetApp />} />,
-            <Button key="share" onClick={() => onShare(cvId)} label={shared ? "Unshare" : "Share  "} startIcon={shared ? <CancelScheduleSend /> : <Send />} />,
+            <Button key="share" className="shared" onClick={() => onShare(cvId)} label={shared ? "Unshare" : "Share  "} startIcon={shared ? <CancelScheduleSend /> : <Send />} />,
             <Button key="copyPublicUrl" onClick={() => onCopyPublicUrl(extCode)} label="Copy URL" startIcon={<FontAwesomeIcon icon={faLink} />} />,
         ]);
     };
