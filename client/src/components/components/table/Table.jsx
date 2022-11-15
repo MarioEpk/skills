@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {List} from 'immutable';
 import ImmutablePropTypes from "react-immutable-proptypes";
 import {Edit, Delete} from '@material-ui/icons';
+import classnames from "classnames";
 
 import i18n from "core/i18n";
 import TableColumn from './TableColumn';
@@ -12,11 +13,8 @@ import css from "./Table.module.scss";
 import {Loading} from "../loading";
 import {Button} from "../button";
 import {ACTION_COLUMN_DATA_ATTRIBUTE} from "./constants";
-import classnames from "classnames";
 
-const renderActions = (actions, row, key) => {
-    const {t} = i18n.useTranslation();
-
+const renderActions = (t, actions, row, key) => {
     if (!actions) {
         return null;
     }
@@ -46,7 +44,7 @@ const renderActions = (actions, row, key) => {
     );
 };
 
-const renderRow = (columns, keyParam, row, className, actions, onRowClick) => {
+const renderRow = (t, columns, keyParam, row, className, actions, onRowClick) => {
     const onRowClickHandler = (e) => {
         if (onRowClick) {
             if (!wasAnythingOtherThanRowClicked(e.target)) {
@@ -69,7 +67,7 @@ const renderRow = (columns, keyParam, row, className, actions, onRowClick) => {
                     {getColumnData(column, row)}
                 </TableColumn>
             ))}
-            {renderActions(actions, row, row.get(keyParam))}
+            {renderActions(t, actions, row, row.get(keyParam))}
         </tr>
     );
 };
@@ -81,12 +79,14 @@ const Table = ({
     actions,
     onRowClick,
 }) => {
+    const {t} = i18n.useTranslation();
+
     const renderRowWithClassName = (row) => {
         // Here you can add conditional classes
         const className = classnames({
             [css.actionRow]: !!onRowClick,
         });
-        return renderRow(columns, getKeyParam(columns), row, className, actions, onRowClick);
+        return renderRow(t, columns, getKeyParam(columns), row, className, actions, onRowClick);
     };
     return (
         <div className={css.root}>
@@ -94,7 +94,7 @@ const Table = ({
                 <table className={css.table}>
                     <TableHead columns={columns} actions={actions} />
                     <tbody>
-                        {data.map((row, index) => (renderRowWithClassName(row, index))).toArray()}
+                        {data.map((row, index) => (renderRowWithClassName(row, index)))}
                     </tbody>
                 </table>
             </Loading>

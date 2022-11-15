@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {AddRounded} from "@material-ui/icons";
 import removeAccents from "remove-accents";
 import i18n from "core/i18n";
+import {fn} from "core/util";
 import SearchInput from "./SearchInput";
 import {Block} from "../block";
 import {Table, columnsPropTypes} from "../table";
@@ -32,10 +33,6 @@ const Data = ({
     const [deleteConfirmation, setDeleteConfirmation] = useState(undefined);
     const {t} = i18n.useTranslation();
 
-    useEffect(() => {
-        filterData(searchValue);
-    }, [data]);
-
     const tableActions = {
         columnName: "Actions",
         onEdit,
@@ -45,23 +42,22 @@ const Data = ({
         collapsed: true,
     };
 
-    const onSearch = (e) => {
-        const {value} = e.target;
-        setSearchValue(value);
-        filterData(value);
-    };
-
-    const filterData = (value) => {
-        if (searchByDataFields) {
+    useEffect(() => {
+        if (searchByDataFields && !fn.isEmpty(searchValue)) {
             const result = data.filter((row) => (
                 searchByDataFields.some((searchField) => (
-                    removeAccents(row.getIn(searchField.split('.'), "").toLowerCase()).includes(removeAccents(value.toLowerCase()))
+                    removeAccents(row.getIn(searchField.split('.'), "").toLowerCase()).includes(removeAccents(searchValue.toLowerCase()))
                 ))
             ));
             setFilteredData(result);
         } else {
             setFilteredData(data);
         }
+    }, [searchValue]);
+
+    const onSearch = (e) => {
+        const {value} = e.target;
+        setSearchValue(value);
     };
 
     return (
@@ -97,7 +93,7 @@ const Data = ({
                         />
                     )}
                 </div>
-                {data.size > 0 && (
+                {filteredData.size > 0 && (
                     <div className={css.table}>
                         <Table
                             columns={columns}
