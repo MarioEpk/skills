@@ -53,7 +53,7 @@ const Data = ({
         } else {
             setFilteredData(data);
         }
-    }, [searchValue]);
+    }, [searchValue, data]);
 
     const onSearch = (e) => {
         const {value} = e.target;

@@ -88,6 +88,7 @@ const Table = ({
         });
         return renderRow(t, columns, getKeyParam(columns), row, className, actions, onRowClick);
     };
+
     return (
         <div className={css.root}>
             <Loading loading={loading}>
