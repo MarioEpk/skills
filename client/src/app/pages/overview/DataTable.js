@@ -10,6 +10,8 @@ import {Type} from "app/model/type";
 import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
+import {navigate} from "core/router/actions";
+import {CV} from 'app/constants';
 
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
 import {cvActionGroup} from "./actions";
@@ -43,6 +45,7 @@ const DataTable = ({
     isFormModalOpen,
     onDelete,
     onExport,
+    navigateTo,
 }) => {
     const {t} = i18n.useTranslation();
 
@@ -60,6 +63,11 @@ const DataTable = ({
 
     const adminAccess = access.useAccess([accesses.admin]);
 
+    const onRowClick = (row) => {
+        const id = row.get("id");
+        navigateTo(CV, {id});
+    };
+
     return (
         <>
             <Data
@@ -72,6 +80,7 @@ const DataTable = ({
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
                 searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
                 searchPlaceholder={t("overview.search.placeholder")}
+                onRowClick={onRowClick}
             />
             <Modal
                 open={isFormModalOpen}
@@ -91,6 +100,7 @@ DataTable.propTypes = {
     onDelete: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
     loading: PropTypes.bool,
+    navigateTo: PropTypes.func.isRequired,
 };
 
 DataTable.defaultProps = {
@@ -107,6 +117,7 @@ const mapDispatchToProps = (dispatch) => ({
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
     onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
+    navigateTo: (route, params, query) => dispatch(navigate(route, params, query)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);
