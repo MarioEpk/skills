@@ -16,7 +16,7 @@ import lombok.Setter;
 public class OtherDto {
     private int id;
     private String name;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
     private Date date;
     private String description;
 }
