@@ -13,6 +13,7 @@ import css from "./Table.module.scss";
 import {Loading} from "../loading";
 import {Button} from "../button";
 import {ACTION_COLUMN_DATA_ATTRIBUTE} from "./constants";
+import MoreActionsMenu from "./MoreActionsMenu";
 
 const renderActions = (t, actions, row, key) => {
     if (!actions) {
@@ -40,6 +41,7 @@ const renderActions = (t, actions, row, key) => {
             column={actions}
         >
             {actionComponents.map((component) => component)}
+            <MoreActionsMenu />
         </TableColumn>
     );
 };
