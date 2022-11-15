@@ -24,3 +24,10 @@
         font-family: "Montserrat", sans-serif;
     };
 }
+
+.actionRow {
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(252, 192, 0, 0.24);
+    }
+}
