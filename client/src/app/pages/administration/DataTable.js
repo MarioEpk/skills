@@ -4,11 +4,12 @@ import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
 
 import modal from "core/modal";
+import i18n from "core/i18n";
 import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
 
 import {getTypeData} from "./selectors";
-import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELD} from "./constants";
+import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELDS} from "./constants";
 import {createTypeActionGroup} from "./actions";
 
 const defaultColumns = [{
@@ -18,8 +19,8 @@ const defaultColumns = [{
     columnName: "ID",
 }, {
     key: "2",
-    dataField: SEARCH_TABLE_FIELD,
-    columnName: "Name",
+    dataField: "name",
+    columnName: "name",
 }];
 
 const DataTable = ({
@@ -35,6 +36,7 @@ const DataTable = ({
     columns,
     form: Form,
 }) => {
+    const {t} = i18n.useTranslation();
     const [editMode, setEditMode] = useState(false);
 
     const openFormModal = () => openModal(modalFormName(typeName));
@@ -60,7 +62,8 @@ const DataTable = ({
                 onCreate={onCreate}
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"))}
-                searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
+                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
+                searchPlaceholder={t("search.placeholder")}
             />
             <Modal
                 open={isFormModalOpen}

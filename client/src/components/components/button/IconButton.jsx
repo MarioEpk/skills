@@ -6,7 +6,7 @@ import classnames from "classnames";
 import css from "./Button.module.scss";
 
 const IconButton = ({ariaLabel, type, icon, onClick}) => {
-    const buttonClassname = classnames(css.button, css.normalize, {
+    const buttonClassname = classnames(css.button, css.iconButton, css.normalize, {
         [css.dark]: type === IconButton.type.DARK,
         [css.light]: type === IconButton.type.LIGHT,
         [css.danger]: type === IconButton.type.DANGER,

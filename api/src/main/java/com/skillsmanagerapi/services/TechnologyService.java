@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TechnologyService {
@@ -30,6 +31,7 @@ public class TechnologyService {
         return modelMapper.map(technologyRepository.findById(id).orElseThrow(EntityNotFoundException::new), TechnologyDto.class);
     }
 
+    @Transactional
     public TechnologyDto createTechnology(@NonNull final TechnologyDto technologyDto) {
         final Technology technology = new Technology();
         technology.setLevel(LevelType.BEGINNER.getValue());
@@ -38,12 +40,14 @@ public class TechnologyService {
         return modelMapper.map(technologyRepository.save(technology), TechnologyDto.class);
     }
 
+    @Transactional
     public void updateTechnology(@NonNull final TechnologyDto technologyDto) {
         final TechnologyDto updatedTechnologyDto = this.getTechnology(technologyDto.getId());
         updatedTechnologyDto.setLevel(technologyDto.getLevel());
         technologyRepository.save(modelMapper.map(updatedTechnologyDto, Technology.class));
     }
 
+    @Transactional
     public void deleteTechnology(final int id) {
         technologyRepository.deleteById(id);
     }

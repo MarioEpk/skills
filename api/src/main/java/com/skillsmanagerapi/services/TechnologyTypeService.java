@@ -14,6 +14,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TechnologyTypeService {
@@ -37,16 +38,19 @@ public class TechnologyTypeService {
         return modelMapper.map(technologyTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), TechnologyTypeDto.class);
     }
 
+    @Transactional
     public void createTechnologyType(@NonNull final TechnologyTypeDto TechnologyTypeDto) {
         technologyTypeRepository.save(modelMapper.map(TechnologyTypeDto, TechnologyType.class));
     }
 
+    @Transactional
     public void updateTechnologyType(@NonNull final TechnologyTypeDto TechnologyTypeDto) {
         final TechnologyTypeDto updatedTechnologyTypeDto = getTechnologyType(TechnologyTypeDto.getId());
         updatedTechnologyTypeDto.setName(TechnologyTypeDto.getName());
         technologyTypeRepository.save(modelMapper.map(updatedTechnologyTypeDto, TechnologyType.class));
     }
 
+    @Transactional
     public void deleteTechnologyType(final int id) {
         technologyTypeRepository.deleteById(id);
     }

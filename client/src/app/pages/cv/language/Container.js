@@ -21,7 +21,7 @@ const Container = ({languages, removeLanguage, updateLanguage}) => {
     return (
         languages.size > 0
         && (
-            <CardLayout title="Languages">
+            <CardLayout title={t(`languages.title`)}>
                 {languages.map((language) => (
                     <Card
                         key={language.id}
@@ -29,7 +29,7 @@ const Container = ({languages, removeLanguage, updateLanguage}) => {
                         onDelete={adminOrOwnerAccess(() => removeLanguage(language.id))}
                     >
                         <Slider
-                            valueLabel={t(`cv.language.${language.level}`)}
+                            valueLabel={t(`language.label.${language.level}`)}
                             value={language.level}
                             onChange={(value) => updateLanguage(language.id, value)}
                             disabled={!isAdminOrOwner}

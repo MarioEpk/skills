@@ -20,6 +20,7 @@ import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -47,6 +48,7 @@ public class UserService {
         return modelMapperUtil.mapList(userRepository.findAllByOrderByIdAsc(), UserDto.class);
     }
 
+    @Transactional
     public UserDto getUserOrCreateNew(@NonNull final UserDto userDto) {
         final User user = userRepository.findByEmail(userDto.getEmail()).orElseGet(() -> createUser(userDto));
         return modelMapper.map(user, UserDto.class);    }
@@ -65,6 +67,7 @@ public class UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
+    @Transactional
     public void updateUser(@NonNull final UserDto userDto) {
         final UserDto updatedUserDto = modelMapper.map(userRepository.findById(userDto.getId()).orElseThrow(EntityNotFoundException::new), UserDto.class);
         updatedUserDto.setFirstName(userDto.getFirstName());

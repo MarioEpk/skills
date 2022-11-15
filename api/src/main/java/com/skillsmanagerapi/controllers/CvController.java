@@ -92,19 +92,19 @@ public class CvController {
 
 
     // Language
-    @PostMapping(value = "/{id}/language")
-    public void addLanguageToCv(@RequestBody LanguageDto languageDto, @PathVariable("id") int id) {
-        cvService.addLanguageToCv(id, languageDto);
+    @PostMapping(value = "/{cvId}/language")
+    public void addLanguageToCv(@PathVariable("cvId") int cvId, @RequestBody LanguageDto languageDto) {
+        cvService.addLanguageToCv(cvId, languageDto);
     }
 
-    @PutMapping(value = "/language")
-    public void updateLanguage(@RequestBody LanguageDto languageDto) {
-        cvService.updateLanguage(languageDto);
+    @PutMapping(value = "/{cvId}/language")
+    public void updateLanguage(@PathVariable("cvId") int cvId, @RequestBody LanguageDto languageDto) {
+        cvService.updateLanguage(cvId, languageDto);
     }
 
-    @DeleteMapping(value = "/language/{id}")
-    public void removeLanguageFromCv(@PathVariable("id") int id) {
-        cvService.removeLanguageFromCv(id);
+    @DeleteMapping(value = "/{cvId}/language/{id}")
+    public void removeLanguageFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeLanguageFromCv(cvId, id);
     }
 
 //    Education
@@ -124,83 +124,83 @@ public class CvController {
     }
 
     // Skill
-    @PostMapping(value = "/{id}/skill")
-    public void addSkillToCv(@RequestBody SkillDto skillDto, @PathVariable("id") int id) {
-        cvService.addSkillToCv(id, skillDto);
+    @PostMapping(value = "/{cvId}/skill")
+    public void addSkillToCv(@PathVariable("cvId") int cvId, @RequestBody SkillDto skillDto) {
+        cvService.addSkillToCv(cvId, skillDto);
     }
 
-    @PutMapping(value = "/skill")
-    public void updateSkill(@RequestBody SkillDto skillDto) {
-        cvService.updateSkill(skillDto);
+    @PutMapping(value = "/{cvId}/skill")
+    public void updateSkill(@PathVariable("cvId") int cvId, @RequestBody SkillDto skillDto) {
+        cvService.updateSkill(cvId, skillDto);
     }
 
-    @DeleteMapping(value = "/skill/{id}")
-    public void removeSkillFromCv(@PathVariable("id") int id) {
-        cvService.removeSkillFromCv(id);
+    @DeleteMapping(value = "/{cvId}/skill/{id}")
+    public void removeSkillFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeSkillFromCv(cvId, id);
     }
 
     // Project
-    @PostMapping(value = "/{id}/project")
-    public void addProjectToCv(@RequestBody ProjectDto projectDto, @PathVariable("id") int id) {
-        cvService.addProjectToCv(id, projectDto);
+    @PostMapping(value = "/{cvId}/project")
+    public void addProjectToCv(@PathVariable("cvId") int cvId, @RequestBody ProjectDto projectDto) {
+        cvService.addProjectToCv(cvId, projectDto);
     }
 
-    @PutMapping(value = "/project")
-    public void updateProject(@RequestBody ProjectDto projectDto) {
-        cvService.updateProject(projectDto);
+    @PutMapping(value = "/{cvId}/project")
+    public void updateProject(@PathVariable("cvId") int cvId, @RequestBody ProjectDto projectDto) {
+        cvService.updateProject(cvId, projectDto);
     }
 
-    @DeleteMapping(value = "/project/{id}")
-    public void removeProjectFromCv(@PathVariable("id") int id) {
-        cvService.removeProjectFromCv(id);
+    @DeleteMapping(value = "/{cvId}/project/{id}")
+    public void removeProjectFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeProjectFromCv(cvId, id);
     }
 
     // Technology
-    @PostMapping(value = "/{id}/technology")
-    public void addTechnologyToCv(@RequestBody TechnologyDto technologyDto, @PathVariable("id") int id) {
-        cvService.addTechnologyToCv(id, technologyDto);
+    @PostMapping(value = "/{cvId}/technology")
+    public void addTechnologyToCv(@PathVariable("cvId") int cvId, @RequestBody TechnologyDto technologyDto) {
+        cvService.addTechnologyToCv(cvId, technologyDto);
     }
 
-    @PutMapping(value = "/technology")
-    public void updateTechnology(@RequestBody TechnologyDto technologyDto) {
-        cvService.updateTechnology(technologyDto);
+    @PutMapping(value = "/{cvId}/technology")
+    public void updateTechnology(@PathVariable("cvId") int cvId, @RequestBody TechnologyDto technologyDto) {
+        cvService.updateTechnology(cvId, technologyDto);
     }
 
-    @DeleteMapping(value = "/technology/{id}")
-    public void removeTechnologyFromCv(@PathVariable("id") int id) {
-        cvService.removeTechnologyFromCv(id);
+    @DeleteMapping(value = "/{cvId}/technology/{id}")
+    public void removeTechnologyFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeTechnologyFromCv(cvId, id);
     }
 
     // Certificate
-    @PostMapping(value = "/{id}/certificate")
-    public void addCertificateToCv(@RequestBody CertificateDto certificateDto, @PathVariable("id") int id) {
-        cvService.addCertificateToCv(id, certificateDto);
+    @PostMapping(value = "/{cvId}/certificate")
+    public void addCertificateToCv(@PathVariable("cvId") int cvId, @RequestBody CertificateDto certificateDto) {
+        cvService.addCertificateToCv(cvId, certificateDto);
     }
 
-    @PutMapping(value = "/certificate")
-    public void updateCertificate(@RequestBody CertificateDto certificateDto) {
-        cvService.updateCertificate(certificateDto);
+    @PutMapping(value = "/{cvId}/certificate")
+    public void updateCertificate(@PathVariable("cvId") int cvId, @RequestBody CertificateDto certificateDto) {
+        cvService.updateCertificate(cvId, certificateDto);
     }
 
-    @DeleteMapping(value = "/certificate/{id}")
-    public void removeCertificateFromCv(@PathVariable("id") int id) {
-        cvService.removeCertificateFromCv(id);
+    @DeleteMapping(value = "/{cvId}/certificate/{id}")
+    public void removeCertificateFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeCertificateFromCv(cvId, id);
     }
 
     // Other
-    @PostMapping(value = "/{id}/other")
-    public void addOtherToCv(@RequestBody OtherDto otherDto, @PathVariable("id") int id) {
-        cvService.addOtherToCv(id, otherDto);
+    @PostMapping(value = "/{cvId}/other")
+    public void addOtherToCv(@PathVariable("cvId") int cvId, @RequestBody OtherDto otherDto) {
+        cvService.addOtherToCv(cvId, otherDto);
     }
 
-    @PutMapping(value = "/other")
-    public void updateOther(@RequestBody OtherDto otherDto) {
-        cvService.updateOther(otherDto);
+    @PutMapping(value = "/{cvId}/other")
+    public void updateOther(@PathVariable("cvId") int cvId, @RequestBody OtherDto otherDto) {
+        cvService.updateOther(cvId, otherDto);
     }
 
-    @DeleteMapping(value = "/other/{id}")
-    public void removeOtherFromCv(@PathVariable("id") int id) {
-        cvService.removeOtherFromCv(id);
+    @DeleteMapping(value = "/{cvId}/other/{id}")
+    public void removeOtherFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeOtherFromCv(cvId, id);
     }
 
     // All types

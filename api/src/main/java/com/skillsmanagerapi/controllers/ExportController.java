@@ -57,5 +57,16 @@ public class ExportController {
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     }
 
+    private ResponseEntity<?> getResponseEntity(String fileName, String mediaType, byte[] data) {
 
+        //Setting Headers
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(mediaType));
+        headers.setContentDispositionFormData(fileName, fileName);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+        final byte[] encodedBytes = Base64.getEncoder().encode(data);
+        headers.setContentLength(encodedBytes.length);
+        return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);
+    }
 }

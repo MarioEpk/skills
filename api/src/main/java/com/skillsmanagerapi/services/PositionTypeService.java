@@ -14,6 +14,7 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PositionTypeService {
@@ -37,16 +38,19 @@ public class PositionTypeService {
         return modelMapper.map(positionTypeRepository.findById(id).orElseThrow(EntityNotFoundException::new), PositionTypeDto.class);
     }
 
+    @Transactional
     public void createPositionType(@NonNull final PositionTypeDto positionTypeDto) {
         positionTypeRepository.save(modelMapper.map(positionTypeDto, PositionType.class));
     }
 
+    @Transactional
     public void updatePositionType(@NonNull final PositionTypeDto positionTypeDto) {
         final PositionTypeDto updatedPositionTypeDto = getPositionType(positionTypeDto.getId());
         updatedPositionTypeDto.setName(positionTypeDto.getName());
         positionTypeRepository.save(modelMapper.map(updatedPositionTypeDto, PositionType.class));
     }
 
+    @Transactional
     public void deletePositionType(final int id) {
         positionTypeRepository.deleteById(id);
     }
