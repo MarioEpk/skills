@@ -1,5 +1,16 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import {ACTION_COLUMN_DATA_ATTRIBUTE} from "./constants";
+
+export const wasAnythingOtherThanRowClicked = (eventTarget) => {
+    if (!eventTarget || eventTarget.tagName === "TR") {
+        return false;
+    }
+    if (eventTarget.hasAttribute("data-column-type") && eventTarget.getAttribute("data-column-type") === ACTION_COLUMN_DATA_ATTRIBUTE) {
+        return true;
+    }
+    return wasAnythingOtherThanRowClicked(eventTarget.parentElement);
+};
 
 export const notHidden = ({hidden}) => !hidden;
 

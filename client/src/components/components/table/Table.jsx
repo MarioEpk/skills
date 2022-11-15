@@ -7,10 +7,12 @@ import {Edit, Delete} from '@material-ui/icons';
 import i18n from "core/i18n";
 import TableColumn from './TableColumn';
 import TableHead from './TableHead';
-import {getColumnData, getKeyParam, columnsPropTypes, columnActionsPropTypes} from './util';
+import {getColumnData, getKeyParam, columnsPropTypes, columnActionsPropTypes, wasAnythingOtherThanRowClicked} from './util';
 import css from "./Table.module.scss";
 import {Loading} from "../loading";
 import {Button} from "../button";
+import {ACTION_COLUMN_DATA_ATTRIBUTE} from "./constants";
+import classnames from "classnames";
 
 const renderActions = (actions, row, key) => {
     const {t} = i18n.useTranslation();
@@ -36,6 +38,7 @@ const renderActions = (actions, row, key) => {
         <TableColumn
             // eslint-disable-next-line react/no-array-index-key
             key={`${key}-action`}
+            dataAttribute={ACTION_COLUMN_DATA_ATTRIBUTE}
             column={actions}
         >
             {actionComponents.map((component) => component)}
@@ -43,23 +46,33 @@ const renderActions = (actions, row, key) => {
     );
 };
 
-const renderRow = (columns, keyParam, row, className, actions, onRowClick) => (
-    <tr
-        className={className}
-        key={row.get(keyParam)}
-        onClick={onRowClick(row)}
-    >
-        {columns.map((column) => (
-            <TableColumn
-                key={column.key || column.dataField}
-                column={column}
-            >
-                {getColumnData(column, row)}
-            </TableColumn>
-        ))}
-        {renderActions(actions, row, row.get(keyParam))}
-    </tr>
-);
+const renderRow = (columns, keyParam, row, className, actions, onRowClick) => {
+    const onRowClickHandler = (e) => {
+        if (onRowClick) {
+            if (!wasAnythingOtherThanRowClicked(e.target)) {
+                onRowClick(row);
+            }
+        }
+    };
+
+    return (
+        <tr
+            className={className}
+            key={row.get(keyParam)}
+            onClick={onRowClickHandler}
+        >
+            {columns.map((column) => (
+                <TableColumn
+                    key={column.key || column.dataField}
+                    column={column}
+                >
+                    {getColumnData(column, row)}
+                </TableColumn>
+            ))}
+            {renderActions(actions, row, row.get(keyParam))}
+        </tr>
+    );
+};
 
 const Table = ({
     columns,
@@ -70,7 +83,9 @@ const Table = ({
 }) => {
     const renderRowWithClassName = (row) => {
         // Here you can add conditional classes
-        const className = css.row;
+        const className = classnames({
+            [css.actionRow]: !!onRowClick,
+        });
         return renderRow(columns, getKeyParam(columns), row, className, actions, onRowClick);
     };
     return (
@@ -99,7 +114,7 @@ Table.defaultProps = {
     data: List(),
     actions: undefined,
     loading: false,
-    onRowClick: () => {},
+    onRowClick: undefined,
 };
 
 export default Table;

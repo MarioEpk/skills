@@ -63,11 +63,9 @@ const DataTable = ({
 
     const adminAccess = access.useAccess([accesses.admin]);
 
-    const onRowClick = (row) => (event) => {
+    const onRowClick = (row) => {
         const id = row.get("id");
-        if (event.target.className !== "MuiButton-label") {
-            navigateTo(CV, {id});
-        }
+        navigateTo(CV, {id});
     };
 
     return (
