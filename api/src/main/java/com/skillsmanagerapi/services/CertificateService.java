@@ -3,13 +3,10 @@ package com.skillsmanagerapi.services;
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.models.Certificate;
 import com.skillsmanagerapi.repositories.CertificateRepository;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
-
 import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,5 +49,4 @@ public class CertificateService {
     public void deleteCertificate(final int id) {
         certificateRepository.deleteById(id);
     }
-
 }

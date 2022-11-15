@@ -80,7 +80,7 @@ public class Cv {
     private List<Technology> technologies;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "certificate_id", referencedColumnName = "id")
+    @JoinColumn(name = "certificates_id", referencedColumnName = "id")
     @OrderBy(value = "id")
     private List<Certificate> certificates;
 

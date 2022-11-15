@@ -1,14 +1,12 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.EducationDto;
-import com.skillsmanagerapi.dto.OtherDto;
 import com.skillsmanagerapi.models.Education;
 import com.skillsmanagerapi.repositories.EducationRepository;
 import lombok.NonNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
 
 @Service

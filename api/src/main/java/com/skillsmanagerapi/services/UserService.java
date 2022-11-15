@@ -1,6 +1,9 @@
 package com.skillsmanagerapi.services;
 
+import com.skillsmanagerapi.dto.CertificateDto;
+import com.skillsmanagerapi.dto.UserCertificateDto;
 import com.skillsmanagerapi.dto.UserDto;
+import com.skillsmanagerapi.dto.UserEducationDto;
 import com.skillsmanagerapi.enums.RoleTypes;
 import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.models.User;
@@ -14,7 +17,10 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -89,5 +95,29 @@ public class UserService {
         userRepository.save(user);
 
         return user;
+    }
+
+    public List<UserEducationDto> getUsersWithEducations() {
+        List<UserEducationDto> userEducationDtoList = new ArrayList<>();
+        userRepository.findAll().forEach(user -> {
+            UserEducationDto userEducationDto = modelMapper.map(user, UserEducationDto.class);
+            userEducationDto.setUserLastName(user.getLastName());
+            userEducationDto.setUserFirstName(user.getFirstName());
+            userEducationDto.setEducations(user.getCvs().stream().flatMap(cv -> cv.getEducations().stream()).collect(Collectors.toSet()));
+            userEducationDtoList.add(userEducationDto);
+        });
+        return userEducationDtoList;
+    }
+
+    public List<UserCertificateDto> getUsersWithCertificates() {
+        List<UserCertificateDto> userCertificateDtoList = new ArrayList<>();
+        userRepository.findAll().forEach(user -> {
+            UserCertificateDto userCertificateDto = modelMapper.map(user, UserCertificateDto.class);
+            userCertificateDto.setUserLastName(user.getLastName());
+            userCertificateDto.setUserFirstName(user.getFirstName());
+            userCertificateDto.setCertificates(user.getCvs().stream().flatMap(cv -> cv.getCertificates().stream()).collect(Collectors.toSet()));
+            userCertificateDtoList.add(userCertificateDto);
+        });
+        return userCertificateDtoList;
     }
 }
