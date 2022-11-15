@@ -81,7 +81,7 @@ public class CvService {
         return modelMapper.map(cv, CvDto.class);
     }
 
-    public CvDto getCv(@NonNull final int id) {
+    public CvDto getCv(final int id) {
         return modelMapper.map(cvRepository.findById(id).orElseThrow(EntityNotFoundException::new), CvDto.class);
     }
 
@@ -91,7 +91,7 @@ public class CvService {
 
 
     @Transactional
-    public void deleteCv(@NonNull final int id) {
+    public void deleteCv(final int id) {
         cvRepository.deleteById(id);
     }
 
@@ -125,7 +125,7 @@ public class CvService {
 
     // Language
     @Transactional
-    public void addLanguageToCv(@NonNull final int cvId, @NonNull final LanguageDto languageDto) {
+    public void addLanguageToCv(final int cvId, @NonNull final LanguageDto languageDto) {
         final LanguageDto newLanguageDto = languageService.createLanguage(languageDto);
         final CvDto cvDto = this.getCv(cvId);
         final List<LanguageDto> languageDtoList = cvDto.getLanguages();
@@ -136,13 +136,13 @@ public class CvService {
     }
 
     @Transactional
-    public void updateLanguage(@NonNull final int cvId, @NonNull final LanguageDto languageDto) {
+    public void updateLanguage(final int cvId, @NonNull final LanguageDto languageDto) {
         languageService.updateLanguage(languageDto);
         relatedCVDataChanged(cvId);
     }
 
     @Transactional
-    public void removeLanguageFromCv(@NonNull final int cvId, @NonNull  final int id) {
+    public void removeLanguageFromCv(final int cvId, final int id) {
         languageService.deleteLanguage(id);
         relatedCVDataChanged(cvId);
     }
@@ -160,20 +160,20 @@ public class CvService {
     }
 
     @Transactional
-    public void updateEducation(@NonNull final int cvId, @NonNull final EducationDto educationDto) {
+    public void updateEducation(final int cvId, @NonNull final EducationDto educationDto) {
         educationService.updateEducation(educationDto);
         relatedCVDataChanged(cvId);
     }
 
     @Transactional
-    public void removeEducationFromCv(@NonNull final int cvId, final int id) {
+    public void removeEducationFromCv(final int cvId, final int id) {
         educationService.deleteEducation(id);
         relatedCVDataChanged(cvId);
     }
 
     // Skill
     @Transactional
-    public void addSkillToCv(@NonNull final int cvId, @NonNull final SkillDto skillDto) {
+    public void addSkillToCv(final int cvId, @NonNull final SkillDto skillDto) {
         final SkillDto newSkillDto = skillService.createSkill(skillDto);
         final CvDto cvDto = this.getCv(cvId);
         final List<SkillDto> skillDtoList = cvDto.getSkills();
@@ -184,20 +184,20 @@ public class CvService {
     }
 
     @Transactional
-    public void updateSkill(@NonNull final int cvId, @NonNull final SkillDto skillDto) {
+    public void updateSkill(final int cvId, @NonNull final SkillDto skillDto) {
         skillService.updateSkill(skillDto);
         relatedCVDataChanged(cvId);
     }
 
     @Transactional
-    public void removeSkillFromCv(@NonNull final int cvId, @NonNull final int id) {
+    public void removeSkillFromCv(final int cvId, final int id) {
         skillService.deleteSkill(id);
         relatedCVDataChanged(cvId);
     }
 
     // Project
     @Transactional
-    public void addProjectToCv(@NonNull final int cvId, @NonNull final ProjectDto projectDto) {
+    public void addProjectToCv(final int cvId, @NonNull final ProjectDto projectDto) {
         final ProjectDto newProjectDto = projectService.createProject(projectDto);
         final CvDto cvDto = this.getCv(cvId);
         final List<ProjectDto> projectDtoList = cvDto.getProjects();
@@ -208,20 +208,20 @@ public class CvService {
     }
 
     @Transactional
-    public void updateProject(@NonNull final int cvId, @NonNull final ProjectDto projectDto) {
+    public void updateProject(final int cvId, @NonNull final ProjectDto projectDto) {
         projectService.updateProject(projectDto);
         relatedCVDataChanged(cvId);
     }
 
     @Transactional
-    public void removeProjectFromCv(@NonNull final int cvId, @NonNull final int id) {
+    public void removeProjectFromCv(final int cvId, final int id) {
         projectService.deleteProject(id);
         relatedCVDataChanged(cvId);
     }
 
     // Technology
     @Transactional
-    public void addTechnologyToCv(@NonNull final int cvId, @NonNull final TechnologyDto technologyDto) {
+    public void addTechnologyToCv(final int cvId, @NonNull final TechnologyDto technologyDto) {
         final TechnologyDto newTechnologyDto = technologyService.createTechnology(technologyDto);
         final CvDto cvDto = this.getCv(cvId);
         final List<TechnologyDto> technologyDtoList = cvDto.getTechnologies();
@@ -232,20 +232,20 @@ public class CvService {
     }
 
     @Transactional
-    public void updateTechnology(@NonNull final int cvId, @NonNull final TechnologyDto technologyDto) {
+    public void updateTechnology(final int cvId, @NonNull final TechnologyDto technologyDto) {
         technologyService.updateTechnology(technologyDto);
         relatedCVDataChanged(cvId);
     }
 
     @Transactional
-    public void removeTechnologyFromCv(@NonNull final int cvId, @NonNull final int id) {
+    public void removeTechnologyFromCv(final int cvId, final int id) {
         technologyService.deleteTechnology(id);
         relatedCVDataChanged(cvId);
     }
 
     // Certificate
     @Transactional
-    public void addCertificateToCv(@NonNull final int cvId, @NonNull final CertificateDto certificateDto) {
+    public void addCertificateToCv(final int cvId, @NonNull final CertificateDto certificateDto) {
         final CertificateDto newCertificateDto = certificateService.createCertificate(certificateDto);
         final CvDto cvDto = this.getCv(cvId);
         final List<CertificateDto> certificateDtoList = cvDto.getCertificates();
@@ -262,14 +262,14 @@ public class CvService {
     }
 
     @Transactional
-    public void removeCertificateFromCv(@NonNull final int cvId, @NonNull final int id) {
+    public void removeCertificateFromCv(final int cvId, final int id) {
         certificateService.deleteCertificate(id);
         relatedCVDataChanged(cvId);
     }
 
     // Other
     @Transactional
-    public void addOtherToCv(@NonNull final int cvId, @NonNull final OtherDto otherDto) {
+    public void addOtherToCv(final int cvId, @NonNull final OtherDto otherDto) {
         final OtherDto newOtherDto = otherService.createOther(otherDto);
         final CvDto cvDto = this.getCv(cvId);
         final List<OtherDto> otherDtoList = cvDto.getOthers();
@@ -280,19 +280,19 @@ public class CvService {
     }
 
     @Transactional
-    public void updateOther(@NonNull final int cvId, @NonNull final OtherDto otherDto) {
+    public void updateOther(final int cvId, @NonNull final OtherDto otherDto) {
         otherService.updateOther(otherDto);
         relatedCVDataChanged(cvId);
     }
 
     @Transactional
-    public void removeOtherFromCv(@NonNull final int cvId, @NonNull final int id) {
+    public void removeOtherFromCv(final int cvId, final int id) {
         otherService.deleteOther(id);
         relatedCVDataChanged(cvId);
     }
 
     //force update if related data changed
-    private void relatedCVDataChanged(@NonNull final int cvId) {
+    private void relatedCVDataChanged(final int cvId) {
         Cv cv = cvRepository.getOne(cvId);
         cv.setUpdatedAt(new Date());
         cvRepository.save(cv);
