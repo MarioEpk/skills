@@ -3,12 +3,11 @@ package com.skillsmanagerapi.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.xmp.impl.Base64;
 import com.skillsmanagerapi.dto.CvDto;
+import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
-import com.skillsmanagerapi.dto.PositionTypeDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
-import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.enums.AvatarType;
 import com.skillsmanagerapi.enums.ContextDataKey;
 import io.github.erdos.stencil.API;
@@ -171,7 +170,7 @@ public class ExportService {
         context.setVariable(ContextDataKey.AVATAR, cvDto.getAvatar());
         context.setVariable(ContextDataKey.USER, cvDto.getUser());
         context.setVariable(ContextDataKey.POSITIONS, safeArray(cvDto.getPositions()));
-        context.setVariable(ContextDataKey.PROFILE, cvDto.getProfile());
+        context.setVariable(ContextDataKey.PROFILE, safeValue(cvDto.getProfile(), ""));
         context.setVariable(ContextDataKey.PROJECTS, safeArray(sortedProjects));
         context.setVariable(ContextDataKey.SKILLS, safeArray(sortedSkillsDto));
         context.setVariable(ContextDataKey.TECHNOLOGIES, safeArray(sortedTechnologiesDto));
@@ -185,10 +184,15 @@ public class ExportService {
 
      private <T> List<T> safeArray(List<T> list) {
         if (list == null) {
-            return new ArrayList<T>();
+            return new ArrayList<>();
         }
         return list;
     }
+
+    private <T> T safeValue(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
 
 
     private String convertToXhtml(@NonNull final String html)  {
