@@ -40,8 +40,8 @@ const updateOther = ({id, name, description, date}, cvId) => fetch.doPut(`${CV_U
 const removeOtherFromCv = (cvId, otherId) => fetch.doDelete(`${CV_URL}/${cvId}/other/${otherId}`);
 
 const addEducationToCv = ({school, field, yearFrom, yearTo, note}, cvId) => fetch.doPost(`${CV_URL}/${cvId}/education`, {school, field, yearFrom, yearTo, note});
-const updateEducation = ({id, school, field, yearFrom, yearTo, note}) => fetch.doPut(`${CV_URL}/education`, {id, school, field, yearFrom, yearTo, note});
-const removeEducationFromCv = (educationId) => fetch.doDelete(`${CV_URL}/education/${educationId}`);
+const updateEducation = ({id, school, field, yearFrom, yearTo, note}, cvId) => fetch.doPut(`${CV_URL}/${cvId}/education`, {id, school, field, yearFrom, yearTo, note});
+const removeEducationFromCv = (cvId, educationId) => fetch.doDelete(`${CV_URL}/${cvId}/education/${educationId}`);
 
 const addProjectToCv = (
     {from, to, company, contribution, positions, projectType, technologies}, cvId,
@@ -49,7 +49,7 @@ const addProjectToCv = (
 const updateProject = (
     {id, from, to, company, contribution, positions, projectType, technologies}, cvId,
 ) => fetch.doPut(`${CV_URL}/${cvId}/project`, {id, from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
-const removeProjectFromCv = (projectId) => fetch.doDelete(`${CV_URL}/project/${projectId}`);
+const removeProjectFromCv = (cvId, projectId) => fetch.doDelete(`${CV_URL}/${cvId}/project/${projectId}`);
 
 const fetchAllTypes = () => fetch.doGet(`${CV_URL}/types`, null, AllTypes.fromServer);
 

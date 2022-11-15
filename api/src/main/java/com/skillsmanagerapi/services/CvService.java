@@ -148,7 +148,7 @@ public class CvService {
     }
 
     // Education
-
+    @Transactional
     public void addEducationToCv(final int cvId, @NonNull final EducationDto educationDto) {
         final EducationDto newEducationDto = educationService.createEducation(educationDto);
         final CvDto cvDto = this.getCv(cvId);
@@ -156,14 +156,19 @@ public class CvService {
         educationDtoList.add(newEducationDto);
         cvDto.setEducations(educationDtoList);
         cvRepository.save(modelMapper.map(cvDto, Cv.class));
+        relatedCVDataChanged(cvId);
     }
 
-    public void updateEducation(@NonNull final EducationDto educationDto) {
+    @Transactional
+    public void updateEducation(@NonNull final int cvId, @NonNull final EducationDto educationDto) {
         educationService.updateEducation(educationDto);
+        relatedCVDataChanged(cvId);
     }
 
-    public void removeEducationFromCv(final int id) {
+    @Transactional
+    public void removeEducationFromCv(@NonNull final int cvId, final int id) {
         educationService.deleteEducation(id);
+        relatedCVDataChanged(cvId);
     }
 
     // Skill

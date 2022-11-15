@@ -108,19 +108,19 @@ public class CvController {
     }
 
 //    Education
-    @PostMapping(value = "/{id}/education")
-    public void addEducationToCv(@RequestBody EducationDto educationDto, @PathVariable("id") int id) {
-        cvService.addEducationToCv(id, educationDto);
+    @PostMapping(value = "/{cvId}/education")
+    public void addEducationToCv(@PathVariable("cvId") int cvId, @RequestBody EducationDto educationDto) {
+        cvService.addEducationToCv(cvId, educationDto);
     }
 
-    @PutMapping(value = "/education")
-    public void updateEducation(@RequestBody EducationDto educationDto) {
-        cvService.updateEducation(educationDto);
+    @PutMapping(value = "/{cvId}/education")
+    public void updateEducation(@PathVariable("cvId") int cvId, @RequestBody EducationDto educationDto) {
+        cvService.updateEducation(cvId, educationDto);
     }
 
-    @DeleteMapping(value = "/education/{id}")
-    public void removeEducationFromCv(@PathVariable("id") int id) {
-        cvService.removeEducationFromCv(id);
+    @DeleteMapping(value = "/{cvId}/education/{id}")
+    public void removeEducationFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removeEducationFromCv(cvId, id);
     }
 
     // Skill
