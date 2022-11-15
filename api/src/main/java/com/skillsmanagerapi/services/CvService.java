@@ -45,6 +45,7 @@ public class CvService {
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
     private final EducationService educationService;
+    private final ExportService exportService;
 
     @Autowired
     public CvService(
@@ -58,7 +59,8 @@ public class CvService {
         @NonNull final UserService userService,
         @NonNull final ModelMapper modelMapper,
         @NonNull final ModelMapperUtil modelMapperUtil,
-        @NonNull final EducationService educationService
+        @NonNull final EducationService educationService,
+        @NonNull final ExportService exportService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;

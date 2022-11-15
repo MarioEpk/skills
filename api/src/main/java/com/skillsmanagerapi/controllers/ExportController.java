@@ -6,9 +6,6 @@ import com.skillsmanagerapi.services.ExportService;
 import com.skillsmanagerapi.utils.FileDownloadHttpResponse;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,16 +54,4 @@ public class ExportController {
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     }
 
-    private ResponseEntity<?> getResponseEntity(String fileName, String mediaType, byte[] data) {
-
-        //Setting Headers
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(mediaType));
-        headers.setContentDispositionFormData(fileName, fileName);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-
-        final byte[] encodedBytes = Base64.getEncoder().encode(data);
-        headers.setContentLength(encodedBytes.length);
-        return new ResponseEntity<>(encodedBytes, headers, HttpStatus.OK);
-    }
 }
