@@ -102,11 +102,11 @@ public class CvController {
 
 //    Education
     @PostMapping(value = "/{cvId}/education")
-    public void addEducationToCv(@PathVariable("id") int cvId, @RequestBody EducationDto educationDto) {
+    public void addEducationToCv(@PathVariable("cvId") int cvId, @RequestBody EducationDto educationDto) {
         cvService.addEducationToCv(cvId, educationDto);
     }
 
-    @PutMapping(value = "/{cvId}//education")
+    @PutMapping(value = "/{cvId}/education")
     public void updateEducation(@PathVariable("cvId") int cvId, @RequestBody EducationDto educationDto) {
         cvService.updateEducation(cvId, educationDto);
     }
