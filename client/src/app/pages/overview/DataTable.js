@@ -39,9 +39,8 @@ const columns = [{
 }, {
     key: "4",
     dataField: "shared",
-    columnName: "Shared",
+    columnName: "shared",
     dataFormat: (data) => (data ? (<CheckCircleOutline />) : null),
-    width: 75,
 }, {
     key: "5",
     dataField: "updatedAt",

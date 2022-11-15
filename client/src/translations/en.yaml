@@ -108,6 +108,7 @@ ID: ID
 first.name: First name
 last.name: Last name
 updated.at: Updated at
+shared: Public share
 
 #administration
 name: Name
