@@ -1,5 +1,17 @@
 @import "components/variables.scss";
 
+.iconButton {
+    &:global(.MuiIconButton-root) {
+        width: $button_icon_size;
+        height: $button_icon_size;
+        padding: 10px;
+        box-sizing: content-box;
+        & svg {
+            max-width: $button_icon_size;
+        }
+    }
+}
+
 .button {
     &.normalize {
         font-family: Montserrat, sans-serif !important;

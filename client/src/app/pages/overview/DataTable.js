@@ -4,13 +4,16 @@ import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
 import {Edit, GetApp} from "@material-ui/icons";
 
+import i18n from "core/i18n";
 import modal from "core/modal";
 import {Type} from "app/model/type";
 import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Button, Data, Modal} from "components";
+import {navigate} from "core/router/actions";
+import {CV} from 'app/constants';
 
-import {MODAL_FORM_NAME, SEARCH_TABLE_FIELD} from "./constants";
+import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
@@ -23,15 +26,15 @@ const columns = [{
 }, {
     key: "2",
     dataField: "user.firstName",
-    columnName: "First name",
+    columnName: "first.name",
 }, {
     key: "3",
     dataField: "user.lastName",
-    columnName: "Last name",
+    columnName: "last.name",
 }, {
     key: "4",
     dataField: "updatedAt",
-    columnName: "Updated at",
+    columnName: "updated.at",
 }];
 
 const DataTable = ({
@@ -42,13 +45,16 @@ const DataTable = ({
     isFormModalOpen,
     onDelete,
     onExport,
+    navigateTo,
 }) => {
+    const {t} = i18n.useTranslation();
+
     const onCustomAction = (row) => {
         const cvId = row.get("id");
         const user = row.get("user");
         return ([
-            <Button key="redirect" href={`/${cvId}`} label="Edit" startIcon={<Edit />} />,
-            <Button key="export" onClick={() => onExport(cvId, user.lastName)} label="Export" startIcon={<GetApp />} />,
+            <Button key="redirect" href={`/${cvId}`} label={t(`edit.button.label`)} startIcon={<Edit />} />,
+            <Button key="export" onClick={() => onExport(cvId, user.lastName)} label={t(`export.button.label`)} startIcon={<GetApp />} />,
         ]);
     };
     const onCreate = () => {
@@ -57,17 +63,24 @@ const DataTable = ({
 
     const adminAccess = access.useAccess([accesses.admin]);
 
+    const onRowClick = (row) => {
+        const id = row.get("id");
+        navigateTo(CV, {id});
+    };
+
     return (
         <>
             <Data
-                title="CVs"
+                title={t("overview.title")}
                 columns={columns}
                 data={data}
                 loading={loading}
                 onCreate={adminAccess(onCreate)}
                 onCustomAction={onCustomAction}
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
-                searchByDataField={data.size > 0 ? SEARCH_TABLE_FIELD : undefined}
+                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
+                searchPlaceholder={t("overview.search.placeholder")}
+                onRowClick={onRowClick}
             />
             <Modal
                 open={isFormModalOpen}
@@ -87,6 +100,7 @@ DataTable.propTypes = {
     onDelete: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
     loading: PropTypes.bool,
+    navigateTo: PropTypes.func.isRequired,
 };
 
 DataTable.defaultProps = {
@@ -103,6 +117,7 @@ const mapDispatchToProps = (dispatch) => ({
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
     onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
+    navigateTo: (route, params, query) => dispatch(navigate(route, params, query)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

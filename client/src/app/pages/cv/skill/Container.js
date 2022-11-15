@@ -21,7 +21,7 @@ const Container = ({skills, removeSkill, updateSkill}) => {
     return (
         skills.size > 0
         && (
-            <CardLayout title="Skills">
+            <CardLayout title={t(`skills.title`)}>
                 {skills.map((skill) => (
                     <Card
                         key={skill.id}
@@ -29,7 +29,7 @@ const Container = ({skills, removeSkill, updateSkill}) => {
                         onDelete={adminOrOwnerAccess(() => removeSkill(skill.id))}
                     >
                         <Slider
-                            valueLabel={t(`cv.skill.${skill.level}`)}
+                            valueLabel={t(`skill.label.${skill.level}`)}
                             value={skill.level}
                             onChange={(value) => updateSkill(skill.id, value)}
                             disabled={!isAdminOrOwner}

@@ -112,6 +112,10 @@ div {
     content: "";
 }
 
+.block.profile p{
+    text-align: justify;
+}
+
 .projects h2 span {
     font-size: 11pt;
     font-weight: bold;
@@ -207,6 +211,7 @@ div {
 
 .technologies > div,
 .certificates > div,
+.educations > div,
 .others > div {
     margin-bottom: 5px;
 }

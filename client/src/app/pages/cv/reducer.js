@@ -9,6 +9,7 @@ import certificate from "./certificate";
 import other from "./other";
 import project from "./project";
 import {cvTypesActionGroup} from "./actions";
+import education from "./education";
 
 const types = (state = new AllTypes(), action) => {
     switch (action.type) {
@@ -26,4 +27,5 @@ export default combineReducers({
     [certificate.NAME]: certificate.reducer,
     [other.NAME]: other.reducer,
     [project.NAME]: project.reducer,
+    [education.NAME]: education.reducer,
 });

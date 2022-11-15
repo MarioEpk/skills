@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import IPropTypes from "react-immutable-proptypes";
 
+import i18n from "core/i18n";
+
 import {compose} from "core/form";
 import modal from "core/modal";
 import {Card, CardLayout, Modal} from "components";
@@ -39,6 +41,8 @@ const Container = ({
         openForm(projectType.id);
         fillForm(id, from, to, company, contribution, positionTypes, technologyTypes);
     };
+    const {t} = i18n.useTranslation();
+
     return (
         <>
             <Modal
@@ -49,7 +53,7 @@ const Container = ({
             </Modal>
             {projects.size > 0
             && (
-                <CardLayout title="Projects">
+                <CardLayout title={t(`projects.title`)}>
                     {projects.map((project) => (
                         <Card
                             key={project.id}

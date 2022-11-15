@@ -5,53 +5,58 @@ import IPropTypes from "react-immutable-proptypes";
 
 import {Loading, Button, TextInput, VerticalFormLayout, FormError} from "components";
 import {Field, compose, form, required} from "core/form";
+import i18n from "core/i18n";
 
 import {EMAIL_FIELD, FIRST_NAME_FIELD, FORM_NAME, LAST_NAME_FIELD} from "./constants";
 
-const Container = ({handleSubmit, submitting, errors, onClose}) => (
-    <Loading loading={submitting}>
-        <VerticalFormLayout
-            title="Add CV for user"
-            buttons={[
-                <Button
-                    key="close"
-                    type={Button.type.DANGER}
-                    label="Close"
-                    onClick={onClose}
-                />,
-                <Button
-                    key="create"
-                    label="Create CV"
-                    onClick={handleSubmit}
-                    submit
-                />,
-            ]}
-        >
-            <Field
-                component={TextInput}
-                placeholder="First name"
-                name={FIRST_NAME_FIELD}
-                validate={[required]}
-                autoFocus
-            />
-            <Field
-                component={TextInput}
-                placeholder="Last name"
-                name={LAST_NAME_FIELD}
-                validate={[required]}
-            />
-            <Field
-                component={TextInput}
-                placeholder="Company email (@morosystems.cz)"
-                name={EMAIL_FIELD}
-                validate={[required]}
-            />
-            <FormError errors={errors} />
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+const Container = ({handleSubmit, submitting, errors, onClose}) => {
+    const {t} = i18n.useTranslation();
 
-        </VerticalFormLayout>
-    </Loading>
-);
+    return (
+        <Loading loading={submitting}>
+            <VerticalFormLayout
+                title={t("overview.formTitle")}
+                buttons={(
+                    <>
+                        <Button
+                            label={t("create.button.label")}
+                            type={Button.type.COLORED}
+                            onClick={handleSubmit}
+                            submit
+                        />
+                        <Button
+                            label={t("close.button.label")}
+                            onClick={onClose}
+                        />
+                    </>
+                )}
+            >
+                <Field
+                    component={TextInput}
+                    placeholder={t("overview.firstName.placeholder")}
+                    name={FIRST_NAME_FIELD}
+                    validate={[required]}
+                    autoFocus
+                />
+                <Field
+                    component={TextInput}
+                    placeholder={t("overview.lastName.placeholder")}
+                    name={LAST_NAME_FIELD}
+                    validate={[required]}
+                />
+                <Field
+                    component={TextInput}
+                    placeholder={t("overview.email.placeholder")}
+                    name={EMAIL_FIELD}
+                    validate={[required]}
+                />
+                <FormError errors={errors} />
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+
+            </VerticalFormLayout>
+        </Loading>
+    );
+};
 
 Container.propTypes = {
     handleSubmit: PropTypes.func.isRequired,

@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import i18n from "core/i18n";
+
 import {Modal} from "../modal";
 import {Button} from "../button";
 
@@ -12,33 +14,35 @@ const Confirmation = ({
     onDelete,
     onClose,
     open,
-}) => (
-    <Modal
-        open={open}
-        onClose={onClose}
-    >
-        <div className={css.main}>
-            <h1>{title}</h1>
-            {text && <p>{text}</p>}
-            <span className={css.buttons}>
-                <Button
-                    key="close"
-                    type={Button.type.DANGER}
-                    label="Zavřít"
-                    onClick={onClose}
-                />
-                <Button
-                    key="create"
-                    label="Potvrdit"
-                    onClick={(...params) => {
-                        onDelete(...params);
-                        onClose();
-                    }}
-                />
-            </span>
-        </div>
-    </Modal>
-);
+}) => {
+    const {t} = i18n.useTranslation();
+
+    return (
+        <Modal
+            open={open}
+            onClose={onClose}
+        >
+            <div className={css.main}>
+                <h1>{title}</h1>
+                {text && <p>{text}</p>}
+                <span className={css.buttons}>
+                    <Button
+                        type={Button.type.COLORED}
+                        label={t("confirm.button.label")}
+                        onClick={(...params) => {
+                            onDelete(...params);
+                            onClose();
+                        }}
+                    />
+                    <Button
+                        label={t("close.button.label")}
+                        onClick={onClose}
+                    />
+                </span>
+            </div>
+        </Modal>
+    );
+};
 
 Confirmation.propTypes = {
     title: PropTypes.string.isRequired,
