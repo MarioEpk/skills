@@ -112,6 +112,10 @@ div {
     content: "";
 }
 
+.block.profile p{
+    text-align: justify;
+}
+
 .projects h2 span {
     font-size: 11pt;
     font-weight: bold;
