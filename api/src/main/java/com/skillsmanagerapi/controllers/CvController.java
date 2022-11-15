@@ -84,6 +84,13 @@ public class CvController {
         cvService.deleteCv(id);
     }
 
+    @PreAuthorize("hasAuthority('business') or hasAuthority('admin')")
+    @PutMapping(value = "/{cvId}/share")
+    public void toggleShareStatus(@PathVariable("cvId") int cvId) {
+        cvService.toggleShareStatus(cvId);
+    }
+
+
     // Language
     @PostMapping(value = "/{cvId}/language")
     public void addLanguageToCv(@PathVariable("cvId") int cvId, @RequestBody LanguageDto languageDto) {
@@ -201,4 +208,6 @@ public class CvController {
     public AllTypesDto getAllTypes() {
         return typeService.getAllTypes();
     }
+
+
 }

@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
-import {Edit, GetApp} from "@material-ui/icons";
+import {Edit, GetApp, CheckCircleOutline, Send, CancelScheduleSend} from "@material-ui/icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLink} from "@fortawesome/free-solid-svg-icons";
 
 import i18n from "core/i18n";
 import modal from "core/modal";
@@ -17,6 +19,11 @@ import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
+
+const dateFormatter = (date) => Intl.DateTimeFormat(
+    'cs-CZ',
+    {year: 'numeric', month: 'numeric', day: '2-digit', hour: 'numeric', minute: 'numeric', second: 'numeric'},
+).format(new Date(date));
 
 const columns = [{
     key: "1",
@@ -33,8 +40,14 @@ const columns = [{
     columnName: "last.name",
 }, {
     key: "4",
+    dataField: "shared",
+    columnName: "shared",
+    dataFormat: (data) => (data ? (<CheckCircleOutline />) : null),
+}, {
+    key: "5",
     dataField: "updatedAt",
     columnName: "updated.at",
+    dataFormat: (data) => dateFormatter(data),
 }];
 
 const DataTable = ({
@@ -45,6 +58,8 @@ const DataTable = ({
     isFormModalOpen,
     onDelete,
     onExport,
+    onShare,
+    onCopyPublicUrl,
     navigateTo,
 }) => {
     const {t} = i18n.useTranslation();
@@ -52,9 +67,13 @@ const DataTable = ({
     const onCustomAction = (row) => {
         const cvId = row.get("id");
         const user = row.get("user");
+        const shared = row.get('shared');
+        const extCode = row.get('externalCode');
         return ([
             <Button key="redirect" href={`/${cvId}`} label={t(`edit.button.label`)} startIcon={<Edit />} />,
             <Button key="export" onClick={() => onExport(cvId, user.lastName)} label={t(`export.button.label`)} startIcon={<GetApp />} />,
+            <Button key="share" className="shared" onClick={() => onShare(cvId)} label={shared ? "Unshare" : "Share  "} startIcon={shared ? <CancelScheduleSend /> : <Send />} />,
+            <Button key="copyPublicUrl" onClick={() => onCopyPublicUrl(extCode)} label="Copy URL" startIcon={<FontAwesomeIcon icon={faLink} />} />,
         ]);
     };
     const onCreate = () => {
@@ -99,6 +118,8 @@ DataTable.propTypes = {
     isFormModalOpen: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
     onExport: PropTypes.func.isRequired,
+    onShare: PropTypes.func.isRequired,
+    onCopyPublicUrl: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     navigateTo: PropTypes.func.isRequired,
 };
@@ -118,6 +139,8 @@ const mapDispatchToProps = (dispatch) => ({
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
     onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
     navigateTo: (route, params, query) => dispatch(navigate(route, params, query)),
+    onShare: (id) => dispatch(cvActionGroup.shareCv(id)),
+    onCopyPublicUrl: (extCode) => dispatch(cvActionGroup.copyPublicUrl(extCode)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

@@ -53,6 +53,8 @@ const removeProjectFromCv = (projectId) => fetch.doDelete(`${CV_URL}/project/${p
 
 const fetchAllTypes = () => fetch.doGet(`${CV_URL}/types`, null, AllTypes.fromServer);
 
+const shareCv = (cvId) => fetch.doPut(`${CV_URL}/${cvId}/share`);
+
 export default {
     fetchCvForUser,
     fetchCvs,
@@ -93,4 +95,5 @@ export default {
     removeProjectFromCv,
 
     fetchAllTypes,
+    shareCv,
 };

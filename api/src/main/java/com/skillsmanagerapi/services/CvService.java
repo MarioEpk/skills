@@ -19,10 +19,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -39,6 +45,7 @@ public class CvService {
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
     private final EducationService educationService;
+    private final ExportService exportService;
 
     @Autowired
     public CvService(
@@ -52,7 +59,8 @@ public class CvService {
         @NonNull final UserService userService,
         @NonNull final ModelMapper modelMapper,
         @NonNull final ModelMapperUtil modelMapperUtil,
-        @NonNull final EducationService educationService
+        @NonNull final EducationService educationService,
+        @NonNull final ExportService exportService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
@@ -64,6 +72,7 @@ public class CvService {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.exportService = exportService;
         this.educationService = educationService;
     }
 
@@ -75,6 +84,11 @@ public class CvService {
     public CvDto getCv(@NonNull final int id) {
         return modelMapper.map(cvRepository.findById(id).orElseThrow(EntityNotFoundException::new), CvDto.class);
     }
+
+    public CvDto getCVByExternalCode(@NonNull final String externalCode) {
+        return modelMapper.map(cvRepository.findByExternalCode(externalCode).orElseThrow(EntityNotFoundException::new), CvDto.class);
+    }
+
 
     @Transactional
     public void deleteCv(@NonNull final int id) {
@@ -99,6 +113,15 @@ public class CvService {
         relatedCVDataChanged(cvDto.getId());
     }
 
+    public void toggleShareStatus(final int cvId) {
+        final CvDto cvDto = this.getCv(cvId);
+        cvDto.setShared(!cvDto.isShared());
+        //if external_code is empty and share=true, generate value
+        if (cvDto.isShared() && StringUtils.isEmpty(cvDto.getExternalCode())) {
+            cvDto.setExternalCode(generateExternalCode(cvDto));
+        }
+        cvRepository.save(modelMapper.map(cvDto, Cv.class));
+    }
 
     // Language
     @Transactional
@@ -276,6 +299,20 @@ public class CvService {
         cv.setUser(modelMapper.map(userDto, User.class));
         cvRepository.save(cv);
         return cv;
+    }
+
+    public String generateExternalCode(@NonNull final CvDto cvDto) {
+        final String toHash = cvDto.getUser().getEmail() + UUID.randomUUID();  //email + UUID hash
+        String extCode;
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = messageDigest.digest(toHash.getBytes(StandardCharsets.UTF_8));
+            extCode = String.format("%064x", new BigInteger(1, hash));
+        } catch (NoSuchAlgorithmException e) {
+            log.warn("Cannot generate external code, fallback will be used");
+            extCode = UUID.randomUUID().toString();
+        }
+        return extCode.length() > 16 ? extCode.substring(0, 16) : extCode;
     }
 
 

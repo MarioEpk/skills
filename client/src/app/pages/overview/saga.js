@@ -9,6 +9,7 @@ import {cvApi} from "app/serverApi";
 import {cvActionGroup} from "./actions";
 import form from "./form";
 import {MODAL_FORM_NAME} from "./constants";
+import {copyCVPublicUrlToClipboard} from "../cv/utils";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -17,6 +18,8 @@ export default router.routerWrapper({
     * onPageEnter() {
         yield fork(formSaga);
         yield takeLatest(cvActionGroup.REMOVE, deleteData);
+        yield takeLatest(cvActionGroup.SHARE_CV, shareCv);
+        yield takeLatest(cvActionGroup.COPY_PUBLIC_URL, copyPublicUrl);
     },
 });
 
@@ -63,4 +66,21 @@ function* deleteData({payload}) {
         yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
         console.error(e);
     }
+}
+
+function* shareCv({payload}) {
+    try {
+        yield call(cvApi.shareCv, payload.cvId);
+        yield call(refreshData);
+        const cv = yield call(cvApi.fetchCv, payload.cvId);
+        yield put(notification.show(cv.shared ? "CV shared" : "CV unshared"));
+    } catch (e) {
+        yield put(notification.show("Problem with share", null, notification.types.FAILED));
+        console.error(e);
+    }
+}
+
+function* copyPublicUrl({payload}) {
+    yield call(copyCVPublicUrlToClipboard, payload.externalCode);
+    yield put(notification.show("Copied"));
 }

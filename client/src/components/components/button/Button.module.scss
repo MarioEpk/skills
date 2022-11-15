@@ -13,6 +13,9 @@
 }
 
 .button {
+    &.shared {
+        width: 120px;
+    }
     &.normalize {
         font-family: Montserrat, sans-serif !important;
         text-transform: none !important;
