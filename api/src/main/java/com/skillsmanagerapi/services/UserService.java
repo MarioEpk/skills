@@ -1,26 +1,23 @@
 package com.skillsmanagerapi.services;
 
-import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.UserCertificateDto;
 import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.dto.UserEducationDto;
 import com.skillsmanagerapi.enums.RoleTypes;
 import com.skillsmanagerapi.models.Role;
 import com.skillsmanagerapi.models.User;
+import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.repositories.UserRepository;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -36,18 +33,21 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
     private final JwtDecoder jwtDecoder;
+    private final CvRepository cvRepository;
 
     @Autowired
     public UserService(
         @NonNull final UserRepository userRepository,
         @NonNull final ModelMapper modelMapper,
         @NonNull final ModelMapperUtil modelMapperUtil,
-        @NonNull final JwtDecoder jwtDecoder
+        @NonNull final JwtDecoder jwtDecoder,
+        @NonNull final CvRepository cvRepository
     ) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
         this.jwtDecoder = jwtDecoder;
+        this.cvRepository = cvRepository;
     }
 
     public List<UserDto> getAllUsers() {
@@ -99,11 +99,11 @@ public class UserService {
 
     public List<UserEducationDto> getUsersWithEducations() {
         List<UserEducationDto> userEducationDtoList = new ArrayList<>();
-        userRepository.findAll().forEach(user -> {
-            UserEducationDto userEducationDto = modelMapper.map(user, UserEducationDto.class);
-            userEducationDto.setUserLastName(user.getLastName());
-            userEducationDto.setUserFirstName(user.getFirstName());
-            userEducationDto.setEducations(user.getCvs().stream().flatMap(cv -> cv.getEducations().stream()).collect(Collectors.toSet()));
+        cvRepository.findAll().forEach(cv -> {
+            UserEducationDto userEducationDto = new UserEducationDto();
+            userEducationDto.setUserLastName(cv.getUser().getLastName());
+            userEducationDto.setUserFirstName(cv.getUser().getFirstName());
+            userEducationDto.setEducations(cv.getEducations().stream().collect(Collectors.toSet()));
             userEducationDtoList.add(userEducationDto);
         });
         return userEducationDtoList;
@@ -111,11 +111,11 @@ public class UserService {
 
     public List<UserCertificateDto> getUsersWithCertificates() {
         List<UserCertificateDto> userCertificateDtoList = new ArrayList<>();
-        userRepository.findAll().forEach(user -> {
-            UserCertificateDto userCertificateDto = modelMapper.map(user, UserCertificateDto.class);
-            userCertificateDto.setUserLastName(user.getLastName());
-            userCertificateDto.setUserFirstName(user.getFirstName());
-            userCertificateDto.setCertificates(user.getCvs().stream().flatMap(cv -> cv.getCertificates().stream()).collect(Collectors.toSet()));
+        cvRepository.findAll().forEach(cv -> {
+            UserCertificateDto userCertificateDto = new UserCertificateDto();
+            userCertificateDto.setUserLastName(cv.getUser().getLastName());
+            userCertificateDto.setUserFirstName(cv.getUser().getFirstName());
+            userCertificateDto.setCertificates(cv.getCertificates().stream().collect(Collectors.toSet()));
             userCertificateDtoList.add(userCertificateDto);
         });
         return userCertificateDtoList;
