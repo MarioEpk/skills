@@ -14,6 +14,7 @@ import io.github.erdos.stencil.API;
 import io.github.erdos.stencil.EvaluatedDocument;
 import io.github.erdos.stencil.PreparedTemplate;
 import io.github.erdos.stencil.TemplateData;
+import io.github.erdos.stencil.impl.NativeTemplateFactory;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,12 +54,17 @@ public class ExportService {
         log.info("Generating DOCX for user {} has started ...", cvDto.getUser().getEmail());
 
         //preparing data
-        final URL templateUrl = getClass().getResource("/templates/template_doc.docx");
-        if (templateUrl == null) {
-            log.error("Cannot read template for DOCX");
+        //lousy stencil library needs File as paramer, so template needs to be copied to tmp
+        final Path template;
+        try(InputStream is = getClass().getResourceAsStream("/templates/template_doc.docx")) {
+            template = Files.createTempFile("cvtemplate", ".docx");
+            Files.copy(is, template, StandardCopyOption.REPLACE_EXISTING);
+            log.debug("Template copied to {}", template);
+        } catch (Exception e) {
+            log.error("Cannot read template for DOCX", e);
             throw new Exception("Cannot read template for DOCX");
         }
-        final File template = new File(templateUrl.toURI());
+
 
 
         //reuse Context and convert to map (stencil project format)
@@ -74,7 +84,7 @@ public class ExportService {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             log.info("DOCX is being created");
 
-            final PreparedTemplate prepared = API.prepare(template);
+            final PreparedTemplate prepared = API.prepare(template.toFile());
             final EvaluatedDocument rendered = API.render(prepared, td);
             rendered.writeToStream(outputStream);
             prepared.cleanup();
@@ -84,14 +94,10 @@ public class ExportService {
             log.error("There was error with creating DOCX. Exception: {}", e.getMessage());
             throw e;
         }
-
-
     }
 
 
-
     public byte[] generateCvPdf(@NonNull final CvDto cvDto) throws Exception {
-
         log.info("Generating PDF for user {} has started ...", cvDto.getUser().getEmail());
 
         // We set-up a Thymeleaf rendering engine. All Thymeleaf templates
