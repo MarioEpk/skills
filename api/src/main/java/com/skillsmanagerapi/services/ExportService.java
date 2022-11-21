@@ -248,11 +248,13 @@ public class ExportService {
     }
 
 
-    public String generateUserIdentifier(CvDto cv) {
-        return String.format("%s_%s",
-                cv.getUser().getFirstName() == null ? "john" : cv.getUser().getFirstName(),
-                cv.getUser().getLastName() == null ? "doe" : cv.getUser().getLastName().charAt(0));
-    }
 
+    public String generateExportName(CvDto cv, String ext) {
+        return String.format("%s_%s_%s.%s",
+                "CV_MoroSystems_",
+                cv.getUser().getFirstName() == null ? "John" : cv.getUser().getFirstName(),
+                cv.getUser().getLastName() == null ? "D" : cv.getUser().getLastName().charAt(0),
+                ext);
+    }
 
 }
