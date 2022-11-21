@@ -12,7 +12,7 @@ export default function* () {
 }
 
 const createFileName = (firstName, lastName) => (
-    removeAccents(`${firstName}_${lastName.charAt(0)}_cv`)
+    removeAccents(`CV_MoroSystems_${firstName}_${lastName.charAt(0)}`)
 );
 
 function* exportCv({payload}) {

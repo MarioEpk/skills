@@ -36,7 +36,7 @@ public class ExportController {
         final byte[] pdfData = exportService.generateCvPdf(cvDto);
 
         return FileDownloadHttpResponse.getResponseBase64Encoded(
-                exportService.generateUserIdentifier(cvDto) + "_cv.pdf",
+                exportService.generateExportName(cvDto, "pdf"),
                 pdfData,
                 APPLICATION_PDF_VALUE);
     }
@@ -49,7 +49,7 @@ public class ExportController {
         final byte[] docxData = exportService.generateCvDoc(cvDto);
 
         return FileDownloadHttpResponse.getResponseBase64Encoded(
-                exportService.generateUserIdentifier(cvDto) + "_cv.docx",
+                "CV_MoroSystems_" + exportService.generateExportName(cvDto, "docx"),
                 docxData,
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     }
