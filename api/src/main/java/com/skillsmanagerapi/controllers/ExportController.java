@@ -49,7 +49,7 @@ public class ExportController {
         final byte[] docxData = exportService.generateCvDoc(cvDto);
 
         return FileDownloadHttpResponse.getResponseBase64Encoded(
-                "CV_MoroSystems_" + exportService.generateExportName(cvDto, "docx"),
+                exportService.generateExportName(cvDto, "docx"),
                 docxData,
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     }
