@@ -4,11 +4,20 @@ import {List} from "immutable";
 import {createTypeActionGroup} from "./actions";
 import {availableTypesArray} from "./constants";
 
-// Generic reducer for all types
+
+const removeConfirmationRequested = (state = false, action) => {
+    const actions = createTypeActionGroup(action);
+    switch (action.type) {
+        case (actions.FORCE_DELETE_CONFIRMATION): return action.payload.forceDeleteConfirmationRequested;
+        default: return state;
+    }
+};
+
 export default combineReducers(availableTypesArray.reduce((reducers, name) => {
     const actions = createTypeActionGroup(name);
     return {
         ...reducers,
+        removeConfirmationRequested,
         [name]: (state = List(), action) => {
             switch (action.type) {
                 case (actions.FETCH_SUCCESS): return action.payload;

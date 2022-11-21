@@ -1,14 +1,12 @@
-import {all, call, fork, takeLatest, put, putResolve} from "redux-saga/effects";
+import {all, call, fork, takeLatest, put} from "redux-saga/effects";
 import router from "core/router";
 import notification from "core/notification";
-import modal from "core/modal";
 
 import form from "./form";
 import {createTypeActionGroup} from "./actions";
-import {availableTypesArray, MODAL_NAME} from "./constants";
+import {availableTypesArray} from "./constants";
 import {getApiForType} from "./utils";
-import {getConfirmation} from "history/DOMUtils";
-import {openForm} from "../cv/certificate/actions";
+
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -27,26 +25,23 @@ export default router.routerWrapper({
     },
 });
 
-function* confirmRemove() {
-    console.log("1111111");
-    yield putResolve(openForm());
-    console.log("222222");
-}
-
 function* removeEntityFromType(type, {payload}) {
     try {
-        yield call(getApiForType(type).remove, {id: payload});
+        yield call(getApiForType(type).remove, payload);
+        // if (payload.forceDelete) {
+        //     alert("force deleted");
+        //     yield put(createTypeActionGroup('forceDeleteConfirmation').forceDeleteConfirmation(false));
+        // }
         yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
         if (e.status === 422) {
-            const isConfirmed = yield call(confirmRemove);
-            if (isConfirmed) {
-                alert("YES!!!!!");
-            }
+            console.error("Constraints error, needs force delete confirmation");
+            yield put(createTypeActionGroup('forceDeleteConfirmation').forceDeleteConfirmation(true));
+        } else {
+            console.error(e);
+            yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
         }
-        yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
-        console.error(e);
     }
 }
 

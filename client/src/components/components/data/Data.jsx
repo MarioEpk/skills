@@ -30,13 +30,13 @@ const Data = ({
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
-    const [deleteConfirmation, setDeleteConfirmation] = useState(undefined);
+    const [deleteConfirmation, setDeleteConfirmation] = useState({row: undefined, force: false});
     const {t} = i18n.useTranslation();
 
     const tableActions = {
         columnName: "Actions",
         onEdit,
-        onDelete: onDelete ? (row) => setDeleteConfirmation(row) : undefined,
+        onDelete: onDelete ? (r, f) => setDeleteConfirmation({row: r, force: f}) : undefined,
         custom: onCustomAction,
         align: 'right',
         collapsed: true,
@@ -65,11 +65,13 @@ const Data = ({
             <Loading loading={loading}>
                 <Confirmation
                     title={t(`delete.button.label`)}
-                    text={t(`confirmation.text`)}
-                    onDelete={() => onDelete(deleteConfirmation)}
-                    onClose={() => setDeleteConfirmation(undefined)}
-                    open={!!deleteConfirmation}
+                    //text={deleteConfirmation.force ? "FORCE!!!" : t(`confirmation.text`)}
+                    text={"delete" + deleteConfirmation.row + "---" + deleteConfirmation.force}
+                    onDelete={() => onDelete(deleteConfirmation.row, deleteConfirmation.force)}
+                    onClose={() => setDeleteConfirmation({row: undefined, force: false})}
+                    open={!!deleteConfirmation.row || deleteConfirmation.force}
                 />
+                <div>{deleteConfirmation.row}</div>
                 <div className={css.control}>
                     <h2 className={css.title}>{title}</h2>
                     {!!searchByDataFields

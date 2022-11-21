@@ -8,7 +8,7 @@ import i18n from "core/i18n";
 import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
 
-import {getTypeData} from "./selectors";
+import {getTypeData, forceDeleteConfirmationRequested} from "./selectors";
 import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELDS} from "./constants";
 import {createTypeActionGroup} from "./actions";
 
@@ -61,7 +61,7 @@ const DataTable = ({
                 loading={loading}
                 onCreate={onCreate}
                 onEdit={onEdit}
-                onDelete={(row) => onDelete(row.get("id"))}
+                onDelete={(row, force) => onDelete(row.get("id"), force)}
                 searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
                 searchPlaceholder={t("search.placeholder")}
             />
@@ -89,15 +89,18 @@ DataTable.propTypes = {
     fillForm: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     loading: PropTypes.bool,
+    forceRequest: PropTypes.bool,
 };
 
 DataTable.defaultProps = {
     loading: false,
     columns: defaultColumns,
+    forceRequest: false,
 };
 
 const mapStateToProps = (state, {typeName}) => ({
     data: getTypeData(state, typeName),
+    forceRequest: forceDeleteConfirmationRequested(state),
     isFormModalOpen: modal.isOpen(state, modalFormName(typeName)),
 });
 
@@ -107,7 +110,7 @@ const mapDispatchToProps = (dispatch, {typeName}) => {
         openModal: (modalName) => dispatch(modal.open(modalName)),
         closeModal: (modalName) => dispatch(modal.close(modalName)),
         fillForm: (id, name, description, technologies, exportName) => dispatch(actions.fill(id, name, description, technologies, exportName)),
-        onDelete: (id) => dispatch(actions.remove(id)),
+        onDelete: (id, force) => dispatch(actions.remove(id, force)),
     });
 };
 
