@@ -1,4 +1,6 @@
 export const NAME = "administration";
+export const MODAL_NAME = `${NAME}-modal`;
+export const FORM_NAME = `${NAME}-form`;
 
 export const availableTypes = {
     LANGUAGE: "LANGUAGE",

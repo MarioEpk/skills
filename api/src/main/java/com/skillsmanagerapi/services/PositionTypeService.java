@@ -1,8 +1,11 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.PositionTypeDto;
+import com.skillsmanagerapi.models.Cv;
 import com.skillsmanagerapi.models.PositionType;
+import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.repositories.PositionTypeRepository;
+import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
@@ -22,12 +25,17 @@ public class PositionTypeService {
     private final PositionTypeRepository positionTypeRepository;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final DeleteResolver deleteResolver;
 
     @Autowired
-    public PositionTypeService(@NonNull final PositionTypeRepository positionTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
+    public PositionTypeService(@NonNull final PositionTypeRepository positionTypeRepository,
+                               @NonNull final ModelMapper modelMapper,
+                               @NonNull final ModelMapperUtil modelMapperUtil,
+                               @NonNull final DeleteResolver deleteResolver) {
         this.positionTypeRepository = positionTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.deleteResolver = deleteResolver;
     }
 
     public List<PositionTypeDto> getAllPositionTypes() {
@@ -51,7 +59,12 @@ public class PositionTypeService {
     }
 
     @Transactional
-    public void deletePositionType(final int id) {
+    public void deletePositionType(final int id) throws DeleteTypeConstraintException {
+        deleteResolver.checkOrResolve(id,
+                true,
+                CvRepository::findByPosition,
+                Cv::getPositions,
+                PositionType::getId);
         positionTypeRepository.deleteById(id);
     }
 

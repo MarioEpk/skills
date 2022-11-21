@@ -256,7 +256,7 @@ public class CvService {
     }
 
     @Transactional
-    public void updateCertificate(@NonNull final int cvId, @NonNull final CertificateDto certificateDto) {
+    public void updateCertificate(final int cvId, @NonNull final CertificateDto certificateDto) {
         certificateService.updateCertificate(certificateDto);
         relatedCVDataChanged(cvId);
     }

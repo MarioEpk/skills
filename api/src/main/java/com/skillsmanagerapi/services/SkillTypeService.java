@@ -1,8 +1,12 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.SkillTypeDto;
+import com.skillsmanagerapi.models.Cv;
+import com.skillsmanagerapi.models.Skill;
 import com.skillsmanagerapi.models.SkillType;
+import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.repositories.SkillTypeRepository;
+import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -22,12 +30,17 @@ public class SkillTypeService {
     private final SkillTypeRepository skillTypeRepository;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final DeleteResolver deleteResolver;
 
     @Autowired
-    public SkillTypeService(@NonNull final SkillTypeRepository skillTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
+    public SkillTypeService(@NonNull final SkillTypeRepository skillTypeRepository,
+                            @NonNull final ModelMapper modelMapper,
+                            @NonNull final ModelMapperUtil modelMapperUtil,
+                            @NonNull final DeleteResolver deleteResolver) {
         this.skillTypeRepository = skillTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.deleteResolver = deleteResolver;
     }
 
     public List<SkillTypeDto> getAllSkillTypes() {
@@ -51,9 +64,17 @@ public class SkillTypeService {
     }
 
     @Transactional
-    public void deleteSkillType(final int id) {
+    public void deleteSkillType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
+        deleteResolver.checkOrResolve(
+                id,
+                true,
+                CvRepository::findBySkill,
+                Cv::getSkills,
+                Skill::getId);
         skillTypeRepository.deleteById(id);
     }
+
+
 
 
 }

@@ -1,8 +1,13 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.TechnologyTypeDto;
+import com.skillsmanagerapi.models.Cv;
+import com.skillsmanagerapi.models.Skill;
+import com.skillsmanagerapi.models.Technology;
 import com.skillsmanagerapi.models.TechnologyType;
+import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.repositories.TechnologyTypeRepository;
+import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Function;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -22,12 +28,20 @@ public class TechnologyTypeService {
     private final TechnologyTypeRepository technologyTypeRepository;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final CvRepository cvRepository;
+    private final DeleteResolver deleteResolver;
 
     @Autowired
-    public TechnologyTypeService(@NonNull final TechnologyTypeRepository technologyTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
+    public TechnologyTypeService(@NonNull final TechnologyTypeRepository technologyTypeRepository,
+                                 @NonNull final ModelMapper modelMapper,
+                                 @NonNull final ModelMapperUtil modelMapperUtil,
+                                 @NonNull final CvRepository cvRepository,
+                                 @NonNull DeleteResolver deleteResolver) {
         this.technologyTypeRepository = technologyTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.cvRepository = cvRepository;
+        this.deleteResolver = deleteResolver;
     }
 
     public List<TechnologyTypeDto> getAllTechnologyTypes() {
@@ -51,7 +65,12 @@ public class TechnologyTypeService {
     }
 
     @Transactional
-    public void deleteTechnologyType(final int id) {
+    public void deleteTechnologyType(final int id) throws DeleteTypeConstraintException {
+        deleteResolver.checkOrResolve(id,
+                true,
+                CvRepository::findByTechnology,
+                Cv::getTechnologies,
+                Technology::getId);
         technologyTypeRepository.deleteById(id);
     }
 

@@ -1,11 +1,14 @@
-import {all, call, fork, takeLatest, put} from "redux-saga/effects";
+import {all, call, fork, takeLatest, put, putResolve} from "redux-saga/effects";
 import router from "core/router";
 import notification from "core/notification";
+import modal from "core/modal";
 
 import form from "./form";
 import {createTypeActionGroup} from "./actions";
-import {availableTypesArray} from "./constants";
+import {availableTypesArray, MODAL_NAME} from "./constants";
 import {getApiForType} from "./utils";
+import {getConfirmation} from "history/DOMUtils";
+import {openForm} from "../cv/certificate/actions";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -24,12 +27,24 @@ export default router.routerWrapper({
     },
 });
 
+function* confirmRemove() {
+    console.log("1111111");
+    yield putResolve(openForm());
+    console.log("222222");
+}
+
 function* removeEntityFromType(type, {payload}) {
     try {
         yield call(getApiForType(type).remove, {id: payload});
         yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
+        if (e.status === 422) {
+            const isConfirmed = yield call(confirmRemove);
+            if (isConfirmed) {
+                alert("YES!!!!!");
+            }
+        }
         yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
         console.error(e);
     }

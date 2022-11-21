@@ -1,8 +1,12 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.ProjectTypeDto;
+import com.skillsmanagerapi.models.Cv;
+import com.skillsmanagerapi.models.Project;
 import com.skillsmanagerapi.models.ProjectType;
+import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
+import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
@@ -22,12 +26,18 @@ public class ProjectTypeService {
     private final ProjectTypeRepository projectTypeRepository;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final DeleteResolver deleteResolver;
+
 
     @Autowired
-    public ProjectTypeService(@NonNull final ProjectTypeRepository projectTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
+    public ProjectTypeService(@NonNull final ProjectTypeRepository projectTypeRepository,
+                              @NonNull final ModelMapper modelMapper,
+                              @NonNull final ModelMapperUtil modelMapperUtil,
+                              @NonNull final DeleteResolver deleteResolver) {
         this.projectTypeRepository = projectTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.deleteResolver = deleteResolver;
     }
 
     public List<ProjectTypeDto> getAllProjectTypes() {
@@ -55,7 +65,12 @@ public class ProjectTypeService {
 
 
     @Transactional
-    public void deleteProjectType(final int id) {
+    public void deleteProjectType(final int id) throws DeleteTypeConstraintException {
+        deleteResolver.checkOrResolve(id,
+                true,
+                CvRepository::findByProject,
+                Cv::getProjects,
+                Project::getId);
         projectTypeRepository.deleteById(id);
     }
 
