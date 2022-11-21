@@ -7,6 +7,7 @@ i18next
         // debug: true,
         keySeparator: false,
         parseMissingKeyHandler: (key) => `(${key})`,
+        lng: "en",
     });
 
 // eslint-disable-next-line no-unused-vars
