@@ -2,6 +2,7 @@
 
 .root {
     position: relative;
+    overflow-x: auto;
 }
 
 .inactive {
@@ -9,7 +10,6 @@
 }
 
 .table {
-    overflow-x: auto;
     width: 100%;
     border-collapse: collapse;
     td {

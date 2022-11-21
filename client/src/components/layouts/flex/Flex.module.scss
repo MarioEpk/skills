@@ -1,8 +1,7 @@
-.vertical {
+.flex {
     display: flex;
-    flex-direction: column;
 }
 
-.horizontal {
-    display: flex;
+.vertical {
+    flex-direction: column;
 }

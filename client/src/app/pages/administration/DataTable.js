@@ -5,6 +5,7 @@ import IPropTypes from "react-immutable-proptypes";
 
 import modal from "core/modal";
 import i18n from "core/i18n";
+import types from "core/types";
 import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
 
@@ -18,6 +19,7 @@ const defaultColumns = [{
     dataField: "id",
     isKey: true,
     columnName: "ID",
+    defaultHidden: true,
 }, {
     key: "2",
     dataField: "name",
@@ -58,6 +60,7 @@ const DataTable = ({
     return (
         <>
             <Data
+                tableId={`table-${typeName}`}
                 title={title}
                 columns={columns}
                 data={data}
@@ -65,7 +68,7 @@ const DataTable = ({
                 onCreate={onCreate}
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"), false)}
-                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
+                quickSearchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
                 searchPlaceholder={t("search.placeholder")}
             />
             <Modal
@@ -91,7 +94,7 @@ DataTable.propTypes = {
     form: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
     // Prop for mapStateToProps function
     // eslint-disable-next-line react/no-unused-prop-types
-    typeName: PropTypes.oneOf(availableTypesArray).isRequired,
+    typeName: PropTypes.oneOf(types.availableTypesArray).isRequired,
     title: PropTypes.string.isRequired,
     openModal: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
@@ -110,7 +113,7 @@ DataTable.defaultProps = {
 };
 
 const mapStateToProps = (state, {typeName}) => ({
-    data: getTypeData(state, typeName),
+    data: types.getType(state, typeName),
     forceDeleteId: forceDeleteConfirmationId(state, typeName),
     isFormModalOpen: modal.isOpen(state, modalFormName(typeName)),
 });

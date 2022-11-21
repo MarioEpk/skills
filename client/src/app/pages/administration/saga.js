@@ -1,25 +1,20 @@
 import {all, call, fork, put, takeLatest} from "redux-saga/effects";
 import router from "core/router";
-import notification from "core/notification";
+import types from "core/types";
 
 import form from "./form";
 import {createTypeActionGroup} from "./actions";
-import {availableTypesArray} from "./constants";
-import {getApiForType} from "./utils";
 
 export default router.routerWrapper({
-    * getDataForPage() {
-        return yield all(availableTypesArray.map((type) => call(getDataForType, type)));
-    },
     * onPageEnter() {
-        yield all(availableTypesArray.map((type) => fork(form.createFormSaga(type))));
-        yield all(availableTypesArray.map((type) => {
+        yield all(types.availableTypesArray.map((type) => fork(form.createFormSaga(type))));
+        yield all(types.availableTypesArray.map((type) => {
             const action = createTypeActionGroup(type);
-            return takeLatest(action.FETCH, refreshDataForType, type);
+            return takeLatest(action.FETCH, types.fetchDataForType, type);
         }));
-        yield all(availableTypesArray.map((type) => {
+        yield all(types.availableTypesArray.map((type) => {
             const action = createTypeActionGroup(type);
-            return takeLatest(action.REMOVE, removeEntityFromType, type);
+            return takeLatest(action.REMOVE, types.removeItemFromType, type);
         }));
     },
 });

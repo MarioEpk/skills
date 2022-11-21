@@ -3,9 +3,9 @@ import React from "react";
 import {TwoColumns} from "components";
 import {PageTitle} from "app/containers";
 import i18n from "core/i18n";
+import types from "core/types";
 
 import DataTable from "./DataTable";
-import {availableTypes} from "./constants";
 import form, {ProjectForm} from "./form";
 
 const Container = () => {
@@ -16,13 +16,14 @@ const Container = () => {
             <PageTitle title={t("administration.title")} />
             <DataTable
                 title={t("projects.title")}
-                typeName={availableTypes.PROJECT}
+                typeName={types.availableTypes.PROJECT}
                 form={ProjectForm}
                 columns={[{
                     key: "1",
                     dataField: "id",
                     isKey: true,
                     columnName: "ID",
+                    defaultHidden: true,
                 }, {
                     key: "2",
                     dataField: "name",
@@ -43,13 +44,13 @@ const Container = () => {
                     <>
                         <DataTable
                             title={t("languages.title")}
-                            typeName={availableTypes.LANGUAGE}
-                            form={form.createForm(availableTypes.LANGUAGE)}
+                            typeName={types.availableTypes.LANGUAGE}
+                            form={form.createForm(types.availableTypes.LANGUAGE)}
                         />
                         <DataTable
                             title={t("technologies.title")}
-                            typeName={availableTypes.TECHNOLOGY}
-                            form={form.createForm(availableTypes.TECHNOLOGY)}
+                            typeName={types.availableTypes.TECHNOLOGY}
+                            form={form.createForm(types.availableTypes.TECHNOLOGY)}
                         />
                     </>
                 )}
@@ -57,13 +58,13 @@ const Container = () => {
                     <>
                         <DataTable
                             title={t("skills.title")}
-                            typeName={availableTypes.SKILL}
-                            form={form.createForm(availableTypes.SKILL)}
+                            typeName={types.availableTypes.SKILL}
+                            form={form.createForm(types.availableTypes.SKILL)}
                         />
                         <DataTable
                             title={t("positions.title")}
-                            typeName={availableTypes.POSITION}
-                            form={form.createForm(availableTypes.POSITION)}
+                            typeName={types.availableTypes.POSITION}
+                            form={form.createForm(types.availableTypes.POSITION)}
                         />
                     </>
                 )}

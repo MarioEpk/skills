@@ -61,7 +61,7 @@ const columns = [{
     key: "uniqueKey2",
     columnName: 'Hidden',
     dataField: 'part',
-    hidden: true,
+    defaultHidden: true,
 }, {
     key: "uniqueKey3",
     columnName: 'Immersion',

@@ -7,8 +7,10 @@ add.button.label: Add
 update.button.label: Update
 confirm.button.label: Confirm
 unshare.button.label: Unshare
-search.label: Search
+search.label: Quick search
+export.button.label: Export
 confirmation.text: Are you sure?
+advancedSearch.button.label: Advanced search
 force.delete.button.label: Confirm delete
 force.delete.confirmation.text: Record is used in CVs or Projects. Really delete? (Related records will be affected !)
 
@@ -30,6 +32,7 @@ others.title: Others
 positions.title: Positions
 overview.title: CVs
 educations.title: Education
+advancedSearch.title: Advanced search
 
 #cv
 cv.title: CV
@@ -110,8 +113,14 @@ overview.email.placeholder: Company email (@morosystems.cz)
 ID: ID
 first.name: First name
 last.name: Last name
+email.name: Email
+projects.name: Projects
+technologies.name: Technologies
+skills.name: Skills
+positions.name: Positions
+languages.name: Languages
 updated.at: Updated at
-shared: Public share
+shared: Shared
 
 #administration
 name: Name

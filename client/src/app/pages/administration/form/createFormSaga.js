@@ -4,18 +4,18 @@ import {change} from "redux-form";
 import {formWrapper, reset} from "core/form";
 import modal from "core/modal";
 import notification from "core/notification";
+import types from "core/types";
 
 import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, ID_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
 import {createTypeActionGroup} from "../actions";
 import {modalFormName} from "../constants";
-import {getApiForType} from "../utils";
 
 export default (typeName) => {
     const action = createTypeActionGroup(typeName);
     const formName = createFormName(typeName);
     let api = {};
     try {
-        api = getApiForType(typeName);
+        api = types.getApiForType(typeName);
     } catch (e) {
         console.error(`ERROR with form saga - ${formName}`);
     }

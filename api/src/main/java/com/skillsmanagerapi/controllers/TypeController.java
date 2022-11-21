@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
-@PreAuthorize("hasAuthority('admin')")
 @RequestMapping(value = "/api/types")
 @RestController
 public class TypeController {
@@ -63,28 +62,32 @@ public class TypeController {
         return typeService.getAllTypes();
     }
 
-
     // Language Type
+    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/language")
     public List<LanguageTypeDto> getAllLanguageTypes() {
         return languageTypeService.getAllLanguageTypes();
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/language/{id}")
     public LanguageTypeDto getLanguageType(@PathVariable("id") int id) {
         return languageTypeService.getLanguageType(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/language")
     public void createLanguageType(@RequestBody LanguageTypeDto languageTypeDto) {
         languageTypeService.createLanguageType(languageTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value = "/language")
     public void updateLanguageType(@RequestBody LanguageTypeDto languageTypeDto) {
         languageTypeService.updateLanguageType(languageTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping(value = "/language/{id}")
     public ResponseEntity<?> deleteLanguageType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
@@ -95,28 +98,32 @@ public class TypeController {
         }
     }
 
-
     // Skill type
+    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/skill")
     public List<SkillTypeDto> getAllSkillTypes() {
         return skillTypeService.getAllSkillTypes();
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/skill/{id}")
     public SkillTypeDto getSkillType(@PathVariable("id") int id) {
         return skillTypeService.getSkillType(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/skill")
     public void createSkillType(@RequestBody SkillTypeDto skillTypeDto) {
         skillTypeService.createSkillType(skillTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value = "/skill")
     public void updateSkillType(@RequestBody SkillTypeDto skillTypeDto) {
         skillTypeService.updateSkillType(skillTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping(value = "/skill/{id}")
     public ResponseEntity<?> deleteSkillType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
@@ -127,28 +134,32 @@ public class TypeController {
         }
     }
 
-
     // technology type
+    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/technology")
     public List<TechnologyTypeDto> getAllTechnologyTypes() {
         return technologyTypeService.getAllTechnologyTypes();
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/technology/{id}")
     public TechnologyTypeDto getTechnologyType(@PathVariable("id") int id) {
         return technologyTypeService.getTechnologyType(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/technology")
     public void createTechnologyType(@RequestBody TechnologyTypeDto technologyTypeDto) {
         technologyTypeService.createTechnologyType(technologyTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value = "/technology")
     public void updateSkillType(@RequestBody TechnologyTypeDto technologyTypeDto) {
         technologyTypeService.updateTechnologyType(technologyTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping(value = "/technology/{id}")
     public ResponseEntity<?> deleteTechnologyType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
@@ -160,28 +171,32 @@ public class TypeController {
 
     }
 
-
     // project type
+    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/project")
     public List<ProjectTypeDto> getAllProjectTypes() {
         return projectTypeService.getAllProjectTypes();
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/project/{id}")
     public ProjectTypeDto getProjectType(@PathVariable("id") int id) {
         return projectTypeService.getProjectType(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/project")
     public void createProjectType(@RequestBody ProjectTypeDto projectTypeDto) {
         projectTypeService.createProjectType(projectTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value = "/project")
     public void updateProjectType(@RequestBody ProjectTypeDto projectTypeDto) {
         projectTypeService.updateProjectType(projectTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping(value = "/project/{id}")
     public ResponseEntity<?> deleteProjectType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
@@ -192,28 +207,32 @@ public class TypeController {
         }
     }
 
-
     // position type
+    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/position")
     public List<PositionTypeDto> getAllPositionTypes() {
         return positionTypeService.getAllPositionTypes();
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping(value = "/position/{id}")
     public PositionTypeDto getPositionType(@PathVariable("id") int id) {
         return positionTypeService.getPositionType(id);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PostMapping(value = "/position")
     public void createPositionType(@RequestBody PositionTypeDto positionTypeDto) {
         positionTypeService.createPositionType(positionTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value = "/position")
     public void updatePositionType(@RequestBody PositionTypeDto positionTypeDto) {
         positionTypeService.updatePositionType(positionTypeDto);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping(value = "/position/{id}")
     public ResponseEntity<?> deletePositionType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {

@@ -6,7 +6,7 @@ import TableColumn from './TableColumn';
 import {columnActionsPropTypes, notHidden} from './util';
 import css from "./TableHead.module.scss";
 
-const TableHead = ({columns, actions}) => {
+const TableHead = ({columns, columnHiddenIds, actions}) => {
     const {t} = i18n.useTranslation();
 
     return (
@@ -15,6 +15,7 @@ const TableHead = ({columns, actions}) => {
                 {columns.filter(notHidden).map((column) => (
                     <TableColumn
                         key={column.key || column.dataField}
+                        columnHiddenIds={columnHiddenIds}
                         title={t(column.columnName)}
                         column={column}
                         header
@@ -24,7 +25,7 @@ const TableHead = ({columns, actions}) => {
                 ))}
                 {
                     actions && (
-                        <TableColumn key="action-header" header column={actions}>
+                        <TableColumn columnHiddenIds={columnHiddenIds} key="action-header" header column={actions}>
                             {actions.columnName || ""}
                         </TableColumn>
                     )
@@ -38,10 +39,11 @@ TableHead.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.shape({
         dataField: PropTypes.string.isRequired,
         key: PropTypes.string,
-        hidden: PropTypes.bool,
+        defaultHidden: PropTypes.bool,
         columnName: PropTypes.string,
         headerElement: PropTypes.node,
     })).isRequired,
+    columnHiddenIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     actions: columnActionsPropTypes,
 };
 
