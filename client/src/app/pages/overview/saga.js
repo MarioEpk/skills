@@ -81,6 +81,10 @@ function* shareCv({payload}) {
 }
 
 function* copyPublicUrl({payload}) {
-    yield call(copyCVPublicUrlToClipboard, payload.externalCode);
+    const {cvId, shareEnabled, externalCode} = payload;
+    if (!shareEnabled) {
+        yield call(shareCv, {payload: {cvId}});
+    }
+    yield call(copyCVPublicUrlToClipboard, externalCode);
     yield put(notification.show("Copied"));
 }

@@ -27,10 +27,12 @@ export const cvActionGroup = ({
             cvId,
         },
     }),
-    copyPublicUrl: (extCode) => ({
+    copyPublicUrl: (cvId, shareEnabled, extCode) => ({
         type: `${NAME}/COPY_PUBLIC_URL`,
         payload: {
             externalCode: extCode,
+            shareEnabled,
+            cvId,
         },
     }),
 });

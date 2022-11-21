@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {List} from 'immutable';
 import ImmutablePropTypes from "react-immutable-proptypes";
-import {Edit, Delete} from '@material-ui/icons';
+import {Edit, Delete, CancelScheduleSend} from '@material-ui/icons';
 import classnames from "classnames";
 
 import i18n from "core/i18n";
@@ -11,8 +11,7 @@ import TableHead from './TableHead';
 import {getColumnData, getKeyParam, columnsPropTypes, columnActionsPropTypes, wasAnythingOtherThanRowClicked} from './util';
 import css from "./Table.module.scss";
 import {Loading} from "../loading";
-import {Button} from "../button";
-import {ACTION_COLUMN_DATA_ATTRIBUTE} from "./constants";
+import {ACTION_COLUMN_DATA_ATTRIBUTE, MENU_ITEM_COLOR} from "./constants";
 import MoreActionsMenu from "./MoreActionsMenu";
 
 const renderActions = (t, actions, row, key) => {
@@ -20,17 +19,23 @@ const renderActions = (t, actions, row, key) => {
         return null;
     }
     const actionComponents = [];
+    const moreActionsMenuComponents = [];
     if (actions.custom) {
-        actionComponents.push(actions.custom(row));
+        actionComponents.push(...actions.custom(row));
     }
     if (actions.onEdit) {
-        actionComponents.push(
-            <Button key={`${key}-edit`} onClick={() => actions.onEdit(row)} label={t(`edit.button.label`)} startIcon={<Edit />} />,
+        moreActionsMenuComponents.push(
+            {key: `${key}-edit`, onClick: () => actions.onEdit(row), label: t(`edit.button.label`), icon: <Edit />},
+        );
+    }
+    if (actions.onUnshare && row.get('shared')) {
+        moreActionsMenuComponents.push(
+            {key: `${key}-unshare`, onClick: () => actions.onUnshare(row), label: t(`unshare.button.label`), icon: <CancelScheduleSend />},
         );
     }
     if (actions.onDelete) {
-        actionComponents.push(
-            <Button key={`${key}-delete`} type={Button.type.DANGER} onClick={() => actions.onDelete(row)} startIcon={<Delete />} label={t(`delete.button.label`)} />,
+        moreActionsMenuComponents.push(
+            {key: `${key}-delete`, onClick: () => actions.onDelete(row), label: t(`delete.button.label`), icon: <Delete />, color: MENU_ITEM_COLOR.SECONDARY},
         );
     }
     return (
@@ -40,8 +45,8 @@ const renderActions = (t, actions, row, key) => {
             dataAttribute={ACTION_COLUMN_DATA_ATTRIBUTE}
             column={actions}
         >
-            {actionComponents.map((component) => component)}
-            <MoreActionsMenu />
+            {actionComponents}
+            <MoreActionsMenu options={moreActionsMenuComponents} />
         </TableColumn>
     );
 };
