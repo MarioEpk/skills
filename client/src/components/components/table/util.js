@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {ACTION_COLUMN_DATA_ATTRIBUTE} from "./constants";
+import {ACTION_COLUMN_DATA_ATTRIBUTE, MENU_ITEM_COLOR} from "./constants";
 
 export const wasAnythingOtherThanRowClicked = (eventTarget) => {
     if (!eventTarget || eventTarget.tagName === "TR") {
@@ -54,3 +54,11 @@ export const columnActionsPropTypes = PropTypes.shape({
 });
 
 export const columnsPropTypes = PropTypes.arrayOf(columnPropTypes.isRequired);
+
+export const moreActionsMenuOptionPropTypes = PropTypes.shape({
+    key: PropTypes.string,
+    icon: PropTypes.node,
+    label: PropTypes.string,
+    onClick: PropTypes.func,
+    color: PropTypes.oneOf(Object.values(MENU_ITEM_COLOR)),
+});
