@@ -5,7 +5,7 @@ import classnames from "classnames";
 import css from "./TableColumn.module.scss";
 import {columnActionsPropTypes, columnPropTypes} from "./util";
 
-const TableColumn = ({column, columnHiddenIds, header, children, dataAttribute, ...rest}) => {
+const TableColumn = ({column, columnHiddenDataFields, header, children, dataAttribute, ...rest}) => {
     const Tag = header ? 'th' : 'td';
     const columnInnerClassname = classnames(css.root, {
         [css.right]: column.align === "right",
@@ -18,7 +18,7 @@ const TableColumn = ({column, columnHiddenIds, header, children, dataAttribute, 
     });
 
     const columnStyle = {width: `${column.width}px`};
-    return !columnHiddenIds.includes(column.key) && (
+    return !columnHiddenDataFields.includes(column.dataField) && (
         <Tag {...rest} data-column-type={dataAttribute} className={columnClassName} style={columnStyle}>
             <div style={columnStyle} className={columnInnerClassname}>
                 {children}
@@ -29,7 +29,7 @@ const TableColumn = ({column, columnHiddenIds, header, children, dataAttribute, 
 
 TableColumn.propTypes = {
     column: PropTypes.oneOfType([columnPropTypes, columnActionsPropTypes]).isRequired,
-    columnHiddenIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    columnHiddenDataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
     header: PropTypes.bool,
     children: PropTypes.node,
     dataAttribute: PropTypes.string,

@@ -1,40 +1,113 @@
-import React from "react";
+import React, {useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
+import {useDebouncedCallback} from "use-debounce";
 
-import {MultiSelect} from "components";
+import {Button, MultiSelectComponent} from "components";
 import types from "core/types";
 import {convertTypeToOptions} from "core/form";
 import {Type, Project} from "app/model/type";
-import {Cv} from "app/model/cv";
+import {useOnUpdate} from "core/util";
+import {OVERVIEW} from "app/constants";
+import i18n from "core/i18n";
+import {useFiltersFromUrl, useSetFiltersToUrl} from "core/url";
+
+import {OVERVIEW_TABLE_ID} from "./constants";
+import {convertToNumberArray} from "./utils";
 
 const AdvancedSearch = ({
-    filteredData,
-    setFilteredData,
     projectTypes,
     positions,
     technologyTypes,
     skillTypes,
     languageTypes,
-}) => (
-    console.log(positions.toJS()),
-    <>
-        <MultiSelect
-            id="position-filter"
-            options={convertTypeToOptions(positions)}
-            input={{
-                onChange: (value) => console.log(value),
-                value:[]
-            }}
+}) => {
+    const {t} = i18n.useTranslation();
+    const setFiltersToUrl = useSetFiltersToUrl(OVERVIEW_TABLE_ID, OVERVIEW);
+    const urlFilters = useFiltersFromUrl(OVERVIEW_TABLE_ID);
+    const [positionValue, setPositionValue] = useState(urlFilters.positions ?? []);
+    const [projectTypeValue, setProjectTypeValue] = useState(urlFilters.projectTypes ?? []);
+    const [technologyTypeValue, setTechnologyTypeValue] = useState(urlFilters.technologyTypes ?? []);
+    const [skillTypeValue, setSkillTypeValue] = useState(urlFilters.skillTypes ?? []);
+    const [languageTypeValue, setLanguageTypeValue] = useState(urlFilters.languageTypes ?? []);
 
-        />
-    </>
-);
+    const setFiltersDebounced = useDebouncedCallback((filters) => {
+        setFiltersToUrl(filters);
+    }, 500);
+
+    useOnUpdate(() => {
+        setFiltersDebounced({
+            positions: positionValue,
+            technologyTypes: technologyTypeValue,
+            projectTypes: projectTypeValue,
+            skillTypes: skillTypeValue,
+            languageTypes: languageTypeValue,
+        });
+    }, [positionValue, projectTypeValue, technologyTypeValue, skillTypeValue, languageTypeValue]);
+
+    const resetFilters = () => {
+        setPositionValue([]);
+        setProjectTypeValue([]);
+        setTechnologyTypeValue([]);
+        setSkillTypeValue([]);
+        setLanguageTypeValue([]);
+        setFiltersToUrl({}, true);
+    };
+
+    const areAdvancedFiltersApplied = useMemo(() => (
+        urlFilters ? Object.keys(urlFilters).some((filterKey) => filterKey !== 'quickSearch') : false
+    ), [urlFilters]);
+
+    return (
+        <>
+            <MultiSelectComponent
+                id="project-filter"
+                label={t("filter.projectType.label")}
+                options={convertTypeToOptions(projectTypes).toJS()}
+                onChange={(value) => setProjectTypeValue(value.toJS())}
+                value={convertToNumberArray(projectTypeValue)}
+            />
+            <MultiSelectComponent
+                id="technology-filter"
+                label={t("filter.technologyType.label")}
+                options={convertTypeToOptions(technologyTypes).toJS()}
+                onChange={(value) => setTechnologyTypeValue(value.toJS())}
+                value={convertToNumberArray(technologyTypeValue)}
+            />
+            <MultiSelectComponent
+                id="skill-filter"
+                label={t("filter.skillType.label")}
+                options={convertTypeToOptions(skillTypes).toJS()}
+                onChange={(value) => setSkillTypeValue(value.toJS())}
+                value={convertToNumberArray(skillTypeValue)}
+            />
+            <MultiSelectComponent
+                id="language-filter"
+                label={t("filter.languageType.label")}
+                options={convertTypeToOptions(languageTypes).toJS()}
+                onChange={(value) => setLanguageTypeValue(value.toJS())}
+                value={convertToNumberArray(languageTypeValue)}
+            />
+            <MultiSelectComponent
+                id="position-filter"
+                label={t("filter.position.label")}
+                options={convertTypeToOptions(positions).toJS()}
+                onChange={(value) => setPositionValue(value.toJS())}
+                value={convertToNumberArray(positionValue)}
+            />
+            {areAdvancedFiltersApplied && (
+                <Button
+                    onClick={resetFilters}
+                    label={t(`resetFilters.button.label`)}
+                    type={Button.type.DANGER}
+                />
+            )}
+        </>
+    );
+};
 
 AdvancedSearch.propTypes = {
-    filteredData: IPropTypes.listOf(Cv).isRequired,
-    setFilteredData: PropTypes.func.isRequired,
     projectTypes: IPropTypes.listOf(PropTypes.instanceOf(Project)).isRequired,
     positions: IPropTypes.listOf(PropTypes.instanceOf(Type)).isRequired,
     technologyTypes: IPropTypes.listOf(PropTypes.instanceOf(Type)).isRequired,

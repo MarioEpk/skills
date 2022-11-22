@@ -1,6 +1,5 @@
 package com.skillsmanagerapi.controllers;
 
-import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.CertificateDto;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.EducationDto;
@@ -11,7 +10,6 @@ import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
 import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.services.CvService;
-import com.skillsmanagerapi.services.TypeService;
 import com.skillsmanagerapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,13 +30,11 @@ public class CvController {
 
     private final UserService userService;
     private final CvService cvService;
-    private final TypeService typeService;
 
     @Autowired
-    public CvController(UserService userService, CvService cvService, TypeService typeService) {
+    public CvController(UserService userService, CvService cvService) {
         this.userService = userService;
         this.cvService = cvService;
-        this.typeService = typeService;
     }
 
     @GetMapping(value = "/my-id")
@@ -202,12 +198,4 @@ public class CvController {
     public void removeOtherFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
         cvService.removeOtherFromCv(cvId, id);
     }
-
-    // All types
-    @GetMapping(value = "/types")
-    public AllTypesDto getAllTypes() {
-        return typeService.getAllTypes();
-    }
-
-
 }

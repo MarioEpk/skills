@@ -10,7 +10,9 @@ unshare.button.label: Unshare
 search.label: Quick search
 export.button.label: Export
 confirmation.text: Are you sure?
-advancedSearch.button.label: Advanced search
+advancedSearchShow.button.label: Show Advanced filters
+advancedSearchHide.button.label: Hide advanced filters
+resetFilters.button.label: Reset filters
 force.delete.button.label: Confirm delete
 force.delete.confirmation.text: Record is used in CVs or Projects. Really delete? (Related records will be affected !)
 
@@ -32,7 +34,7 @@ others.title: Others
 positions.title: Positions
 overview.title: CVs
 educations.title: Education
-advancedSearch.title: Advanced search
+advancedSearch.title: Advanced filters
 
 #cv
 cv.title: CV
@@ -105,7 +107,7 @@ project.positionTypes.placeholder: Position
 project.technologyTypes.placeholder: Used technologies
 
 #overview
-overview.search.placeholder: by first name or last name
+overview.search.placeholder: Search by first name or last name
 overview.formTitle: Add CV for user
 overview.firstName.placeholder: First name
 overview.lastName.placeholder: Last name
@@ -121,6 +123,11 @@ positions.name: Positions
 languages.name: Languages
 updated.at: Updated at
 shared: Shared
+filter.projectType.label: Projects
+filter.technologyType.label: Technologies
+filter.skillType.label: Skills
+filter.position.label: Positions
+filter.languageType.label: Languages
 
 #administration
 name: Name
@@ -128,4 +135,7 @@ export.name: Export name
 project.name: Project name
 project.description: Project description
 used.technologies: Used technologies
-search.placeholder: by name
+search.placeholder: Search by name
+
+activeFilters: Results are being filtered
+columnsVisibility: Columns

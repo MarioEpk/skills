@@ -63,7 +63,6 @@ public class TypeController {
     }
 
     // Language Type
-    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/language")
     public List<LanguageTypeDto> getAllLanguageTypes() {
         return languageTypeService.getAllLanguageTypes();
@@ -99,7 +98,6 @@ public class TypeController {
     }
 
     // Skill type
-    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/skill")
     public List<SkillTypeDto> getAllSkillTypes() {
         return skillTypeService.getAllSkillTypes();
@@ -135,7 +133,6 @@ public class TypeController {
     }
 
     // technology type
-    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/technology")
     public List<TechnologyTypeDto> getAllTechnologyTypes() {
         return technologyTypeService.getAllTechnologyTypes();
@@ -172,7 +169,6 @@ public class TypeController {
     }
 
     // project type
-    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/project")
     public List<ProjectTypeDto> getAllProjectTypes() {
         return projectTypeService.getAllProjectTypes();
@@ -208,7 +204,6 @@ public class TypeController {
     }
 
     // position type
-    @PreAuthorize("hasAnyAuthority('admin', 'business')")
     @GetMapping(value = "/position")
     public List<PositionTypeDto> getAllPositionTypes() {
         return positionTypeService.getAllPositionTypes();

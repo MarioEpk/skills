@@ -7,11 +7,13 @@ import modal from "core/modal";
 import i18n from "core/i18n";
 import types from "core/types";
 import {Type} from "app/model/type";
+import {ADMINISTRATION} from "app/constants";
+import {useSetFiltersToUrl} from "core/url";
 import {Data, Modal, columnsPropTypes} from "components";
 
-import {getTypeData, forceDeleteConfirmationId} from "./selectors";
-import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELDS} from "./constants";
+import {modalFormName} from "./constants";
 import {createTypeActionGroup} from "./actions";
+import {administrationFilterFunctions} from "./filters";
 import {Confirmation} from "../../../components/components/confirmation";
 
 const defaultColumns = [{
@@ -43,6 +45,7 @@ const DataTable = ({
 }) => {
     const {t} = i18n.useTranslation();
     const [editMode, setEditMode] = useState(false);
+    const setFiltersToUrl = useSetFiltersToUrl(`t-${typeName}`, ADMINISTRATION);
 
     const openFormModal = () => openModal(modalFormName(typeName));
     const closeFormModal = () => closeModal(modalFormName(typeName));
@@ -60,7 +63,7 @@ const DataTable = ({
     return (
         <>
             <Data
-                tableId={`table-${typeName}`}
+                tableId={`t-${typeName}`}
                 title={title}
                 columns={columns}
                 data={data}
@@ -68,8 +71,9 @@ const DataTable = ({
                 onCreate={onCreate}
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"), false)}
-                quickSearchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
-                searchPlaceholder={t("search.placeholder")}
+                setFiltersToUrl={setFiltersToUrl}
+                quickSearchPlaceholder={t("search.placeholder")}
+                filterFunctions={administrationFilterFunctions}
             />
             <Modal
                 open={isFormModalOpen}

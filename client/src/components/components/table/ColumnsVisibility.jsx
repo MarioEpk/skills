@@ -4,11 +4,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import {Visibility, VisibilityOff} from '@material-ui/icons';
+
+import i18n from "core/i18n";
+
 import {columnsPropTypes} from './util';
 import {Button} from "../button";
-import i18n from "../../../core/i18n";
 
-export const ColumnsVisibility = ({columns, columnHiddenKeys, setColumnHiddenKeys}) => {
+export const ColumnsVisibility = ({columns, setColumnHiddenDataFields, columnHiddenDataFields}) => {
     const {t} = i18n.useTranslation();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -21,11 +23,11 @@ export const ColumnsVisibility = ({columns, columnHiddenKeys, setColumnHiddenKey
         setAnchorEl(null);
     };
 
-    const handleClick = (columnKey) => {
-        if (columnHiddenKeys.includes(columnKey)) {
-            setColumnHiddenKeys(columnHiddenKeys.filter((key) => key !== columnKey));
+    const handleClick = (columnDataField) => {
+        if (columnHiddenDataFields.includes(columnDataField)) {
+            setColumnHiddenDataFields(columnHiddenDataFields.filter((dataField) => dataField !== columnDataField));
         } else {
-            setColumnHiddenKeys([...columnHiddenKeys, columnKey]);
+            setColumnHiddenDataFields([...columnHiddenDataFields, columnDataField]);
         }
     };
 
@@ -35,7 +37,7 @@ export const ColumnsVisibility = ({columns, columnHiddenKeys, setColumnHiddenKey
                 type={Button.type.DARK}
                 onClick={handleOpen}
             >
-                Columns
+                {t("columnsVisibility")}
             </Button>
             <Menu
                 id="basic-menu"
@@ -46,11 +48,10 @@ export const ColumnsVisibility = ({columns, columnHiddenKeys, setColumnHiddenKey
                     'aria-labelledby': 'basic-button',
                 }}
             >
-
                 {columns.map((column) => (
-                    <MenuItem key={column.key} onClick={() => handleClick(column.key)}>
+                    <MenuItem key={column.key} onClick={() => handleClick(column.dataField)}>
                         <ListItemIcon>
-                            {columnHiddenKeys.includes(column.key) ? <VisibilityOff /> : <Visibility />}
+                            {columnHiddenDataFields.includes(column.dataField) ? <VisibilityOff /> : <Visibility />}
                         </ListItemIcon>
                         {t(column.columnName)}
                     </MenuItem>
@@ -62,6 +63,6 @@ export const ColumnsVisibility = ({columns, columnHiddenKeys, setColumnHiddenKey
 
 ColumnsVisibility.propTypes = {
     columns: columnsPropTypes.isRequired,
-    columnHiddenKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-    setColumnHiddenKeys: PropTypes.func.isRequired,
+    columnHiddenDataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
+    setColumnHiddenDataFields: PropTypes.func.isRequired,
 };

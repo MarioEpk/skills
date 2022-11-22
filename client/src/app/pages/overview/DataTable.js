@@ -13,15 +13,17 @@ import coreExport from "core/export";
 import access, {accesses} from "core/access";
 import {Data, Modal, IconButton} from "components";
 import {navigate} from "core/router/actions";
-import {dateFormatter} from "core/util";
-import {CV} from 'app/constants';
+import {dateFormatter, formatLongText} from "core/util";
+import {CV, OVERVIEW} from 'app/constants';
+import {useSetFiltersToUrl} from "core/url";
 
 import {faFilePdf, faFileWord} from '@fortawesome/free-regular-svg-icons';
-import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
+import {MODAL_FORM_NAME, OVERVIEW_TABLE_ID} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
 import AdvancedSearch from "./AdvancedSearch";
+import {overviewFilterFunctions} from "./filters";
 
 const columns = [{
     key: "1",
@@ -47,31 +49,31 @@ const columns = [{
     dataField: "projects",
     columnName: "projects.name",
     defaultHidden: true,
-    dataFormat: (projects) => (projects ? projects.map(({projectType}) => projectType.name).join(", ") : ""),
+    dataFormat: (projects) => formatLongText(projects ? projects.map(({projectType}) => projectType.name).join(", ") : ""),
 }, {
     key: "7",
     dataField: "technologies",
     columnName: "technologies.name",
     defaultHidden: true,
-    dataFormat: (technologies) => (technologies ? technologies.map(({technologyType}) => technologyType.name).join(", ") : ""),
+    dataFormat: (technologies) => formatLongText(technologies ? technologies.map(({technologyType}) => technologyType.name).join(", ") : ""),
 }, {
     key: "8",
     dataField: "skills",
     columnName: "skills.name",
     defaultHidden: true,
-    dataFormat: (skills) => (skills ? skills.map(({skillType}) => skillType.name).join(", ") : ""),
+    dataFormat: (skills) => formatLongText(skills ? skills.map(({skillType}) => skillType.name).join(", ") : ""),
 }, {
     key: "9",
     dataField: "positions",
     columnName: "positions.name",
     defaultHidden: true,
-    dataFormat: (positions) => (positions ? positions.map(({name}) => name).join(", ") : ""),
+    dataFormat: (positions) => formatLongText(positions ? positions.map(({name}) => name).join(", ") : ""),
 }, {
     key: "10",
     dataField: "languages",
     columnName: "languages.name",
     defaultHidden: true,
-    dataFormat: (languages) => (languages ? languages.map(({languageType}) => languageType.name).join(", ") : ""),
+    dataFormat: (languages) => formatLongText(languages ? languages.map(({languageType}) => languageType.name).join(", ") : ""),
 }, {
     key: "11",
     dataField: "shared",
@@ -102,6 +104,7 @@ const DataTable = ({
     navigateTo,
 }) => {
     const {t} = i18n.useTranslation();
+    const setFiltersToUrl = useSetFiltersToUrl(OVERVIEW_TABLE_ID, OVERVIEW);
 
     const onCustomAction = (row) => {
         const cvId = row.get("id");
@@ -133,7 +136,7 @@ const DataTable = ({
     return (
         <>
             <Data
-                tableId="table-overview"
+                tableId={OVERVIEW_TABLE_ID}
                 title={t("overview.title")}
                 columns={columns}
                 data={data}
@@ -141,15 +144,12 @@ const DataTable = ({
                 onCreate={adminAccess(onCreate)}
                 onCustomAction={onCustomAction}
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
-                quickSearchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
-                searchPlaceholder={t("overview.search.placeholder")}
+                quickSearchPlaceholder={t("overview.search.placeholder")}
                 onUnshare={adminAccess((row) => onShare(row.get("id")))}
                 onRowClick={onRowClick}
-                // TODO :: !!!!
-                // rework this to array of filters which will be functions and it will process data in one loop in filter funcion
-                // and use filter function in pipeline, you have to figure out how to pass current input values to filter function
-                // Maybe you can use debounce
-                advancedSearch={AdvancedSearch}
+                advancedSearchComponent={AdvancedSearch}
+                setFiltersToUrl={setFiltersToUrl}
+                filterFunctions={overviewFilterFunctions}
             />
             <Modal
                 open={isFormModalOpen}

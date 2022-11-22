@@ -2,7 +2,7 @@ import {NAME, availableTypes, availableTypesArray} from './constants';
 import reducer from "./reducer";
 
 import {fetchDataForAllTypes, fetchDataForType, removeItemFromType, getApiForType} from './utils';
-import {getType} from './selectors';
+import {getType, getTypes} from './selectors';
 
 export default {
     NAME,
@@ -14,4 +14,5 @@ export default {
     availableTypes,
     availableTypesArray,
     getType,
+    getTypes,
 };

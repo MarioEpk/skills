@@ -8,7 +8,7 @@ import {fn} from "core/util";
 import FormMultiSelectHOC from "./FormMultiSelectHOC";
 import css from "./MultiSelect.module.scss";
 
-const MultiSelect = ({onChange, label, value: valueList, tabIndex, disabled, id, onBlur, options}) => {
+export const MultiSelect = ({onChange, label, value: valueList, tabIndex, disabled, id, onBlur, options}) => {
     const handleChangeMultiple = (event) => {
         onChange(List(event.target.value));
     };

@@ -5,7 +5,6 @@ import {formWrapper, reset} from "core/form";
 import notification from "core/notification";
 import modal from "core/modal";
 import {cvApi} from "app/serverApi";
-import types from "core/types";
 
 import {cvActionGroup} from "./actions";
 import form from "./form";
@@ -14,7 +13,7 @@ import {copyCVPublicUrlToClipboard} from "../cv";
 
 export default router.routerWrapper({
     * getDataForPage() {
-        return [yield call(initFetchData)];
+        return [yield call(fetchData)];
     },
     * onPageEnter() {
         yield fork(formSaga);
@@ -42,11 +41,6 @@ const formSaga = formWrapper(form.FORM_NAME, {
         yield put(reset(form.FORM_NAME));
     },
 });
-
-function* initFetchData() {
-    yield call(types.fetchDataForAllTypes);
-    return yield fetchData();
-}
 
 function* refreshData() {
     const action = yield fetchData();
