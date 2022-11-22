@@ -87,9 +87,9 @@ public class TypeController {
     }
 
     @DeleteMapping(value = "/language/{id}")
-    public ResponseEntity<?> deleteLanguageType(@PathVariable("id") int id) {
+    public ResponseEntity<?> deleteLanguageType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
-            languageTypeService.deleteLanguageType(id);
+            languageTypeService.deleteLanguageType(id, force);
             return ResponseEntity.ok().build();
         } catch (DeleteTypeConstraintException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -151,9 +151,9 @@ public class TypeController {
     }
 
     @DeleteMapping(value = "/technology/{id}")
-    public ResponseEntity<?> deleteTechnologyType(@PathVariable("id") int id) {
+    public ResponseEntity<?> deleteTechnologyType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
-            technologyTypeService.deleteTechnologyType(id);
+            technologyTypeService.deleteTechnologyType(id, force);
             return ResponseEntity.ok().build();
         } catch (DeleteTypeConstraintException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -184,9 +184,9 @@ public class TypeController {
     }
 
     @DeleteMapping(value = "/project/{id}")
-    public ResponseEntity<?> deleteProjectType(@PathVariable("id") int id) {
+    public ResponseEntity<?> deleteProjectType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
-            projectTypeService.deleteProjectType(id);
+            projectTypeService.deleteProjectType(id, force);
             return ResponseEntity.ok().build();
         } catch (DeleteTypeConstraintException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -218,7 +218,7 @@ public class TypeController {
     @DeleteMapping(value = "/position/{id}")
     public ResponseEntity<?> deletePositionType(@PathVariable("id") int id) {
         try {
-            positionTypeService.deletePositionType(id);
+            positionTypeService.deletePositionType(id, false);  //TODO
             return ResponseEntity.ok().build();
         } catch (DeleteTypeConstraintException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();

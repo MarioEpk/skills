@@ -1,68 +1,62 @@
 package com.skillsmanagerapi.utils;
 
-import com.skillsmanagerapi.models.Certificate;
 import com.skillsmanagerapi.models.Cv;
-import com.skillsmanagerapi.models.Education;
-import com.skillsmanagerapi.models.Language;
-import com.skillsmanagerapi.models.Other;
-import com.skillsmanagerapi.models.Skill;
-import com.skillsmanagerapi.models.Technology;
 import com.skillsmanagerapi.repositories.CvRepository;
+import com.skillsmanagerapi.repositories.SkillRepository;
 import com.skillsmanagerapi.services.DeleteTypeConstraintException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 @Component
 public class DeleteResolver {
 
+    private final ApplicationContext context;
     private final CvRepository cvRepository;
 
     @Autowired
-    public DeleteResolver(@NonNull final CvRepository cvRepository) {
+    public DeleteResolver(ApplicationContext context, @NonNull final CvRepository cvRepository) {
+        this.context = context;
         this.cvRepository = cvRepository;
     }
 
-    public <T> void checkOrResolve(int idToRemove,
-                                   boolean checkOnly,
-                                   BiFunction<CvRepository, Integer, List<Cv>> findRelatedCvsFunction,
-                                   Function<Cv, List<T>> dataFunction,
-                                   Function<T, Integer> idFunction
-                                   ) throws DeleteTypeConstraintException {
 
-        List<Cv> cvList = findRelatedCvsFunction.apply(cvRepository, idToRemove);
-        if (!cvList.isEmpty()) {
-            if (checkOnly) {
+    public <T, S extends JpaRepository<T,Integer>> void resolveConstraints(
+            Class<S> jpaClassName,
+            BiFunction<S, Integer, Long> countFunction,
+            int idToRemove) throws DeleteTypeConstraintException {
+        S joinTableRepository = context.getBean(jpaClassName, JpaRepository.class);
+        long count = countFunction.apply(joinTableRepository, idToRemove);
+        System.out.println("-----" + count);
+    }
+
+
+        //???@Transactional
+    public <T, S extends JpaRepository<T,Integer>> void resolveConstraints(
+            Class<S> jpaClassName,
+            BiFunction<S, Integer, List<T>> dataFunction,
+            int idToRemove,
+            boolean forceDelete) throws DeleteTypeConstraintException {
+
+        //check if there are join records
+        S joinTableRepository = context.getBean(jpaClassName, JpaRepository.class);
+        List<T> records = dataFunction.apply(joinTableRepository, idToRemove);
+        if (records.size() > 0) {
+            if (!forceDelete) {
                 throw new DeleteTypeConstraintException();
             }
 
-
-            cvList.forEach(cv -> {
-                dataFunction.apply(cv).removeIf(r -> idFunction.apply(r) == idToRemove);
-            });
-            cvRepository.saveAll(cvList);
+            //remove join table records
+            joinTableRepository.deleteAll(records);
         }
     }
 
-    private int getId(Object r) {
-        if (r instanceof Skill) {
-            return ((Skill) r).getId();
-        } else if (r instanceof Education) {
-            return ((Education) r).getId();
-        } else if (r instanceof Language) {
-            return ((Language) r).getId();
-        } else if (r instanceof Technology) {
-            return ((Technology) r).getId();
-        } else if (r instanceof Other) {
-            return ((Other) r).getId();
-        } else if (r instanceof Certificate) {
-            return ((Certificate) r).getId();
-        }
-        return -1;
-    }
 
 }

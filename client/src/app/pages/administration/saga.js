@@ -7,7 +7,6 @@ import {createTypeActionGroup} from "./actions";
 import {availableTypesArray} from "./constants";
 import {getApiForType} from "./utils";
 
-
 export default router.routerWrapper({
     * getDataForPage() {
         return yield all(availableTypesArray.map((type) => call(getDataForType, type)));
@@ -28,16 +27,14 @@ export default router.routerWrapper({
 function* removeEntityFromType(type, {payload}) {
     try {
         yield call(getApiForType(type).remove, payload);
-        // if (payload.forceDelete) {
-        //     alert("force deleted");
-        //     yield put(createTypeActionGroup('forceDeleteConfirmation').forceDeleteConfirmation(false));
-        // }
+        if (payload.forceDelete === true) {
+            yield put(createTypeActionGroup(type).forceDeleteConfirmation(undefined));
+        }
         yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
         if (e.status === 422) {
-            console.error("Constraints error, needs force delete confirmation");
-            yield put(createTypeActionGroup('forceDeleteConfirmation').forceDeleteConfirmation(true));
+            yield put(createTypeActionGroup(type).forceDeleteConfirmation(payload.id));
         } else {
             console.error(e);
             yield put(notification.show("Problem with deleting", null, notification.types.FAILED));

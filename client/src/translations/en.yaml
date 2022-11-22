@@ -1,4 +1,4 @@
-#buttons translations
+#buttons/forms translations
 close.button.label: Close
 create.button.label: Create
 edit.button.label: Edit
@@ -9,6 +9,8 @@ confirm.button.label: Confirm
 search.label: Search
 export.button.label: Export
 confirmation.text: Are you sure?
+force.delete.button.label: Confirm delete
+force.delete.confirmation.text: Record is used in CVs or Projects. Really delete? (Related records will be affected !)
 
 #navigation
 navigation.login.label: Login

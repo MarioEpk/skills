@@ -6,6 +6,10 @@ import com.skillsmanagerapi.models.Skill;
 import com.skillsmanagerapi.models.Technology;
 import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.CvRepository;
+import com.skillsmanagerapi.repositories.ProjectRepository;
+import com.skillsmanagerapi.repositories.ProjectTypeRepository;
+import com.skillsmanagerapi.repositories.SkillRepository;
+import com.skillsmanagerapi.repositories.TechnologyRepository;
 import com.skillsmanagerapi.repositories.TechnologyTypeRepository;
 import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
@@ -65,12 +69,9 @@ public class TechnologyTypeService {
     }
 
     @Transactional
-    public void deleteTechnologyType(final int id) throws DeleteTypeConstraintException {
-        deleteResolver.checkOrResolve(id,
-                true,
-                CvRepository::findByTechnology,
-                Cv::getTechnologies,
-                Technology::getId);
+    public void deleteTechnologyType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
+        deleteResolver.resolveConstraints(TechnologyRepository.class, TechnologyRepository::findByTechnologyType, id, forceDelete);
+        deleteResolver.resolveConstraints(ProjectTypeRepository.class, ProjectTypeRepository::findByTechnologyType, id, forceDelete);
         technologyTypeRepository.deleteById(id);
     }
 

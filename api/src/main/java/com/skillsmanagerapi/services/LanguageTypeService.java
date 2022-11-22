@@ -5,7 +5,9 @@ import com.skillsmanagerapi.models.Cv;
 import com.skillsmanagerapi.models.Language;
 import com.skillsmanagerapi.models.LanguageType;
 import com.skillsmanagerapi.repositories.CvRepository;
+import com.skillsmanagerapi.repositories.LanguageRepository;
 import com.skillsmanagerapi.repositories.LanguageTypeRepository;
+import com.skillsmanagerapi.repositories.SkillRepository;
 import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
 
@@ -59,12 +61,8 @@ public class LanguageTypeService {
     }
 
     @Transactional
-    public void deleteLanguageType(final int id) throws DeleteTypeConstraintException {
-        deleteResolver.checkOrResolve(id,
-                true,
-                CvRepository::findByLanguage,
-                Cv::getLanguages,
-                Language::getId);
+    public void deleteLanguageType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
+        deleteResolver.resolveConstraints(LanguageRepository.class, LanguageRepository::findByLanguageType, id, forceDelete);
         languageTypeRepository.deleteById(id);
     }
 

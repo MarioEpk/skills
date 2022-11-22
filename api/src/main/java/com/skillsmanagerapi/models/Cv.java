@@ -2,6 +2,7 @@ package com.skillsmanagerapi.models;
 
 import com.skillsmanagerapi.enums.AvatarType;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

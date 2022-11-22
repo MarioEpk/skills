@@ -5,6 +5,7 @@ import com.skillsmanagerapi.models.Cv;
 import com.skillsmanagerapi.models.Project;
 import com.skillsmanagerapi.models.ProjectType;
 import com.skillsmanagerapi.repositories.CvRepository;
+import com.skillsmanagerapi.repositories.ProjectRepository;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
 import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
@@ -65,12 +66,8 @@ public class ProjectTypeService {
 
 
     @Transactional
-    public void deleteProjectType(final int id) throws DeleteTypeConstraintException {
-        deleteResolver.checkOrResolve(id,
-                true,
-                CvRepository::findByProject,
-                Cv::getProjects,
-                Project::getId);
+    public void deleteProjectType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
+        deleteResolver.resolveConstraints(ProjectRepository.class, ProjectRepository::findByProjectType, id, forceDelete);
         projectTypeRepository.deleteById(id);
     }
 

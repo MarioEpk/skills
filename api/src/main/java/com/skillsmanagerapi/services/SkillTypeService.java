@@ -1,10 +1,8 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.SkillTypeDto;
-import com.skillsmanagerapi.models.Cv;
-import com.skillsmanagerapi.models.Skill;
 import com.skillsmanagerapi.models.SkillType;
-import com.skillsmanagerapi.repositories.CvRepository;
+import com.skillsmanagerapi.repositories.SkillRepository;
 import com.skillsmanagerapi.repositories.SkillTypeRepository;
 import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
@@ -14,10 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -65,12 +59,7 @@ public class SkillTypeService {
 
     @Transactional
     public void deleteSkillType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
-        deleteResolver.checkOrResolve(
-                id,
-                true,
-                CvRepository::findBySkill,
-                Cv::getSkills,
-                Skill::getId);
+        deleteResolver.resolveConstraints(SkillRepository.class, SkillRepository::findBySkillType, id, forceDelete);
         skillTypeRepository.deleteById(id);
     }
 
