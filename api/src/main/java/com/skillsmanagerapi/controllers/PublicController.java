@@ -46,7 +46,7 @@ public class PublicController {
         }
 
         final byte[] pdfData = exportService.generateCvPdf(cvDto);
-        final String fileName = exportService.generateUserIdentifier(cvDto) + ".pdf";
+        final String fileName = exportService.generateExportName(cvDto, "pdf");
         return FileDownloadHttpResponse.getResponse(fileName, pdfData, APPLICATION_PDF_VALUE);
 
     }
