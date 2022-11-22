@@ -35,7 +35,7 @@ const renderActions = (t, actions, row, key) => {
     }
     if (actions.onDelete) {
         moreActionsMenuComponents.push(
-            {key: `${key}-delete`, onClick: () => actions.onDelete(row), label: t(`delete.button.label`), icon: <Delete />, color: MENU_ITEM_COLOR.SECONDARY},
+            {key: `${key}-delete`, onClick: () => actions.onDelete(row), label: t(`delete.button.label`), icon: <Delete />, color: MENU_ITEM_COLOR.DANGER},
         );
     }
     return (

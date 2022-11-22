@@ -1,6 +1,5 @@
 import React from 'react';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
-import {red} from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
     overrides: {
@@ -77,18 +76,6 @@ const theme = createMuiTheme({
         MuiChip: {
             root: {
                 margin: ".2rem .2rem .2rem 0",
-            },
-        },
-        MuiMenuItem: {
-            root: {
-                '&.secondary': {
-                    '& .MuiListItemIcon-root': {
-                        color: red[500],
-                    },
-                    '& .MuiListItemText-root': {
-                        color: red[500],
-                    },
-                },
             },
         },
     },
