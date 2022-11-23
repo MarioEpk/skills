@@ -1,21 +1,25 @@
 package com.skillsmanagerapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.skillsmanagerapi.utils.DateMonthDeserializer;
+import com.skillsmanagerapi.utils.DateMonthSerializer;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NonNull;
 
 @Getter
 @Setter
 public class ProjectDto implements Comparable<ProjectDto> {
     private int id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
+    @JsonSerialize(using = DateMonthSerializer.class)
+    @JsonDeserialize(using = DateMonthDeserializer.class)
     private Date from;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
+    @JsonSerialize(using = DateMonthSerializer.class)
+    @JsonDeserialize(using = DateMonthDeserializer.class)
     private Date to;
     private String company;
     private String contribution;
