@@ -1,4 +1,4 @@
-import {all, call, fork, takeLatest, put} from "redux-saga/effects";
+import {all, call, fork, put, takeLatest} from "redux-saga/effects";
 import router from "core/router";
 import notification from "core/notification";
 
@@ -29,8 +29,8 @@ function* removeEntityFromType(type, {payload}) {
         yield call(getApiForType(type).remove, payload);
         if (payload.forceDelete === true) {
             yield put(createTypeActionGroup(type).forceDeleteConfirmation(undefined));
+            yield all(availableTypesArray.map((t) => refreshDataForType(t)));
         }
-        yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
         if (e.status === 422) {
