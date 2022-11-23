@@ -8,6 +8,15 @@
     text-align: right;
 }
 
+.center {
+    justify-content: center;
+    text-align: center;
+}
+
+.noWrap {
+    white-space: nowrap;
+}
+
 /* Each cell should grow equally */
 /* But "collapsed" cells should be as small as possible */
 .collapsed {

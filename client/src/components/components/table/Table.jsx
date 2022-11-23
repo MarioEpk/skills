@@ -14,7 +14,7 @@ import {Loading} from "../loading";
 import {ACTION_COLUMN_DATA_ATTRIBUTE, MENU_ITEM_COLOR} from "./constants";
 import MoreActionsMenu from "./MoreActionsMenu";
 
-const renderActions = (t, actions, row, key) => {
+const renderActions = (t, actions, row, key, columnHiddenDataFields) => {
     if (!actions) {
         return null;
     }
@@ -44,14 +44,15 @@ const renderActions = (t, actions, row, key) => {
             key={`${key}-action`}
             dataAttribute={ACTION_COLUMN_DATA_ATTRIBUTE}
             column={actions}
+            columnHiddenDataFields={columnHiddenDataFields}
         >
             {actionComponents}
-            <MoreActionsMenu options={moreActionsMenuComponents} />
+            {moreActionsMenuComponents.length > 0 && <MoreActionsMenu options={moreActionsMenuComponents} />}
         </TableColumn>
     );
 };
 
-const renderRow = (t, columns, keyParam, row, className, actions, onRowClick) => {
+const renderRow = (t, columns, columnHiddenDataFields, keyParam, row, className, actions, onRowClick) => {
     const onRowClickHandler = (e) => {
         if (onRowClick) {
             if (!wasAnythingOtherThanRowClicked(e.target)) {
@@ -70,11 +71,12 @@ const renderRow = (t, columns, keyParam, row, className, actions, onRowClick) =>
                 <TableColumn
                     key={column.key || column.dataField}
                     column={column}
+                    columnHiddenDataFields={columnHiddenDataFields}
                 >
                     {getColumnData(column, row)}
                 </TableColumn>
             ))}
-            {renderActions(t, actions, row, row.get(keyParam))}
+            {renderActions(t, actions, row, row.get(keyParam), columnHiddenDataFields)}
         </tr>
     );
 };
@@ -85,6 +87,7 @@ const Table = ({
     loading,
     actions,
     onRowClick,
+    columnHiddenDataFields,
 }) => {
     const {t} = i18n.useTranslation();
 
@@ -93,14 +96,14 @@ const Table = ({
         const className = classnames({
             [css.actionRow]: !!onRowClick,
         });
-        return renderRow(t, columns, getKeyParam(columns), row, className, actions, onRowClick);
+        return renderRow(t, columns, columnHiddenDataFields, getKeyParam(columns), row, className, actions, onRowClick);
     };
 
     return (
         <div className={css.root}>
             <Loading loading={loading}>
                 <table className={css.table}>
-                    <TableHead columns={columns} actions={actions} />
+                    <TableHead columns={columns} actions={actions} columnHiddenDataFields={columnHiddenDataFields} />
                     <tbody>
                         {data.map((row, index) => (renderRowWithClassName(row, index)))}
                     </tbody>
@@ -112,6 +115,7 @@ const Table = ({
 
 Table.propTypes = {
     columns: columnsPropTypes.isRequired,
+    columnHiddenDataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
     actions: columnActionsPropTypes,
     data: ImmutablePropTypes.list,
     loading: PropTypes.bool,

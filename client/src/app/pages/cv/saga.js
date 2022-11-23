@@ -8,7 +8,7 @@ import coreExport from "core/export";
 
 import form from "./form";
 import {cvApi} from "../../serverApi";
-import {cvTypesActionGroup, cvActionGroup} from "./actions";
+import {cvActionGroup} from "./actions";
 import language from "./language";
 import skill from "./skill";
 import technology from "./technology";
@@ -19,9 +19,6 @@ import education from "./education";
 import {copyCurrentUrlToClipboard} from './utils';
 
 export default router.routerWrapper({
-    * getDataForPage() {
-        return [yield call(fetchDataForPage)];
-    },
     * onPageEnter({id}) {
         if (id) {
             yield all(
@@ -116,16 +113,5 @@ function* redirectToUserCv() {
         yield put(router.navigate(CV, {id}));
     } catch (e) {
         yield put(router.navigate(ERROR));
-    }
-}
-
-function* fetchDataForPage() {
-    try {
-        const payload = yield call(cvApi.fetchAllTypes);
-        return cvTypesActionGroup.fetchSuccess(payload);
-    } catch (e) {
-        yield put(notification.show("CV error", `There was a problem with fetching types`, notification.types.FAILED));
-        console.error(e);
-        return cvTypesActionGroup.fetchFailure();
     }
 }

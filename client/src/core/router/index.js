@@ -1,13 +1,13 @@
 import {NAME} from './constants';
 import {navigate, navigateExternal, back, ROUTE_ENTERED} from "./actions";
 import Routes from "./Routes";
-import saga, {setPageByLocationDirectly, history, startRouting, delayedProgressStart, cancelProgressTask} from "./saga";
+import saga, {setPageByLocationDirectly, startRouting, delayedProgressStart, cancelProgressTask} from "./saga";
 import reducer from "./reducer";
 import {registerRoutes} from "./staticRouteRegister";
 import LinkPlain from "./LinkPlain";
 import Link from "./Link";
 import {getCurrentParams, getCurrentRoute} from "./selectors";
-import {isThisRouteCleared, routerWrapper} from "./utils";
+import {isThisRouteCleared, routerWrapper, history} from "./utils";
 
 /**
  * ROUTER MODULE

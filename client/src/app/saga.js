@@ -5,12 +5,14 @@ import i18n from "core/i18n";
 import init from "core/init";
 import router from "core/router";
 import auth from "core/auth";
+import types from "core/types";
 
 export default function* () {
     // Wait until auth request is done
     yield take(auth.authActionGroup.REQUEST_SUCCESS);
     yield call(router.delayedProgressStart, 0);
     try {
+        yield call(types.fetchDataForAllTypes);
         yield call(loadContext);
         // channel for taking router.ROUTE_ENTERED must be created prior calling router.setPageByLocationDirectly
         // if we just call take router.ROUTE_ENTERED afterwards, its apparently too late, action was already dispatched.

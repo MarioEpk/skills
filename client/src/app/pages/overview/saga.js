@@ -9,7 +9,7 @@ import {cvApi} from "app/serverApi";
 import {cvActionGroup} from "./actions";
 import form from "./form";
 import {MODAL_FORM_NAME} from "./constants";
-import {copyCVPublicUrlToClipboard} from "../cv/utils";
+import {copyCVPublicUrlToClipboard} from "../cv";
 
 export default router.routerWrapper({
     * getDataForPage() {

@@ -1,14 +1,13 @@
+import {Map, List} from "immutable";
 import {combineReducers} from "redux-immutable";
-import {List, Map} from "immutable";
-
-import {createTypeActionGroup} from "./actions";
 import {availableTypesArray} from "./constants";
+import {createTypeActionGroup} from "./actions";
 
+// Generic reducer for all types
 export default combineReducers(availableTypesArray.reduce((reducers, name) => {
     const actions = createTypeActionGroup(name);
     return {
         ...reducers,
-        // forceDeleteConfirmationId,
         [name]: (state = Map(), action) => {
             switch (action.type) {
                 case (actions.FETCH_SUCCESS): return state.set("data", action.payload);

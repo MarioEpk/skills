@@ -8,10 +8,9 @@ import i18n from "core/i18n";
 import {Type} from "app/model/type";
 import {Loading, Button, TextInput, VerticalFormLayout, FormError, TextAreaInput, MultiSelect} from "components";
 import {convertTypeToOptions, Field, form, required, compose} from "core/form";
+import types from "core/types";
 
 import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
-import {availableTypes} from "../constants";
-import {getTypeData} from "../selectors";
 
 const Container = ({handleSubmit, submitting, errors, onClose, editMode, technologies}) => {
     const {t} = i18n.useTranslation();
@@ -82,10 +81,10 @@ Container.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-    technologies: getTypeData(state, availableTypes.TECHNOLOGY),
+    technologies: types.getType(state, types.availableTypes.TECHNOLOGY),
 });
 
 export default compose(
-    form(createFormName(availableTypes.PROJECT)),
+    form(createFormName(types.availableTypes.PROJECT)),
     connect(mapStateToProps),
 )(Container);

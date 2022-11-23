@@ -52,6 +52,8 @@
     "remove-accents": "0.4.3",
     "reselect": "4.0.0",
     "superagent": "5.2.2",
+    "use-debounce": "8.0.4",
+    "use-local-storage": "2.3.6",
     "uuid": "8.1.0"
   },
   "devDependencies": {

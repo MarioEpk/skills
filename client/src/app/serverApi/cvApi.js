@@ -1,7 +1,6 @@
 import fetch from "core/fetch";
 import {fn} from "core/util";
 import {Cv} from "app/model/cv";
-import {AllTypes} from "app/model/type";
 
 const CV_URL = "/cv";
 
@@ -51,8 +50,6 @@ const updateProject = (
 ) => fetch.doPut(`${CV_URL}/${cvId}/project`, {id, from, to, company, contribution, positions: addTypeToObject(positions), projectType, technologies: addTypeToObject(technologies)});
 const removeProjectFromCv = (cvId, projectId) => fetch.doDelete(`${CV_URL}/${cvId}/project/${projectId}`);
 
-const fetchAllTypes = () => fetch.doGet(`${CV_URL}/types`, null, AllTypes.fromServer);
-
 const shareCv = (cvId) => fetch.doPut(`${CV_URL}/${cvId}/share`);
 
 export default {
@@ -94,6 +91,5 @@ export default {
     updateProject,
     removeProjectFromCv,
 
-    fetchAllTypes,
     shareCv,
 };

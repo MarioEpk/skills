@@ -12,6 +12,7 @@ import {accesses} from "core/access";
 import {WithColumn, Menu, IconButton, Flex} from "components";
 import {compose} from "core/form";
 import i18n from "core/i18n";
+import coreTypes from "core/types";
 
 import language, {Language} from "./language";
 import skill, {Skill} from "./skill";
@@ -52,17 +53,17 @@ const Container = ({
             <WithColumn
                 title={title}
                 actions={(
-                    <Flex vertical={false}>
+                    <Flex>
                         <IconButton icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel={t(`cv.generate.pdf.label`)} />
                         <IconButton icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel={t(`cv.generate.doc.label`)} />
                         <IconButton icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel={t(`cv.copy.link.label`)} />
                     </Flex>
                 )}
                 column={adminOrOwnerAccess([
-                    <Menu key="menu1" title={t(`projects.title`)} items={createMenuItems(types.projects, openProjectForm)} />,
-                    <Menu key="menu2" title={t(`skills.title`)} items={createMenuItems(types.skills, addSkillToCv, usedSkillIds)} />,
-                    <Menu key="menu3" title={t(`languages.title`)} items={createMenuItems(types.languages, addLanguageToCv, usedLanguageIds)} />,
-                    <Menu key="menu4" title={t(`technologies.title`)} items={createMenuItems(types.technologies, addTechnologyToCv, usedTechnologyIds)} />,
+                    <Menu key="menu1" title={t(`projects.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.PROJECT, "data"]), openProjectForm)} />,
+                    <Menu key="menu2" title={t(`skills.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.SKILL, "data"]), addSkillToCv, usedSkillIds)} />,
+                    <Menu key="menu3" title={t(`languages.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.LANGUAGE, "data"]), addLanguageToCv, usedLanguageIds)} />,
+                    <Menu key="menu4" title={t(`technologies.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.TECHNOLOGY, "data"]), addTechnologyToCv, usedTechnologyIds)} />,
                     <Menu key="menu5" title={t(`certificates.title`)} onClick={openCertificateForm} />,
                     <Menu key="menu6" title={t(`others.title`)} onClick={openOtherForm} />,
                     <Menu key="menu7" title="Education" onClick={openEducationForm} />,
@@ -103,7 +104,7 @@ const mapDispatchToProps = ({
 
 Container.propTypes = {
     // TODO :: Model propType
-    types: IPropTypes.record.isRequired,
+    types: IPropTypes.map.isRequired,
     addLanguageToCv: PropTypes.func.isRequired,
     addSkillToCv: PropTypes.func.isRequired,
     addTechnologyToCv: PropTypes.func.isRequired,

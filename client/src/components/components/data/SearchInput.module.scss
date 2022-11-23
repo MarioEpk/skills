@@ -1,12 +1,16 @@
 @import "components/variables.scss";
 
 .searchInput {
-    width: 230px;
+    max-width: 280px;
+    width: 100%;
 }
 
 .input {
     :global(.MuiFormLabel-root.Mui-focused) {
         color: $highlight_color;
+    }
+    ::placeholder {
+        font-weight: 400;
     }
 }
 

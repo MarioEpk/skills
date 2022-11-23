@@ -5,19 +5,22 @@ import IPropTypes from "react-immutable-proptypes";
 
 import modal from "core/modal";
 import i18n from "core/i18n";
+import types from "core/types";
 import {Type} from "app/model/type";
-import {Data, Modal, columnsPropTypes} from "components";
+import {ADMINISTRATION} from "app/constants";
+import {useSetFiltersToUrl} from "core/url";
+import {Data, Modal, columnsPropTypes, Confirmation} from "components";
 
-import {getTypeData, forceDeleteConfirmationId} from "./selectors";
-import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELDS} from "./constants";
-import {createTypeActionGroup} from "./actions";
-import {Confirmation} from "../../../components/components/confirmation";
+import {modalFormName} from "./constants";
+import {createOverviewActionGroup} from "./actions";
+import {administrationFilterFunctions} from "./filters";
 
 const defaultColumns = [{
     key: "1",
     dataField: "id",
     isKey: true,
     columnName: "ID",
+    defaultHidden: true,
 }, {
     key: "2",
     dataField: "name",
@@ -36,11 +39,12 @@ const DataTable = ({
     onDelete,
     columns,
     forceDeleteId,
-    clearForceDeleteId,
+    clearForceDeleteConfirmationId,
     form: Form,
 }) => {
     const {t} = i18n.useTranslation();
     const [editMode, setEditMode] = useState(false);
+    const setFiltersToUrl = useSetFiltersToUrl(`t-${typeName}`, ADMINISTRATION);
 
     const openFormModal = () => openModal(modalFormName(typeName));
     const closeFormModal = () => closeModal(modalFormName(typeName));
@@ -58,6 +62,7 @@ const DataTable = ({
     return (
         <>
             <Data
+                tableId={`t-${typeName}`}
                 title={title}
                 columns={columns}
                 data={data}
@@ -65,8 +70,9 @@ const DataTable = ({
                 onCreate={onCreate}
                 onEdit={onEdit}
                 onDelete={(row) => onDelete(row.get("id"), false)}
-                searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
-                searchPlaceholder={t("search.placeholder")}
+                setFiltersToUrl={setFiltersToUrl}
+                quickSearchPlaceholder={t("search.placeholder")}
+                filterFunctions={administrationFilterFunctions}
             />
             <Modal
                 open={isFormModalOpen}
@@ -78,7 +84,7 @@ const DataTable = ({
                 title={t(`force.delete.button.label`)}
                 text={t(`force.delete.confirmation.text`)}
                 onDelete={() => onDelete(forceDeleteId, true)}
-                onClose={clearForceDeleteId}
+                onClose={clearForceDeleteConfirmationId}
                 open={!!forceDeleteId}
             />
         </>
@@ -91,7 +97,7 @@ DataTable.propTypes = {
     form: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
     // Prop for mapStateToProps function
     // eslint-disable-next-line react/no-unused-prop-types
-    typeName: PropTypes.oneOf(availableTypesArray).isRequired,
+    typeName: PropTypes.oneOf(types.availableTypesArray).isRequired,
     title: PropTypes.string.isRequired,
     openModal: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
@@ -100,7 +106,7 @@ DataTable.propTypes = {
     onDelete: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     forceDeleteId: PropTypes.number,
-    clearForceDeleteId: PropTypes.func.isRequired,
+    clearForceDeleteConfirmationId: PropTypes.func.isRequired,
 };
 
 DataTable.defaultProps = {
@@ -110,19 +116,20 @@ DataTable.defaultProps = {
 };
 
 const mapStateToProps = (state, {typeName}) => ({
-    data: getTypeData(state, typeName),
-    forceDeleteId: forceDeleteConfirmationId(state, typeName),
+    data: types.getType(state, typeName),
+    forceDeleteId: types.getForceDeleteConfirmationId(state, typeName),
     isFormModalOpen: modal.isOpen(state, modalFormName(typeName)),
 });
 
 const mapDispatchToProps = (dispatch, {typeName}) => {
-    const actions = createTypeActionGroup(typeName);
+    const actions = createOverviewActionGroup(typeName);
+    const typeActions = types.createTypeActionGroup(typeName);
     return ({
         openModal: (modalName) => dispatch(modal.open(modalName)),
         closeModal: (modalName) => dispatch(modal.close(modalName)),
         fillForm: (id, name, description, technologies, exportName) => dispatch(actions.fill(id, name, description, technologies, exportName)),
         onDelete: (id, force) => dispatch(actions.remove(id, force)),
-        clearForceDeleteId: () => dispatch(actions.forceDeleteConfirmation(0)),
+        clearForceDeleteConfirmationId: () => dispatch(typeActions.forceDeleteConfirmation(undefined)),
     });
 };
 

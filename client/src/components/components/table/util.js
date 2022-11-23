@@ -35,11 +35,12 @@ export const columnPropTypes = PropTypes.shape({
     key: PropTypes.string,
     dataField: PropTypes.string.isRequired,
     isKey: PropTypes.bool,
-    hidden: PropTypes.bool,
+    noWrap: PropTypes.bool,
+    defaultHidden: PropTypes.bool,
     columnName: PropTypes.string,
     /** (columnData, row) => node - function to format each cell. */
     dataFormat: PropTypes.func,
-    align: PropTypes.oneOf(["left", "right"]),
+    align: PropTypes.oneOf(["left", "right", "center"]),
     /** optional header which is used instead of column name */
     headerElement: PropTypes.node,
     width: PropTypes.number,
@@ -47,7 +48,6 @@ export const columnPropTypes = PropTypes.shape({
 
 export const columnActionsPropTypes = PropTypes.shape({
     columnName: PropTypes.string,
-    hidden: PropTypes.bool,
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
     custom: PropTypes.func,
