@@ -6,7 +6,7 @@ export {Table, columnsPropTypes} from "./components/table";
 export {Header} from "./components/header";
 export {Navigation} from "./components/navigation";
 export {Block} from "./components/block";
-export {Data} from "./components/data";
+export {Data, Toolbar} from "./components/data";
 export {Modal} from "./components/modal";
 export {Menu} from "./components/menu";
 export {Card} from "./components/card";

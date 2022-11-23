@@ -15,6 +15,8 @@ advancedSearchHide.button.label: Hide advanced filters
 resetFilters.button.label: Reset filters
 force.delete.button.label: Confirm delete
 force.delete.confirmation.text: Record is used in CVs or Projects. Do you really want to delete it? (Related records will be affected!)
+certificates.button.label: Download certificates
+educations.button.label: Download educations
 
 #navigation
 navigation.login.label: Login

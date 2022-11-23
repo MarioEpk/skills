@@ -3,6 +3,9 @@
 .searchInput {
     max-width: 280px;
     width: 100%;
+    @media (max-width: 600px) {
+        max-width: unset;
+    }
 }
 
 .input {

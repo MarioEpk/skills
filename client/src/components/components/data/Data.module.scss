@@ -52,6 +52,11 @@
     :global(.MuiInput-underline:before) {
         display: none;
     }
+
+    @media (max-width: 600px) {
+        flex-grow: unset;
+        width: 100%;
+    }
 }
 
 .table {

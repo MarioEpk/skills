@@ -11,7 +11,7 @@ import modal from "core/modal";
 import {Cv} from "app/model/cv";
 import coreExport from "core/export";
 import access, {accesses} from "core/access";
-import {Data, Modal, IconButton} from "components";
+import {Data, Modal, IconButton, Button, Toolbar} from "components";
 import {navigate} from "core/router/actions";
 import {dateFormatter, formatLongText} from "core/util";
 import {CV, OVERVIEW} from 'app/constants';
@@ -19,7 +19,7 @@ import {useSetFiltersToUrl} from "core/url";
 
 import {faFilePdf, faFileWord} from '@fortawesome/free-regular-svg-icons';
 import {MODAL_FORM_NAME, OVERVIEW_TABLE_ID} from "./constants";
-import {cvActionGroup} from "./actions";
+import {overviewActionGroup} from "./actions";
 import {getData} from "./selectors";
 import {Form} from "./form";
 import AdvancedSearch from "./AdvancedSearch";
@@ -102,6 +102,8 @@ const DataTable = ({
     onShare,
     onCopyPublicUrl,
     navigateTo,
+    onFetchCertificatesForAllUsers,
+    onFetchEducationsForAllUsers,
 }) => {
     const {t} = i18n.useTranslation();
     const setFiltersToUrl = useSetFiltersToUrl(OVERVIEW_TABLE_ID, OVERVIEW);
@@ -135,6 +137,18 @@ const DataTable = ({
 
     return (
         <>
+            <Toolbar>
+                <Button
+                    label={t("certificates.button.label")}
+                    type={Button.type.DARK}
+                    onClick={onFetchCertificatesForAllUsers}
+                />
+                <Button
+                    label={t("educations.button.label")}
+                    type={Button.type.DARK}
+                    onClick={onFetchEducationsForAllUsers}
+                />
+            </Toolbar>
             <Data
                 tableId={OVERVIEW_TABLE_ID}
                 title={t("overview.title")}
@@ -173,6 +187,8 @@ DataTable.propTypes = {
     onCopyPublicUrl: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     navigateTo: PropTypes.func.isRequired,
+    onFetchCertificatesForAllUsers: PropTypes.func.isRequired,
+    onFetchEducationsForAllUsers: PropTypes.func.isRequired,
 };
 
 DataTable.defaultProps = {
@@ -187,12 +203,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     openModal: () => dispatch(modal.open(MODAL_FORM_NAME)),
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
-    onDelete: (id) => dispatch(cvActionGroup.remove(id)),
+    onDelete: (id) => dispatch(overviewActionGroup.remove(id)),
     onExportToPdf: (id, firstName, lastName) => dispatch(coreExport.exportCv(id, firstName, lastName)),
     onExportToDoc: (id, firstName, lastName) => dispatch(coreExport.exportCvToDoc(id, firstName, lastName)),
     navigateTo: (route, params, query) => dispatch(navigate(route, params, query)),
-    onShare: (id) => dispatch(cvActionGroup.shareCv(id)),
-    onCopyPublicUrl: (cvId, shared, extCode) => dispatch(cvActionGroup.copyPublicUrl(cvId, shared, extCode)),
+    onShare: (id) => dispatch(overviewActionGroup.shareCv(id)),
+    onCopyPublicUrl: (cvId, shared, extCode) => dispatch(overviewActionGroup.copyPublicUrl(cvId, shared, extCode)),
+    onFetchCertificatesForAllUsers: () => dispatch(overviewActionGroup.fetchCertificatesForAllUsers()),
+    onFetchEducationsForAllUsers: () => dispatch(overviewActionGroup.fetchEducationsForAllUsers()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);
