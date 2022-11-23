@@ -1,30 +1,25 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.TechnologyTypeDto;
-import com.skillsmanagerapi.models.Cv;
-import com.skillsmanagerapi.models.Skill;
-import com.skillsmanagerapi.models.Technology;
+import com.skillsmanagerapi.models.Project;
+import com.skillsmanagerapi.models.ProjectType;
 import com.skillsmanagerapi.models.TechnologyType;
 import com.skillsmanagerapi.repositories.CvRepository;
 import com.skillsmanagerapi.repositories.ProjectRepository;
 import com.skillsmanagerapi.repositories.ProjectTypeRepository;
-import com.skillsmanagerapi.repositories.SkillRepository;
 import com.skillsmanagerapi.repositories.TechnologyRepository;
 import com.skillsmanagerapi.repositories.TechnologyTypeRepository;
 import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
-
+import lombok.NonNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.function.Function;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-
-import lombok.NonNull;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class TechnologyTypeService {
@@ -32,19 +27,16 @@ public class TechnologyTypeService {
     private final TechnologyTypeRepository technologyTypeRepository;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
-    private final CvRepository cvRepository;
     private final DeleteResolver deleteResolver;
 
     @Autowired
     public TechnologyTypeService(@NonNull final TechnologyTypeRepository technologyTypeRepository,
                                  @NonNull final ModelMapper modelMapper,
                                  @NonNull final ModelMapperUtil modelMapperUtil,
-                                 @NonNull final CvRepository cvRepository,
                                  @NonNull DeleteResolver deleteResolver) {
         this.technologyTypeRepository = technologyTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
-        this.cvRepository = cvRepository;
         this.deleteResolver = deleteResolver;
     }
 
@@ -70,8 +62,19 @@ public class TechnologyTypeService {
 
     @Transactional
     public void deleteTechnologyType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
-        deleteResolver.resolveConstraints(TechnologyRepository.class, TechnologyRepository::findByTechnologyType, id, forceDelete);
-        deleteResolver.resolveConstraints(ProjectTypeRepository.class, ProjectTypeRepository::findByTechnologyType, id, forceDelete);
+        deleteResolver.resolveConstraints(TechnologyRepository.class,
+                TechnologyRepository::findByTechnologyType,
+                id, forceDelete);
+        deleteResolver.resolveConstraints(ProjectTypeRepository.class,
+                ProjectTypeRepository::findByTechnologyType,
+                ProjectType::getTechnologies,
+                TechnologyType::getId,
+                id, forceDelete);
+        deleteResolver.resolveConstraints(ProjectRepository.class,
+                ProjectRepository::findByTechnologyType,
+                Project::getTechnologies,
+                TechnologyType::getId,
+                id, forceDelete);
         technologyTypeRepository.deleteById(id);
     }
 
