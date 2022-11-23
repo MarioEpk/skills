@@ -60,37 +60,37 @@ const TableControl = ({
                             name={`${title}-search`}
                         />
                     </span>
-                    {onCreate && (
-                        <Flex gap="0.5rem">
-                            {areFiltersApplied && !advancedFiltersVisible && (
-                                <Button
-                                    onClick={resetFilters}
-                                    label={t(`resetFilters.button.label`)}
-                                    type={Button.type.DANGER}
-                                />
-                            )}
-                            {AdvancedSearchComponent && (
-                                <Button
-                                    onClick={() => setAdvancedFiltersVisible(!advancedFiltersVisible)}
-                                    label={advancedFiltersVisible ? t(`advancedSearchHide.button.label`) : t(
-                                        `advancedSearchShow.button.label`,
-                                    )}
-                                    type={Button.type.DARK}
-                                />
-                            )}
-                            <ColumnsVisibility
-                                columns={columns}
-                                columnHiddenDataFields={columnHiddenDataFields}
-                                setColumnHiddenDataFields={setColumnHiddenDataFields}
+                    <Flex gap="0.5rem">
+                        {areFiltersApplied && !advancedFiltersVisible && (
+                            <Button
+                                onClick={resetFilters}
+                                label={t(`resetFilters.button.label`)}
+                                type={Button.type.DANGER}
                             />
+                        )}
+                        {AdvancedSearchComponent && (
+                            <Button
+                                onClick={() => setAdvancedFiltersVisible(!advancedFiltersVisible)}
+                                label={advancedFiltersVisible ? t(`advancedSearchHide.button.label`) : t(
+                                    `advancedSearchShow.button.label`,
+                                )}
+                                type={Button.type.DARK}
+                            />
+                        )}
+                        <ColumnsVisibility
+                            columns={columns}
+                            columnHiddenDataFields={columnHiddenDataFields}
+                            setColumnHiddenDataFields={setColumnHiddenDataFields}
+                        />
+                        {onCreate && (
                             <Button
                                 onClick={onCreate}
                                 label={t(`add.button.label`)}
                                 startIcon={<AddRounded />}
                                 type={Button.type.COLORED}
                             />
-                        </Flex>
-                    )}
+                        )}
+                    </Flex>
                 </div>
                 {AdvancedSearchComponent && advancedFiltersVisible && (
                     <div className={css.advancedSearch}>
