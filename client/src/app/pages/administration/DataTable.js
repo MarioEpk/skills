@@ -8,9 +8,10 @@ import i18n from "core/i18n";
 import {Type} from "app/model/type";
 import {Data, Modal, columnsPropTypes} from "components";
 
-import {getTypeData} from "./selectors";
+import {getTypeData, forceDeleteConfirmationId} from "./selectors";
 import {availableTypesArray, modalFormName, SEARCH_TABLE_FIELDS} from "./constants";
 import {createTypeActionGroup} from "./actions";
+import {Confirmation} from "../../../components/components/confirmation";
 
 const defaultColumns = [{
     key: "1",
@@ -34,6 +35,8 @@ const DataTable = ({
     fillForm,
     onDelete,
     columns,
+    forceDeleteId,
+    clearForceDeleteId,
     form: Form,
 }) => {
     const {t} = i18n.useTranslation();
@@ -61,7 +64,7 @@ const DataTable = ({
                 loading={loading}
                 onCreate={onCreate}
                 onEdit={onEdit}
-                onDelete={(row) => onDelete(row.get("id"))}
+                onDelete={(row) => onDelete(row.get("id"), false)}
                 searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
                 searchPlaceholder={t("search.placeholder")}
             />
@@ -71,6 +74,13 @@ const DataTable = ({
             >
                 <Form editMode={editMode} onClose={closeFormModal} />
             </Modal>
+            <Confirmation
+                title={t(`force.delete.button.label`)}
+                text={t(`force.delete.confirmation.text`)}
+                onDelete={() => onDelete(forceDeleteId, true)}
+                onClose={clearForceDeleteId}
+                open={!!forceDeleteId}
+            />
         </>
     );
 };
@@ -89,15 +99,19 @@ DataTable.propTypes = {
     fillForm: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     loading: PropTypes.bool,
+    forceDeleteId: PropTypes.number,
+    clearForceDeleteId: PropTypes.func.isRequired,
 };
 
 DataTable.defaultProps = {
     loading: false,
     columns: defaultColumns,
+    forceDeleteId: undefined,
 };
 
 const mapStateToProps = (state, {typeName}) => ({
     data: getTypeData(state, typeName),
+    forceDeleteId: forceDeleteConfirmationId(state, typeName),
     isFormModalOpen: modal.isOpen(state, modalFormName(typeName)),
 });
 
@@ -107,7 +121,8 @@ const mapDispatchToProps = (dispatch, {typeName}) => {
         openModal: (modalName) => dispatch(modal.open(modalName)),
         closeModal: (modalName) => dispatch(modal.close(modalName)),
         fillForm: (id, name, description, technologies, exportName) => dispatch(actions.fill(id, name, description, technologies, exportName)),
-        onDelete: (id) => dispatch(actions.remove(id)),
+        onDelete: (id, force) => dispatch(actions.remove(id, force)),
+        clearForceDeleteId: () => dispatch(actions.forceDeleteConfirmation(0)),
     });
 };
 

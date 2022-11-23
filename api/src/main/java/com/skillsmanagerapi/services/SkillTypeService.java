@@ -2,7 +2,9 @@ package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.SkillTypeDto;
 import com.skillsmanagerapi.models.SkillType;
+import com.skillsmanagerapi.repositories.SkillRepository;
 import com.skillsmanagerapi.repositories.SkillTypeRepository;
+import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
 
 import org.modelmapper.ModelMapper;
@@ -22,12 +24,17 @@ public class SkillTypeService {
     private final SkillTypeRepository skillTypeRepository;
     private final ModelMapper modelMapper;
     private final ModelMapperUtil modelMapperUtil;
+    private final DeleteResolver deleteResolver;
 
     @Autowired
-    public SkillTypeService(@NonNull final SkillTypeRepository skillTypeRepository, @NonNull final ModelMapper modelMapper, @NonNull final ModelMapperUtil modelMapperUtil) {
+    public SkillTypeService(@NonNull final SkillTypeRepository skillTypeRepository,
+                            @NonNull final ModelMapper modelMapper,
+                            @NonNull final ModelMapperUtil modelMapperUtil,
+                            @NonNull final DeleteResolver deleteResolver) {
         this.skillTypeRepository = skillTypeRepository;
         this.modelMapper = modelMapper;
         this.modelMapperUtil = modelMapperUtil;
+        this.deleteResolver = deleteResolver;
     }
 
     public List<SkillTypeDto> getAllSkillTypes() {
@@ -51,9 +58,12 @@ public class SkillTypeService {
     }
 
     @Transactional
-    public void deleteSkillType(final int id) {
+    public void deleteSkillType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
+        deleteResolver.resolveConstraints(SkillRepository.class, SkillRepository::findBySkillType, id, forceDelete);
         skillTypeRepository.deleteById(id);
     }
+
+
 
 
 }

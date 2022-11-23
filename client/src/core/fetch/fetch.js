@@ -112,10 +112,11 @@ export const doPost = function* (url, body, requestProcessMethod = fn.identity, 
     return yield* wrapExecute(request, resultProcessMethod);
 };
 
-export const doDelete = function* (url, resultProcessMethod = fn.identity) {
+export const doDelete = function* (url, queryParams = {}, resultProcessMethod = fn.identity) {
     const defaultHeaders = yield getDefaultHeaders();
     const request = superagent
         .delete(urlWithPrefix(url))
+        .query(queryParams)
         .set(defaultHeaders)
         .accept('json');
     return yield* wrapExecute(request, resultProcessMethod);

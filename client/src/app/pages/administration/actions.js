@@ -6,6 +6,7 @@ export const createTypeActionGroup = (type) => ({
     FETCH_SUCCESS: `${NAME}/${type}/FETCH/SUCCESS`,
     FILL: `${NAME}/${type}/FILL`,
     REMOVE: `${NAME}/${type}/REMOVE`,
+    FORCE_DELETE_CONFIRMATION: `${NAME}/${type}/FORCE_DELETE_CONFIRMATION`,
     fetch: () => ({
         type: `${NAME}/${type}/FETCH`,
     }),
@@ -20,9 +21,13 @@ export const createTypeActionGroup = (type) => ({
         type: `${NAME}/${type}/UPDATE`,
         payload: name,
     }),
-    remove: (id) => ({
+    remove: (idToRemove, force) => ({
         type: `${NAME}/${type}/REMOVE`,
-        payload: id,
+        payload: {id: idToRemove, forceDelete: force},
+    }),
+    forceDeleteConfirmation: (idToRemove) => ({
+        type: `${NAME}/${type}/FORCE_DELETE_CONFIRMATION`,
+        payload: {forceDeleteConfirmationId: idToRemove},
     }),
     fill: (id, name, description, technologies, exportName) => ({
         type: `${NAME}/${type}/FILL`,

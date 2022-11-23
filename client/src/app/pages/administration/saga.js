@@ -1,4 +1,4 @@
-import {all, call, fork, takeLatest, put} from "redux-saga/effects";
+import {all, call, fork, put, takeLatest} from "redux-saga/effects";
 import router from "core/router";
 import notification from "core/notification";
 
@@ -26,12 +26,20 @@ export default router.routerWrapper({
 
 function* removeEntityFromType(type, {payload}) {
     try {
-        yield call(getApiForType(type).remove, {id: payload});
+        yield call(getApiForType(type).remove, payload);
+        if (payload.forceDelete === true) {
+            yield put(createTypeActionGroup(type).forceDeleteConfirmation(undefined));
+            yield all(availableTypesArray.map((t) => refreshDataForType(t)));
+        }
         yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
-        yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
-        console.error(e);
+        if (e.status === 422) {
+            yield put(createTypeActionGroup(type).forceDeleteConfirmation(payload.id));
+        } else {
+            console.error(e);
+            yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
+        }
     }
 }
 

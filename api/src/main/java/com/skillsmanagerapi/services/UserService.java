@@ -68,7 +68,7 @@ public class UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
-    public UserDto getUserById(@NonNull final int userId) {
+    public UserDto getUserById(final int userId) {
         final User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(user, UserDto.class);
     }
