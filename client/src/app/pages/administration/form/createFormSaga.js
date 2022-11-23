@@ -7,11 +7,11 @@ import notification from "core/notification";
 import types from "core/types";
 
 import {createFormName, DESCRIPTION_FIELD, EXPORT_NAME_FIELD, ID_FIELD, NAME_FIELD, TECHNOLOGIES_FIELD} from "./constants";
-import {createTypeActionGroup} from "../actions";
+import {createOverviewActionGroup} from "../actions";
 import {modalFormName} from "../constants";
 
 export default (typeName) => {
-    const action = createTypeActionGroup(typeName);
+    const action = createOverviewActionGroup(typeName);
     const formName = createFormName(typeName);
     let api = {};
     try {

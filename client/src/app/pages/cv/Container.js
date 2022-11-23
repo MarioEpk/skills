@@ -60,10 +60,10 @@ const Container = ({
                     </Flex>
                 )}
                 column={adminOrOwnerAccess([
-                    <Menu key="menu1" title={t(`projects.title`)} items={createMenuItems(types.get(coreTypes.availableTypes.PROJECT), openProjectForm)} />,
-                    <Menu key="menu2" title={t(`skills.title`)} items={createMenuItems(types.get(coreTypes.availableTypes.SKILL), addSkillToCv, usedSkillIds)} />,
-                    <Menu key="menu3" title={t(`languages.title`)} items={createMenuItems(types.get(coreTypes.availableTypes.LANGUAGE), addLanguageToCv, usedLanguageIds)} />,
-                    <Menu key="menu4" title={t(`technologies.title`)} items={createMenuItems(types.get(coreTypes.availableTypes.TECHNOLOGY), addTechnologyToCv, usedTechnologyIds)} />,
+                    <Menu key="menu1" title={t(`projects.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.PROJECT, "data"]), openProjectForm)} />,
+                    <Menu key="menu2" title={t(`skills.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.SKILL, "data"]), addSkillToCv, usedSkillIds)} />,
+                    <Menu key="menu3" title={t(`languages.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.LANGUAGE, "data"]), addLanguageToCv, usedLanguageIds)} />,
+                    <Menu key="menu4" title={t(`technologies.title`)} items={createMenuItems(types.getIn([coreTypes.availableTypes.TECHNOLOGY, "data"]), addTechnologyToCv, usedTechnologyIds)} />,
                     <Menu key="menu5" title={t(`certificates.title`)} onClick={openCertificateForm} />,
                     <Menu key="menu6" title={t(`others.title`)} onClick={openOtherForm} />,
                     <Menu key="menu7" title="Education" onClick={openEducationForm} />,

@@ -24,12 +24,18 @@ export function* fetchDataForType(type) {
 
 export function* removeItemFromType(type, {payload}) {
     try {
-        yield call(getApiForType(type).remove, {id: payload});
+        yield call(getApiForType(type).remove, payload);
+        // If remove is successful, we can clear any force delete confirmation id
+        yield put(createTypeActionGroup(type).forceDeleteConfirmation(undefined));
         yield call(fetchDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
-        yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
-        console.error(e);
+        if (e.status === 422) {
+            yield put(createTypeActionGroup(type).forceDeleteConfirmation(payload.id));
+        } else {
+            console.error(e);
+            yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
+        }
     }
 }
 

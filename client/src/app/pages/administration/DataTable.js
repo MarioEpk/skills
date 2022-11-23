@@ -9,12 +9,11 @@ import types from "core/types";
 import {Type} from "app/model/type";
 import {ADMINISTRATION} from "app/constants";
 import {useSetFiltersToUrl} from "core/url";
-import {Data, Modal, columnsPropTypes} from "components";
+import {Data, Modal, columnsPropTypes, Confirmation} from "components";
 
 import {modalFormName} from "./constants";
-import {createTypeActionGroup} from "./actions";
+import {createOverviewActionGroup} from "./actions";
 import {administrationFilterFunctions} from "./filters";
-import {Confirmation} from "../../../components/components/confirmation";
 
 const defaultColumns = [{
     key: "1",
@@ -40,7 +39,7 @@ const DataTable = ({
     onDelete,
     columns,
     forceDeleteId,
-    clearForceDeleteId,
+    clearForceDeleteConfirmationId,
     form: Form,
 }) => {
     const {t} = i18n.useTranslation();
@@ -85,7 +84,7 @@ const DataTable = ({
                 title={t(`force.delete.button.label`)}
                 text={t(`force.delete.confirmation.text`)}
                 onDelete={() => onDelete(forceDeleteId, true)}
-                onClose={clearForceDeleteId}
+                onClose={clearForceDeleteConfirmationId}
                 open={!!forceDeleteId}
             />
         </>
@@ -107,7 +106,7 @@ DataTable.propTypes = {
     onDelete: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     forceDeleteId: PropTypes.number,
-    clearForceDeleteId: PropTypes.func.isRequired,
+    clearForceDeleteConfirmationId: PropTypes.func.isRequired,
 };
 
 DataTable.defaultProps = {
@@ -118,18 +117,19 @@ DataTable.defaultProps = {
 
 const mapStateToProps = (state, {typeName}) => ({
     data: types.getType(state, typeName),
-    forceDeleteId: forceDeleteConfirmationId(state, typeName),
+    forceDeleteId: types.getForceDeleteConfirmationId(state, typeName),
     isFormModalOpen: modal.isOpen(state, modalFormName(typeName)),
 });
 
 const mapDispatchToProps = (dispatch, {typeName}) => {
-    const actions = createTypeActionGroup(typeName);
+    const actions = createOverviewActionGroup(typeName);
+    const typeActions = types.createTypeActionGroup(typeName);
     return ({
         openModal: (modalName) => dispatch(modal.open(modalName)),
         closeModal: (modalName) => dispatch(modal.close(modalName)),
         fillForm: (id, name, description, technologies, exportName) => dispatch(actions.fill(id, name, description, technologies, exportName)),
         onDelete: (id, force) => dispatch(actions.remove(id, force)),
-        clearForceDeleteId: () => dispatch(actions.forceDeleteConfirmation(0)),
+        clearForceDeleteConfirmationId: () => dispatch(typeActions.forceDeleteConfirmation(undefined)),
     });
 };
 

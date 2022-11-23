@@ -4,4 +4,5 @@ import {NAME} from './constants';
 
 const getModel = app.createGetModel(NAME);
 export const getTypes = (state) => getModel(state);
-export const getType = (state, type) => getModel(state).get(type);
+export const getType = (state, type) => getModel(state).getIn([type, 'data']);
+export const getForceDeleteConfirmationId = (state, type) => getModel(state).getIn([type, 'forceDeleteConfirmationId']);

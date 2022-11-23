@@ -2,7 +2,8 @@ import {NAME, availableTypes, availableTypesArray} from './constants';
 import reducer from "./reducer";
 
 import {fetchDataForAllTypes, fetchDataForType, removeItemFromType, getApiForType} from './utils';
-import {getType, getTypes} from './selectors';
+import {getType, getTypes, getForceDeleteConfirmationId} from './selectors';
+import {createTypeActionGroup} from './actions';
 
 export default {
     NAME,
@@ -15,4 +16,6 @@ export default {
     availableTypesArray,
     getType,
     getTypes,
+    getForceDeleteConfirmationId,
+    createTypeActionGroup,
 };

@@ -11,6 +11,7 @@ export {Modal} from "./components/modal";
 export {Menu} from "./components/menu";
 export {Card} from "./components/card";
 export {Notification} from "./components/notification";
+export {Confirmation} from "./components/confirmation";
 export {TextInput, Slider, FormError, DateInput, MultiSelect, TextAreaInput, RadioGroupInput, MultiSelectComponent} from "./components/form";
 
 export {Flex} from "./layouts/flex";
