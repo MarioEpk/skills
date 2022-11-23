@@ -2,19 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import IPropTypes from "react-immutable-proptypes";
-import {Edit, GetApp, CheckCircleOutline, Send, CancelScheduleSend} from "@material-ui/icons";
+import {CheckCircleOutline} from "@material-ui/icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faLink} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUpRightFromSquare} from "@fortawesome/free-solid-svg-icons";
 
 import i18n from "core/i18n";
 import modal from "core/modal";
 import {Type} from "app/model/type";
 import coreExport from "core/export";
 import access, {accesses} from "core/access";
-import {Button, Data, Modal} from "components";
+import {Data, Modal, IconButton} from "components";
 import {navigate} from "core/router/actions";
 import {CV} from 'app/constants';
 
+import {faFilePdf, faFileWord} from '@fortawesome/free-regular-svg-icons';
 import {MODAL_FORM_NAME, SEARCH_TABLE_FIELDS} from "./constants";
 import {cvActionGroup} from "./actions";
 import {getData} from "./selectors";
@@ -57,7 +58,8 @@ const DataTable = ({
     closeModal,
     isFormModalOpen,
     onDelete,
-    onExport,
+    onExportToPdf,
+    onExportToDoc,
     onShare,
     onCopyPublicUrl,
     navigateTo,
@@ -70,10 +72,14 @@ const DataTable = ({
         const shared = row.get('shared');
         const extCode = row.get('externalCode');
         return ([
-            <Button key="redirect" href={`/${cvId}`} label={t(`edit.button.label`)} startIcon={<Edit />} />,
-            <Button key="export" onClick={() => onExport(cvId, user.lastName)} label={t(`export.button.label`)} startIcon={<GetApp />} />,
-            <Button key="share" className="shared" onClick={() => onShare(cvId)} label={shared ? "Unshare" : "Share  "} startIcon={shared ? <CancelScheduleSend /> : <Send />} />,
-            <Button key="copyPublicUrl" onClick={() => onCopyPublicUrl(extCode)} label="Copy URL" startIcon={<FontAwesomeIcon icon={faLink} />} />,
+            <IconButton key="exportToPdf" icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={() => onExportToPdf(cvId, user.firstName, user.lastName)} ariaLabel={t(`cv.generate.pdf.label`)} />,
+            <IconButton key="exportToDoc" icon={<FontAwesomeIcon icon={faFileWord} />} onClick={() => onExportToDoc(cvId, user.firstName, user.lastName)} ariaLabel={t(`cv.generate.doc.label`)} />,
+            <IconButton
+                key="copyPublicUrl"
+                icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare} />}
+                onClick={() => onCopyPublicUrl(cvId, shared, extCode)}
+                ariaLabel={t(`cv.copy.public.link.label`)}
+            />,
         ]);
     };
     const onCreate = () => {
@@ -99,6 +105,7 @@ const DataTable = ({
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
                 searchByDataFields={data.size > 0 ? SEARCH_TABLE_FIELDS : undefined}
                 searchPlaceholder={t("overview.search.placeholder")}
+                onUnshare={adminAccess((row) => onShare(row.get("id")))}
                 onRowClick={onRowClick}
             />
             <Modal
@@ -117,7 +124,8 @@ DataTable.propTypes = {
     closeModal: PropTypes.func.isRequired,
     isFormModalOpen: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onExport: PropTypes.func.isRequired,
+    onExportToPdf: PropTypes.func.isRequired,
+    onExportToDoc: PropTypes.func.isRequired,
     onShare: PropTypes.func.isRequired,
     onCopyPublicUrl: PropTypes.func.isRequired,
     loading: PropTypes.bool,
@@ -137,10 +145,11 @@ const mapDispatchToProps = (dispatch) => ({
     openModal: () => dispatch(modal.open(MODAL_FORM_NAME)),
     closeModal: () => dispatch(modal.close(MODAL_FORM_NAME)),
     onDelete: (id) => dispatch(cvActionGroup.remove(id)),
-    onExport: (id, lastName) => dispatch(coreExport.exportCv(id, lastName)),
+    onExportToPdf: (id, firstName, lastName) => dispatch(coreExport.exportCv(id, firstName, lastName)),
+    onExportToDoc: (id, firstName, lastName) => dispatch(coreExport.exportCvToDoc(id, firstName, lastName)),
     navigateTo: (route, params, query) => dispatch(navigate(route, params, query)),
     onShare: (id) => dispatch(cvActionGroup.shareCv(id)),
-    onCopyPublicUrl: (extCode) => dispatch(cvActionGroup.copyPublicUrl(extCode)),
+    onCopyPublicUrl: (cvId, shared, extCode) => dispatch(cvActionGroup.copyPublicUrl(cvId, shared, extCode)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataTable);

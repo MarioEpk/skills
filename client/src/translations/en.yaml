@@ -6,8 +6,8 @@ delete.button.label: Delete
 add.button.label: Add
 update.button.label: Update
 confirm.button.label: Confirm
+unshare.button.label: Unshare
 search.label: Search
-export.button.label: Export
 confirmation.text: Are you sure?
 force.delete.button.label: Confirm delete
 force.delete.confirmation.text: Record is used in CVs or Projects. Really delete? (Related records will be affected !)
@@ -37,6 +37,7 @@ cv.my.title: My CV
 cv.generate.pdf.label: Generate PDF
 cv.generate.doc.label: Generate DOC
 cv.copy.link.label: Copy URL
+cv.copy.public.link.label: Copy public URL
 cv.avatar.label: Avatar
 cv.avatar.options.man: Man
 cv.avatar.options.woman: Woman

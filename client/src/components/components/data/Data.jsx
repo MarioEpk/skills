@@ -27,6 +27,7 @@ const Data = ({
     onCustomAction,
     searchPlaceholder,
     onRowClick,
+    onUnshare,
 }) => {
     const [filteredData, setFilteredData] = useState(data);
     const [searchValue, setSearchValue] = useState("");
@@ -38,6 +39,7 @@ const Data = ({
         onEdit,
         onDelete: onDelete ? (row) => setDeleteConfirmation(row) : undefined,
         custom: onCustomAction,
+        onUnshare,
         align: 'right',
         collapsed: true,
     };
@@ -120,6 +122,7 @@ Data.propTypes = {
     onCustomAction: PropTypes.func,
     searchPlaceholder: PropTypes.string,
     onRowClick: PropTypes.func,
+    onUnshare: PropTypes.func,
 };
 
 Data.defaultProps = {
@@ -132,6 +135,7 @@ Data.defaultProps = {
     onCustomAction: undefined,
     searchPlaceholder: "",
     onRowClick: undefined,
+    onUnshare: undefined,
 };
 
 export default Data;
