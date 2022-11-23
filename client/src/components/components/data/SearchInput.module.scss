@@ -9,5 +9,8 @@
     :global(.MuiFormLabel-root.Mui-focused) {
         color: $highlight_color;
     }
+    ::placeholder {
+        font-weight: 400;
+    }
 }
 

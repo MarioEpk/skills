@@ -2,20 +2,16 @@ import React, {useMemo, useState} from "react";
 import {List} from "immutable";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
-import {AddRounded} from "@material-ui/icons";
 import useLocalStorage from "use-local-storage";
 
 import i18n from "core/i18n";
 import {useFiltersFromUrl} from "core/url";
 
-import SearchInput from "./SearchInput";
 import {Block} from "../block";
-import {Table, columnsPropTypes, ColumnsVisibility} from "../table";
-import {Button} from "../button";
+import {Table, columnsPropTypes} from "../table";
 import {Loading} from "../loading";
 import {Confirmation} from "../confirmation";
 import css from "./Data.module.scss";
-import {Flex} from "../../layouts/flex";
 import TableControl from "./TableControl";
 
 const Data = ({

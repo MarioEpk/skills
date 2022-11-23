@@ -1,8 +1,9 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import {AddRounded} from "@material-ui/icons";
 
 import i18n from "core/i18n";
+import {useOnUpdate} from "core/util";
 
 import {useDebouncedCallback} from "use-debounce";
 import SearchInput from "./SearchInput";
@@ -37,7 +38,7 @@ const TableControl = ({
         setFiltersToUrl({quickSearch: debouncedValue});
     }, 500);
 
-    useEffect(() => {
+    useOnUpdate(() => {
         debouncedQuickSearch(quickSearchValue);
     }, [quickSearchValue]);
 
