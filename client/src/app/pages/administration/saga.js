@@ -31,6 +31,7 @@ function* removeEntityFromType(type, {payload}) {
             yield put(createTypeActionGroup(type).forceDeleteConfirmation(undefined));
             yield all(availableTypesArray.map((t) => refreshDataForType(t)));
         }
+        yield call(refreshDataForType, type);
         yield put(notification.show("Deleted"));
     } catch (e) {
         if (e.status === 422) {
