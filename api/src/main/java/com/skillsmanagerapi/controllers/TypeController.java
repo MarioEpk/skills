@@ -13,7 +13,6 @@ import com.skillsmanagerapi.services.ProjectTypeService;
 import com.skillsmanagerapi.services.SkillTypeService;
 import com.skillsmanagerapi.services.TechnologyTypeService;
 import com.skillsmanagerapi.services.TypeService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -216,9 +215,9 @@ public class TypeController {
     }
 
     @DeleteMapping(value = "/position/{id}")
-    public ResponseEntity<?> deletePositionType(@PathVariable("id") int id) {
+    public ResponseEntity<?> deletePositionType(@PathVariable("id") int id, @PathParam("force") boolean force) {
         try {
-            positionTypeService.deletePositionType(id, false);  //TODO
+            positionTypeService.deletePositionType(id, force);
             return ResponseEntity.ok().build();
         } catch (DeleteTypeConstraintException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();

@@ -1,25 +1,20 @@
 package com.skillsmanagerapi.services;
 
 import com.skillsmanagerapi.dto.PositionTypeDto;
-import com.skillsmanagerapi.models.Cv;
 import com.skillsmanagerapi.models.PositionType;
-import com.skillsmanagerapi.repositories.CvRepository;
+import com.skillsmanagerapi.models.Project;
 import com.skillsmanagerapi.repositories.PositionTypeRepository;
 import com.skillsmanagerapi.repositories.ProjectRepository;
-import com.skillsmanagerapi.repositories.SkillRepository;
 import com.skillsmanagerapi.utils.DeleteResolver;
 import com.skillsmanagerapi.utils.ModelMapperUtil;
-
+import lombok.NonNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-
-import lombok.NonNull;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 public class PositionTypeService {
@@ -62,8 +57,12 @@ public class PositionTypeService {
 
     @Transactional
     public void deletePositionType(final int id, final boolean forceDelete) throws DeleteTypeConstraintException {
-        deleteResolver.resolveConstraints(ProjectRepository.class, ProjectRepository::findByProjectType, id, forceDelete);
-        //deleteResolver.resolveConstraints(CvRepository.class, CvRepository::findByPosition, id, forceDelete);
+        deleteResolver.resolveConstraints(ProjectRepository.class,
+                ProjectRepository::findByPositionType,
+                Project::getPositions,
+                PositionType::getId,
+                id, forceDelete);
+
         positionTypeRepository.deleteById(id);
     }
 
