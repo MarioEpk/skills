@@ -30,10 +30,15 @@ const Container = () => {
                     columnName: "name",
                 }, {
                     key: "3",
+                    dataField: "exportName",
+                    columnName: "project.exportName",
+                    defaultHidden: true,
+                }, {
+                    key: "4",
                     dataField: "description",
                     columnName: "project.description",
                 }, {
-                    key: "4",
+                    key: "5",
                     dataField: "technologies",
                     columnName: "used.technologies",
                     dataFormat: (data) => data.map((item) => item.get("name")).join(", "),

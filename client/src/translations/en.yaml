@@ -134,6 +134,7 @@ name: Name
 export.name: Export name
 project.name: Project name
 project.description: Project description
+project.exportName: Export name
 used.technologies: Used technologies
 search.placeholder: Search by name
 
