@@ -47,7 +47,7 @@ const renderActions = (t, actions, row, key, columnHiddenDataFields) => {
             columnHiddenDataFields={columnHiddenDataFields}
         >
             {actionComponents}
-            <MoreActionsMenu options={moreActionsMenuComponents} />
+            {moreActionsMenuComponents.length > 0 && <MoreActionsMenu options={moreActionsMenuComponents} />}
         </TableColumn>
     );
 };
