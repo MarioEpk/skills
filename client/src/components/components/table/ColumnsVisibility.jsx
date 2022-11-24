@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import {Visibility, VisibilityOff} from '@material-ui/icons';
+import {CheckBoxRounded, CheckBoxOutlineBlankRounded} from '@material-ui/icons';
 
 import i18n from "core/i18n";
 
@@ -51,7 +51,7 @@ export const ColumnsVisibility = ({columns, setColumnHiddenDataFields, columnHid
                 {columns.map((column) => (
                     <MenuItem key={column.key} onClick={() => handleClick(column.dataField)}>
                         <ListItemIcon>
-                            {columnHiddenDataFields.includes(column.dataField) ? <VisibilityOff /> : <Visibility />}
+                            {columnHiddenDataFields.includes(column.dataField) ? <CheckBoxOutlineBlankRounded /> : <CheckBoxRounded />}
                         </ListItemIcon>
                         {t(column.columnName)}
                     </MenuItem>

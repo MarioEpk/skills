@@ -15,7 +15,7 @@ services:
     build:
       context: ./api
       args:
-        JAR_FILE: ./build/libs/skills-manager-api-1.0.4.jar
+        JAR_FILE: ./build/libs/skills-manager-api-1.1.0.jar
     ports:
       - 8080:8080
     volumes:

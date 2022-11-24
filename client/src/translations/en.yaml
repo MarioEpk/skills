@@ -94,10 +94,10 @@ other.date.placeholder: Issue date
 #education form
 education.title: Education
 education.school.placeholder: School
-education.field.placeholder: Field
+education.field.placeholder: Field of study
 education.yearFrom.placeholder: From
 education.yearTo.placeholder: To
-education.note.placeholder: Note
+education.note.placeholder: Description
 
 #project form
 project.title: Project - {{name}}
@@ -109,7 +109,7 @@ project.positionTypes.placeholder: Position
 project.technologyTypes.placeholder: Used technologies
 
 #overview
-overview.search.placeholder: Search by first name or last name
+overview.search.placeholder: Search by full name
 overview.formTitle: Add CV for user
 overview.firstName.placeholder: First name
 overview.lastName.placeholder: Last name
