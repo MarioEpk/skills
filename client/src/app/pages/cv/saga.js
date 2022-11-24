@@ -47,7 +47,7 @@ const createExportToDoc = (id) => function* exportCvToDoc() {
 
 const createCopyCvUrl = () => function* copyCvUrl() {
     yield call(copyCurrentUrlToClipboard);
-    yield put(notification.show("Copied", "Url has been copied to clipboard", notification.types.SUCCESS));
+    yield put(notification.show("Copied", "URL has been copied to clipboard", notification.types.SUCCESS));
 };
 
 const formSaga = formWrapper(form.FORM_NAME, {
