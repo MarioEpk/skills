@@ -22,6 +22,9 @@ public class CvDto {
     private List<TechnologyDto> technologies;
     private List<OtherDto> others;
     private List<CertificateDto> certificates;
+    private List<EducationDto> educations;
     private Date updatedAt;
     private Date createdAt;
+    private boolean shared;
+    private String externalCode;
 }

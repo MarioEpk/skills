@@ -41,10 +41,6 @@ const Menu = ({title, items, onClick}) => {
         }
     };
 
-    const onChangeSearch = (e) => {
-        setSearchText(e.target.value);
-    };
-
     const getFilteredData = () => {
         if (searchText === "") {
             return items;
@@ -68,8 +64,7 @@ const Menu = ({title, items, onClick}) => {
                             <SearchInput
                                 name="menu-search"
                                 className={css.input}
-                                onChange={onChangeSearch}
-                                onBlur={onChangeSearch}
+                                onChange={setSearchText}
                                 value={searchText}
                                 label="Search"
                             />

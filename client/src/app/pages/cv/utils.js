@@ -15,3 +15,13 @@ export const useAccessOrIsOwner = (accesses) => {
     const userId = useSelector((state) => getFormFieldValue(state, FORM_NAME, USER_ID_FIELD));
     return access.useAccess(accesses, userId);
 };
+
+export const copyCurrentUrlToClipboard = () => {
+    const url = window.location.href;
+    return navigator.clipboard.writeText(url);
+};
+
+export const copyCVPublicUrlToClipboard = (externalCode) => {
+    const url = `cv.morosystems.cz/public/cv/${externalCode}`;
+    return navigator.clipboard.writeText(url);
+};

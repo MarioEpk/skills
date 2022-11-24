@@ -3,16 +3,24 @@ import PropTypes from 'prop-types';
 import classnames from "classnames";
 
 import css from "./TableColumn.module.scss";
+import {columnActionsPropTypes, columnPropTypes} from "./util";
 
-const TableColumn = ({column, header, children, ...rest}) => {
+const TableColumn = ({column, columnHiddenDataFields, header, children, dataAttribute, ...rest}) => {
     const Tag = header ? 'th' : 'td';
-    const columnClassname = classnames(css.root, {
+    const columnInnerClassname = classnames(css.root, {
         [css.right]: column.align === "right",
+        [css.center]: column.align === "center",
+        [css.noWrap]: column.noWrap,
     });
+
+    const columnClassName = classnames({
+        [css.collapsed]: column.collapsed,
+    });
+
     const columnStyle = {width: `${column.width}px`};
-    return !column.hidden && (
-        <Tag {...rest} style={columnStyle}>
-            <div style={columnStyle} className={columnClassname}>
+    return !columnHiddenDataFields.includes(column.dataField) && (
+        <Tag {...rest} data-column-type={dataAttribute} className={columnClassName} style={columnStyle}>
+            <div style={columnStyle} className={columnInnerClassname}>
                 {children}
             </div>
         </Tag>
@@ -20,19 +28,17 @@ const TableColumn = ({column, header, children, ...rest}) => {
 };
 
 TableColumn.propTypes = {
-    column: PropTypes.shape({
-        name: PropTypes.string,
-        hidden: PropTypes.bool,
-        width: PropTypes.number,
-        align: PropTypes.oneOf(["left", "right"]),
-    }).isRequired,
+    column: PropTypes.oneOfType([columnPropTypes, columnActionsPropTypes]).isRequired,
+    columnHiddenDataFields: PropTypes.arrayOf(PropTypes.string).isRequired,
     header: PropTypes.bool,
     children: PropTypes.node,
+    dataAttribute: PropTypes.string,
 };
 
 TableColumn.defaultProps = {
     header: false,
     children: null,
+    dataAttribute: "normal",
 };
 
 export default TableColumn;

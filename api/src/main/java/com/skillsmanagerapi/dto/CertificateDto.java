@@ -1,18 +1,21 @@
 package com.skillsmanagerapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.skillsmanagerapi.utils.DateMonthDeserializer;
+import com.skillsmanagerapi.utils.DateMonthSerializer;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
 public class CertificateDto {
     private int id;
     private String name;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", locale = "cs_CZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
+    @JsonSerialize(using = DateMonthSerializer.class)
+    @JsonDeserialize(using = DateMonthDeserializer.class)
     private Date date;
     private String description;
 }

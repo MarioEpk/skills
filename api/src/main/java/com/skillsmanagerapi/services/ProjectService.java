@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProjectService {
@@ -34,6 +35,7 @@ public class ProjectService {
         return modelMapper.map(projectRepository.findById(id).orElseThrow(EntityNotFoundException::new), ProjectDto.class);
     }
 
+    @Transactional
     public ProjectDto createProject(@NonNull final ProjectDto projectDto) {
         final Project project = new Project();
         project.setPositions(projectDto.getPositions() != null ? modelMapperUtil.mapList(projectDto.getPositions(), PositionType.class) : null);
@@ -47,6 +49,7 @@ public class ProjectService {
         return modelMapper.map(projectRepository.save(project), ProjectDto.class);
     }
 
+    @Transactional
     public void updateProject(@NonNull final ProjectDto projectDto) {
         final ProjectDto updatedProjectDto = this.getProject(projectDto.getId());
         updatedProjectDto.setPositions(projectDto.getPositions());
@@ -58,6 +61,7 @@ public class ProjectService {
         projectRepository.save(modelMapper.map(updatedProjectDto, Project.class));
     }
 
+    @Transactional
     public void deleteProject(final int id) {
         projectRepository.deleteById(id);
     }

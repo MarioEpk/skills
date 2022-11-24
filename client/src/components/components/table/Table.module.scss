@@ -2,6 +2,7 @@
 
 .root {
     position: relative;
+    overflow-x: auto;
 }
 
 .inactive {
@@ -9,7 +10,6 @@
 }
 
 .table {
-    overflow-x: auto;
     width: 100%;
     border-collapse: collapse;
     td {
@@ -24,3 +24,35 @@
         font-family: "Montserrat", sans-serif;
     };
 }
+
+.actionRow {
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(252, 192, 0, 0.24);
+    }
+}
+
+.moreActionItem {
+    .menuItemText span{
+        font-family: Montserrat, sans-serif !important;
+    }
+    &.default {
+        color: $main_color;
+        & svg {
+            color: $main_color;
+        };
+        &:hover {
+            background-color: rgba(252, 192, 0, 0.24);
+        }
+    }
+    &.danger {
+        color: $danger;
+        & svg {
+            color: $danger;
+        };
+        &:hover {
+            background-color: rgba(252, 0, 0, 0.2);
+        }
+    }
+}
+

@@ -3,6 +3,7 @@
     padding: 1.5rem;
     box-shadow: 0 2px 10px -3px rgba(0, 0, 0, 0.3);
     position: relative;
+    word-break: break-word;
     h3 {
         font-size: 1.3rem;
         // controls width
@@ -28,7 +29,7 @@
             opacity: 1;
         }
     }
-    .controls button:focus {
+    .controls button:focus-visible {
         opacity: 1;
     }
     .date {

@@ -1,14 +1,13 @@
 import {takeEvery, cancel, call, fork, put, delay, select, getContext, takeLatest, all} from "redux-saga/effects";
 import {eventChannel} from "redux-saga";
 import NProgress from "nprogress";
-import {createBrowserHistory} from 'history';
 import {match} from "path-to-regexp";
 import {parse, stringify} from "query-string";
 
 import notification from "core/notification";
-import access from "core/access";
 import user from "core/user";
 import fetch from "core/fetch";
+import access from "core/access";
 import {ERROR} from "app/constants";
 
 import {
@@ -22,9 +21,7 @@ import {
 import {getCurrentRoute, getCurrentParams} from "./selectors";
 import {getRegisteredRoutes, setComponent} from "./staticRouteRegister";
 import getStaticUrl from "./getStaticUrl";
-import {routerWrapper} from "./utils";
-
-export const history = createBrowserHistory();
+import {routerWrapper, history} from "./utils";
 
 export default function* () {
     yield takeEvery(NAVIGATE, onNavigate);

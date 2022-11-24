@@ -2,6 +2,7 @@ package com.skillsmanagerapi.models;
 
 import com.skillsmanagerapi.enums.AvatarType;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -80,7 +81,7 @@ public class Cv {
     private List<Technology> technologies;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "certificate_id", referencedColumnName = "id")
+    @JoinColumn(name = "certificates_id", referencedColumnName = "id")
     @OrderBy(value = "id")
     private List<Certificate> certificates;
 
@@ -88,6 +89,11 @@ public class Cv {
     @JoinColumn(name = "others_id", referencedColumnName = "id")
     @OrderBy(value = "id")
     private List<Other> others;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "educations_id", referencedColumnName = "id")
+    @OrderBy(value = "id")
+    private List<Education> educations;
 
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
@@ -98,4 +104,10 @@ public class Cv {
     @CreatedDate
     @Column(name = "created_at")
     private Date createdAt;
+
+    @Column(name = "shared")
+    private boolean shared;
+
+    @Column(name = "external_code")
+    private String externalCode;
 }

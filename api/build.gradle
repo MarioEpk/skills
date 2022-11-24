@@ -5,14 +5,20 @@ plugins {
 }
 
 group = 'com'
-version = '1.0.4'
+version = '1.1.0'
 sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven { url 'https://clojars.org/repo/' }
 }
 
 dependencies {
+	implementation 'io.github.erdos:stencil-core:0.4.7'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.4'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.4'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.modelmapper:modelmapper:2.3.7'

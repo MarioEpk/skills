@@ -31,7 +31,7 @@ export default [Data, () => ({
     columns,
     data,
     loading: boolean("Loading", false),
-    searchByDataField: "name",
+    searchByDataFields: ["name"],
     onEdit: action("On Edit"),
     onDelete: action("On delete"),
     onCreate: action("On create"),

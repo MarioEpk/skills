@@ -18,13 +18,13 @@ const addSkill = (fetchCv, cvId) => function* add({payload}) {
 };
 
 const updateSkill = (fetchCv, cvId) => function* update({payload: {id, level}}) {
-    yield call(cvApi.updateSkill, id, level);
+    yield call(cvApi.updateSkill, cvId, id, level);
     yield call(fetchCv, cvId);
     yield put(notification.show("Updated"));
 };
 
 const removeSkill = (fetchCv, cvId) => function* remove({payload}) {
-    yield call(cvApi.removeSkillFromCv, payload);
+    yield call(cvApi.removeSkillFromCv, cvId, payload);
     yield call(fetchCv, cvId);
     yield put(notification.show("Deleted"));
 };

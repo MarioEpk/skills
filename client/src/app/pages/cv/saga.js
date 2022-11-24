@@ -8,26 +8,27 @@ import coreExport from "core/export";
 
 import form from "./form";
 import {cvApi} from "../../serverApi";
-import {cvTypesActionGroup, cvActionGroup} from "./actions";
+import {cvActionGroup} from "./actions";
 import language from "./language";
 import skill from "./skill";
 import technology from "./technology";
 import certificate from "./certificate";
 import other from "./other";
 import project from "./project";
+import education from "./education";
+import {copyCurrentUrlToClipboard} from './utils';
 
 export default router.routerWrapper({
-    * getDataForPage() {
-        return [yield call(fetchDataForPage)];
-    },
     * onPageEnter({id}) {
         if (id) {
             yield all(
-                [language, skill, technology, certificate, other, project]
+                [language, skill, technology, certificate, other, project, education]
                     .map(({createSaga}) => fork(createSaga(fetchCv, id))),
             );
             yield fork(formSaga, id);
             yield takeLatest(cvActionGroup.EXPORT, createExport(id));
+            yield takeLatest(cvActionGroup.EXPORT_TO_DOC, createExportToDoc(id));
+            yield takeLatest(cvActionGroup.COPY_URL, createCopyCvUrl());
         } else {
             yield call(redirectToUserCv);
         }
@@ -36,7 +37,17 @@ export default router.routerWrapper({
 
 const createExport = (id) => function* exportCv() {
     const cv = yield call(fetchCv, id);
-    yield put(coreExport.exportCv(id, cv.getIn(["user", "lastName"])));
+    yield put(coreExport.exportCv(id, cv.getIn(["user", "firstName"]), cv.getIn(["user", "lastName"])));
+};
+
+const createExportToDoc = (id) => function* exportCvToDoc() {
+    const cv = yield call(fetchCv, id);
+    yield put(coreExport.exportCvToDoc(id, cv.getIn(["user", "firstName"]), cv.getIn(["user", "lastName"])));
+};
+
+const createCopyCvUrl = () => function* copyCvUrl() {
+    yield call(copyCurrentUrlToClipboard);
+    yield put(notification.show("Copied", "URL has been copied to clipboard", notification.types.SUCCESS));
 };
 
 const formSaga = formWrapper(form.FORM_NAME, {
@@ -102,16 +113,5 @@ function* redirectToUserCv() {
         yield put(router.navigate(CV, {id}));
     } catch (e) {
         yield put(router.navigate(ERROR));
-    }
-}
-
-function* fetchDataForPage() {
-    try {
-        const payload = yield call(cvApi.fetchAllTypes);
-        return cvTypesActionGroup.fetchSuccess(payload);
-    } catch (e) {
-        yield put(notification.show("CV error", `There was a problem with fetching types`, notification.types.FAILED));
-        console.error(e);
-        return cvTypesActionGroup.fetchFailure();
     }
 }

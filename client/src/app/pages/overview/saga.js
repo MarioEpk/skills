@@ -1,14 +1,16 @@
 import {call, fork, put, takeLatest} from "redux-saga/effects";
+import download from "downloadjs";
 
 import router from "core/router";
 import {formWrapper, reset} from "core/form";
 import notification from "core/notification";
 import modal from "core/modal";
-import {cvApi} from "app/serverApi";
+import {cvApi, userApi} from "app/serverApi";
 
-import {cvActionGroup} from "./actions";
+import {overviewActionGroup} from "./actions";
 import form from "./form";
 import {MODAL_FORM_NAME} from "./constants";
+import {copyCVPublicUrlToClipboard} from "../cv";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -16,7 +18,11 @@ export default router.routerWrapper({
     },
     * onPageEnter() {
         yield fork(formSaga);
-        yield takeLatest(cvActionGroup.REMOVE, deleteData);
+        yield takeLatest(overviewActionGroup.REMOVE, deleteData);
+        yield takeLatest(overviewActionGroup.SHARE_CV, shareCv);
+        yield takeLatest(overviewActionGroup.COPY_PUBLIC_URL, copyPublicUrl);
+        yield takeLatest(overviewActionGroup.FETCH_CERTIFICATES_FOR_ALL_USERS, downloadCertificatesForAllUsers);
+        yield takeLatest(overviewActionGroup.FETCH_EDUCATIONS_FOR_ALL_USERS, downloadEducationsForAllUsers);
     },
 });
 
@@ -47,10 +53,10 @@ function* refreshData() {
 function* fetchData() {
     try {
         const payload = yield call(cvApi.fetchCvs);
-        return cvActionGroup.fetchSuccess(payload);
+        return overviewActionGroup.fetchSuccess(payload);
     } catch (e) {
         console.error(e);
-        return cvActionGroup.fetchFailure();
+        return overviewActionGroup.fetchFailure();
     }
 }
 
@@ -63,4 +69,42 @@ function* deleteData({payload}) {
         yield put(notification.show("Problem with deleting", null, notification.types.FAILED));
         console.error(e);
     }
+}
+
+function* shareCv({payload}) {
+    try {
+        yield call(cvApi.shareCv, payload.cvId);
+        yield call(refreshData);
+        const cv = yield call(cvApi.fetchCv, payload.cvId);
+        yield put(notification.show(cv.shared ? "CV shared" : "CV unshared", cv.shared ? "CV is public" : "CV is no longer public"));
+    } catch (e) {
+        yield put(notification.show("Problem with share", null, notification.types.FAILED));
+        console.error(e);
+    }
+}
+
+function* copyPublicUrl({payload}) {
+    const {cvId, shareEnabled, externalCode} = payload;
+    if (!shareEnabled) {
+        yield call(shareCv, {payload: {cvId}});
+    }
+    yield call(copyCVPublicUrlToClipboard, externalCode);
+    yield put(notification.show("CV shared", "URL has been copied to clipboard"));
+}
+
+function* downloadTxtFileFromString(fileName, fileContent) {
+    const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"});
+    yield call(download, blob, fileName, "text/plain");
+}
+
+function* downloadCertificatesForAllUsers() {
+    const data = yield call(userApi.fetchCertificatesForAllUsers);
+    const fileContent = data.map(({userFirstName, userLastName, certificates}) => certificates.map(({name}) => `${userFirstName} ${userLastName}: ${name}`)).flat().join("\n");
+    yield call(downloadTxtFileFromString, "certificates.txt", fileContent);
+}
+
+function* downloadEducationsForAllUsers() {
+    const data = yield call(userApi.fetchEducationsForAllUsers);
+    const fileContent = data.map(({userFirstName, userLastName, educations}) => educations.map(({school, field}) => `${userFirstName} ${userLastName}: ${school} - ${field}`)).flat().join("\n");
+    yield call(downloadTxtFileFromString, "educations.txt", fileContent);
 }

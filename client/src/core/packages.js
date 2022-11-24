@@ -7,5 +7,6 @@ import auth from "./auth";
 import modal from "./modal";
 import user from "./user";
 import coreExport from "./export";
+import coreTypes from "./types";
 
-export default [router, i18n, init, form, notification, auth, modal, user, coreExport];
+export default [router, i18n, init, form, notification, auth, modal, user, coreExport, coreTypes];

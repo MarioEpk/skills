@@ -5,10 +5,10 @@ import {hasAccess} from "./util";
 export {accesses} from "./constants";
 export {default as Access} from "./Access";
 
-const notification = {
+const access = {
     NAME,
     useAccess,
     hasAccess,
 };
 
-export default notification;
+export default access;
