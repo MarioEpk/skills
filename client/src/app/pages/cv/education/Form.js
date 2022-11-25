@@ -3,7 +3,7 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Button, Loading, FormError, TextInput, VerticalFormLayout, DateInput, TextAreaInput} from "components";
+import {Button, Loading, FormError, TextInput, VerticalFormLayout, TextAreaInput, YearPicker} from "components";
 import {Field, compose, form, required} from "core/form";
 import i18n from "core/i18n";
 
@@ -44,13 +44,13 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => {
                     name={FIELD_FIELD}
                 />
                 <Field
-                    component={DateInput}
+                    component={YearPicker}
                     placeholder={t("education.yearFrom.placeholder")}
                     name={YEAR_FROM_FIELD}
                     validate={[required]}
                 />
                 <Field
-                    component={DateInput}
+                    component={YearPicker}
                     placeholder={t("education.yearTo.placeholder")}
                     name={YEAR_TO_FIELD}
                     validate={[required]}

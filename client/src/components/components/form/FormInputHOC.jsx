@@ -21,7 +21,7 @@ export default (Component) => {
 
     Input.propTypes = {
         input: PropTypes.shape({
-            value: PropTypes.oneOfType([PropTypes.string, IPropTypes.list]),
+            value: PropTypes.oneOfType([PropTypes.string, IPropTypes.list, PropTypes.instanceOf(Date)]),
             onChange: PropTypes.func.isRequired,
             onBlur: PropTypes.func.isRequired,
             onFocus: PropTypes.func.isRequired,
