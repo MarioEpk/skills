@@ -77,16 +77,19 @@ function* shareCv({payload}) {
         yield call(refreshData);
         const cv = yield call(cvApi.fetchCv, payload.cvId);
         yield put(notification.show(cv.shared ? "CV shared" : "CV unshared", cv.shared ? "CV is public" : "CV is no longer public"));
+        return cv.externalCode;
     } catch (e) {
         yield put(notification.show("Problem with share", null, notification.types.FAILED));
         console.error(e);
+        return null;
     }
 }
 
 function* copyPublicUrl({payload}) {
-    const {cvId, shareEnabled, externalCode} = payload;
+    const {cvId, shareEnabled} = payload;
+    let {externalCode} = payload;
     if (!shareEnabled) {
-        yield call(shareCv, {payload: {cvId}});
+        externalCode = yield call(shareCv, {payload: {cvId}});
     }
     yield call(copyCVPublicUrlToClipboard, externalCode);
     yield put(notification.show("CV shared", "URL has been copied to clipboard"));
