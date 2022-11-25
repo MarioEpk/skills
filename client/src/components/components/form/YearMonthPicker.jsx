@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import css from "./DatePicker.module.scss";
 import FormInputHOC from "./FormInputHOC";
 
-const YearPicker = ({onChange, label, value, tabIndex, disabled, id, onBlur}) => (
+const YearMonthPicker = ({onChange, label, value, tabIndex, disabled, id, onBlur}) =>(
     <FormControl variant="filled" className={classnames("MuiFilledInput-root", css.yearPickerRoot)}>
         <InputLabel shrink>{label}</InputLabel>
         <DatePicker
@@ -20,14 +20,14 @@ const YearPicker = ({onChange, label, value, tabIndex, disabled, id, onBlur}) =>
             selected={fn.isEmpty(value) ? new Date() : new Date(value)}
             onChange={onChange}
             onBlur={onBlur}
-            showYearPicker
-            dateFormat="yyyy"
+            showMonthYearPicker
+            dateFormat="yyyy-MM"
             popperClassName={classnames(css.datepickerPopper)}
         />
     </FormControl>
 );
 
-YearPicker.propTypes = {
+YearMonthPicker.propTypes = {
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func,
     label: PropTypes.string,
@@ -37,7 +37,7 @@ YearPicker.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-YearPicker.defaultProps = {
+YearMonthPicker.defaultProps = {
     value: undefined,
     label: undefined,
     onBlur: fn.noop,
@@ -45,4 +45,4 @@ YearPicker.defaultProps = {
     disabled: false,
 };
 
-export default FormInputHOC(YearPicker);
+export default FormInputHOC(YearMonthPicker);

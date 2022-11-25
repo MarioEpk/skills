@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
 import {Type} from "app/model/type";
-import {Button, Loading, TextInput, DateInput, FormError, VerticalFormLayout, MultiSelect, TextAreaInput} from "components";
+import {Button, Loading, TextInput, YearMonthPicker, FormError, VerticalFormLayout, MultiSelect, TextAreaInput} from "components";
 import {Field, compose, form, required, convertTypeToOptions, getFormFieldValue} from "core/form";
 import i18n from "core/i18n";
 
@@ -36,14 +36,14 @@ const Container = ({handleSubmit, onClose, submitting, errors, positions, projec
                 )}
             >
                 <Field
-                    component={DateInput}
+                    component={YearMonthPicker}
                     placeholder={t("project.from.placeholder")}
                     name={FROM_FIELD}
                     validate={[required]}
                     autoFocus
                 />
                 <Field
-                    component={DateInput}
+                    component={YearMonthPicker}
                     placeholder={t("project.to.placeholder")}
                     name={TO_FIELD}
                 />

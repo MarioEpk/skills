@@ -20,7 +20,7 @@
         -webkit-tap-highlight-color: transparent;
         &:focus{
             border-bottom: 2px solid;
-            border-bottom-color: #FCC000;
+            border-bottom-color: $highlight_color;
             outline: 0;
         }
     }
@@ -30,6 +30,18 @@
         border-bottom-color: rgba(0,0,0,0.4);
         &:hover {
             border-bottom-color: rgb(0,0,0);
+        }
+    }
+    :global(.react-datepicker__year-text), :global(.react-datepicker__month-text){
+        &:global(--selected), &:global(--keyboard-selected){
+            background-color: $highlight_color;
+            &:hover{
+                color: $main_color;
+                background-color: rgba(252, 192, 0, 0.24);
+            }
+        }
+        &:hover{
+            background-color: rgba(252, 192, 0, 0.24);
         }
     }
     .datepickerPopper {

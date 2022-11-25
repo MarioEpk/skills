@@ -12,7 +12,7 @@ export {Menu} from "./components/menu";
 export {Card} from "./components/card";
 export {Notification} from "./components/notification";
 export {Confirmation} from "./components/confirmation";
-export {TextInput, Slider, FormError, DateInput, MultiSelect, TextAreaInput, RadioGroupInput, MultiSelectComponent, YearPicker} from "./components/form";
+export {TextInput, Slider, FormError, DateInput, MultiSelect, TextAreaInput, RadioGroupInput, MultiSelectComponent, YearPicker, YearMonthPicker} from "./components/form";
 
 export {Flex} from "./layouts/flex";
 export {Main as MainLayout} from "./layouts/main";
