@@ -1,27 +1,19 @@
 import React from "react";
 import {connect} from "react-redux";
-import {GoogleLogin} from "react-google-login";
 import PropTypes from "prop-types";
 
 import auth from "core/auth";
-import {Button} from "components";
+import {GoogleLogin} from '@react-oauth/google';
 
-const Login = ({onLoginRequest, onLoginFailure}) => (
-    <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        render={(renderProps) => (
-            <Button
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                type={Button.type.LIGHT}
-                label="Login"
-            />
-        )}
-        onSuccess={(response) => onLoginRequest(response)}
-        onFailure={onLoginFailure}
-        isSignedIn
-    />
-);
+const Login = ({onLoginRequest, onLoginFailure}) => {
+    return (
+        <GoogleLogin
+            theme="filled_black"
+            onSuccess={(credentialResponse) => {onLoginRequest(credentialResponse)}}
+            onError={() => onLoginFailure({})}
+        />
+    );
+};
 
 Login.propTypes = {
     onLoginRequest: PropTypes.func.isRequired,

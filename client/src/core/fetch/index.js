@@ -1,21 +1,14 @@
 import RequestError from "./RequestError";
 import UnauthorizedError from "./UnauthorizedError";
 import coreApi from "./coreApi";
-import {
-    PRECOGNITION_FAILED,
-    doGet,
-    doGetPlain,
-    doPost,
-    doPut,
-    doDelete,
-    timeoutPromise,
-} from "./fetch";
+import {doDelete, doGet, doGetExternal, doGetPlain, doPost, doPut, PRECOGNITION_FAILED, timeoutPromise,} from "./fetch";
 
 export default {
     PRECOGNITION_FAILED,
     RequestError,
     UnauthorizedError,
     doGet,
+    doGetExternal,
     doPost,
     doPut,
     doDelete,
