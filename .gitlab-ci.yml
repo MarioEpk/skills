@@ -1,0 +1,70 @@
+stages:
+  - build
+
+variables:
+  SCRIPTS_DIR: "config/scripts"
+  RULES_CHANGES_PATH: "**/*"
+  DOCKER_HOST: "tcp://docker:2376"
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+
+default:
+  services:
+    - name: docker:dind
+
+.api-job-type:
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    RULES_CHANGES_PATH: "api/**/*"
+
+.client-job-type:
+  variables:
+    RULES_CHANGES_PATH: "client/**/*"
+
+.client-build-job-type:
+  image: node:12.22
+  stage: build
+  extends: .client-job-type
+  cache:
+    key:
+      files:
+        - client/package.json
+    paths:
+      - client/node_modules/
+  artifacts:
+    paths:
+      - client/dist/
+  script:
+    - sh $(pwd)/${SCRIPTS_DIR}/client-build.sh
+
+api-build:
+  image: gradle:7.1.0-jdk11
+  stage: build
+  extends: .api-job-type
+  before_script:
+    - export GRADLE_USER_HOME=api/.gradle
+  cache:
+    key:
+      files:
+        - api/gradle/wrapper/gradle-wrapper.properties
+    paths:
+      - api/.gradle/wrapper/
+      - api/.gradle/caches/
+      - api/.gradle/notifications/
+  script:
+    - sh $(pwd)/${SCRIPTS_DIR}/api-build.sh
+
+client-build:
+  extends: .client-build-job-type
+  artifacts:
+    expire_in: 1 day
+
+client-build-tagged:
+  extends: .client-build-job-type
+  rules:
+    - if: $CI_COMMIT_TAG
+  artifacts:
+    expire_in: 30 days
+
