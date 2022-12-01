@@ -1,5 +1,6 @@
 stages:
   - build
+  - docker
 
 variables:
   SCRIPTS_DIR: "config/scripts"
@@ -43,6 +44,10 @@ api-build:
   image: gradle:7.1.0-jdk11
   stage: build
   extends: .api-job-type
+  artifacts:
+    paths:
+      - api/build/libs/
+    expire_in: 1 day
   before_script:
     - export GRADLE_USER_HOME=api/.gradle
   cache:
@@ -68,3 +73,18 @@ client-build-tagged:
   artifacts:
     expire_in: 30 days
 
+api-docker:
+  image: gradle:6.9.3-jdk11-alpine
+  stage: docker
+  extends: .api-job-type
+  needs: [ "api-build" ]
+  script:
+    - sh $(pwd)/${SCRIPTS_DIR}/api-docker.sh
+
+client-docker:
+  image: gradle:6.9.3-jdk11-alpine
+  stage: docker
+  extends: .client-job-type
+  needs: [ "client-build" ]
+  script:
+    - sh $(pwd)/${SCRIPTS_DIR}/client-docker.sh

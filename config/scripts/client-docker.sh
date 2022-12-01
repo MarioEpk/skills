@@ -1,22 +1,19 @@
 #!/bin/bash
 
-echo "Creating CLIENT docker image..."
+echo "Creating Client docker image..."
 
-chmod +x client/gradlew
+chmod +x api/gradlew
 
 cd client
 GRADLE_USER_HOME="$(pwd)/.gradle"
 export GRADLE_USER_HOME
-apk add --update docker
+apk add --update docker npm
 
-echo "${DOCKER_HUB_PASSWORD}" | docker login --username "${DOCKER_HUB_USER}" --password-stdin
-set -x
+DOCKER_IMAGE_VERSION=$(node -p "require('./package.json').version")
+DOCKER_IMAGE_NAME=eu.gcr.io/moro-artifacts/skills-manager-client:${DOCKER_IMAGE_VERSION}
+#cat $GCP_COMMON_SERVICE_ACCOUNT_SECRET | docker login -u _json_key --password-stdin https://eu.gcr.io
 
-VERSION=$(node -p "require('./package.json').version")
+echo "Going to create a Docker image $DOCKER_IMAGE_NAME"
 
-DOCKER_IMAGE_WITH_TAG=morodocker/private:skills-manager-client-$VERSION .
-
-echo "Going to create a Docker image $DOCKER_IMAGE_WITH_TAG"
-
-gradle bootBuildImage --imageName=$DOCKER_IMAGE_WITH_TAG
-docker push $DOCKER_IMAGE_WITH_TAG
+docker build -t $DOCKER_IMAGE_NAME .
+#docker push $DOCKER_IMAGE_WITH_TAG
