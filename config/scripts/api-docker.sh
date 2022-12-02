@@ -13,11 +13,13 @@ DOCKER_IMAGE_VERSION=$(./gradlew properties | grep ^version | sed 's/version: //
 JAR=./build/libs/skills-manager-api-${DOCKER_IMAGE_VERSION}.jar
 
 BUILD_PARAMS="--no-cache --build-arg JAR_FILE=$JAR"
+DOCKER_IMAGE_NAME=${DOCKER_IMAGE_PREFIX}/skills-manager:api-${DOCKER_IMAGE_VERSION}
 
-DOCKER_IMAGE_NAME=eu.gcr.io/moro-artifacts/skills-manager-api:${DOCKER_IMAGE_VERSION}
-#cat $GCP_COMMON_SERVICE_ACCOUNT_SECRET | docker login -u _json_key --password-stdin https://eu.gcr.io
+base64 $GCP_SERVICE_ACCOUNT_SECRET > docker-key-base64.json
+
+cat docker-key-base64.json | docker login -u _json_key_base64 --password-stdin europe-west3-docker.pkg.dev
 
 echo "Going to create a Docker image $DOCKER_IMAGE_NAME"
 docker build $BUILD_PARAMS -t $DOCKER_IMAGE_NAME .
 
-#docker push $DOCKER_IMAGE_WITH_TAG
+docker push $DOCKER_IMAGE_NAME

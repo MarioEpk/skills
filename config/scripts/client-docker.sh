@@ -10,10 +10,13 @@ export GRADLE_USER_HOME
 apk add --update docker npm
 
 DOCKER_IMAGE_VERSION=$(node -p "require('./package.json').version")
-DOCKER_IMAGE_NAME=eu.gcr.io/moro-artifacts/skills-manager-client:${DOCKER_IMAGE_VERSION}
-#cat $GCP_COMMON_SERVICE_ACCOUNT_SECRET | docker login -u _json_key --password-stdin https://eu.gcr.io
+DOCKER_IMAGE_NAME=${DOCKER_IMAGE_PREFIX}/skills-manager:client-${DOCKER_IMAGE_VERSION}
+
+base64 $GCP_SERVICE_ACCOUNT_SECRET > docker-key-base64.json
+
+cat docker-key-base64.json | docker login -u _json_key_base64 --password-stdin europe-west3-docker.pkg.dev
 
 echo "Going to create a Docker image $DOCKER_IMAGE_NAME"
 
 docker build -t $DOCKER_IMAGE_NAME .
-#docker push $DOCKER_IMAGE_WITH_TAG
+docker push $DOCKER_IMAGE_NAME
