@@ -25,6 +25,8 @@ import {Form} from "./form";
 import AdvancedSearch from "./AdvancedSearch";
 import {overviewFilterFunctions} from "./filters";
 
+const DESC = -1;
+
 const columns = [{
     key: "1",
     dataField: "id",
@@ -57,7 +59,7 @@ const columns = [{
     columnName: "technologies.name",
     defaultHidden: true,
     noWrap: true,
-    dataFormat: (technologies) => formatLongText(technologies ? technologies.map(({technologyType}) => technologyType.name).join(", ") : ""),
+    dataFormat: (technologies) => formatLongText(technologies ? technologies.sortBy((technologyType) => (DESC) * technologyType.level).map(({technologyType}) => technologyType.name).join(", ") : ""),
 }, {
     key: "8",
     dataField: "skills",
