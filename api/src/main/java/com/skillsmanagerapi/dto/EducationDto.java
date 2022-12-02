@@ -2,13 +2,14 @@ package com.skillsmanagerapi.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.skillsmanagerapi.utils.DateMonthDeserializer;
-import com.skillsmanagerapi.utils.DateMonthSerializer;
+import com.skillsmanagerapi.utils.DateYearDeserializer;
+import com.skillsmanagerapi.utils.DateYearSerializer;
+
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -16,11 +17,11 @@ public class EducationDto implements Comparable<EducationDto> {
     private int id;
     private String school;
     private String field;
-    @JsonSerialize(using = DateMonthSerializer.class)
-    @JsonDeserialize(using = DateMonthDeserializer.class)
+    @JsonSerialize(using = DateYearSerializer.class)
+    @JsonDeserialize(using = DateYearDeserializer.class)
     private Date yearFrom;
-    @JsonSerialize(using = DateMonthSerializer.class)
-    @JsonDeserialize(using = DateMonthDeserializer.class)
+    @JsonSerialize(using = DateYearSerializer.class)
+    @JsonDeserialize(using = DateYearDeserializer.class)
     private Date yearTo;
     private String note;
 

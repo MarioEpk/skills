@@ -3,7 +3,7 @@ import {List} from "immutable";
 import PropTypes from "prop-types";
 import IPropTypes from "react-immutable-proptypes";
 
-import {Button, Loading, TextInput, FormError, VerticalFormLayout, DateInput, TextAreaInput} from "components";
+import {Button, Loading, TextInput, FormError, VerticalFormLayout, YearMonthPicker, TextAreaInput} from "components";
 import {Field, compose, form, required} from "core/form";
 import i18n from "core/i18n";
 
@@ -44,7 +44,7 @@ const Container = ({handleSubmit, onClose, submitting, errors}) => {
                     name={DESCRIPTION_FIELD}
                 />
                 <Field
-                    component={DateInput}
+                    component={YearMonthPicker}
                     placeholder={t("certificate.date.placeholder")}
                     name={DATE_FIELD}
                 />

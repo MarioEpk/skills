@@ -5,3 +5,5 @@ export {default as TextAreaInput} from './TextAreaInput';
 export {default as RadioGroupInput} from './RadioGroupInput';
 export {default as Slider} from './Slider';
 export {default as FormError} from './FormError';
+export {default as YearPicker} from './YearPicker';
+export {default as YearMonthPicker} from './YearMonthPicker';
