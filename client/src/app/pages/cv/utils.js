@@ -22,6 +22,6 @@ export const copyCurrentUrlToClipboard = () => {
 };
 
 export const copyCVPublicUrlToClipboard = (externalCode) => {
-    const url = `cv.morosystems.cz/public/cv/${externalCode}`;
+    const url = `https://cv.morosystems.cz/public/cv/${externalCode}`;
     return navigator.clipboard.writeText(url);
 };
