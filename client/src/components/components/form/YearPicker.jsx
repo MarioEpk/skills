@@ -17,7 +17,7 @@ const YearPicker = ({onChange, label, value, tabIndex, disabled, id, onBlur}) =>
             id={id}
             tabIndex={tabIndex}
             disabled={disabled}
-            selected={fn.isEmpty(value) ? new Date() : new Date(value)}
+            selected={fn.isEmpty(value) ? null : new Date(value)}
             onChange={onChange}
             onBlur={onBlur}
             showYearPicker
