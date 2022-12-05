@@ -27,6 +27,7 @@ If you don't want to bump version inside bamboo, you need to set false in `bumpV
      - `sudo su root`
      - &nbsp; edit the docker file and change the api and client version to the latest (`~/opt/cv.morosystems.cz`)
      - `docker-compose down`
+     - `cat morosystems-artifact-service-account-reader.json | docker login -u _json_key --password-stdin europe-west3-docker.pkg.dev`
      - `docker-compose -f docker-compose.yml up -d`
 
 ### How to connect to Docker database
