@@ -1,5 +1,6 @@
 package com.skillsmanagerapi.utils;
 
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +20,7 @@ public class FileDownloadHttpResponse {
     public static ResponseEntity getResponse(String fileName, byte[] fileData, String mediaType) {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(mediaType));
-        headers.setContentDispositionFormData(fileName, fileName);
+        headers.setContentDisposition(ContentDisposition.builder("inline").name(fileName).filename(fileName).build());
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         headers.setContentLength(fileData.length);
         return new ResponseEntity(fileData, headers, HttpStatus.OK);
