@@ -14,6 +14,10 @@ const isAuthenticated = (state = false, {type}) => {
     }
 };
 
+const autoLogin = (state = true, {type}) => (
+    type === authActionGroup.REQUEST_SUCCESS ? false : state
+);
+
 const token = (state = null, {type, token: authToken}) => {
     switch (type) {
         case SAVE_TOKEN:
@@ -29,4 +33,5 @@ const token = (state = null, {type, token: authToken}) => {
 export default combineReducers({
     isAuthenticated,
     token,
+    autoLogin,
 });
