@@ -3,7 +3,7 @@ import Container from './Container';
 import saga from './saga';
 import reducer from './reducer';
 
-export {copyCVPublicUrlToClipboard} from './utils';
+export {copyCVPublicUrlToClipboard, copyCVPrivateUrlToClipboard} from './utils';
 
 export default {
     NAME,

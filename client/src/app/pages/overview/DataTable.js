@@ -107,6 +107,7 @@ const DataTable = ({
     onExportToPdf,
     onExportToDoc,
     onShare,
+    onCopyUrl,
     onCopyPublicUrl,
     navigateTo,
     onFetchCertificatesForAllUsers,
@@ -167,6 +168,7 @@ const DataTable = ({
                 onDelete={adminAccess((row) => onDelete(row.get("id")))}
                 quickSearchPlaceholder={t("overview.search.placeholder")}
                 onUnshare={adminAccess((row) => onShare(row.get("id")))}
+                onCopyUrl={adminAccess((row) => onCopyUrl(row.get("id")))}
                 onRowClick={onRowClick}
                 advancedSearchComponent={AdvancedSearch}
                 setFiltersToUrl={setFiltersToUrl}
@@ -191,6 +193,7 @@ DataTable.propTypes = {
     onExportToPdf: PropTypes.func.isRequired,
     onExportToDoc: PropTypes.func.isRequired,
     onShare: PropTypes.func.isRequired,
+    onCopyUrl: PropTypes.func.isRequired,
     onCopyPublicUrl: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     navigateTo: PropTypes.func.isRequired,
@@ -215,6 +218,7 @@ const mapDispatchToProps = (dispatch) => ({
     onExportToDoc: (id, firstName, lastName) => dispatch(coreExport.exportCvToDoc(id, firstName, lastName)),
     navigateTo: (route, params, query) => dispatch(navigate(route, params, query)),
     onShare: (id) => dispatch(overviewActionGroup.shareCv(id)),
+    onCopyUrl: (id) => dispatch(overviewActionGroup.copyPrivateUrl(id)),
     onCopyPublicUrl: (cvId, shared, extCode) => dispatch(overviewActionGroup.copyPublicUrl(cvId, shared, extCode)),
     onFetchCertificatesForAllUsers: () => dispatch(overviewActionGroup.fetchCertificatesForAllUsers()),
     onFetchEducationsForAllUsers: () => dispatch(overviewActionGroup.fetchEducationsForAllUsers()),
