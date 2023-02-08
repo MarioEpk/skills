@@ -16,7 +16,7 @@ import certificate from "./certificate";
 import other from "./other";
 import project from "./project";
 import education from "./education";
-import {copyCurrentUrlToClipboard} from './utils';
+import {copyCurrentUrlToClipboard, copyCVPublicUrlToClipboard} from './utils';
 
 export default router.routerWrapper({
     * onPageEnter({id}) {
@@ -29,6 +29,7 @@ export default router.routerWrapper({
             yield takeLatest(cvActionGroup.EXPORT, createExport(id));
             yield takeLatest(cvActionGroup.EXPORT_TO_DOC, createExportToDoc(id));
             yield takeLatest(cvActionGroup.COPY_URL, createCopyCvUrl());
+            yield takeLatest(cvActionGroup.COPY_PUBLIC_URL, createCopyCvPublicUrl(id));
         } else {
             yield call(redirectToUserCv);
         }
@@ -48,6 +49,12 @@ const createExportToDoc = (id) => function* exportCvToDoc() {
 const createCopyCvUrl = () => function* copyCvUrl() {
     yield call(copyCurrentUrlToClipboard);
     yield put(notification.show("Copied", "URL has been copied to clipboard", notification.types.SUCCESS));
+};
+
+const createCopyCvPublicUrl = (id) => function* copyPublicUrl() {
+    const externalCode = yield call(shareCv, id);
+    yield call(copyCVPublicUrlToClipboard, externalCode);
+    yield put(notification.show("CV shared", "URL has been copied to clipboard", notification.types.SUCCESS));
 };
 
 const formSaga = formWrapper(form.FORM_NAME, {
@@ -99,6 +106,20 @@ function* fetchCv(id) {
         yield put(notification.show("CV error", `There was a problem with fetching data for cv: ${id}`, notification.types.FAILED));
         yield put(cvActionGroup.fetchFailure());
         yield put(reset(form.FORM_NAME));
+        throw e;
+    }
+}
+
+function* shareCv(id) {
+    try {
+        const {externalCode, shared} = yield call(cvApi.fetchCv, id);
+        if (!shared) {
+            yield call(cvApi.shareCv, id);
+        }
+        return externalCode;
+    } catch (e) {
+        yield put(notification.show("Share error", `There was a problem with sharing of cv: ${id}`, notification.types.FAILED));
+        console.error(e);
         throw e;
     }
 }
