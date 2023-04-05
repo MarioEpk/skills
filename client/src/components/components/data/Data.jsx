@@ -30,6 +30,7 @@ const Data = ({
     setFiltersToUrl,
     filterFunctions,
     onUnshare,
+    onCopyUrl,
 }) => {
     const {t} = i18n.useTranslation();
     const [columnHiddenDataFields, setColumnHiddenDataFields] = useLocalStorage(`${tableId}-columnHiddenDataFields`,
@@ -43,6 +44,7 @@ const Data = ({
         onDelete: onDelete ? (row) => setDeleteConfirmation(row) : undefined,
         custom: onCustomAction,
         onUnshare,
+        onCopyUrl,
         align: 'right',
         collapsed: true,
     };
@@ -109,6 +111,7 @@ Data.propTypes = {
     quickSearchPlaceholder: PropTypes.string,
     onRowClick: PropTypes.func,
     onUnshare: PropTypes.func,
+    onCopyUrl: PropTypes.func,
     // connected component
     advancedSearchComponent: PropTypes.object,
     filterFunctions: PropTypes.arrayOf(PropTypes.func),
@@ -126,6 +129,7 @@ Data.defaultProps = {
     advancedSearchComponent: undefined,
     filterFunctions: [],
     onUnshare: undefined,
+    onCopyUrl: undefined,
 };
 
 export default Data;

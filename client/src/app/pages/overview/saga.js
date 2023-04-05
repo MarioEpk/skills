@@ -10,7 +10,7 @@ import {cvApi, userApi} from "app/serverApi";
 import {overviewActionGroup} from "./actions";
 import form from "./form";
 import {MODAL_FORM_NAME} from "./constants";
-import {copyCVPublicUrlToClipboard} from "../cv";
+import {copyCVPublicUrlToClipboard, copyCVPrivateUrlToClipboard} from "../cv";
 
 export default router.routerWrapper({
     * getDataForPage() {
@@ -20,6 +20,7 @@ export default router.routerWrapper({
         yield fork(formSaga);
         yield takeLatest(overviewActionGroup.REMOVE, deleteData);
         yield takeLatest(overviewActionGroup.SHARE_CV, shareCv);
+        yield takeLatest(overviewActionGroup.COPY_PRIVATE_URL, copyPrivateUrl);
         yield takeLatest(overviewActionGroup.COPY_PUBLIC_URL, copyPublicUrl);
         yield takeLatest(overviewActionGroup.FETCH_CERTIFICATES_FOR_ALL_USERS, downloadCertificatesForAllUsers);
         yield takeLatest(overviewActionGroup.FETCH_EDUCATIONS_FOR_ALL_USERS, downloadEducationsForAllUsers);
@@ -83,6 +84,11 @@ function* shareCv({payload}) {
         console.error(e);
         return null;
     }
+}
+
+function* copyPrivateUrl({payload}) {
+    yield call(copyCVPrivateUrlToClipboard, payload);
+    yield put(notification.show("Copied", "URL has been copied to clipboard"));
 }
 
 function* copyPublicUrl({payload}) {

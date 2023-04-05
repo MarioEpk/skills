@@ -65,6 +65,20 @@ const wrapExecute = function* (request, resultProcessMethod) {
     }
 };
 
+export const doGetExternal = function* (url, queryParams, authHeader, resultProcessMethod = fn.identity, accepted = 'json') {
+    const defaultHeaders = yield getDefaultHeaders();
+    const headers = {
+        authorization: authHeader,
+        ...defaultHeaders,
+    };
+    const request = superagent
+        .get(url)
+        .set(headers)
+        .query(queryParams)
+        .accept(accepted);
+    return yield* wrapExecute(request, resultProcessMethod);
+};
+
 export const doGet = function* (url, queryParams, resultProcessMethod = fn.identity, accepted = 'json') {
     const defaultHeaders = yield getDefaultHeaders();
     const request = superagent

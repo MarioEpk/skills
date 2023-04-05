@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {List} from 'immutable';
 import ImmutablePropTypes from "react-immutable-proptypes";
-import {Edit, Delete, CancelScheduleSend} from '@material-ui/icons';
+import {Edit, Delete, CancelScheduleSend, Link} from '@material-ui/icons';
 import classnames from "classnames";
 
 import i18n from "core/i18n";
@@ -31,6 +31,11 @@ const renderActions = (t, actions, row, key, columnHiddenDataFields) => {
     if (actions.onUnshare && row.get('shared')) {
         moreActionsMenuComponents.push(
             {key: `${key}-unshare`, onClick: () => actions.onUnshare(row), label: t(`unshare.button.label`), icon: <CancelScheduleSend />},
+        );
+    }
+    if (actions.onCopyUrl) {
+        moreActionsMenuComponents.push(
+            {key: `${key}-url-copy`, onClick: () => actions.onCopyUrl(row), label: t(`copyUrl.button.label`), icon: <Link />},
         );
     }
     if (actions.onDelete) {
