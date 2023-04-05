@@ -1,7 +1,7 @@
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
-  name: cv.morosystems.cloud
+  name: cv.morosystems.cz
 spec:
   domains:
-    - cv.morosystems.cloud
+    - cv.morosystems.cz
