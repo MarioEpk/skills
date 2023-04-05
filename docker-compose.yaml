@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  db:
+  skills-manager-postgres-svc:
     image: postgres:12.4
     ports:
       - 5432:5432
@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: skillsmanager
       POSTGRES_USER: docker-moro
       POSTGRES_PASSWORD: docker~skillz
-  api:
+  skills-manager-api-svc:
     image: "europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:api-1.1.1"
     environment:
       - SPRING_PROFILE=docker
@@ -20,7 +20,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=docker~skillz
     volumes:
       - log:/log
-  client:
+  skills-manager-client-svc:
     image: "europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:client-1.1.1"
     ports:
       - 3000:80

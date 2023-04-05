@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: skills-manager-client
+    labels:
+        app: skills-manager-client
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: skills-manager-client
+    template:
+        metadata:
+            labels:
+                app: skills-manager-client
+        spec:
+            containers:
+                - name: skills-manager-client
+                  image: >-
+                      europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:VERSION-REPLACED-BY-KUSTOMIZE
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 8080
+                  resources:
+                      limits:
+                          memory: 1Gi
+                          cpu: 400m
+                      requests:
+                          memory: 200Mi
+                          cpu: 100m
+                  lifecycle:
+                      preStop:
+                          exec:
+                              command:
+                                  - sh
+                                  - '-c'
+                                  - sleep 10
+                  securityContext:
+                      allowPrivilegeEscalation: false
+            restartPolicy: Always
+            schedulerName: default-scheduler
+            securityContext: {}
+            terminationGracePeriodSeconds: 30
