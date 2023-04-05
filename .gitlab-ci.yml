@@ -1,19 +1,23 @@
 stages:
   - build
   - docker
+  - deploy
 
 variables:
   SCRIPTS_DIR: "config/scripts"
   RULES_CHANGES_PATH: "**/*"
   GCP_PROJECT: moro-artifacts
   GCP_ARTIFACT_REGISTRY: "$GCP_PROJECT/morosystems-docker"
-  GCP_SERVICE_ACCOUNT: morosystems-service-account@moro-artifacts.iam.gserviceaccount.com
+  GCP_SERVICE_ACCOUNT: morosystems-admin@moro-artifacts.iam.gserviceaccount.com
+  GCLOUD_VERSION: "381.0.0-debian_component_based"
   DOCKER_HOST: "tcp://docker:2376"
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
   DOCKER_IMAGE_PREFIX: "europe-west3-docker.pkg.dev/$GCP_ARTIFACT_REGISTRY"
+  OAUTH2_API_URL: "/api"
+  OAUTH2_CLIENT_ID: $oauth2_client_id
 
 default:
   services:
@@ -92,3 +96,14 @@ client-docker:
   needs: [ "client-build" ]
   script:
     - sh $(pwd)/${SCRIPTS_DIR}/client-docker.sh
+
+deploy-docker-image-to-kubernetes-job:
+    image: google/cloud-sdk:$GCLOUD_VERSION
+    stage: deploy
+    when: manual
+    needs: [ "api-docker", "client-docker" ]
+    script:
+      - echo "Deploy Docker image to Google Kubernetes Engine..."
+      - cd config/scripts
+      - ./deploy.sh
+      - echo "Docker image successfully deployed to Google Kubernetes Engine."

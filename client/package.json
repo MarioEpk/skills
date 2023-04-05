@@ -10,6 +10,7 @@
   "scripts": {
     "build": "run-s build:pre build:clean build:ui",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --env.devserver",
+    "start:legacy": "NODE_OPTIONS=--openssl-legacy-provider run-s start",
     "start:remote": "cross-env NODE_ENV=development webpack-dev-server --mode development --env.devserver --env.devserverRemote",
     "lint": "eslint --cache --quiet --ext .js src --cache-location node_modules/.cache/.eslintcache",
     "build:clean": "rimraf ./dist",

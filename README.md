@@ -5,39 +5,71 @@
 - client - React app (FE)
 - api - Spring boot app (BE)
 
-## Docker
-### Development
-You can use docker for development.
-
+## Building the application
 1. Build api and client, you can find instruction for build inside README.md in `./api` and `./client`
-2. run docker-compose with command `docker-compose -f docker-compose.dev.yaml up --build`.
+
+## Building Docker image
+**The following steps are automated using GitLab CI/CD pipelines.**
+
+1. build Docker image
+  ```shell
+  docker build -t europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:api-<version> .
+  docker build -t europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:client-<version> .
+  ```
+2. authenticate / Docker login
+  ```shell
+  cat moro-artifacts-c47715586dc0-morosystems-admin.json | docker login -u _json_key --password-stdin europe-west3-docker.pkg.dev
+  ```
+* [moro-artifacts-c47715586dc0-morosystems-admin.json](https://morosystems.atlassian.net/wiki/spaces/MSIT/pages/3613327860/Priv+tn+kl+e+k+servisn+m+t+m+Google+Artifact+Registry)
+
+3. push Docker image to Google Artifact Registry
+  ```shell
+  docker push europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:api-<version>
+  docker push europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:client-<version>
+  ```
+
+### Development
+You can use Docker for development.
+1. run docker-compose with command `docker-compose -f docker-compose.dev.yaml up --build`.
 It will create docker images based on ENVIRONMENT variables inside docker-compose and start them.
 Config for docker build is in `./client/Dockerfile` for client and `./api/Dockerfile` for api
 
-## Release instructions
-For release you have to do following steps.
+## Deploying to GCP
+**The following steps are automated using GitLab CI/CD pipelines.** There is a manual stage for deploy.
 
-1. Merge your code into `master` branch
-2. Merge will automatically trigger bamboo build which will build both api and client, bump version and push docker images into docker hub
-Bamboo will only bump patch version. If you want to release new major or minor version you have to bump manually inside `client/package.json` file and `api/build.gradle` file.
-If you don't want to bump version inside bamboo, you need to set false in `bumpVersion` variable inside Bamboo.
-3. Contact admin and tell them which version they should deploy. You can find version in commit message (Bamboo will create new commit)
-4. Main `docker-compose.yaml` file is already on server so admin will only change version of docker-image inside this file and the re-run docker compose
-     - `ssh ec2-user@3.126.111.17`
-     - `sudo su root`
-     - &nbsp; edit the docker file and change the api and client version to the latest (`~/opt/cv.morosystems.cz`)
-     - `docker-compose down`
-     - `cat morosystems-artifact-service-account-reader.json | docker login -u _json_key --password-stdin europe-west3-docker.pkg.dev`
-     - `docker-compose -f docker-compose.yml up -d`
+Application is designed to run in Kubernetes cluster and manually deployed using GitLab CI/CD when code is pushed to the `master` branch.
 
-### How to connect to Docker database
-- `ssh ec2-user@3.126.111.17`
-- `sudo su root`
-- `docker ps`
-- `docker exec -it cvmorosystemscz_db_1 bash`
-- `psql -U docker-moro -d skillsmanager`
-- `psql \dt` and use standard SQL language
+### Prerequisites
 
-If you need help, contact: `jan.bartl@morosystems.cz` or `tomas.kubicek@morosystems.cz`
+* installed [gcloud](https://cloud.google.com/sdk/docs/install)
+* installed [kubectl](https://wiki.morosystems.cz/pages/viewpage.action?pageId=222495585)
+   * setup the current GCP project to point to the PROD project: `gcloud config set project morosystems-common`
+   * add credentials to kubectl: `gcloud container clusters get-credentials master --region europe-west3-a`
+* make sure there are following files with service accounts keys (they are gitignored):
+   * `config/scripts/gcloud-service-account-key-common.json` containing service account key for the `morosystems-common` GCP project
+
+### Deploy
+1. inform the team that application will be unavailable for several minutes
+2. switch to the `master` branch and pull latest commits
+3. run the script `config/scripts/deploy.sh` - refer to the initial comment in the file for description of the steps executed by the script
+    ```shell
+   ./deploy.sh
+    ```
+   the app should be built and deployed after cca 4 - 8 minutes (the first run will be longer than that due to downloading Docker images)
+4. inform the team that the deploy is finished
+
+
+## How to connect to the database
+1. connect to database Kubernetes pod using `kubectl` command
+    ```shell
+    kubectl exec -it skills-manager-postgres-0 -- psql -d skillsmanager_db -U docker-moro
+    ```
+
+
+
+## Need help?
+If you need help with the code, contact: `jan.bartl@morosystems.cz` or `tomas.kubicek@morosystems.cz`
+
+If you need help with the infrastructure or deployment, contact: `michal.sipek@morosystems.cz` 
 
 *Created by: MoroSystems s.r.o.*

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skills-manager-api
+  labels:
+    app: skills-manager-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skills-manager-api
+  template:
+    metadata:
+      labels:
+        app: skills-manager-api
+    spec:
+      containers:
+        - name: skills-manager-api
+          image: >-
+            europe-west3-docker.pkg.dev/moro-artifacts/morosystems-docker/skills-manager:VERSION-REPLACED-BY-KUSTOMIZE
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_PROFILE
+              value: docker
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: skills-manager-postgres-sec
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: skills-manager-postgres-sec
+            - name: SPRING_DATASOURCE_URL
+              value: 'jdbc:postgresql://skills-manager-postgres-svc:5432/skillsmanager_db'
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 500m
+            requests:
+              memory: 200Mi
+              cpu: 200m
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - '-c'
+                  - sleep 10
+          securityContext:
+            allowPrivilegeEscalation: false
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

@@ -1,10 +1,10 @@
 version: "3.8"
 
 services:
-  db:
+  skills-manager-postgres-svc:
     image: postgres:12.4
     ports:
-      - 5430:5432
+      - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
