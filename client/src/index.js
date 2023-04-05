@@ -3,10 +3,11 @@ import "regenerator-runtime/runtime";
 
 import React from "react";
 import {render} from "react-dom";
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 import router from "./core/router";
-import {getAppReducers, createAppSaga, createProvider, corePackages} from "./core";
-import {saga, Container, routes} from "./app";
+import {corePackages, createAppSaga, createProvider, getAppReducers} from "./core";
+import {Container, routes, saga} from "./app";
 import "./index.scss";
 
 const reducers = getAppReducers(corePackages);
@@ -15,9 +16,11 @@ const Root = createProvider(reducers, mainSaga);
 router.registerRoutes(routes);
 
 const App = () => (
-    <Root>
-        <Container />
-    </Root>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+        <Root>
+            <Container />
+        </Root>
+    </GoogleOAuthProvider>
 );
 
 render(<App />, document.getElementById("app"));

@@ -5,7 +5,7 @@ import IPropTypes from "react-immutable-proptypes";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faFileWord, faFilePdf} from '@fortawesome/free-regular-svg-icons';
-import {faLink} from '@fortawesome/free-solid-svg-icons';
+import {faArrowUpRightFromSquare, faLink} from "@fortawesome/free-solid-svg-icons";
 
 import {PageTitle} from "app/containers";
 import {accesses} from "core/access";
@@ -41,6 +41,7 @@ const Container = ({
     usedTechnologyIds,
     exportCvToDoc,
     copyCvUrl,
+    copyCvPublicUrl,
 }) => {
     const adminOrOwnerAccess = useAccessOrIsOwner([accesses.admin]);
     const isAdminOrOwner = adminOrOwnerAccess(true);
@@ -57,6 +58,7 @@ const Container = ({
                         <IconButton icon={<FontAwesomeIcon icon={faFilePdf} />} onClick={exportCv} ariaLabel={t(`cv.generate.pdf.label`)} />
                         <IconButton icon={<FontAwesomeIcon icon={faFileWord} />} onClick={exportCvToDoc} ariaLabel={t(`cv.generate.doc.label`)} />
                         <IconButton icon={<FontAwesomeIcon icon={faLink} />} onClick={copyCvUrl} ariaLabel={t(`cv.copy.link.label`)} />
+                        <IconButton icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare} />} onClick={copyCvPublicUrl} ariaLabel={t(`cv.copy.public.link.label`)} />
                     </Flex>
                 )}
                 column={adminOrOwnerAccess([
@@ -100,6 +102,7 @@ const mapDispatchToProps = ({
     exportCv: cvActionGroup.export,
     exportCvToDoc: cvActionGroup.exportToDoc,
     copyCvUrl: cvActionGroup.copyUrl,
+    copyCvPublicUrl: cvActionGroup.copyPublicUrl,
 });
 
 Container.propTypes = {
@@ -118,6 +121,7 @@ Container.propTypes = {
     usedTechnologyIds: IPropTypes.list.isRequired,
     exportCvToDoc: PropTypes.func.isRequired,
     copyCvUrl: PropTypes.func.isRequired,
+    copyCvPublicUrl: PropTypes.func.isRequired,
 };
 
 export default compose(
