@@ -19,6 +19,7 @@ public class CvDto {
     private List<LanguageDto> languages;
     private List<SkillDto> skills;
     private List<ProjectDto> projects;
+    private List<PrivateProjectDto> privateProjects;
     private List<TechnologyDto> technologies;
     private List<OtherDto> others;
     private List<CertificateDto> certificates;

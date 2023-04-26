@@ -5,11 +5,13 @@ import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
+import com.skillsmanagerapi.dto.PrivateProjectDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
 import com.skillsmanagerapi.dto.UserDto;
 import com.skillsmanagerapi.services.CvService;
+import com.skillsmanagerapi.services.PrivateProjectService;
 import com.skillsmanagerapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -197,5 +199,19 @@ public class CvController {
     @DeleteMapping(value = "/{cvId}/other/{id}")
     public void removeOtherFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
         cvService.removeOtherFromCv(cvId, id);
+    }
+
+    // Private project
+    @PostMapping(value = "/{cvId}/privateProject")
+    public void addPrivateProjectToCv(@PathVariable("cvId") int cvId, @RequestBody PrivateProjectDto privateProjectDto) {
+        cvService.addPrivateProjectToCv(cvId, privateProjectDto);
+    }
+
+    @PutMapping(value = "/{cvId}/privateProject")
+    public void updatePrivateProject(@PathVariable("cvId") int cvId, @RequestBody PrivateProjectDto privateProjectDto) {cvService.updatePrivateProject(cvId, privateProjectDto); }
+
+    @DeleteMapping(value = "/{cvId}/privateProject/{id}")
+    public void removePrivateProjectFromCv(@PathVariable("cvId") int cvId, @PathVariable("id") int id) {
+        cvService.removePrivateProjectFromCv(cvId, id);
     }
 }

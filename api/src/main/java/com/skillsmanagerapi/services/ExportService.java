@@ -5,6 +5,7 @@ import com.itextpdf.xmp.impl.Base64;
 import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
+import com.skillsmanagerapi.dto.PrivateProjectDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
@@ -169,6 +170,7 @@ public class ExportService {
         final List<TechnologyDto> sortedTechnologiesDto = cvDto.getTechnologies().stream().sorted().collect(Collectors.toList());
         final List<LanguageDto> sortedLanguagesDto = cvDto.getLanguages().stream().sorted().collect(Collectors.toList());
         final List<ProjectDto> sortedProjects = cvDto.getProjects().stream().sorted().collect(Collectors.toList());
+        final List<PrivateProjectDto> sortedPrivateProjects = cvDto.getPrivateProjects().stream().sorted().collect(Collectors.toList());
         final List<EducationDto> sortedEducationsDto = cvDto.getEducations().stream().sorted().collect(Collectors.toList());
 
         context.setVariable(ContextDataKey.AVATAR_TYPE_MAN, AvatarType.MEN);
@@ -178,6 +180,7 @@ public class ExportService {
         context.setVariable(ContextDataKey.POSITIONS, safeArray(cvDto.getPositions()));
         context.setVariable(ContextDataKey.PROFILE, safeValue(cvDto.getProfile(), ""));
         context.setVariable(ContextDataKey.PROJECTS, safeArray(sortedProjects));
+        context.setVariable(ContextDataKey.PRIVATE_PROJECTS, safeArray(sortedPrivateProjects));
         context.setVariable(ContextDataKey.SKILLS, safeArray(sortedSkillsDto));
         context.setVariable(ContextDataKey.TECHNOLOGIES, safeArray(sortedTechnologiesDto));
         context.setVariable(ContextDataKey.LANGUAGES, safeArray(sortedLanguagesDto));

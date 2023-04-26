@@ -1,8 +1,8 @@
 package com.skillsmanagerapi.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
-
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,30 +13,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "project_type")
-public class ProjectType {
+@Table(name = "private_project")
+public class PrivateProject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "description")
-    @Type(type="text")
-    private String description;
-
     @Column(name = "name")
     private String name;
 
-    @Column(name = "export_name")
-    private String exportName;
+    @Column(name = "description")
+    private String description;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "app_from")
+    private Date from;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "app_to")
+    private Date to;
+
+    @Column(name = "company")
+    private String company;
+
+    @Column(name = "contribution")
+    @Type(type="text")
+    private String contribution;
 
     @ManyToMany
     @JoinColumn(name = "technology_type_id", referencedColumnName = "id")

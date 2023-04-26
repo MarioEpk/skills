@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.modelmapper:modelmapper:2.3.7'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-	implementation 'org.projectlombok:lombok'
+	implementation 'org.projectlombok:lombok:1.18.20'
 
 	implementation "org.flywaydb:flyway-core:6.5.3"
 	implementation "org.thymeleaf:thymeleaf:3.0.11.RELEASE"
@@ -37,9 +37,14 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 
-	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+	options.compilerArgs.addAll(['--release', '11'])
 }

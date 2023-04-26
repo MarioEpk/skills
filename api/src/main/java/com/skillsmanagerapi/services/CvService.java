@@ -5,6 +5,7 @@ import com.skillsmanagerapi.dto.CvDto;
 import com.skillsmanagerapi.dto.EducationDto;
 import com.skillsmanagerapi.dto.LanguageDto;
 import com.skillsmanagerapi.dto.OtherDto;
+import com.skillsmanagerapi.dto.PrivateProjectDto;
 import com.skillsmanagerapi.dto.ProjectDto;
 import com.skillsmanagerapi.dto.SkillDto;
 import com.skillsmanagerapi.dto.TechnologyDto;
@@ -46,6 +47,7 @@ public class CvService {
     private final ModelMapperUtil modelMapperUtil;
     private final EducationService educationService;
     private final ExportService exportService;
+    private final PrivateProjectService privateProjectService;
 
     @Autowired
     public CvService(
@@ -60,7 +62,8 @@ public class CvService {
         @NonNull final ModelMapper modelMapper,
         @NonNull final ModelMapperUtil modelMapperUtil,
         @NonNull final EducationService educationService,
-        @NonNull final ExportService exportService
+        @NonNull final ExportService exportService,
+        @NonNull final PrivateProjectService privateProjectService
     ) {
         this.cvRepository = cvRepository;
         this.languageService = languageService;
@@ -74,6 +77,7 @@ public class CvService {
         this.modelMapperUtil = modelMapperUtil;
         this.exportService = exportService;
         this.educationService = educationService;
+        this.privateProjectService = privateProjectService;
     }
 
     public CvDto getCvOrCreateNew(@NonNull final UserDto userDto) {
@@ -216,6 +220,30 @@ public class CvService {
     @Transactional
     public void removeProjectFromCv(final int cvId, final int id) {
         projectService.deleteProject(id);
+        relatedCVDataChanged(cvId);
+    }
+
+    // Private Project
+    @Transactional
+    public void addPrivateProjectToCv(final int cvId, @NonNull final PrivateProjectDto privateProjectDto) {
+        final PrivateProjectDto newPrivateProjectDto = privateProjectService.createPrivateProject(privateProjectDto);
+        final CvDto cvDto = this.getCv(cvId);
+        final List<PrivateProjectDto> privateProjectDtoList = cvDto.getPrivateProjects();
+        privateProjectDtoList.add(newPrivateProjectDto);
+        cvDto.setPrivateProjects(privateProjectDtoList);
+        cvRepository.save(modelMapper.map(cvDto, Cv.class));
+        relatedCVDataChanged(cvId);
+    }
+
+    @Transactional
+    public void updatePrivateProject(final int cvId, @NonNull final PrivateProjectDto privateProjectDto) {
+        privateProjectService.updatePrivateProject(privateProjectDto);
+        relatedCVDataChanged(cvId);
+    }
+
+    @Transactional
+    public void removePrivateProjectFromCv(final int cvId, final int id) {
+        privateProjectService.deletePrivateProject(id);
         relatedCVDataChanged(cvId);
     }
 

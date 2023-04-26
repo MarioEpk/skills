@@ -8,6 +8,7 @@ public final class ContextDataKey {
     public static final String POSITIONS = "positions";
     public static final String PROFILE = "profile";
     public static final String PROJECTS = "projects";
+    public static final String PRIVATE_PROJECTS = "privateProjects";
     public static final String SKILLS = "skills";
     public static final String TECHNOLOGIES = "technologies";
     public static final String LANGUAGES = "languages";

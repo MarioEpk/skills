@@ -3,12 +3,14 @@ package com.skillsmanagerapi.controllers;
 import com.skillsmanagerapi.dto.AllTypesDto;
 import com.skillsmanagerapi.dto.LanguageTypeDto;
 import com.skillsmanagerapi.dto.PositionTypeDto;
+import com.skillsmanagerapi.dto.PrivateProjectDto;
 import com.skillsmanagerapi.dto.ProjectTypeDto;
 import com.skillsmanagerapi.dto.SkillTypeDto;
 import com.skillsmanagerapi.dto.TechnologyTypeDto;
 import com.skillsmanagerapi.services.DeleteTypeConstraintException;
 import com.skillsmanagerapi.services.LanguageTypeService;
 import com.skillsmanagerapi.services.PositionTypeService;
+import com.skillsmanagerapi.services.PrivateProjectService;
 import com.skillsmanagerapi.services.ProjectTypeService;
 import com.skillsmanagerapi.services.SkillTypeService;
 import com.skillsmanagerapi.services.TechnologyTypeService;
@@ -39,6 +41,7 @@ public class TypeController {
     private final ProjectTypeService projectTypeService;
     private final TypeService typeService;
     private final PositionTypeService positionTypeService;
+    private final PrivateProjectService privateProjectService;
 
     @Autowired
     public TypeController(
@@ -47,7 +50,8 @@ public class TypeController {
         TechnologyTypeService technologyTypeService,
         ProjectTypeService projectTypeService,
         TypeService typeService,
-        PositionTypeService positionTypeService
+        PositionTypeService positionTypeService,
+        PrivateProjectService privateProjectService
     ) {
         this.languageTypeService = languageTypeService;
         this.skillTypeService = skillTypeService;
@@ -55,6 +59,7 @@ public class TypeController {
         this.projectTypeService = projectTypeService;
         this.typeService = typeService;
         this.positionTypeService = positionTypeService;
+        this.privateProjectService = privateProjectService;
     }
     // All types
     @GetMapping
@@ -238,4 +243,34 @@ public class TypeController {
         }
     }
 
+    // private project
+    @GetMapping(value = "/private-project")
+    public List<PrivateProjectDto> getAllPrivateProjects() {
+        return privateProjectService.getAllPrivateProjects();
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping(value = "/private-project/{id}")
+    public PrivateProjectDto getPrivateProject(@PathVariable("id") int id) {
+        return privateProjectService.getPrivateProject(id);
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @PostMapping(value = "/private-project")
+    public void createPrivateProject(@RequestBody PrivateProjectDto privateProjectDto) {
+        privateProjectService.createPrivateProject(privateProjectDto);
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @PutMapping(value = "/private-project")
+    public void updatePrivateProject(@RequestBody PrivateProjectDto privateProjectDto) {
+        privateProjectService.updatePrivateProject(privateProjectDto);
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @DeleteMapping(value = "/private-project/{id}")
+    public ResponseEntity<?> deletePrivateProject(@PathVariable("id") int id) {
+        privateProjectService.deletePrivateProject(id);
+        return ResponseEntity.ok().build();
+    }
 }
