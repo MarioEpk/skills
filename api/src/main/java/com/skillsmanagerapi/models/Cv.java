@@ -2,7 +2,6 @@ package com.skillsmanagerapi.models;
 
 import com.skillsmanagerapi.enums.AvatarType;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -104,6 +104,9 @@ public class Cv {
     @CreatedDate
     @Column(name = "created_at")
     private Date createdAt;
+
+    @OneToMany(mappedBy = "cv")
+    private List<PrivateProject> privateProjects;
 
     @Column(name = "shared")
     private boolean shared;

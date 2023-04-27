@@ -6,11 +6,14 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -54,4 +57,10 @@ public class PrivateProject {
     @JoinColumn(name = "technology_type_id", referencedColumnName = "id")
     @OrderBy(value = "id")
     private List<TechnologyType> technologies;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "cv_private_project",
+            joinColumns = @JoinColumn(name = "private_project_id"),
+            inverseJoinColumns = @JoinColumn(name = "cv_id"))
+    private Cv cv;
 }
